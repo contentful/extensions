@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Core extensions CSS from Contentful. -->
+  <link rel="stylesheet"
+        href="//contentful.github.io/ui-extensions-sdk/cf-extension.css">
+  <!-- Styles for added / removed text -->
+  <style>
+    .diff-text .added {
+      font-weight: bold;
+      color: #5cb85c;
+    }
+
+    .diff-text .removed {
+      text-decoration: line-through;
+      font-weight: bold;
+      color: #950B02;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Extension DOM Elements -->
+<div class="cf-form-field">
+  <input type="text" class="cf-form-input draft-text">
+  <div class="cf-form-hint">
+    <span class="diff-text"></span>
+  </div>
+</div>
+
+<!-- Contenful UI Extensions SDK API -->
+<script src="//contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+<!-- Diff Lib -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jsdiff/2.2.2/diff.min.js"></script>
+
+<!-- Diffing UI Extension -->
+<script>
+
+  function diffExtension(extensionsApi) {
+
+    extensionsApi.window.startAutoResizer();
+
+    // DOM elements.
+    var draftTextEl = document.querySelector('.draft-text');
+    var diffTextEl = document.querySelector('.diff-text');
+
+    // Disable the input as we need to wait for an async call to load the published entry.
+    draftTextEl.disabled = true;
+
+    var entry = extensionsApi.entry;
+    var field = extensionsApi.field;
+
+    // Currently published version of entry.
+    var publishedVersion = extensionsApi.entry.getSys().publishedVersion;
+    var publishedValue;
+
+    // Current locale
+    var fieldLocale = extensionsApi.field.locale;
+    var fieldId = extensionsApi.field.id;
+
+    // Callbacks for changes on the field or the entry.sys object.
+    // Detach functions will be used to clean up the callbacks.
+    var detachValueChanged = field.onValueChanged(onValueChanged);
+    var detachSysChanged = entry.onSysChanged(onSysChanged);
+    window.addEventListener('onbeforeunload', onBeforeUnloadHandler);
+
+    draftTextEl.addEventListener('input', keyboardInputHandler);
+
+    if (publishedVersion) {
+      // Load published value from CDA.
+      loadPublishedValue(entry.getSys().id)
+          .then(function (entries) {
+                publishedValue = entries.items[0].fields[fieldId][fieldLocale];
+                draftTextEl.disabled = false;
+                renderDiff();
+              }
+          )
+          .catch(function (error) {
+            console.log(error)
+          });
+    } else {
+      draftTextEl.disabled = false;
+      renderDiff();
+    }
+
+
+    /**
+     * Event handler for keyboard input.
+     * @param event The event object.
+     */
+    function keyboardInputHandler(event) {
+      renderDiff();
+      field.setValue(draftTextEl.value);
+    }
+
+
+    /**
+     * Event handler triggered before the window unloads.
+     * @param event The event object.
+     */
+    function onBeforeUnloadHandler(event) {
+      window.removeEventListener('onbeforeunload', onBeforeUnloadHandler);
+      draftTextEl.removeEventListener('input', keyboardInputHandler);
+      detachValueChanged();
+      detachSysChanged();
+    }
+
+
+    /**
+     * Gets the published value from the API.
+     * @param entryId The id of the entry to retrieve.
+     * @return Promise A Promise object of the call.
+     */
+    function loadPublishedValue(entryId) {
+      return extensionsApi.space.getPublishedEntries({'sys.id': entryId})
+    }
+
+
+    /**
+     * Uses diff lib to render diff to DOM of extension.
+     */
+    function renderDiff() {
+
+      // Do not render if there is no published value.
+      if (!publishedVersion) {
+        diffTextEl.innerHTML = '<i>Entry not yet published.</i>';
+        return;
+      }
+
+      // Do not render if there is no diff.
+      if (publishedValue === draftTextEl.value) {
+        diffTextEl.innerHTML = '<i>Draft and published value are equal.</i>';
+        return;
+      }
+
+      // Clear diff DOM element.
+      diffTextEl.innerHTML = '';
+
+      var diff = JsDiff.diffWordsWithSpace(publishedValue, draftTextEl.value);
+
+
+      diff.forEach(function (part) {
+        var className = part.added ? 'added' : part.removed ? 'removed' : '';
+        var spanEl = document.createElement('span');
+        spanEl.className = className;
+        spanEl.appendChild(document.createTextNode(part.value));
+        diffTextEl.appendChild(spanEl);
+      });
+    }
+
+
+    /**
+     * Calls the callback every time the value of the field is changed by some external event
+     * (e.g. when multiple editors are working on the same entry).
+     * @param val The newly changed value.
+     */
+    function onValueChanged(val) {
+      if (val) {
+        draftTextEl.value = val;
+      }
+    }
+
+
+    /**
+     * Calls the callback every time the value of the system object is changed
+     * @param sys The sys object of the entry.
+     */
+    function onSysChanged(sys) {
+      if (sys.publishedVersion && publishedVersion !== sys.publishedVersion) {
+        publishedValue = draftTextEl.value;
+        publishedVersion = sys.publishedVersion;
+        renderDiff();
+      }
+    }
+  }
+  window.contentfulWidget.init(diffExtension);
+</script>
+
+</body>
+</html>

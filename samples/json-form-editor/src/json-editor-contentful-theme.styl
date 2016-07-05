@@ -1,0 +1,83 @@
+@import '../node_modules/contentful-ui-extensions-sdk/lib/style/typography.styl'
+@import '../node_modules/contentful-ui-extensions-sdk/lib/style/colors.styl'
+
+$line-color-node = $colors.element-dark
+$line-color-main = $colors.element-light
+$line-width = 3px
+$line-margin-left = 0.2em
+
+input[type="color"]
+  background-color: white
+
+th
+  font-weight: normal
+
+.jfe-editor-root td
+  vertical-align: baseline
+
+.jfe-button-holder
+  display: inline-block
+  button
+    margin: 0.15em
+
+.jfe-header
+  margin-bottom: $rhythm(1)
+
+.jfe-label
+  position: relative
+  margin-right: $rhythm(0.5)
+
+.jfe-grid-row:last-child > .jfe-grid-column > .cf-form-field {
+  margin-bottom: 0
+}
+
+$jfe-header-label-offset = 4px
+.jfe-header-label
+  padding: $jfe-header-label-offset 0
+  z-index: 100
+  margin-left: $line-margin-left
+  background-color: white
+  border-bottom: $line-width solid $line-color-main
+
+.jfe-indented-panel
+  position: relative
+  top: $up = $rhythm(-1.5)
+  margin-top: 0
+  margin-bottom: -($up)
+  margin-left: $line-margin-left
+  padding-top: $rhythm(1.5)
+  padding-bottom: $rhythm(0.5)
+  padding-left: $rhythm(1)
+  border-left: $line-width solid $line-color-main
+
+$line()
+  position: absolute
+  content: ""
+  top: 0.25em
+  left: $rhythm(-1)
+  margin-left: -($line-width)
+
+.jfe-grid-column
+  position: relative
+
+  &::before
+    $line()
+    height: 100%
+    width: $line-width
+    background: linear-gradient( to bottom, $line-color-node, $line-color-main)
+
+  &[data-schematype="object"]::before
+    top: 1.3em;
+
+.jfe-form-input-label::before,
+.jfe-header-label::before
+  $line()
+  height: $node-size = 2 * $line-width + 1px
+  width: $node-size
+  border-top: 2px solid white
+  border-radius: 0 50% 50% 0
+  background-color: $line-color-node
+
+.jfe-header-label::before
+  margin-top: $jfe-header-label-offset
+  margin-left: "calc((%s + %s) * -1)" %($line-margin-left $line-width)

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="preloader">Loading</div>
+<div class="error">Something went wrong loading your videos</div>
+<div class="thumbnails-container">
+    <div class="container-fluid">
+        <div class="panel panel-default">
+            <!-- Title of the widget panel. -->
+            <div class="panel-heading">
+                <!-- Inject title from webpack config -->
+                <h3 class="panel-title"><%= htmlWebpackPlugin.options.title %></h3>
+            </div>
+            <div class="panel-body">
+                <!-- Input element to render field value. -->
+                <div class="row">
+                    <div class=" col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon3">Wistia video id</span>
+                            <input type="text" class="form-control" id="wistia-video-id"
+                                   aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+                </div>
+                <!-- Video tiles in a grid. -->
+                <div class="thumbnail-items-container">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script><%= compilation.assets[htmlWebpackPlugin.files.js[0].substr(htmlWebpackPlugin.files.publicPath.length)].source() %></script>
+</body>
+</html>
+
+
+
+
+

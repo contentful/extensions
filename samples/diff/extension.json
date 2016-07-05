@@ -1,0 +1,6 @@
+{
+  "id": "draftPublishedDiff",
+  "name": "Diffing draft and published values",
+  "srcdoc": "index.html",
+  "fieldTypes": ["Symbol"]
+}
