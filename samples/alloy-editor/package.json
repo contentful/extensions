@@ -1,0 +1,13 @@
+{
+  "name": "contentful-extension-alloy-editor",
+  "private": true,
+  "version": "0.0.2",
+  "description": "",
+  "author": "Contentful GmbH",
+  "license": "ISC",
+  "devDependencies": {
+    "contentful-extension-cli": "^2.0.0"
+  },
+  "dependencies": {
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "json-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "json-editor.js",
+  "dependencies": {
+    "codemirror": "^5.8.0",
+    "contentful-ui-extensions-sdk": "^2.0.0",
+    "gulp": "^3.9.0",
+    "gulp-inline-source": "^2.1.0",
+    "gulp-serve": "^1.2.0"
+  }
+}

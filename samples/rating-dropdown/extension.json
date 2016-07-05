@@ -1,0 +1,6 @@
+{
+  "id": "number-dropdown",
+  "name": "Rating Dropdown",
+  "srcdoc": "./app.html",
+  "fieldTypes": ["Integer", "Number"]
+}

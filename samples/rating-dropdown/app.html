@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Rating Dropdown Widget</title>
+    <!--
+    Include styles from the Contentful app.
+
+    See http://contentful.github.io/ui-extensions-sdk/styleguide for information on
+    how to include and apply these styles.
+     -->
+    <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
+    <style>
+     body { margin: 0; }
+     #entries { margin-top: 1em; }
+     #entries-list { margin-top: 1em; }
+     #rating { margin-right: 1em; }
+    </style>
+
+    <!--
+    Load the Extensions API that is used to communicate with the containing app.
+    -->
+    <script src="https://contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+  </head>
+  <body>
+    <select id="rating" class="cf-form-input">
+      <option value="">Other</option>
+      <option value="1">Ok</option>
+      <option value="4">Good</option>
+      <option value="10">Super</option>
+    </select>
+    <span>
+      Current Value: <span id="current-rating"></span>
+    </span>
+    <div id="entries">
+      <button class="cf-btn-primary">Show entries with the same rating</button>
+      <ul id="entries-list"></ul>
+    </div>
+    <script>
+
+      // This is the main entry point for extensions.
+      //
+      // The extension API reference explains in detail what you can do with
+      // the 'api' object.
+      var cfExt = window.contentfulExtension || window.contentfulWidget
+      cfExt.init(function (api) {
+
+        // Whenever the size of this document changes we adjust the size of
+        // the IFrame in the Contentful App.
+        api.window.startAutoResizer()
+
+        var metaData = api.entry.getSys()
+        var dropdown = api.field;
+
+        ratingChanged(dropdown.getValue())
+
+        // When the user selects a different option from the dropdown we
+        // update the entry field
+        $('#rating').on('input', function () {
+          dropdown.setValue(parseInt(this.value))
+          $('#current-rating').html(this.value)
+        })
+
+        // When the user clicks the button, we get all entries with the
+        // same rating and show them in a list.
+        $('#entries > button').on('click', function () {
+          var button = $(this)
+
+          button.addClass('is-loading')
+          getEntriesWithSameRating()
+          .then(renderEntries)
+          .then(function () {
+            button.removeClass('is-loading')
+          })
+        })
+
+        // Get a list of entries that have the same content type and same
+        // value in the current field.
+        //
+        // Makes a request to the Contentful CMA using the Widget API
+        function getEntriesWithSameRating () {
+          var query = {
+            'content_type': metaData.contentType.sys.id,
+            'sys.id[ne]': metaData.id
+          }
+          query['fields.' + dropdown.id] = dropdown.getValue()
+
+          return api.space.getEntries(query)
+        }
+
+        function ratingChanged (value) {
+          if (value == null) {
+            $('#current-rating').html('<em>unknown</em>')
+            $('select').val('')
+          } else {
+            $('#current-rating').html(value)
+            $('select').val(value)
+          }
+        }
+
+
+        // Populates the #entries-list with links to the entries.
+        // If 'entries' is an empty array we show a message.
+        function renderEntries (entries) {
+          if (entries.items.length) {
+            var content = entries.items.map(renderEntry)
+          } else {
+            content = '<li><em>no entries found</em></li>'
+          }
+          $('ul#entries-list').html(content)
+        }
+
+        function renderEntry (entry) {
+          var url = entryURL(entry)
+
+          return '<li><a target="_blank" href="' + url + '">' + url + '</a></li>'
+        }
+
+        function entryURL (entry) {
+          var id = entry.sys.id
+          var space = entry.sys.space.sys.id
+
+          return 'https://app.contentful.com/spaces/' + space + '/entries/' + id
+        }
+      })
+
+    </script>
+  </body>
+</html>

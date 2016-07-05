@@ -1,0 +1,6 @@
+{
+  "id": "translate",
+  "name": "Translate Widget",
+  "src": "http://localhost:3000/",
+  "fieldTypes": ["Symbol", "Text"]
+}

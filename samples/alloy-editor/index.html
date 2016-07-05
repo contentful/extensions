@@ -1,0 +1,56 @@
+<!doctype html>
+<head>
+  <link href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css" rel="stylesheet">
+  <link href="https://contentful.github.io/extensions-samples/libs/alloy-editor/assets/alloy-editor-ocean-min.css" rel="stylesheet">
+  <script src="https://contentful.github.io/extensions-samples/libs/alloy-editor/alloy-editor-all-min.js"></script>
+  <script src="https://contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+  <style>
+    body {
+      margin: 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    #content {
+      outline: 0;
+      padding: 1em;
+      margin-left: 3em;
+      margin-top: -1px;
+      margin-bottom: -1px;
+      min-height: 30em;
+    }
+  </style>
+</head>
+<body>
+  <div id="content"></div>
+  <script>
+  var cfExt = window.contentfulExtension || window.contentfulWidget
+
+  const AlloyEditor = window.AlloyEditor
+
+  cfExt.init(function (ext) {
+    var currentValue
+
+    ext.window.startAutoResizer()
+
+    const editor = AlloyEditor.editable('content')._editor
+    editor.setData(ext.field.getValue())
+
+    ext.field.onValueChanged(function(value) {
+      if (value !== currentValue) {
+        currentValue = value
+        editor.setData(value)
+      }
+    })
+
+    editor.on('change', function() {
+      const value = editor.getData()
+
+      if (currentValue !== value) {
+        currentValue = value
+        ext.field.setValue(value)
+      }
+    })
+  })
+  </script>
+</body>

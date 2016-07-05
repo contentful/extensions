@@ -1,0 +1,6 @@
+{
+  "id": "jsonEditor",
+  "name": "JSON Editor",
+  "src": "http://localhost:3000/",
+  "fieldTypes": ["Object"]
+}
