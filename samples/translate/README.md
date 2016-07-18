@@ -38,7 +38,13 @@ In order to to use this extension, create a Content Type with a field of type `S
 
 
 ### Upload extension
-If you want to inline all dependencies and upload the extension entirely to Contentful:
+If you want to inline all dependencies and upload the extension entirely to Contentful, you should run the following command:
+
+First time creation:
 ```bash
 contentful-extension create --srcdoc ./dist/index.all.html --space-id <yourSpaceId> --force
+```
+For updating your extension:
+```bash
+contentful-extension update --srcdoc ./dist/index.all.html --space-id <yourSpaceId> --force
 ```
