@@ -1,81 +1,81 @@
 'use strict';
 
-/*
-* Custom translation widget using the widget API
-* Translates text from the default locale to every other locales present in a space
-* Uses the Yandex Translator Service - https://tech.yandex.com/translate/
-*/
+/**
+ * Custom translation ext using the UI extensions API.
+ * Translates text from the default locale to every other locales present in a space
+ * Uses the Yandex Translator Service - https://tech.yandex.com/translate/
+ */
 
 +function() {
-  var widget = {};
+  var ext = {};
 
   // Hardcoding secrets for now
-  widget.apiKey = 'trnsl.1.1.20151015T080754Z.fac48f0d13a96c3a.c0c58058288c42ba40de8aec2b36d9d86c3adb1d';
+  ext.apiKey = 'trnsl.1.1.20151015T080754Z.fac48f0d13a96c3a.c0c58058288c42ba40de8aec2b36d9d86c3adb1d';
 
 
-  widget.events = {
+  ext.events = {
     initialize: function(resp) {
       // Define API
-      widget.cfApi = resp;
+      ext.cfApi = resp;
       // Create HTML elements
-      widget.elements = {
+      ext.elements = {
         input: createElement('input', {type: 'text', className: 'cf-form-input'}, createElement('p')),
         populateAll: createElement('input', {type: 'submit', className: 'cf-btn-primary', value: 'Populate all other locales'})
       };
 
       // Attach event listeners
-      widget.elements.input.addEventListener('input', widget.events.textUpdated);
-      widget.elements.populateAll.addEventListener('click', widget.events.doTranslations);
+      ext.elements.input.addEventListener('input', ext.events.textUpdated);
+      ext.elements.populateAll.addEventListener('click', ext.events.doTranslations);
 
       // Watch for changes on the default language field
-      if (widget.cfApi.locales.default !== widget.cfApi.field.locale) {
-        var apiName = widget.cfApi.field.id;
-        widget.cfApi.entry.fields[apiName].onValueChanged(widget.cfApi.field.locale, widget.events.fieldsUpdated);
+      if (ext.cfApi.locales.default !== ext.cfApi.field.locale) {
+        var apiName = ext.cfApi.field.id;
+        ext.cfApi.entry.fields[apiName].onValueChanged(ext.cfApi.field.locale, ext.events.fieldsUpdated);
       }
 
       // Populate current values
-      widget.events.fieldsUpdated();
+      ext.events.fieldsUpdated();
 
-      var isDefaultLocale = widget.cfApi.locales.default === widget.cfApi.field.locale;
+      var isDefaultLocale = ext.cfApi.locales.default === ext.cfApi.field.locale;
 
       // Hide Populate button on non-default locales
       if (!isDefaultLocale) {
-        widget.uiUpdate.hideElement(widget.elements.populateAll);
+        ext.uiUpdate.hideElement(ext.elements.populateAll);
       }
 
       // Set iframe size
-      widget.cfApi.window.updateHeight((isDefaultLocale ? 110 : 60));
+      ext.cfApi.window.updateHeight((isDefaultLocale ? 110 : 60));
     },
 
     fieldsUpdated: function() {
-      var currentValue = widget.cfApi.field.getValue();
+      var currentValue = ext.cfApi.field.getValue();
 
       // Show translate button when there is a value in the default locale
-      widget.uiUpdate.updateInput(currentValue);
+      ext.uiUpdate.updateInput(currentValue);
 
       // Show or hide translate button
-      if (widget.cfApi.locales.default === widget.cfApi.field.locale) {
-        widget.uiUpdate.enableElement(widget.elements.populateAll, !!currentValue);
+      if (ext.cfApi.locales.default === ext.cfApi.field.locale) {
+        ext.uiUpdate.enableElement(ext.elements.populateAll, !!currentValue);
       } else {
         // Save value
-        widget.cfApi.field.setValue(currentValue);
+        ext.cfApi.field.setValue(currentValue);
       }
     },
 
     textUpdated: function() {
-      var val = widget.elements.input.value.toString();
-      widget.cfApi.field.setValue(val);
-      widget.events.fieldsUpdated();
+      var val = ext.elements.input.value.toString();
+      ext.cfApi.field.setValue(val);
+      ext.events.fieldsUpdated();
     },
 
     doTranslations: function(ev) {
       ev.preventDefault();
-      var currentLocale = widget.cfApi.field.locale;
-      var idx = widget.cfApi.locales.available.indexOf(currentLocale);
-      var arr = widget.cfApi.locales.available.slice();
+      var currentLocale = ext.cfApi.field.locale;
+      var idx = ext.cfApi.locales.available.indexOf(currentLocale);
+      var arr = ext.cfApi.locales.available.slice();
       arr.splice(idx, 1);
       var languagePair;
-      var text = widget.cfApi.field.getValue();
+      var text = ext.cfApi.field.getValue();
       arr.forEach(function(language) {
         languagePair = getYandexCode(currentLocale, language);
         getTranslation(text, languagePair, language);
@@ -83,11 +83,11 @@
     }
   };
 
-  widget.uiUpdate = {
+  ext.uiUpdate = {
     updateInput: function(text) {
       // because sometimes getValue() returns an empty object instead of null...
       text = (typeof text === 'object') ? undefined : text;
-      widget.elements.input.value = text ? text : '';
+      ext.elements.input.value = text ? text : '';
     },
     enableElement: function(element, enabled) {
       element.disabled = !enabled;
@@ -100,7 +100,7 @@
   function callTranslateApi(text, lang) {
     return new Promise(function(resolve, reject) {
       var endpoint = 'https://translate.yandex.net/api/v1.5/tr.json/translate?key='
-        + widget.apiKey + '&lang=' + lang + '&text=' + encodeURIComponent(text);
+        + ext.apiKey + '&lang=' + lang + '&text=' + encodeURIComponent(text);
 
       var xhr = new XMLHttpRequest();
 
@@ -126,7 +126,7 @@
     }
     parent = parent || document.body;
     parent.appendChild(e);
-    return e;      
+    return e;
   }
 
   // Call the translate API and insert the text into the correct locale
@@ -134,8 +134,8 @@
     callTranslateApi(text, lang)
     .then(function(resp) {
       var translation = resp.text.join(' ');
-      var apiName = widget.cfApi.field.id;
-      widget.cfApi.entry.fields[apiName].setValue(translation, targetLocale);
+      var apiName = ext.cfApi.field.id;
+      ext.cfApi.entry.fields[apiName].setValue(translation, targetLocale);
     });
   }
 
@@ -152,6 +152,6 @@
     return getCode(fromLocale) + '-' + getCode (toLocale);
   }
 
-  window.contentfulWidget.init(widget.events.initialize);
+  window.contentfulExtension.init(ext.events.initialize);
 
 }();
