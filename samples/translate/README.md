@@ -1,6 +1,6 @@
 # Translation extension
 
-![translate-widget](http://contentful.github.io/ui-extensions-sdk/assets/translate-widget.png)
+![translate-widget](http://contentful.github.io/extensions/assets/translate-widget.png)
 
 This extension translates text from the default locale to other locales in a space using the Yandex translation API.
 

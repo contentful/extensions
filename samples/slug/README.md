@@ -1,7 +1,7 @@
 Slug Generator
 --------------
 
-![slug-widget](http://contentful.github.io/ui-extensions-sdk/assets/slug-widget.png)
+![slug-widget](http://contentful.github.io/extensions/assets/slug-widget.png)
 
 `npm install`
 

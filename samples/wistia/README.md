@@ -3,7 +3,7 @@ Wistia Extension
 
 The wistia extension loads videos from a [project](http://wistia.com/doc/projects) on [wistia](http://wistia.com/) into the Contentful Web App. A video can be easily previewed, selected and then stored as part of your content. In this example we store the video embed URL in Contentful so the video can be embedded easily.
 
-![Screenshot of Wistia extension](http://contentful.github.io/ui-extensions-sdk/assets/wistia.gif)
+![Screenshot of Wistia extension](http://contentful.github.io/extensions/assets/wistia.gif)
 
 ### Requirements
 

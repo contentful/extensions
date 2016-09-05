@@ -1,7 +1,7 @@
 YouTube ID
 --------------
 
-![youtube-id](http://contentful.github.io/ui-extensions-sdk/assets/youtube-id.png)
+![youtube-id](http://contentful.github.io/extensions/assets/youtube-id.png)
 
 This extension extracts the video ID from a YouTube URI.
 

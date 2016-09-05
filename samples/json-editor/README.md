@@ -1,6 +1,6 @@
 # JSON Editor extension
 
-![json-editor-ok](http://contentful.github.io/ui-extensions-sdk/assets/json-editor.png)
+![json-editor-ok](http://contentful.github.io/extensions/assets/json-editor.png)
 
 This extension provides a JSON formatter and validator based on the [Codemirror](http://codemirror.net) library.
 

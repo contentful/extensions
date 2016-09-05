@@ -1,7 +1,7 @@
 Alloy Editor Extension
 -------------------
 
-![alloy-editor](http://contentful.github.io/ui-extensions-sdk/assets/alloy-editor.png)
+![alloy-editor](http://contentful.github.io/extensions/assets/alloy-editor.png)
 
 This extension uses the [Alloy Text Editor][alloy] to edit text fields.
 
