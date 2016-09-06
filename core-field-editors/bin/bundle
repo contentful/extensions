@@ -1,0 +1,78 @@
+#!/usr/bin/env node
+
+/* eslint no-console: off */
+const P = require('path')
+const Browserify = require('browserify')
+const h = require('virtual-dom').h
+const vdomToString = require('vdom-to-html')
+const B = require('bluebird')
+const Yargs = require('yargs')
+
+const FS = B.promisifyAll(require('fs'))
+
+B.coroutine(main)().done()
+
+function* main () {
+  const args = parseCLI()
+  const entryPath = P.resolve(args.entryPath)
+  const stat = yield FS.statAsync(entryPath).catch(() => null)
+
+  if (!stat) {
+    console.error(`Cannot read file '${args.entryPath}'`)
+    process.exit(1)
+  }
+  const entryDir = stat.isDirectory() ? entryPath : P.dirname(entryPath)
+  const output = P.resolve(entryDir, 'editor.dist.html')
+  console.log(`Bundling field editor extension to '${P.relative('', output)}'`)
+  const bundle = yield makeBundle(entryPath)
+  const html = toHtml(editorTree(bundle))
+  yield FS.writeFileAsync(output, html, 'utf8')
+}
+
+function parseCLI () {
+  const argv = Yargs(process.argv.slice(2))
+    .strict()
+    .usage('bin/build [FILE]')
+    .argv
+
+  return {
+    entryPath: argv._[0] || '.',
+  }
+}
+
+function makeBundle (path) {
+  path = P.resolve(path)
+  return new B.Promise((resolve, reject) => {
+    Browserify({debug: false})
+    .transform('babelify')
+    .transform({global: true, sourcemap: false}, 'uglifyify')
+    .require(path, {expose: 'field-editor'})
+    .bundle((err, buf) => {
+      if (err) {
+        reject(err)
+      } else if (buf) {
+        resolve(buf.toString())
+      }
+    }).on('error', reject)
+  }).catch((err) => {
+    // Errors thrown by browserify are not instances of 'Error'.
+    throw new Error(err.toString())
+  })
+}
+
+function editorTree (bundle) {
+  return h('html', [
+    h('head', [
+      h('script', [bundle]),
+      h('link', {rel: 'stylesheet', type: 'text/css', href: 'https://contentful.github.io/ui-extensions-sdk/cf-extension.css'}),
+      h('style', ['body { margin: 0 }']),
+    ]),
+    h('body', [
+      h('script', ['require("field-editor").boot()']),
+    ]),
+  ])
+}
+
+function toHtml (tree) {
+  return '<!doctype html>' + vdomToString(tree)
+}
