@@ -1,0 +1,6 @@
+{
+  "id": "text-input",
+  "name": "Text Input",
+  "fieldTypes": ["Symbol", "Text"],
+  "srcdoc": "editor.dist.html"
+}

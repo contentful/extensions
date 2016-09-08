@@ -7,13 +7,16 @@
     "test": "eslint bin/bundle src",
     "lint": "eslint bin/bundle src",
     "prepublish": "babel src --out-dir lib",
-    "watch": "babel src --out-dir lib --watch"
+    "watch": "babel src --out-dir lib --watch --source-maps inline"
   },
   "author": "Thomas Scholtes <thomas@contentful.com>",
   "license": "ISC",
   "dependencies": {
     "contentful-ui-extensions-sdk": "^2.1.0",
-    "lodash": "^4.14.2"
+    "kefir": "^3.5.1",
+    "lodash": "^4.14.2",
+    "preact": "^6.3.0",
+    "sum-types": "^0.9.0"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
@@ -28,6 +31,7 @@
     "eslint-plugin-standard": "^2.0.0",
     "uglifyify": "^3.0.2",
     "vdom-to-html": "^2.3.0",
+    "virtual-dom": "^2.1.1",
     "yargs": "^5.0.0"
   },
   "babel": {

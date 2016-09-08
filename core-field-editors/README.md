@@ -40,6 +40,7 @@ You can now use the component by following the same steps as with any other
 We currently provide the following field editors:
 
 - [Multiline text editor](./src/textarea)
+- [Single line text editor](./src/text-input)
 
 Feel free to reach out to us with the ones that'd be the most useful to have
 here by filing a [Github issue](github-issues)!
