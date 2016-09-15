@@ -7,6 +7,8 @@ Contentful Web Application. Since these are developed using the
 each component works, and create your own extensions based on existing
 Contentful components' source rather than starting from scratch.
 
+# Getting started
+
 To do this, you should first clone the repository and install the field editor
 dependencies as follows:
 ~~~
@@ -16,8 +18,8 @@ npm install
 npm install -g contentful-extension-cli
 ~~~
 
-Then go to the field editor folder and create a bundle called `editor.dist.html`,
-which will be used as the extension's source:
+Then go to the field editor folder of your choice, and create a bundle called
+`editor.dist.html`, which will be used as the extension's source:
 ~~~
 cd src/textarea
 ../../bin/bundle
@@ -31,6 +33,17 @@ contentful-extension create --space-id <MY_SPACE_ID>
 ~~~
 
 You can now use the component by following the same steps as with any other
-[UI extension](https://www.contentful.com/blog/2016/07/06/ui-extensions-sdk/).
+[UI extension](ui-ext-guide).
+
+# Available field editors
+
+We currently provide the following field editors:
+
+- [Multiline text editor](./src/textarea)
+
+Feel free to reach out to us with the ones that'd be the most useful to have
+here by filing a [Github issue](github-issues)!
 
 [ui-extensions-sdk]: https://github.com/contentful/ui-extensions-sdk
+[ui-ext-guide]: https://www.contentful.com/blog/2016/07/06/ui-extensions-sdk/]
+[github-issues]: https://github.com/contentful/extensions/issues
