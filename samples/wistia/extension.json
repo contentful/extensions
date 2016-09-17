@@ -1,6 +1,6 @@
 {
-  "id": "wistiaVideo",
-  "name": "Wistia video widget",
+  "id": "wistia",
+  "name": "Wistia video integration",
   "srcdoc": "./dist/index.html",
   "fieldTypes": ["Symbol"]
 }
