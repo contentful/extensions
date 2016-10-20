@@ -45,4 +45,3 @@ export function fromFieldValidations (type, validations = []) {
     return Constraint.None()
   }
 }
-

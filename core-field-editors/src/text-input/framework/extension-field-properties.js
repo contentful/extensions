@@ -22,4 +22,3 @@ function propertyFromSignal (signal) {
     })
   }).toProperty()
 }
-

@@ -31,7 +31,10 @@ export default function createCharacterInfo (constraint) {
       }, [
         `${count} characters`,
       ]),
-      h('div', {style: {'margin-left': 'auto'}}, [caseof(constraint, [
+      h('div', {
+        'data-ref': 'character-constraints',
+        'style': {'margin-left': 'auto'},
+      }, [caseof(constraint, [
         [Constraint.None, () => ''],
         [Constraint.Min, ({min}) => `Requires at least ${min} characters`],
         [Constraint.Max, ({max}) => `Requires less than ${max} characters`],
