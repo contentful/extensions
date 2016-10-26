@@ -24,7 +24,7 @@
     "browserify": "^13.1.0",
     "eslint": "^3.4.0",
     "eslint-config-standard": "^6.0.0",
-    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-promise": "^3.3.0",
     "eslint-plugin-standard": "^2.0.0",
     "uglifyify": "^3.0.2",
     "vdom-to-html": "^2.3.0",
