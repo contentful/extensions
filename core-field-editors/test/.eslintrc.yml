@@ -1,0 +1,7 @@
+globals:
+  describe: false
+  xdescribe: false
+  beforeEach: false
+  afterEach: false
+  it: false
+  xit: false
