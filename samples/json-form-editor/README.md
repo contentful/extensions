@@ -7,7 +7,7 @@ This extension provides a JSON form editor based on the
 with fields of the type “Object”.
 
 The extension generates a form based on a [JSON Schema](https://json-schema.org/)
-defined in `json-form-edtior.js`. The generated form allows to create JSON objects
+defined in `json-form-editor.js`. The generated form allows to create JSON objects
 valid against that schema.
 
 
