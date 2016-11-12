@@ -6,17 +6,15 @@ This extension provides a JSON formatter and validator based on the [Codemirror]
 
 It should be used with fields with the type “Object”.
 
-
 ### Bootstrap example for local development
 
-First set the access token on your environment:
+Ensure you checked [the samples requirements listed here](../README.md).
+
+Install dependencies if not done already through `npm install`.
+
+Set the access token on your environment:
 ```bash
 export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=<contentfulManagementApiToken>
-```
-
-Move into example directory and install dependencies
-```bash
-cd examples/json-editor && npm install
 ```
 
 Create the extension:
@@ -24,15 +22,17 @@ Create the extension:
 contentful-extension create --space-id <yourSpaceId>
 ```
 
-Serve on http://:::3000
+Serve on http://localhost:3000
 ```bash
 gulp
 ```
+The [same constraints](../README.md) relative to loading unsafe scripts apply.
 
-### Upload extension
-If you want to inline all dependencies and upload the extension entirely to Contentful:
-```bash
-contentful-extension update --descriptor extension.debug.json --space-id <yourSpaceId> --force
-```
-
-Please note that as soon as the concatenated file gets over 200k, you'll have to host it on your own server, using HTTPS and with CORS enabled.
+### Use this extension in production
+Since this extension grows above 200k when inlined, you need to:
+ - Host it on your own environment, using HTTPS and with CORS enabled.
+ - Update the extension.prod.json.
+ - Update your space using the updated descriptor:
+ ```bash
+ contentful-extension update --descriptor extension.prod.json --force --space-id <yourSpaceId>
+ ```

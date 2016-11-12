@@ -1,0 +1,6 @@
+{
+  "id": "jsonEditor",
+  "name": "JSON Editor",
+  "src": "https://yourhost/contentful/extensions/json-editor/index.all.html",
+  "fieldTypes": ["Object"]
+}

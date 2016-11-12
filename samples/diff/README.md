@@ -5,37 +5,25 @@ The diff editor extension shows the diff between the draft value and the publish
 
 ![Screenshot of Diff extension](http://contentful.github.io/extensions/assets/diff-extension.png)
 
-### Requirements
+### Installation and usage
 
-- Contentful
-    - a space to use the widget and the space id
-    - an api key for Contentful's Mangement API
-- Local machine
-    - npm installed and configured on your system
-    - Extensions [CLI tool installed](https://github.com/contentful/contentful-extension-cli)
+- Ensure you checked [the samples requirements listed here](../README.md).
 
-### Installation
+- Install dependencies if not done already through `npm install`.
 
-- Clone the repository or download the repo as a [zip](https://github.com/contentful/ui-extensions-sdk/archive/master.zip)
-```bash
-git clone git@github.com:contentful/ui-extensions-sdk.git
-```
-- Navigate into diff folder
-```bash
-cd examples/diff
-```
 - Create a configuration file with your credentials for Contentful
 ```bash
 touch .env
-echo "SPACE_ID={YOUR-SPACE-ID}" >> .env
-echo "CONTENTFUL_MANAGEMENT_ACCESS_TOKEN={YOUR-MANAGEMENT-TOKEN}" >> .env
+echo "export SPACE_ID={YOUR-SPACE-ID}" >> .env
+echo "export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN={YOUR-MANAGEMENT-TOKEN}" >> .env
 ```
 and replace space ID and management token accordingly.
 
-Source the file to add the variables to your environment.
+- Source the file to add the variables to your environment.
 ```bash
 source .env
 ```
+
 ### Upload the extension to Contentful
 
 - Create the extension in your space on Contentful
@@ -60,6 +48,8 @@ python -m SimpleHTTPServer 3030
 ```bash
 npm run dev
 ```
+
+The [same constraints](../README.md) relative to loading unsafe scripts apply.
 
 ### Using the extension in the Contentful App
 

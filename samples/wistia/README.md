@@ -7,35 +7,21 @@ The wistia extension loads videos from a [project](http://wistia.com/doc/project
 
 ### Requirements
 
-- Contentful
-    - a space to use the extension and the space id
-    - an api key for Contentful's Mangement API
-- Wistia
-    - an account with [wistia](http://wistia.com/)
-    - an API key from wistia, preferably with read-only permissions only
-- Local machine
-    - npm installed and configured on your system
+Cf. [the samples requirements listed here](../README.md)
+
+You also need to the following for using Wistia:
+  - an account on [wistia](http://wistia.com/)
+  - an API key from wistia, preferably with read-only permissions only
 
 ### Installation
 
-- Clone the repository or download the repo as a [zip](https://github.com/contentful/ui-extensions-sdk/archive/master.zip)
-```bash
-git clone git@github.com:contentful/ui-extensions-sdk.git
-```
-- Navigate into the extension folder
-```bash
-cd examples/wistia
-```
-- Install dependencies
-```bash
-npm install
-```
+- Install dependencies if not done already through `npm install`
 - Create a configuration file with your credentials for Contentful
 ```bash
 touch .env
-echo "SPACE_ID={YOUR-SPACE-ID}" >> .env
-echo "CONTENTFUL_MANAGEMENT_ACCESS_TOKEN={YOUR-MANAGEMENT-TOKEN}" >> .env
-
+echo "export SPACE_ID={YOUR-SPACE-ID}" >> .env
+echo "export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN={YOUR-MANAGEMENT-TOKEN}" >> .env
+source .env
 ```
 and replace space ID, management token and port accordingly.
 
@@ -70,6 +56,8 @@ python -m SimpleHTTPServer 3030
 npm run bundle
 npm run extension:dev
 ```
+
+The [same constraints](../README.md) relative to loading unsafe scripts apply.
 
 ### Using the extension in the Contentful App
 

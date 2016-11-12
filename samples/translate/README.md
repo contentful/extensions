@@ -6,11 +6,9 @@ This extension translates text from the default locale to other locales in a spa
 
 ### Bootstrap example for local development
 
-Move into this example directory and install dependencies
-```bash
-cd examples/translate
-npm install
-```
+Ensure you checked [the samples requirements listed here](../README.md).
+
+Install dependencies if not done already through `npm install`.
 
 Set the access token on your environment:
 ```bash
@@ -36,6 +34,7 @@ PORT=<custom port here> npm start
 Your extension will now be accessible via the Contentful web app.
 In order to to use this extension, create a Content Type with a field of type `Symbol` or `Text`. You will need to enable localization on the field to use the translation feature.
 
+The [same constraints](../README.md) relative to loading unsafe scripts apply.
 
 ### Upload extension
 If you want to inline all dependencies and upload the extension entirely to Contentful, you should run the following command:

@@ -13,8 +13,7 @@ make create CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=my-cf-token SPACE=my-space-id
 make build serve
 ~~~
 
-The Contentful documentation shows you how to [obtain an a
-token][getting-token].
+The Contentful documentation shows you how to [obtain an a token][getting-token].
 
 To use the chessboard extension in the Contentful App you need to create a content
 type with a “JSON Object” field. In the field settings’ “Appearance” tab you
