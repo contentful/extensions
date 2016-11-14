@@ -24,7 +24,7 @@ Create the extension:
 contentful-extension create --space-id <yourSpaceId>
 ```
 
-Serve on _http://localhost:3000_ using Gulp, automatically watching and reserving any changes:
+Serve on _<http://localhost:3000>_ using Gulp, automatically watching and reserving any changes:
 
 ```bash
 gulp watch
