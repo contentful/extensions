@@ -2,42 +2,44 @@
 
 ![json-form-editor](http://contentful.github.io/extensions/assets/json-form-editor.png)
 
-This extension provides a JSON form editor based on the
-[JSON Editor](https://github.com/jdorn/json-editor)) library. It should be used
-with fields of the type “Object”.
+[https://www.contentful.com](Contentful) is a content management platform for web applications, mobile apps and connected devices. It allows you to create, edit & manage content in the cloud and publish it anywhere via powerful API. Contentful offers tools for managing editorial teams and enabling cooperation between organizations.
 
-The extension generates a form based on a [JSON Schema](https://json-schema.org/)
-defined in `json-form-editor.js`. The generated form allows to create JSON objects
-valid against that schema.
+This extension provides a JSON form editor based on the [JSON Editor](https://github.com/jdorn/json-editor)) library. You can use this extension with 'Object' field types.
 
-## Bootstrap example for local development
+The extension generates a form based on a [JSON Schema](https://json-schema.org/) defined in _json-form-editor.js_. The generated form allows you to create JSON objects that are valid against that schema.
 
-Ensure you checked [the samples requirements listed here](../README.md).
+## Getting started with local development
 
-Install dependencies if not done already through `npm install`.
+[Check you have the requirements needed](../README.md#extensions-samples) to use our extensions and [have the extensions SDK installed](https://github.com/contentful/ui-extensions-sdk).
+
+Install the dependencies needed with `npm install`.
 
 Create the extension on Contentful:
+
 ```bash
-contentful-extension create --space-id <yourSpaceId>
+contentful-extension create --space-id <space-id>
 ```
 
-Serve on `http://localhost:3000/`:
+Serve on _http://localhost:3000_ using Gulp, automatically watching and reserving any changes:
+
 ```bash
 gulp watch
 ```
-This does automatically serve again on any change to the source files, so you only
-need to manually refresh your browser to see the changes.
+
 
 The [same constraints](../README.md) relative to loading unsafe scripts apply.
 
-## Upload extension for production usage
-If you want to inline all dependencies and upload the extension entirely to Contentful:
+## Using the extension in production
+
+To minimize all dependencies and upload the extension to Contentful:
+
 ```bash
 gulp bundle
-contentful-extension update --srcdoc ./dist/index.min.html --force --space-id <yourSpaceId>
+contentful-extension update --srcdoc ./dist/index.min.html --force --space-id <space-id>
 ```
 
 ## TODOs
-* Make JSON Schema configurable as a field appearance option.
-* Add some advanced form editor styling to `json-editor-contentful-theme.js`.
-* Trigger auto-save while typing, not just after leaving an input field.
+
+- Make JSON Schema configurable as a field appearance option.
+- Add advanced form editor styling to _json-editor-contentful-theme.js_.
+- Trigger auto-save while typing, not just after leaving an input field.
