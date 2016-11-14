@@ -6,7 +6,7 @@
 
 This extension provides a JSON formatter and validator for the Contentful web app based on the [Codemirror](http://codemirror.net) library. You can use this extension with 'Object' field types.
 
-## Bootstrap example for local development
+## Getting started with local development
 
 [Check you have the requirements needed](../README.md#extensions-samples) to use our extensions and [have the extensions SDK installed](https://github.com/contentful/ui-extensions-sdk).
 
@@ -24,10 +24,10 @@ Create the extension:
 contentful-extension create --space-id <yourSpaceId>
 ```
 
-Serve on _http://localhost:3000_ using Gulp:
+Serve on _http://localhost:3000_ using Gulp, automatically watching and reserving any changes:
 
 ```bash
-gulp
+gulp watch
 ```
 
 The [same constraints](../README.md) relative to loading unsafe scripts apply.
