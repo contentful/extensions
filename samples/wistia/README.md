@@ -2,9 +2,9 @@
 
 [https://www.contentful.com](Contentful) is a content management platform for web applications, mobile apps and connected devices. It allows you to create, edit & manage content in the cloud and publish it anywhere via powerful API. Contentful offers tools for managing editorial teams and enabling cooperation between organizations.
 
-This extension loads videos from a [wistia project](http://wistia.com/doc/projects) into the Contentful Web App. You can then preview, select and store the video as part of your content.
-
 ![Screenshot of Wistia extension](http://contentful.github.io/extensions/assets/wistia.gif)
+
+This extension loads videos from a [wistia project](http://wistia.com/doc/projects) into the Contentful Web App. You can then preview, select and store the video as part of your content.
 
 ## Installation and usage
 

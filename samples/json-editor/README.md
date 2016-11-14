@@ -1,8 +1,8 @@
 # JSON Editor extension
 
-![json-editor-ok](http://contentful.github.io/extensions/assets/json-editor.png)
-
 [https://www.contentful.com](Contentful) is a content management platform for web applications, mobile apps and connected devices. It allows you to create, edit & manage content in the cloud and publish it anywhere via powerful API. Contentful offers tools for managing editorial teams and enabling cooperation between organizations.
+
+![json-editor-ok](http://contentful.github.io/extensions/assets/json-editor.png)
 
 This extension provides a JSON formatter and validator for the Contentful web app based on the [Codemirror](http://codemirror.net) library. You can use this extension with 'Object' field types.
 

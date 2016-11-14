@@ -1,8 +1,8 @@
 # JSON Form Editor extension
 
-![json-form-editor](http://contentful.github.io/extensions/assets/json-form-editor.png)
-
 [https://www.contentful.com](Contentful) is a content management platform for web applications, mobile apps and connected devices. It allows you to create, edit & manage content in the cloud and publish it anywhere via powerful API. Contentful offers tools for managing editorial teams and enabling cooperation between organizations.
+
+![json-form-editor](http://contentful.github.io/extensions/assets/json-form-editor.png)
 
 This extension provides a JSON form editor based on the [JSON Editor](https://github.com/jdorn/json-editor)) library. You can use this extension with 'Object' field types.
 
@@ -20,12 +20,11 @@ Create the extension on Contentful:
 contentful-extension create --space-id <space-id>
 ```
 
-Serve on _http://localhost:3000_ using Gulp, automatically watching and reserving any changes:
+Serve on _<http://localhost:3000>_ using Gulp, automatically watching and reserving any changes:
 
 ```bash
 gulp watch
 ```
-
 
 The [same constraints](../README.md) relative to loading unsafe scripts apply.
 
