@@ -1,49 +1,56 @@
 # Translation extension
 
+[https://www.contentful.com](Contentful) is a content management platform for web applications, mobile apps and connected devices. It allows you to create, edit & manage content in the cloud and publish it anywhere via powerful API. Contentful offers tools for managing editorial teams and enabling cooperation between organizations.
+
 ![translate-widget](http://contentful.github.io/extensions/assets/translate-widget.png)
 
-This extension translates text from the default locale to other locales in a space using the Yandex translation API.
+This extension translates text from the default locale to other locales in a space using the [Yandex](https://translate.yandex.com/) translation API.
 
-### Bootstrap example for local development
+## Installation and usage
 
-Ensure you checked [the samples requirements listed here](../README.md).
+[Check you have the requirements needed](../README.md#extensions-samples) to use our extensions and [have the extensions SDK installed](https://github.com/contentful/ui-extensions-sdk).
 
-Install dependencies if not done already through `npm install`.
+Install the dependencies needed with `npm install`.
 
-Set the access token on your environment:
+Set your access token in your environment:
+
 ```bash
-export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=<contentfulManagementApiToken>
+export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=<content-management-access-token>
 ```
 
 Create the extension:
+
 ```bash
 contentful-extension create --space-id <yourSpaceId>
 ```
 
-Serve on http://:::3000
+Serve on _<http://localhost:3000>_:
+
 ```bash
 npm start
 ```
 
-You can also provide a value for `PORT` environment variable to start the server on a custom port.
-If you do this, remember to update the `src` property in `extension.json`.
+You can provide a value for the `PORT` environment variable to start the server on a custom port. If you do, remember to update the `src` property in _extension.json_.
+
 ```bash
-PORT=<custom port here> npm start
+export PORT=<custom-port>
+npm start
 ```
 
-Your extension will now be accessible via the Contentful web app.
-In order to to use this extension, create a Content Type with a field of type `Symbol` or `Text`. You will need to enable localization on the field to use the translation feature.
+Your extension will now be accessible in the Contentful web app. To use the extension, create a content type with a field of type 'Symbol' or 'Text'. You will need to enable localization on the field to use the translation feature.
 
 The [same constraints](../README.md) relative to loading unsafe scripts apply.
 
 ### Upload extension
-If you want to inline all dependencies and upload the extension entirely to Contentful, you should run the following command:
 
-First time creation:
+If you want to inline all dependencies and upload the extension to Contentful, run the following command:
+
 ```bash
-contentful-extension create --srcdoc ./dist/index.all.html --space-id <yourSpaceId> --force
+contentful-extension create --srcdoc ./dist/index.all.html --space-id <space-id> --force
 ```
-For updating your extension:
+
+And to update the extension:
+
 ```bash
-contentful-extension update --srcdoc ./dist/index.all.html --space-id <yourSpaceId> --force
+contentful-extension update --srcdoc ./dist/index.all.html --space-id <space-id> --force
 ```
