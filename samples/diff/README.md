@@ -1,58 +1,62 @@
-Diff UI Extensions
--------------
+# Diff UI Extensions
+
+[https://www.contentful.com](Contentful) is a content management platform for web applications, mobile apps and connected devices. It allows you to create, edit & manage content in the cloud and publish it anywhere via powerful API. Contentful offers tools for managing editorial teams and enabling cooperation between organizations.
 
 The diff editor extension shows the diff between the draft value and the published value of a short text field.
 
 ![Screenshot of Diff extension](http://contentful.github.io/extensions/assets/diff-extension.png)
 
-### Installation and usage
+## Installation and usage
 
-- Ensure you checked [the samples requirements listed here](../README.md).
+[Check you have the requirements needed](../README.md#extensions-samples) to use our extensions and [have the extensions SDK installed](https://github.com/contentful/ui-extensions-sdk).
 
-- Install dependencies if not done already through `npm install`.
+Install the dependencies needed with `npm install`.
 
-- Create a configuration file with your credentials for Contentful
+Create a _.env_ configuration file with your Contentful credentials:
+
 ```bash
-touch .env
-echo "export SPACE_ID={YOUR-SPACE-ID}" >> .env
-echo "export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN={YOUR-MANAGEMENT-TOKEN}" >> .env
+export SPACE_ID=<space-id>
+export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=<content-management-access-token>
 ```
-and replace space ID and management token accordingly.
 
-- Source the file to add the variables to your environment.
+Add the variables to your environment.
+
 ```bash
 source .env
 ```
 
-### Upload the extension to Contentful
+## Upload the extension to Contentful
 
-- Create the extension in your space on Contentful
+Create the extension in the space specified in the _.env_ file:
+
 ```bash
 npm run create
 ```
 
-### Update the extension
+## Local development
 
-- Update the extension in your space on Contentful
-```bash
-npm run update
-```
+Start a local server, changing the port if needed:
 
-### Local development
-
-- Start a local server (replace your port if needed)
 ```bash
 python -m SimpleHTTPServer 3030
 ```
-- Tell contentful to render the widget from your local machine
+
+Tell Contentful to render the widget from your local machine:
+
 ```bash
 npm run dev
 ```
 
 The [same constraints](../README.md) relative to loading unsafe scripts apply.
 
-### Using the extension in the Contentful App
+## Update the extension
 
-Next, we will enable the extension in the Contentful App for a “Short text” field so that you can see it in action.
+If you want to update the extension, run:
 
-In your space, choose any Content Type with a “Short text” field or create a new one. Then open the “Settings” dialog for a field and switch to the appearance tab. A widget with the name “Wistia video widget” should be visible at the end of the list. (Note that you need to reload the app after you uploaded a widget.) Select the widget from the list and save the Content Type. Finally you can open an entry for that Content Type and see the widget rendered.
+```bash
+npm run update
+```
+
+## Using the extension in the Contentful web app
+
+Enable the extension in the Contentful web app for a "Short text" field by opening the _Settings_ for a field and selecting the widget in the _appearance_ tab.
