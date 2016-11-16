@@ -18,7 +18,7 @@ Before you get started, please make sure you have the
 `contentful-extension` command available in your path. The
 [UI Extensions SDK Readme][readme-getting-started] explains how to install it.
 
-[readme-getting-started]: ../../README.md#getting-started
+[readme-getting-started]: https://github.com/contentful/ui-extensions-sdk#getting-started
 
 ## Uploading the extension to a space
 
@@ -105,9 +105,10 @@ contentful-extension update --space-id MY_SPACE_ID --force
 ~~~
 
 You can go on from here by having a look at the
-[UI Extensions API](../../doc/ui-extensions-api-frontend.md) documentation.
+[UI Extensions API documentation](ui-ext-api-doc) documentation.
 
 
 [static-one-liners]: https://gist.github.com/willurd/5720255
 [ff-mixed]: https://support.mozilla.org/en-US/kb/mixed-content-blocking-firefox
 [chrome-mixed]: https://support.google.com/chrome/answer/1342714
+[ui-ext-api-doc]: https://github.com/contentful/ui-extensions-sdk/blob/master/docs/ui-extensions-sdk-frontend.md

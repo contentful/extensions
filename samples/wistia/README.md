@@ -1,78 +1,72 @@
-Wistia Extension
--------------
+# Wistia Extension
 
-The wistia extension loads videos from a [project](http://wistia.com/doc/projects) on [wistia](http://wistia.com/) into the Contentful Web App. A video can be easily previewed, selected and then stored as part of your content. In this example we store the video embed URL in Contentful so the video can be embedded easily.
+[https://www.contentful.com](Contentful) is a content management platform for web applications, mobile apps and connected devices. It allows you to create, edit & manage content in the cloud and publish it anywhere via powerful API. Contentful offers tools for managing editorial teams and enabling cooperation between organizations.
 
 ![Screenshot of Wistia extension](http://contentful.github.io/extensions/assets/wistia.gif)
 
-### Requirements
+This extension loads videos from a [wistia project](http://wistia.com/doc/projects) into the Contentful Web App. You can then preview, select and store the video as part of your content.
 
-- Contentful
-    - a space to use the extension and the space id
-    - an api key for Contentful's Mangement API
-- Wistia
-    - an account with [wistia](http://wistia.com/)
-    - an API key from wistia, preferably with read-only permissions only
-- Local machine
-    - npm installed and configured on your system
+## Installation and usage
 
-### Installation
+[Check you have the requirements needed](../README.md#extensions-samples) to use our extensions and [have the extensions SDK installed](https://github.com/contentful/ui-extensions-sdk).
 
-- Clone the repository or download the repo as a [zip](https://github.com/contentful/ui-extensions-sdk/archive/master.zip)
+You will need an account on [wistia](http://wistia.com/) and an API key, preferably with read-only permissions.
+
+Install the dependencies needed with `npm install`.
+
+Create a _.env_ configuration file with your Contentful credentials:
+
 ```bash
-git clone git@github.com:contentful/ui-extensions-sdk.git
+export SPACE_ID=<space-id>
+export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=<content-management-access-token>
 ```
-- Navigate into the extension folder
-```bash
-cd examples/wistia
-```
-- Install dependencies
-```bash
-npm install
-```
-- Create a configuration file with your credentials for Contentful
-```bash
-touch .env
-echo "SPACE_ID={YOUR-SPACE-ID}" >> .env
-echo "CONTENTFUL_MANAGEMENT_ACCESS_TOKEN={YOUR-MANAGEMENT-TOKEN}" >> .env
 
+Add the variables to your environment.
+
+```bash
+source .env
 ```
-and replace space ID, management token and port accordingly.
 
-### Upload the extension to Contentful
+## Upload the extension to Contentful
 
-- Compile the bundle (index.html) which we are going to upload to our space
+Compile the bundle to an _index.html_ to upload to your space.
+
 ```bash
 npm run bundle
 ```
-- Create the extension in your space on Contentful
+
+Create the extension in your space:
+
 ```bash
 npm run extension:create
 ```
 
-### Update the extension
+## Update the extension
 
-- Make sure to update your bundle with webpack
-- Update the extension in your space on Contentful
+To update the extension, first update teh bundle with webpack and then update the extension in your space:
+
 ```bash
 npm run bundle
 npm run extension:update
 ```
 
-### Local development
+## Local development
 
-- Start a local server (replace your port if needed)
+Start a local server, changing the port if needed:
+
 ```bash
 python -m SimpleHTTPServer 3030
 ```
-- Tell contentful to render the extension from your local machine
+
+Tell Contentful to render the widget from your local machine:
+
 ```bash
 npm run bundle
 npm run extension:dev
 ```
 
-### Using the extension in the Contentful App
+The [same constraints](../README.md#debugging-on-your-local-environment) apply to loading unsafe scripts.
 
-Next, we will enable the extension in the Contentful App for a “Short text” field so that you can see it in action.
+## Using the extension in the Contentful web app
 
-In your space, choose any Content Type with a “Short text” field or create a new one. Then open the “Settings” dialog for a field and switch to the appearance tab. An extension with the name “Wistia video extension” should be visible at the end of the list. (Note that you need to reload the app after you uploaded a extension.) Select the extension from the list and save the Content Type. Finally you can open an entry for that Content Type and see the extension rendered.
+Enable the extension in the Contentful web app for a "Short text" field by opening the _Settings_ for a field and selecting the widget in the _appearance_ tab.

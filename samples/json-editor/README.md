@@ -1,38 +1,45 @@
 # JSON Editor extension
 
+[https://www.contentful.com](Contentful) is a content management platform for web applications, mobile apps and connected devices. It allows you to create, edit & manage content in the cloud and publish it anywhere via powerful API. Contentful offers tools for managing editorial teams and enabling cooperation between organizations.
+
 ![json-editor-ok](http://contentful.github.io/extensions/assets/json-editor.png)
 
-This extension provides a JSON formatter and validator based on the [Codemirror](http://codemirror.net) library.
+This extension provides a JSON formatter and validator for the Contentful web app based on the [Codemirror](http://codemirror.net) library. You can use this extension with 'Object' field types.
 
-It should be used with fields with the type “Object”.
+## Getting started with local development
 
+[Check you have the requirements needed](../README.md#extensions-samples) to use our extensions and [have the extensions SDK installed](https://github.com/contentful/ui-extensions-sdk).
 
-### Bootstrap example for local development
+Install the dependencies needed with `npm install`.
 
-First set the access token on your environment:
+Set the access token in your environment:
+
 ```bash
-export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=<contentfulManagementApiToken>
-```
-
-Move into example directory and install dependencies
-```bash
-cd examples/json-editor && npm install
+export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=<content-management-access-token>
 ```
 
 Create the extension:
+
 ```bash
 contentful-extension create --space-id <yourSpaceId>
 ```
 
-Serve on http://:::3000
+Serve on _<http://localhost:3000>_ using Gulp, automatically watching and reserving any changes:
+
 ```bash
-gulp
+gulp watch
 ```
 
-### Upload extension
-If you want to inline all dependencies and upload the extension entirely to Contentful:
-```bash
-contentful-extension update --descriptor extension.debug.json --space-id <yourSpaceId> --force
-```
+The [same constraints](../README.md#debugging-on-your-local-environment) apply to loading unsafe scripts.
 
-Please note that as soon as the concatenated file gets over 200k, you'll have to host it on your own server, using HTTPS and with CORS enabled.
+## Using the extension in production
+
+To help reduce the code size when used in production, we recommend you take the following steps when using it in production:
+
+- Host it on your own environment, using HTTPS and CORS enabled.
+- Update the _extension.prod.json_ file to reflect your server details.
+- Update your space using the new description file:
+
+  ```bash
+  contentful-extension update --descriptor extension.prod.json --force --space-id <yourSpaceId>
+  ```

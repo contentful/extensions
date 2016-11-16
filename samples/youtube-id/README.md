@@ -5,6 +5,10 @@ YouTube ID
 
 This extension extracts the video ID from a YouTube URI.
 
+### Installation and usage
+
+Ensure you checked [the samples requirements listed here](../README.md).
+
 Compile the extension:
 
 ```bash
