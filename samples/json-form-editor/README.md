@@ -26,7 +26,7 @@ Serve on _<http://localhost:3000>_ using Gulp, automatically watching and reserv
 gulp watch
 ```
 
-The [same constraints](../README.md) relative to loading unsafe scripts apply.
+The [same constraints](../README.md#debugging-on-your-local-environment) apply to loading unsafe scripts.
 
 ## Using the extension in production
 

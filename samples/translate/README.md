@@ -39,7 +39,7 @@ npm start
 
 Your extension will now be accessible in the Contentful web app. To use the extension, create a content type with a field of type 'Symbol' or 'Text'. You will need to enable localization on the field to use the translation feature.
 
-The [same constraints](../README.md) relative to loading unsafe scripts apply.
+The [same constraints](../README.md#debugging-on-your-local-environment) apply to loading unsafe scripts.
 
 ### Upload extension
 

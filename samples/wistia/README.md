@@ -65,7 +65,7 @@ npm run bundle
 npm run extension:dev
 ```
 
-The [same constraints](../README.md) relative to loading unsafe scripts apply.
+The [same constraints](../README.md#debugging-on-your-local-environment) apply to loading unsafe scripts.
 
 ## Using the extension in the Contentful web app
 

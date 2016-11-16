@@ -47,7 +47,7 @@ Tell Contentful to render the widget from your local machine:
 npm run dev
 ```
 
-The [same constraints](../README.md) relative to loading unsafe scripts apply.
+The [same constraints](../README.md#debugging-on-your-local-environment) apply to loading unsafe scripts.
 
 ## Update the extension
 
