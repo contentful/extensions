@@ -25,5 +25,5 @@ If you need to go back to the locally hosted version, you must run `make update-
 
 The [same constraints](../README.md#debugging-on-your-local-environment) apply to loading unsafe scripts.
 
-Learn more about Alloy editor:
+Learn more about [Alloy editor][alloy]
 [alloy]: http://alloyeditor.com/
