@@ -22,7 +22,8 @@ Once you're done with testing the local environment:
 * Run `make update-force` to update the extension using the built version as a source, hosted on Contentful
 
 If you need to go back to the locally hosted version, you must run `make update-local`.
-In such case, the [same constraints](../README.md) relative to loading unsafe scripts apply.
+
+The [same constraints](../README.md#debugging-on-your-local-environment) apply to loading unsafe scripts.
 
 Learn more about Alloy editor:
 [alloy]: http://alloyeditor.com/
