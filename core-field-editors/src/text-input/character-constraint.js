@@ -28,19 +28,21 @@ export function makeChecker (constraint) {
 }
 
 export function fromFieldValidations (type, validations = []) {
-  let sizeValidation = find(validations, (v) => 'size' in v)
-  sizeValidation = (sizeValidation && sizeValidation.size) || {}
+  const sizeValidation = find(validations, (v) => 'size' in v)
+  const size = (sizeValidation && sizeValidation.size) || {}
+  const min = size.min
+  let max = size.max
 
-  if (type === 'Symbol' && !isNumber(sizeValidation.max)) {
-    sizeValidation.max = 256
+  if (type === 'Symbol' && !isNumber(max)) {
+    max = 256
   }
 
-  if (isNumber(sizeValidation.min) && isNumber(sizeValidation.max)) {
-    return Constraint.MinMax(sizeValidation.min, sizeValidation.max)
-  } else if (isNumber(sizeValidation.min)) {
-    return Constraint.Min(sizeValidation.min)
-  } else if (isNumber(sizeValidation.max)) {
-    return Constraint.Max(sizeValidation.max)
+  if (isNumber(min) && isNumber(max)) {
+    return Constraint.MinMax(min, max)
+  } else if (isNumber(min)) {
+    return Constraint.Min(min)
+  } else if (isNumber(max)) {
+    return Constraint.Max(max)
   } else {
     return Constraint.None()
   }
