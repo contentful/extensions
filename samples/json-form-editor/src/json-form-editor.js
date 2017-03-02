@@ -7,37 +7,36 @@
 
 var cfExt = window.contentfulExtension || window.contentfulWidget;
 
-cfExt.init(initContentfulJsonFormEditor);
+var cfApi = null
 
-function initContentfulJsonFormEditor (cfApi) {
-  cfApi.window.startAutoResizer();
+var editorElem = createElement('div', {className: 'jfe-editor-root'});
+var editor = new JSONEditor(editorElem, {
+  theme: 'contentful',
+  schema: window.CONTENTFUL_FORM_EDITOR_SCHEMA,
+  no_additional_properties: true,
+  required_by_default: true,
+  disable_collapse: true,
+  disable_properties: true,
+  show_errors: 'always'
+});
+editor.on('change', inputChanged);
 
-  var editorElem = createElement('div', {className: 'jfe-editor-root'});
-  var editor = new JSONEditor(editorElem, {
-    theme: 'contentful',
-    schema: window.CONTENTFUL_FORM_EDITOR_SCHEMA,
-    no_additional_properties: true,
-    required_by_default: true,
-    startval: cfApi.field.getValue(),
-    disable_collapse: true,
-    disable_properties: true,
-    show_errors: 'always'
-  });
-  editor.on('change', inputChanged);
+function inputChanged () {
+  cfApi && cfApi.window.updateHeight();
+  validateAndSave();
+}
 
-  function inputChanged () {
-    cfApi.window.updateHeight();
-    validateAndSave();
+var validateAndSave = debounce(function () {
+  var errors = editor.validate();
+
+  if (errors.length === 0) {
+    save()
   }
+}, 150);
 
-  var validateAndSave = debounce(function () {
-    var errors = editor.validate();
-
-    if (errors.length === 0) {
-      var currentJSON = editor.getValue();
-      cfApi.field.setValue(currentJSON);
-    }
-  }, 150);
+var save = function () {
+  var currentJSON = editor.getValue()
+  if (cfApi) cfApi.field.setValue(currentJSON)
 }
 
 function createElement (elem, opts, parent) {
@@ -66,3 +65,9 @@ function debounce (func, wait) {
     if (!timeout) func.apply(context, args);
   };
 }
+
+cfExt.init(function (api) {
+  cfApi = api
+  cfApi.window.startAutoResizer();
+  editor.setValue(cfApi.field.getValue())
+});
