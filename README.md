@@ -72,16 +72,6 @@ Form input gets stored as a JSON object.
 This example translates text from the default locale to other locales in a space
 using the Yandex translation API.
 
-#### [Wistia Videos](./samples/wistia)
-
-![Screenshot of Wistia extension](http://contentful.github.io/extensions/assets/wistia.gif)
-
-This example loads videos from a [project](http://wistia.com/doc/projects) on
-[wistia](http://wistia.com/) into the Contentful Web Application. A video can be
-easily previewed, selected and then stored as part of your content. In this
-example extension we store the video embed URL in Contentful so the video can be
-embedded easily.
-
 #### [YouTube ID](./samples/youtube-id)
 
 ![youtube-id](http://contentful.github.io/extensions/assets/youtube-id.png)
