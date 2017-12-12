@@ -1,10 +1,10 @@
 # JSON Form Editor extension
 
-[https://www.contentful.com](Contentful) is a content management platform for web applications, mobile apps and connected devices. It allows you to create, edit & manage content in the cloud and publish it anywhere via powerful API. Contentful offers tools for managing editorial teams and enabling cooperation between organizations.
+[Contentful](https://www.contentful.com) is a content management platform for web applications, mobile apps, and connected devices. It allows you to create, edit, and manage content in the cloud and publish it anywhere via powerful APIs. Contentful offers tools for managing editorial teams and enabling cooperation between organizations.
 
 ![json-form-editor](http://contentful.github.io/extensions/assets/json-form-editor.png)
 
-This extension provides a JSON form editor based on the [JSON Editor](https://github.com/jdorn/json-editor)) library. You can use this extension with 'Object' field types.
+This extension provides a JSON form editor (based on the [JSON Editor](https://github.com/jdorn/json-editor)) library. You can use this extension with 'Object' field types.
 
 The extension generates a form based on a [JSON Schema](https://json-schema.org/) defined in _json-form-editor.js_. The generated form allows you to create JSON objects that are valid against that schema.
 
