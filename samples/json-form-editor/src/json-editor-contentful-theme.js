@@ -34,6 +34,7 @@ JSONEditor.defaults.themes.contentful = (function (JSONEditor) {
     }),
     getHeaderButtonHolder: 'jfe-button-holder',
     getSelectInput: 'cf-form-input',
+    getTextareaInput: 'cf-form-input',
     getSwitcher: function (options) {
       var el = this.getSelectInput(options);
       el.className += ' jfe-switcher';
