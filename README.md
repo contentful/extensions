@@ -96,3 +96,7 @@ updated automatically. The extension also supports *collaborative editing*. If
 two editors open the same entry moves will be synced between them. It highlights
 the flexibility and potential of solutions that can be built using the UI
 Extensions SDK.
+
+#### [Inbound References](./samples/inbound-references)
+
+This example provides a sidebar widget that shows all the entries that link to a given entry in the sidebar.

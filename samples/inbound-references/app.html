@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Rating Dropdown Widget</title>
+    <!--
+    Include styles from the Contentful app.
+
+    See http://contentful.github.io/ui-extensions-sdk/styleguide for information on
+    how to include and apply these styles.
+     -->
+    <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
+    <style>
+     body { margin: 0; }
+     #entries { margin-top: 1em; }
+     #entries-list { margin-top: 1em; }
+     #rating { margin-right: 1em; }
+    </style>
+
+    <!--
+    Load the Extensions API that is used to communicate with the containing app.
+    -->
+    <script src="https://contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+  </head>
+  <body>
+    <div id="entries">
+      <ul id="entries-list"></ul>
+    </div>
+    <script>
+
+      // This is the main entry point for extensions.
+      //
+      // The extension API reference explains in detail what you can do with
+      // the 'api' object.
+      var cfExt = window.contentfulExtension || window.contentfulWidget
+      cfExt.init(function (api) {
+
+        // Whenever the size of this document changes we adjust the size of
+        // the IFrame in the Contentful App.
+        api.window.startAutoResizer()
+
+        var metaData = api.entry.getSys()
+        console.log(metaData)
+
+        getLinkedEntries()
+          .then((entries) => {
+            const cts = getContentTypesForEntries(entries)
+
+            return cts.then((contentTypes) => {
+              return renderEntries(entries, contentTypes)
+            })
+          });
+
+        // Get a list of entries that reference this entry
+        //
+        // Makes a request to the Contentful CMA using the Widget API
+        function getLinkedEntries () {
+          var query = {
+            'links_to_entry': metaData.id
+          }
+
+          return api.space.getEntries(query)
+        }
+
+        function getContentTypesForEntries (entries) {
+          const ctIds = entries.items.map((entry) => entry.sys.contentType.sys.id)
+
+          return api.space.getContentTypes({
+            'sys.id[in]': ctIds.join(',')
+          })
+        }
+
+        // Populates the #entries-list with links to the entries.
+        // If 'entries' is an empty array we show a message.
+        function renderEntries (entries, contentTypes) {
+          if (entries.items.length) {
+            var content = entries.items.map((entry) => {
+              const ct = contentTypes.items.find((ct) => ct.sys.id === entry.sys.contentType.sys.id)
+
+              return renderEntry(entry, ct)
+            })
+          } else {
+            content = '<li><em>no entries found</em></li>'
+          }
+          $('ul#entries-list').html(content)
+        }
+
+        function renderEntry (entry, contentType) {
+          var url = entryURL(entry)
+          const displayFieldValues = entry.fields[contentType.displayField]
+          const locale = displayFieldValues['en-US'] ? 'en-US' : Object.keys(displayFieldValues)[0]
+          const displayField = displayFieldValues[locale]
+
+          return '<li><a target="_blank" href="' + url + '">' + displayField + '</a></li>'
+        }
+
+        function entryURL (entry) {
+          var id = entry.sys.id
+          var space = entry.sys.space.sys.id
+
+          return 'https://app.contentful.com/spaces/' + space + '/entries/' + id
+        }
+      })
+
+    </script>
+  </body>
+</html>
