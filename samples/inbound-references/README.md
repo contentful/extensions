@@ -7,6 +7,8 @@ This extension shows inbound references to an entry in the sidebar.
 
 Ensure you checked [the samples requirements listed here](../README.md).
 
+![Screenshot of extension](https://github.com/contentful/extensions/raw/master/docs/assets/inbound-links-extension.png)
+
 Install extension for space:
 
 ```bash
