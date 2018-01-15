@@ -105,7 +105,7 @@ contentful-extension update --space-id MY_SPACE_ID --force
 ~~~
 
 You can go on from here by having a look at the
-[UI Extensions API documentation](ui-ext-api-doc) documentation.
+[UI Extensions API documentation](https://github.com/contentful/ui-extensions-sdk/blob/master/docs/ui-extensions-sdk-frontend.md) documentation.
 
 
 [static-one-liners]: https://gist.github.com/willurd/5720255
