@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>External API UI Extension Sample</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
+    <script src="https://contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+  </head>
+  <body>
+    <div id="content">
+        <select id="user-id" class="cf-form-input">
+        </select>
+    </div>
+    <script type="text/javascript">
+      window.contentfulExtension.init(function (api) {
+        var value = api.field.getValue()
+        var dd = api.field;
+        var serviceUri = "https://jsonplaceholder.typicode.com/users";
+
+        $.ajax({
+            url: serviceUri,
+            type: "GET",
+            crossDomain: true,
+            dataType: "json",
+            success: function (response) {
+                $.each(response, function(index, value) {
+                    $("#user-id").append("<option value='" + value.id + "'>" + value.name + "</option>");
+                });
+                $("#user-id").val(dd.getValue());
+            },
+            error: function (xhr, status) {
+                console.log("error");
+            }
+        });
+
+        $("#user-id").on('input', function() {
+            dd.setValue(this.value);
+        });
+      })
+    </script>
+  </body>
+</html>
