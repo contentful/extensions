@@ -71,7 +71,14 @@
       // Load published value from CDA.
       loadPublishedValue(entry.getSys().id)
           .then(function (entries) {
-                publishedValue = entries.items[0].fields[fieldId][fieldLocale];
+                var field = entries.items[0].fields[fieldId];
+                if (field !== undefined) {
+                  publishedValue = field[fieldLocale];
+                } else {
+                  // An empty string was published.
+                  publishedValue = "";
+                }
+                
                 draftTextEl.disabled = false;
                 renderDiff();
               }
