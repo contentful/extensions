@@ -2,5 +2,5 @@
     "id": "external-api-dropdown",
     "name": "External API Dropdown",
     "srcdoc": "./app.html",
-    "fieldTypes": ["Text"]
+    "fieldTypes": ["Symbol", "Text"]
 }
