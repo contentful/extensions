@@ -8,21 +8,21 @@ All the samples require the following dependencies:
 
 ### Contentful
 
-- a space to use the widget and the space id.
-- an API key for Contentful's Mangement API.
+- A space to use the widget and the space id.
 
 ### Local machine
 
+
+- The [contentful cli](https://github.com/contentful/contentful-cli) for uploading extensions to Contentful.
 - [npm](https://www.npmjs.com/) installed and configured for dependencies management.
-- [gulp](http://gulpjs.com/) for building most samples.
-- The [contentful-extension](https://github.com/contentful/contentful-extension-cli) npm module for uploading extensions to Contentful.
+- [gulp](http://gulpjs.com/) for building some samples.
 
 ## Common preparation steps
 
-Each sample will need you to set [your management API token](https://www.contentful.com/developers/docs/references/authentication/) and install the dependencies for the extension:
+Each sample will need you to use the [Contentful CLI](https://github.com/contentful/contentful-cli) and install the dependencies for the extension:
 
 ```bash
-export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=<content-management-access-token>
+contentful login
 npm install
 ```
 

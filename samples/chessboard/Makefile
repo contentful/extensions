@@ -1,5 +1,4 @@
 # Uncomment and add your authentication info and space id below
-# export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=<your token here>
 # export SPACE=<id of space where you want to install this extension>
 
 GH_PAGES_URL=https://contentful.github.io/ui-extensions-sdk/examples/chessboard/
@@ -14,12 +13,12 @@ build:
 	cp -fr index.html app.js vendor/chessboard/* dist/
 
 update: extension.json
-	contentful-extension update --space-id $(SPACE) --force
+	contentful extension update --space-id $(SPACE) --force
 
 update-gh: extension.json
-	contentful-extension update --space-id $(SPACE) --force --src "$(GH_PAGES_URL)"
+	contentful extension update --space-id $(SPACE) --force --src "$(GH_PAGES_URL)"
 
 create: extension.json
-	contentful-extension create --space-id $(SPACE)
+	contentful extension create --space-id $(SPACE)
 
 .PHONY: build

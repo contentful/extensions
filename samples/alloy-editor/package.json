@@ -6,7 +6,6 @@
   "author": "Contentful GmbH",
   "license": "ISC",
   "devDependencies": {
-    "contentful-extension-cli": "^2.0.0"
   },
   "dependencies": {
   }
