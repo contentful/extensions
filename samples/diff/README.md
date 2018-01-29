@@ -6,7 +6,7 @@ The diff editor extension shows the diff between the draft value and the publish
 
 ## Installation and usage
 
-Check you have the [requirements](../README.md#requirements) needed to use our extensions.
+Check you have the [requirements](../README.md#requirements) needed to use extensions.
 
 ## Local development
 
@@ -19,7 +19,7 @@ python -m SimpleHTTPServer 3030
 Don't use the `extension.json` descriptor file but instead use 3rd party hosting from `localhost`
 
 ```bash
-contentful extension update --force --src 'http://localhost:3030/index.html' --id diff --name diff -field-types Symbol -field-types Text
+contentful extension update --force --src 'http://localhost:3030/index.html' --id diff --name diff --field-types Symbol -field-types Text
 ```
 
 The [same constraints](../README.md#debugging-on-your-local-environment) apply to loading unsafe scripts.
