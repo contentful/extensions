@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Ace Editor Extension</title>
+    <!--
+    Include styles from the Contentful app.
+
+    See http://contentful.github.io/ui-extensions-sdk/styleguide for information on
+    how to include and apply these styles.
+     -->
+    <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
+    <style>
+      body { margin: 0; }
+      #editor {
+        min-height: 300px;
+      }
+    </style>
+    <!--
+    Load the Extensions API that is used to communicate with the containing app.
+    -->
+    <script src="https://contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+    <!--
+    We use lodash.throttle to avoid spamming the API with changes
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+    <!--
+    Include ace editor core script.
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.2.9/src-min-noconflict/ace.js"></script>
+    <!--
+    Add editor theme and syntax highlighting mode scripts.
+    Find more here: https://www.jsdelivr.com/package/npm/ace-builds?path=src-min
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.2.9/src-min-noconflict/mode-handlebars.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.2.9/src-min-noconflict/theme-monokai.js"></script>
+  </head>
+  <body>
+    <pre id="editor"></pre>
+    <script>
+      // This is the main entry point for extensions.
+      //
+      // The extension API reference explains in detail what you can do with
+      // the 'api' object.
+      var cfExt = window.contentfulExtension || window.contentfulWidget
+      cfExt.init(function (api) {
+        function updateFieldValue () {
+          var value = editor.getValue()
+          api.field.setValue(value)
+        }
+        // Whenever the size of this document changes we adjust the size of
+        // the IFrame in the Contentful App.
+        api.window.startAutoResizer()
+
+        // Get the field value from the UI Extension SDK
+        var value = api.field.getValue() || ''
+        document.getElementById('editor').innerText = value
+
+        // Configure Ace editor
+        var editor = ace.edit('editor')
+        editor.setTheme('ace/theme/monokai')
+        editor.session.setMode('ace/mode/handlebars')
+
+        // Listen to change events and fire an update every 500ms
+        editor.on('change', _.throttle(updateFieldValue, 500, { leading: false }))
+      })
+    </script>
+  </body>
+</html>
