@@ -14,30 +14,24 @@ number values to the API depending on the selection. It also allows the
 user to request a list of entries with the same value at the field the
 extension is attached to.
 
-Before you get started, please make sure you have the
-`contentful-extension` command available in your path. The
-[UI Extensions SDK Readme][readme-getting-started] explains how to install it.
+[Check you have the requirements needed](../README.md#extensions-samples) to use our extensions.
 
 [readme-getting-started]: https://github.com/contentful/ui-extensions-sdk#getting-started
 
 ## Uploading the extension to a space
 
 The first step is to have two files which define the extension in a local folder:
-* [`extension.json`](./extension.json) containing meta data (more info on the format of this file [here](https://github.com/contentful/contentful-extension-cli#descriptor-files))
+* [`extension.json`](./extension.json) containing meta data (more info on the format of this file [here](../../README.md#descriptor-files))
 * [`app.html`](./app.html) containing markup and logic
 
 The second step is to register the extension with the Contentful API to
 make the Contentful App aware of its existence.
 
 ~~~bash
-export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=abcdefg
-contentful-extension create --space-id MY_SPACE_ID
+contentful extension create --space-id MY_SPACE_ID
 ~~~
 
-The command requires an access token to talk to the Contenful API. Our
-documentation explains [how to obtain a token][getting-token].
-
-The `contentful-extension` command will upload the data defined in
+The `contentful extension` command will upload the data defined in
 [`extension.json`](./extension.json) and register it with our app.
 The `extension.json` file look like this.
 
@@ -53,11 +47,7 @@ The `extension.json` file look like this.
 The file references `app.html` which contains the code loaded by the
 Contentful App.
 
-Checkout the documentation for the [`contentful-extension` CLI
-tool][cf-extension-descriptor] for more information on the `extension.json` files.
-
-[cf-extension-descriptor]: https://github.com/contentful/contentful-extension-cli#descriptor-files
-[getting-token]: https://www.contentful.com/developers/docs/references/authentication/#getting-an-oauth-token
+Checkout the documentation [here](../../README.md#descriptor-files) for more information on the `extension.json` files.
 
 
 ## Using the extension in the Contentful App
@@ -79,7 +69,7 @@ and see the extension rendered.
 To simplify development you can host your extension locally.
 
 ~~~bash
-contentful-extension update --space-id MY_SPACE_ID --force --src "http://localhost:8000/app.html"
+contentful extension update --space-id MY_SPACE_ID --force --src "http://localhost:8000/app.html"
 python -m SimpleHTTPServer 8000
 ~~~
 
@@ -101,7 +91,7 @@ browser page, your changes will be reflected in the extension.
 If you want to deploy the code from `app.html` directly again, without
 having to serve it locally, you can run
 ~~~bash
-contentful-extension update --space-id MY_SPACE_ID --force
+contentful extension update --space-id MY_SPACE_ID --force
 ~~~
 
 You can go on from here by having a look at the

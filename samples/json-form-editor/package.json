@@ -8,7 +8,6 @@
     "json-editor": "^0.7.23"
   },
   "devDependencies": {
-    "contentful-extension-cli": "^2.0.0",
     "gulp": "^3.9.0",
     "merge-stream": "^1.0.0",
     "gulp-inline-source": "^2.1.0",

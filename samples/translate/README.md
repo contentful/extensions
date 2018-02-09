@@ -8,20 +8,18 @@ This extension translates text from the default locale to other locales in a spa
 
 ## Installation and usage
 
-[Check you have the requirements needed](../README.md#extensions-samples) to use our extensions and [have the extensions SDK installed](https://github.com/contentful/ui-extensions-sdk).
+[Check you have the requirements needed](../README.md#extensions-samples) to use our extensions.
 
-Install the dependencies needed with `npm install`.
-
-Set your access token in your environment:
+### Install the dependencies
 
 ```bash
-export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=<content-management-access-token>
+npm install
 ```
 
-Create the extension:
+### Create the extension:
 
 ```bash
-contentful-extension create --space-id <yourSpaceId>
+contentful extension create --space-id <yourSpaceId>
 ```
 
 Serve on _<http://localhost:3000>_:
@@ -46,11 +44,11 @@ The [same constraints](../README.md#debugging-on-your-local-environment) apply t
 If you want to inline all dependencies and upload the extension to Contentful, run the following command:
 
 ```bash
-contentful-extension create --srcdoc ./dist/index.all.html --space-id <space-id> --force
+contentful extension create --srcdoc ./dist/index.all.html --space-id <space-id> --force
 ```
 
 And to update the extension:
 
 ```bash
-contentful-extension update --srcdoc ./dist/index.all.html --space-id <space-id> --force
+contentful extension update --srcdoc ./dist/index.all.html --space-id <space-id> --force
 ```

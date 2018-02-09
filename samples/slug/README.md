@@ -18,9 +18,8 @@ Ensure you checked [the samples requirements listed here](../README.md).
 Install dependencies if not done already through `npm install`.
 
 You then need to update the [Makefile](./Makefile), uncomment and update the
-following lines:
+following line:
 ```Makefile
-export CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=<your token>
 export SPACE=<id of space you want to install the extension for>
 ```
 
