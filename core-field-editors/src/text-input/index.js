@@ -1,7 +1,7 @@
 import throttle from 'lodash/throttle'
 
 import makeBoot from '../_shared/boot'
-import { FormInputClassList } from '../_shared/constants';
+import { FormInputClassList } from '../_shared/constants'
 import {State, input, createElement, h} from './framework'
 import createFieldProperties from './framework/extension-field-properties'
 import {fromProperty as component} from './framework/component'
@@ -51,7 +51,7 @@ export default function create (widgetApi) {
       input({
         value,
         disabled,
-        className: FormInputClassList,
+        className: FormInputClassList.join(' '),
         oninput: (ev) => setValue(ev.target.value),
         'aria-invalid': invalid ? 'true' : undefined,
       }),
