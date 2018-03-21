@@ -11,7 +11,7 @@ export default function create (api, opts = {}) {
   const document = opts.document || window.document
 
   const textarea = document.createElement('textarea')
-  textarea.classList.add(FormInputClassList)
+  textarea.classList.add(...FormInputClassList)
   const field = api.field
   const updateInput = createUpdater(textarea, document)
 
