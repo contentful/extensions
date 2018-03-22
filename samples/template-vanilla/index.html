@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <!-- UI Extensions CSS from Contentful. -->
+  <link rel="stylesheet" href="//contentful.github.io/ui-extensions-sdk/cf-extension.css">
+  <!-- Contenful UI Extensions SDK API -->
+  <script src="//contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+</head>
+
+<body>
+
+  <!-- Extension DOM Elements -->
+  <div class="cf-form-field">
+    <input type="text" class="cf-form-input">
+    <div class="cf-form-hint">
+      <span class="diff-text">I am a UI Extension.</span>
+    </div>
+  </div>
+
+  <script>
+    function myExtension(extensionsApi) {
+
+      // Initialize auto-sizing of the parent iframe.
+      extensionsApi.window.startAutoResizer();
+
+      var textEl = document.querySelector('.cf-form-input');
+
+      var field = extensionsApi.field;
+      var entry = extensionsApi.entry;
+
+      // Callbacks for changes on the field or the entry.sys object.
+      // Detach functions will be used to clean up the callbacks.
+      var detachValueChanged = field.onValueChanged(onValueChanged);
+      var detachSysChanged = entry.onSysChanged(onSysChanged);
+
+      window.addEventListener('onbeforeunload', onBeforeUnloadHandler);
+
+      textEl.addEventListener('input', keyboardInputHandler);
+
+      // Callback if field value is changed by external event (e.g. when multiple editors are working on the same entry).
+      function onValueChanged(value) {
+        if (!value) return;
+        textEl.value = value;
+      }
+
+      // Callback if entry's sys value changed.
+      function onSysChanged(sys) {
+        // Handle changes of sys.
+      }
+
+      // Event handler for keyboard input.
+      function keyboardInputHandler(event) {
+        field.setValue(textEl.value);
+      }
+
+      // Event handler for window unload.
+      function onBeforeUnloadHandler(event) {
+        window.removeEventListener('onbeforeunload', onBeforeUnloadHandler);
+        textEl.removeEventListener('input', keyboardInputHandler);
+        detachValueChanged();
+        detachSysChanged();
+      }
+    }
+
+    window.contentfulExtension.init(myExtension);
+  </script>
+
+</body>
+
+</html>

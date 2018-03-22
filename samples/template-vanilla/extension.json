@@ -1,0 +1,6 @@
+{
+  "id": "template-vanilla",
+  "name": "Vanilla UI Extension template.",
+  "srcdoc": "index.html",
+  "fieldTypes": ["Symbol", "Text"]
+}
