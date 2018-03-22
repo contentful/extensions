@@ -5,7 +5,7 @@ import * as DOM from 'support/dom'
 
 import createTextarea from 'src/textarea'
 
-describe('text-input', function () {
+describe('textarea', function () {
   beforeEach(function () {
     this.clock = sinon.useFakeTimers()
     this.doc = createDoc()
