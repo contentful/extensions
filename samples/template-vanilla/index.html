@@ -1,72 +1,67 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <!-- UI Extensions CSS from Contentful. -->
+  <meta charset="utf-8">
+  <!-- UI Extensions CSS -->
   <link rel="stylesheet" href="//contentful.github.io/ui-extensions-sdk/cf-extension.css">
-  <!-- Contenful UI Extensions SDK API -->
+  <!-- UI Extensions SDK -->
   <script src="//contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
 </head>
-
 <body>
-
-  <!-- Extension DOM Elements -->
+  <!-- Custom markup of the UI Extension -->
   <div class="cf-form-field">
     <input type="text" class="cf-form-input">
-    <div class="cf-form-hint">
-      <span class="diff-text">I am a UI Extension.</span>
-    </div>
+    <div class="cf-form-hint">I am a UI Extension.</div>
   </div>
 
+  <!-- Custom logic of the UI Extension -->
   <script>
-    function myExtension(extensionsApi) {
+    'use strict';
 
-      // Initialize auto-sizing of the parent iframe.
+    // When UI Extensions SDK is loaded the callback will be executed.
+    window.contentfulExtension.init(initExtension);
+
+    function initExtension (extensionsApi) {
+      // "extensionsApi" is providing an interface documented here:
+      // https://github.com/contentful/ui-extensions-sdk/blob/master/docs/ui-extensions-sdk-frontend.md
+
+      // Automatically adjust UI Extension size in the Web App.
       extensionsApi.window.startAutoResizer();
 
-      var textEl = document.querySelector('.cf-form-input');
+      var inputEl = document.querySelector('.cf-form-input');
 
+      //  The field this UI Extension is assigned to.
       var field = extensionsApi.field;
-      var entry = extensionsApi.entry;
 
-      // Callbacks for changes on the field or the entry.sys object.
-      // Detach functions will be used to clean up the callbacks.
-      var detachValueChanged = field.onValueChanged(onValueChanged);
-      var detachSysChanged = entry.onSysChanged(onSysChanged);
+      // Callback for changes of the field value.
+      var detachValueChangeHandler = field.onValueChanged(valueChangeHandler);
+      // Handle keyboard input.
+      inputEl.addEventListener('input', keyboardInputHandler);
+      // Handle DOM "onbeforeunload" event.
+      window.addEventListener('onbeforeunload', unloadHandler);
 
-      window.addEventListener('onbeforeunload', onBeforeUnloadHandler);
-
-      textEl.addEventListener('input', keyboardInputHandler);
-
-      // Callback if field value is changed by external event (e.g. when multiple editors are working on the same entry).
-      function onValueChanged(value) {
-        if (!value) return;
-        textEl.value = value;
-      }
-
-      // Callback if entry's sys value changed.
-      function onSysChanged(sys) {
-        // Handle changes of sys.
+      // Handler for external field value changes (e.g. when multiple authors are working on the same entry).
+      function valueChangeHandler (value) {
+        inputEl.value = value || '';
       }
 
       // Event handler for keyboard input.
-      function keyboardInputHandler(event) {
-        field.setValue(textEl.value);
+      function keyboardInputHandler () {
+        var value = inputEl.value;
+        if (typeof value !== 'string' || value === '') {
+          field.removeValue();
+        } else {
+          field.setValue(value);
+        }
       }
 
       // Event handler for window unload.
-      function onBeforeUnloadHandler(event) {
-        window.removeEventListener('onbeforeunload', onBeforeUnloadHandler);
-        textEl.removeEventListener('input', keyboardInputHandler);
-        detachValueChanged();
-        detachSysChanged();
+      function unloadHandler () {
+        window.removeEventListener('onbeforeunload', unloadHandler);
+        inputEl.removeEventListener('input', keyboardInputHandler);
+        detachValueChangeHandler();
       }
     }
-
-    window.contentfulExtension.init(myExtension);
   </script>
-
 </body>
-
 </html>
