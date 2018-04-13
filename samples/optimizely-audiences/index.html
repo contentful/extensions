@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Optimizely audiences</title>
+
+  <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      margin: 0;
+      background: none;
+      height: 130px;
+    }
+
+    select {
+      width: 100%;
+    }
+
+    .optimizely-logo {
+      height: 3em;
+      background: url(https://a.mtstatic.com/@public/production/site_6806/1461019488-logo.svg) no-repeat;
+      background-position: top -1em left -0px;
+      background-size: auto 4em;
+    }
+
+    .select2-choices {
+      min-height: 150px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .cf-field-error,
+    .cf-form-field {
+      display: none;
+    }
+  </style>
+  <script src="https://contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+</head>
+
+<body>
+  <p class="loading">Loading ...</p>
+  <p class="cf-field-error"></p>
+
+  <div class="cf-form-field">
+    <div class="select-container"></div>
+    <div class="cf-form-hint">
+      Please select the target audience for this content.
+    </div>
+    <div class="optimizely-logo"></div>
+  </div>
+
+
+
+  <script>
+    var cfExt = window.contentfulExtension || window.contentfulWidget;
+
+    cfExt.init(function (api) {
+      api.window.startAutoResizer();
+
+      $.ajax({
+        type: 'GET',
+        beforeSend: function (request) {
+          // Read-only api token for Optimizely test account. @TODO(floelhoeffel): Move to configuration.
+          request.setRequestHeader('Authorization', 'Bearer 2:5pj23ZOmd4X_pTPR50P_gwl3SjBguvmJ8o2gaqDj0DRg842OFUGc');
+        },
+        url: 'https://api.optimizely.com/v2/audiences?project_id=10467324025',
+        success: function (response) {
+
+          // Filter archived audiences.
+          var audiences = response.filter(function (item) {
+            return !item.archived
+          })
+
+          // Hide loader.
+          document.querySelector('.loading').style.display = 'none';
+          // Show form.
+          document.querySelector('.cf-form-field').style.display = 'block';
+
+          createDropDown(audiences);
+        },
+        error: function (response) {
+          showError(response.status + ' ' + response.statusText + ' - ' + response.responseJSON.message);
+        }
+      });
+
+      function showError(msg) {
+        document.querySelector('.loading').style.display = 'none';
+        var errorEl = document.querySelector('.cf-field-error');
+        errorEl.style.display = 'block';
+
+        errorEl.appendChild(document.createTextNode(msg));
+        document.querySelector('.cf-form-field').style.display = 'none';
+      }
+
+      function createDropDown(data) {
+
+        // Map structure of data so it can seed the dropdown
+        var dropdownData = data.map(function (data) {
+          return { 'id': data.id, 'text': data.name };
+        });
+
+        var selectEl = document.createElement('select');
+        selectEl.id = 'audiences-select'
+        selectEl.setAttribute('multiple', 'multiple')
+        document.querySelector('.select-container').append(selectEl);
+        var $select2 = $('#audiences-select').select2({
+          placeholder: 'Select audiences',
+          data: dropdownData
+        })
+
+        $select2.on('change', function (e) {
+          var fieldData = [];
+          $select2.select2('data').forEach(function (item) {
+            fieldData.push(item.id);
+          })
+          api.field.setValue(fieldData)
+        });
+
+        var cleanupHandler = api.field.onValueChanged(function () {
+          $select2.val(api.field.getValue());
+          $select2.trigger('change');
+        })
+      }
+    });
+
+  </script>
+</body>
+
+</html>
