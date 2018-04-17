@@ -1,6 +1,7 @@
 import throttle from 'lodash/throttle'
 import createUpdater from '../_shared/input-updater'
 import makeBooter from '../_shared/boot'
+import { FormInputClassList } from '../_shared/constants'
 
 // TODO this forces browserify to bundle the extensions SDK. We do not want to
 // do that when we use it internally. Maybe use some node flags.
@@ -10,7 +11,7 @@ export default function create (api, opts = {}) {
   const document = opts.document || window.document
 
   const textarea = document.createElement('textarea')
-  textarea.classList.add('cf-form-input')
+  textarea.classList.add(...FormInputClassList)
   const field = api.field
   const updateInput = createUpdater(textarea, document)
 

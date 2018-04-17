@@ -3,5 +3,5 @@
   "name": "Inbound references sidebar",
   "srcdoc": "./app.html",
   "sidebar": true,
-  "fieldTypes": ["Array", "Boolean", "Date", "Integer", "Number", "Object", "Symbol", "Link", "Location", "Text"]
+  "fieldTypes": ["Boolean", "Date", "Integer", "Number", "Object", "Symbol", "Location", "Text"]
 }

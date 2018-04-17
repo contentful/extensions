@@ -1,20 +1,13 @@
-YouTube ID
+Ace editor
 --------------
 
-![youtube-id](http://contentful.github.io/extensions/assets/youtube-id.png)
-
-This extension extracts the video ID from a YouTube URI.
+This extension shows how to implement the powerful [Ace editor](https://ace.c9.io/) as an extension for text fields.
 
 ### Installation and usage
 
 Ensure you checked [the samples requirements listed here](../README.md).
 
-Compile the extension:
-
-```bash
-npm install
-make
-```
+![Screenshot of extension](https://github.com/contentful/extensions/raw/master/docs/assets/ace-editor-extension.png)
 
 Install extension for space:
 
