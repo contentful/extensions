@@ -75,7 +75,7 @@ Extensions are managed within a Contentful space through the Content Management 
 Extensions can be hosted within the Contentful web app in two forms:
 
 - **Internally hosted:** The extension's source code was uploaded to Contentful as a bundled string where all local dependencies need to be inlined into one single file. Internal extensions are uploaded by using the `srcdoc` property and have a **limit of 200kb**. Use internal hosting if you don't want to host anything on your own and can accept the drawbacks (need for a non-standard build, file size limitation). Note that internal hosting is [not supported](https://caniuse.com/#feat=iframe-srcdoc) on Internet Explorer and Microsoft Edge.
-- **3rd party hosted:** The extension's source code was uploaded to a 3rd party server by using the `src` property. Relative links in the root HTML are supported as expected. Use 3rd party hosting when you want to be as flexible as possible with your development and deployment process. 
+- **3rd party hosted:** The extension's source code was uploaded to a 3rd party server by using the `src` property. Relative links in the root HTML are supported as expected. Use 3rd party hosting when you want to be as flexible as possible with your development and deployment process.
 
 ### Extension properties
 
@@ -96,7 +96,7 @@ sidebar | no | Boolean | Controls the location of the extension. If `true` it wi
 \*\* One of `src` or `srcdoc` is required.
 
 ### Descriptor files
-The properties of an extension can be stored in a descriptor JSON file for convenience. The descriptor file can be passed to the CLI so the properties don't have to be provided individually. 
+The properties of an extension can be stored in a descriptor JSON file for convenience. The descriptor file can be passed to the CLI so the properties don't have to be provided individually.
 
 #### 3rd party hosted
 ```JSON
@@ -181,7 +181,7 @@ This means that the CLI  needs to know the current version of the extension when
 If you don't want to use the `--version` option on every update or deletion, the alternative is to use `--force`. When the `--force` option is present the CLI will automatically use the latest version of the extension. Be aware that using `--force` option might lead to accidental overwrites if multiple people are working on the same extension.
 
 ### Programmatic usage
-If you need to manage extension programmatically consider using one of the [Content Management SDKs](https://www.contentful.com/developers/docs/platforms/) we are offering. 
+If you need to manage extension programmatically consider using one of the [Content Management SDKs](https://www.contentful.com/developers/docs/platforms/) we are offering.
 
 ---
 ### Resources
@@ -192,6 +192,6 @@ If you need to manage extension programmatically consider using one of the [Cont
 - [Contentful CLI][url-contentful-cli]
 
 [url-contentful-cli]: https://github.com/contentful/contentful-cli
-[url-contentful-cli-docs]: https://github.com/contentful/(contentful-cli/tree/master/docs/extension
+[url-contentful-cli-docs]: https://github.com/contentful/contentful-cli/tree/master/docs/extension
 [url-contentful]: https://www.contentful.com
 [url-extensions-sdk]: https://github.com/contentful/ui-extensions-sdk
