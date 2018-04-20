@@ -57,6 +57,8 @@ updated automatically. The extension also supports *collaborative editing*.
 
 [External API](./samples/external-api) demonstrates accessing an external API and storing the underlying data within contentful.
 
+[Shopify](./samples/shopify) integrates your shopify account to search and select products to display on your frontend.
+
 ## Managing extensions
 
 > tl;dr This section explains how to manage extensions in a Contentful space  through the Contentful CLI.

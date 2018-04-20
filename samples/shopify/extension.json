@@ -1,0 +1,6 @@
+{
+  "name": "Shopify Products",
+  "id": "contentful-ui-shopify",
+  "fieldTypes": ["Object"],
+  "srcdoc": "./index.html"
+}
