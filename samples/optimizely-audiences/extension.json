@@ -1,0 +1,6 @@
+{
+  "id": "optimizely-audiences",
+  "name": "Optimizely Audiences",
+  "fieldTypes": ["Object"],
+  "srcdoc": "index.html"
+}
