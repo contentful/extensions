@@ -130,7 +130,7 @@
       // Event handler for window unload.
       function unloadHandler() {
         window.removeEventListener('onbeforeunload', unloadHandler);
-        if (cleanupHandler) {
+        if (detachValueChangeHandler) {
           detachValueChangeHandler();
         }
       }
