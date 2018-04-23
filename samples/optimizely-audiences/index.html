@@ -6,7 +6,7 @@
   <title>Optimizely audiences</title>
 
   <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css">
 
   <style>
     body {
@@ -37,6 +37,7 @@
       display: none;
     }
   </style>
+
   <script src="https://contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
@@ -57,10 +58,11 @@
 
 
   <script>
-    var cfExt = window.contentfulExtension || window.contentfulWidget;
-
-    cfExt.init(function (api) {
+    window.contentfulExtension.init(function (api) {
       api.window.startAutoResizer();
+
+      var detachValueChangeHandler;
+      window.addEventListener('onbeforeunload', unloadHandler);
 
       $.ajax({
         type: 'GET',
@@ -73,7 +75,7 @@
 
           // Filter archived audiences.
           var audiences = response.filter(function (item) {
-            return !item.archived
+            return !item.archived;
           })
 
           // Hide loader.
@@ -99,33 +101,40 @@
 
       function createDropDown(data) {
 
-        // Map structure of data so it can seed the dropdown
+        // Map structure of data so it can seed the dropdown.
         var dropdownData = data.map(function (data) {
-          return { 'id': data.id, 'text': data.name };
+          return { id: data.id, text: data.name };
         });
 
         var selectEl = document.createElement('select');
-        selectEl.id = 'audiences-select'
-        selectEl.setAttribute('multiple', 'multiple')
+        selectEl.id = 'audiences-select';
+        selectEl.setAttribute('multiple', 'multiple');
         document.querySelector('.select-container').append(selectEl);
         var $select2 = $('#audiences-select').select2({
           placeholder: 'Select audiences',
           data: dropdownData
-        })
-
-        $select2.on('change', function (e) {
-          var fieldData = [];
-          $select2.select2('data').forEach(function (item) {
-            fieldData.push(item.id);
-          })
-          api.field.setValue(fieldData)
         });
 
-        var cleanupHandler = api.field.onValueChanged(function () {
+        $select2.on('change', function (e) {
+          var fieldData = $select2.select2('data').map(function (item) {
+            return item.id;
+          });
+          api.field.setValue(fieldData);
+        });
+
+        detachValueChangeHandler = api.field.onValueChanged(function () {
           $select2.val(api.field.getValue());
           $select2.trigger('change');
         })
       }
+      // Event handler for window unload.
+      function unloadHandler() {
+        window.removeEventListener('onbeforeunload', unloadHandler);
+        if (cleanupHandler) {
+          detachValueChangeHandler();
+        }
+      }
+
     });
 
   </script>
