@@ -67,11 +67,8 @@
       $.ajax({
         type: 'GET',
         beforeSend: function (request) {
-          // Read-only api token for Optimizely test account. @TODO(floelhoeffel): Move to configuration.
+          // Read-only api token for Optimizely test account.
           request.setRequestHeader('Authorization', 'Bearer ' + api.parameters.instance.token);
-
-
-
         },
         url: 'https://api.optimizely.com/v2/audiences?project_id=' + api.parameters.instance.projectId,
         success: function (response) {
@@ -118,7 +115,7 @@
           data: dropdownData
         });
 
-        $select2.on('change', function (e) {
+        $select2.on('change', function () {
           api.field.setValue(getSelection());
         });
 
