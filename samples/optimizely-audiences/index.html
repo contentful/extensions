@@ -38,7 +38,7 @@
     }
   </style>
 
-  <script src="https://contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+  <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 </head>
@@ -67,10 +67,10 @@
       $.ajax({
         type: 'GET',
         beforeSend: function (request) {
-          // Read-only api token for Optimizely test account. @TODO(floelhoeffel): Move to configuration.
-          request.setRequestHeader('Authorization', 'Bearer 2:5pj23ZOmd4X_pTPR50P_gwl3SjBguvmJ8o2gaqDj0DRg842OFUGc');
+          // Read-only api token for Optimizely test account.
+          request.setRequestHeader('Authorization', 'Bearer ' + api.parameters.instance.token);
         },
-        url: 'https://api.optimizely.com/v2/audiences?project_id=10467324025',
+        url: 'https://api.optimizely.com/v2/audiences?project_id=' + api.parameters.instance.projectId,
         success: function (response) {
 
           // Filter archived audiences.
@@ -115,17 +115,23 @@
           data: dropdownData
         });
 
-        $select2.on('change', function (e) {
-          var fieldData = $select2.select2('data').map(function (item) {
-            return item.id;
-          });
-          api.field.setValue(fieldData);
+        $select2.on('change', function () {
+          api.field.setValue(getSelection());
         });
 
         detachValueChangeHandler = api.field.onValueChanged(function () {
-          $select2.val(api.field.getValue());
-          $select2.trigger('change');
+          var value = api.field.getValue();
+          if (value.join(',') !== getSelection().join(',')) {
+            $select2.val(value);
+            $select2.trigger('change');
+          }
         })
+
+        function getSelection() {
+          return $select2.select2('data').map(function (item) {
+            return item.id;
+          });
+        }
       }
       // Event handler for window unload.
       function unloadHandler() {

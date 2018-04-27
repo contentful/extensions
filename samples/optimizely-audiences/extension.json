@@ -2,5 +2,19 @@
   "id": "optimizely-audiences",
   "name": "Optimizely Audiences",
   "fieldTypes": ["Object"],
-  "srcdoc": "index.html"
+  "srcdoc": "index.html",
+  "parameters": {
+    "instance": [
+      {
+        "id": "token",
+        "type": "Symbol",
+        "name": "Optimizely read-only token"
+      },
+      {
+        "id": "projectId",
+        "type": "Symbol",
+        "name": "Optimizely project id"
+      }
+    ]
+  }
 }
