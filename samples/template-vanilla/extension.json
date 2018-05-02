@@ -1,6 +1,20 @@
 {
   "id": "template-vanilla",
-  "name": "Vanilla UI Extension template.",
+  "name": "Vanilla UI Extension template",
   "srcdoc": "index.html",
-  "fieldTypes": ["Symbol", "Text"]
+  "fieldTypes": ["Symbol", "Text"],
+  "parameters": {
+    "instance": [
+      {
+        "id": "exampleParameter",
+        "type": "Symbol",
+        "name": "An example instance parameter"
+      }
+    ],
+    "installation": [{
+      "id": "exampleParameter",
+      "type": "Symbol",
+      "name": "An example installation parameter"
+    }]
+  }
 }
