@@ -1,7 +1,7 @@
 # Contentful Shopify Product UI Extension
 Add a custom UI field to Contentful that allows users to search and select Shopify products.
 
-![figure](https://raw.githubusercontent.com/suhmantha1/contentful-ui-shopify/master/Shopify-Product-Demo.gif "Contentful Shopify Product UI Extension demo")
+![figure](./shopify/Shopify-Product-Demo.gif "Contentful Shopify Product UI Extension demo")
 
 
 ## Installation
@@ -50,4 +50,4 @@ Update task will upload the extension to your space on Contentful.
 
 ## Ready to Use
 Shopify products are now available in your `content model`. Add a `JSON Object` field, and select `Shopify Products` in the `appearance` tab.
-![figure](https://raw.githubusercontent.com/suhmantha1/contentful-ui-shopify/master/shopify-object.png "Contentful Shopify Product UI Extension json object")
+![figure](./shopify/shopify-object.png "Contentful Shopify Product UI Extension json object")
