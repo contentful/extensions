@@ -3,15 +3,17 @@
 <head>
   <meta charset="utf-8">
   <!-- UI Extensions CSS -->
-  <link rel="stylesheet" href="//contentful.github.io/ui-extensions-sdk/cf-extension.css">
+  <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
   <!-- UI Extensions SDK -->
-  <script src="//contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+  <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
 </head>
 <body>
   <!-- Custom markup of the UI Extension -->
   <div class="cf-form-field">
     <input type="text" class="cf-form-input">
     <div class="cf-form-hint">I am a UI Extension.</div>
+    <div class="cf-form-hint">Instance params: <span class="instance-param-value"></span></div>
+    <div class="cf-form-hint">Installation params: <span class="installation-param-value"></span></div>
   </div>
 
   <!-- Custom logic of the UI Extension -->
@@ -32,6 +34,10 @@
 
       //  The field this UI Extension is assigned to.
       var field = extensionsApi.field;
+
+      document.querySelector('.instance-param-value').appendChild(document.createTextNode(extensionsApi.parameters.instance.exampleParameter))
+      document.querySelector('.installation-param-value').appendChild(document.createTextNode(extensionsApi.parameters.installation.exampleParameter))
+
 
       // Callback for changes of the field value.
       var detachValueChangeHandler = field.onValueChanged(valueChangeHandler);
