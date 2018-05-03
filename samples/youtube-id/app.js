@@ -14,7 +14,7 @@ cfExt.init((api) => {
   })
 
   $('input').on('input', function (ev) {
-    const match = ev.target.value.match(/youtube\.com\/watch\?v=(\w+)/)
+    const match = ev.target.value.match(/youtube\.com\/watch\?v=([\w_-]+)/)
 
     if (match) {
       api.field.setValue(match[1])
