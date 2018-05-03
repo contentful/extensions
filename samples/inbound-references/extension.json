@@ -1,7 +1,0 @@
-{
-  "id": "inbound-references",
-  "name": "Inbound references sidebar",
-  "srcdoc": "./app.html",
-  "sidebar": true,
-  "fieldTypes": ["Boolean", "Date", "Integer", "Number", "Object", "Symbol", "Location", "Text"]
-}
