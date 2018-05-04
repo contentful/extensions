@@ -1,0 +1,6 @@
+{
+    "id": "bacon_generator",
+    "name": "bacon generator",
+    "srcdoc": "./app.html",
+    "fieldTypes": ["Text"]
+}
