@@ -93,7 +93,9 @@
             })
 
             api.field.onValueChanged(function (data) {
-                baconTextBox.val(data);
+                if (baconTextBox.val() !== data) {
+                    baconTextBox.val(data);
+                }
             })
 
         })
