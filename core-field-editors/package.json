@@ -1,6 +1,6 @@
 {
   "name": "@contentful/field-editors",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
   "main": "lib/all.js",
   "scripts": {
