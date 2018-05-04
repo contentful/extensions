@@ -3,7 +3,7 @@
 ## Summary
 This extension hits the [BaconIpsum API](http://baconipsum.com/) and uses it to generate Bacon themed Lorem Ipsum text.
 
-![Screenshot of extension](bacon-screenshot.png "Screenshot of extension")
+![Screenshot of extension](http://contentful.github.io/extensions/assets/bacon-ipsum.png "Screenshot of extension")
 
 ## Description
 
