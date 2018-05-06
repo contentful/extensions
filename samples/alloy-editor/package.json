@@ -5,8 +5,6 @@
   "description": "",
   "author": "Contentful GmbH",
   "license": "ISC",
-  "devDependencies": {
-  },
-  "dependencies": {
-  }
+  "devDependencies": {},
+  "dependencies": {}
 }
