@@ -11,10 +11,12 @@
         "name": "An example instance parameter"
       }
     ],
-    "installation": [{
-      "id": "exampleParameter",
-      "type": "Symbol",
-      "name": "An example installation parameter"
-    }]
+    "installation": [
+      {
+        "id": "exampleParameter",
+        "type": "Symbol",
+        "name": "An example installation parameter"
+      }
+    ]
   }
 }

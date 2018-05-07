@@ -13,7 +13,7 @@
       {
         "id": "projectId",
         "type": "Symbol",
-        "name": "Optimizely project id"
+        "name": "Optimizely project ID"
       }
     ]
   }

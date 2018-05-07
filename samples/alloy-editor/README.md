@@ -9,8 +9,6 @@ This extension uses the [Alloy Text Editor][alloy] to edit text fields.
 
 Ensure you checked [the samples requirements listed here](../README.md).
 
-Install dependencies if not done already through `npm install`.
-
 Learn more about [Alloy editor][alloy]
 
 [alloy]: http://alloyeditor.com/

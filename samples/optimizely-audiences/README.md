@@ -6,9 +6,9 @@ This UI Extension shows how to make structured content personalisable. The idea 
 
 ## Requirements
 
-* a project at Optimizely and its `projectid`
+* a project at Optimizely and its ID
 * audiences created within that project
-* a personal access token with read-only access to the optimizely projects you'd like to expose to the UI Extension
+* a personal access token with read-only access to the Optimizely projects you'd like to expose to the UI Extension
 
 ## Usage
 

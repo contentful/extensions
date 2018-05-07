@@ -12,3 +12,29 @@
   Video ID <code></code> <button>✖</button>
 </p>
 <input class="form-control" size="50" placeholder="Paste in a Youtube URL">
+
+<script>
+var cfExt = window.contentfulExtension || window.contentfulWidget
+
+cfExt.init(function (api) {
+  var $code = $('code')
+
+  api.field.onValueChanged(function (value) {
+    $code.text(value || '')
+  })
+
+  $('button').on('click', function () {
+    $code.text('')
+    api.field.setValue(null)
+  })
+
+  $('input').on('input', function (ev) {
+    var match = ev.target.value.match(/youtube\.com\/watch\?v=([\w_-]+)/)
+
+    if (match) {
+      api.field.setValue(match[1])
+      $code.text(match[1])
+    }
+  })
+})
+</script>

@@ -1,7 +1,0 @@
-{
-  "name": "Diff extension for Contentful",
-  "version": "1.0.0",
-  "description": "Diffing UI extension for Contentful's web app.",
-  "author": "frederik@contentful.com",
-  "license": "MIT"
-}

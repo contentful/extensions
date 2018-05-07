@@ -7,5 +7,3 @@ This extension translates text from the default locale to other locales in a spa
 ## Installation and usage
 
 [Check you have the requirements needed](../README.md#extensions-samples) to use our extensions.
-
-
