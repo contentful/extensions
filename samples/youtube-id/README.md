@@ -9,13 +9,6 @@ This extension extracts the video ID from a YouTube URI.
 
 Ensure you checked [the samples requirements listed here](../README.md).
 
-Compile the extension:
-
-```bash
-npm install
-make
-```
-
 Install extension for space:
 
 ```bash

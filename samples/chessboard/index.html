@@ -1,16 +1,45 @@
 <!doctype html>
 <head>
   <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/oakmac-chessboard@1.0.0/src/chessboard.css">
   <style>
     button { margin-top: 1em }
   </style>
-  <link href="css/chessboard-0.3.0.min.css" rel="stylesheet">
-  <script src="js/chessboard-0.3.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-  <script src="https://contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/oakmac-chessboard@1.0.0/src/chessboard.min.js"></script>
+  <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
 </head>
 <body>
   <div id="board" style="width: 400px"></div>
   <button class="cf-btn-secondary">Reset</button>
-  <script src="app.js"></script>
+  <script>
+  var cfExtension = window.contentfulExtension || window.contentfulWidget
+  var ChessBoard = window.ChessBoard
+  var $ = window.$
+
+  cfExtension.init(function (api) {
+    var board = ChessBoard('board', {
+      pieceTheme: 'https://cdn.jsdelivr.net/npm/oakmac-chessboard@1.0.0/website/img/chesspieces/wikipedia/{piece}.png',
+      draggable: true,
+      dropOffBoard: 'trash',
+      onChange: function (old, current) {
+        api.field.setValue(current)
+      }
+    })
+    api.window.updateHeight()
+
+    board.position(api.field.getValue())
+
+    api.field.onValueChanged(function (p) {
+      if (!_.isEqual(p, api.field.getValue())) {
+        board.position(p)
+      }
+    })
+
+    $('button').on('click', function () {
+      board.start()
+    })
+  })
+  </script>
 </body>

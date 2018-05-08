@@ -19,11 +19,10 @@ All the samples require the following dependencies:
 
 ## Common preparation steps
 
-Each sample will need you to use the [Contentful CLI](https://github.com/contentful/contentful-cli) and install the dependencies for the extension:
+Each sample will need you to use the [Contentful CLI](https://github.com/contentful/contentful-cli):
 
 ```bash
 contentful login
-npm install
 ```
 
 ## Debugging on your local environment
