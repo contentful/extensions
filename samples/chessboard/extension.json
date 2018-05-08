@@ -1,6 +1,6 @@
 {
   "id": "chessboard",
   "name": "Chessboard",
-  "src": "index.html",
+  "srcdoc": "index.html",
   "fieldTypes": ["Object"]
 }
