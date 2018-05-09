@@ -59,6 +59,8 @@ updated automatically. The extension also supports *collaborative editing*.
 
 [Optimizely Audiences](./samples/optimizely-audiences) demonstrates how structured content can be tagged with audience Ids loaded from an Optimizely project.
 
+[Shopify](./samples/shopify) integrates your shopify account to search and select products to display on your frontend.
+
 ## Managing extensions
 
 > tl;dr This section explains how to manage extensions in a Contentful space  through the Contentful CLI.

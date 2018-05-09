@@ -1,0 +1,29 @@
+{
+  "name": "contentful-ui-shopify",
+  "version": "1.0.2",
+  "description": "Contentful UI extension to select Shopify products",
+  "main": "index.js",
+  "engines": {
+    "node": ">=7.6"
+  },
+  "scripts": {
+    "create": "contentful-extension create --space-id ${SPACE_ID}",
+    "update": "contentful-extension update --space-id ${SPACE_ID} --force"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suhmantha1/contentful-ui-shopify.git"
+  },
+  "keywords": [
+    "contentful"
+  ],
+  "author": "Samantha Combs <suhmantha1@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/suhmantha1/contentful-ui-shopify/issues"
+  },
+  "homepage": "https://github.com//suhmantha1/contentful-ui-shopify#readme",
+  "devDependencies": {
+    "contentful-extension-cli": "^2.0.0"
+  }
+}
