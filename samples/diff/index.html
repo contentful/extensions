@@ -30,7 +30,7 @@
 </div>
 
 <!-- Contenful UI Extensions SDK API -->
-<script src="//contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+<script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
 <!-- Diff Lib -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/jsdiff/2.2.2/diff.min.js"></script>
 
@@ -78,7 +78,7 @@
                   // An empty string was published.
                   publishedValue = "";
                 }
-                
+
                 draftTextEl.disabled = false;
                 renderDiff();
               }
@@ -163,7 +163,7 @@
      * @param val The newly changed value.
      */
     function onValueChanged(val) {
-      if (val) {
+      if (val && draftTextEl.value !== val) {
         draftTextEl.value = val;
       }
     }

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" >
+    <title>Bacon Ipsum UI Extension</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
+    <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
+</head>
+
+<body>
+    <div class="cf-form-field">
+        <div class="cf-form-field">
+          <textarea id="bacon_text" class="cf-form-input" aria-invalid="false"></textarea>
+          <div class="cf-field-error" id="baconErrorText" style='display: none;'>Something went wrong!</div>
+        </div>
+        <div class="cf-form-option">
+            <input type="checkbox" id="startWithLorem" >
+            <label for="startWithLorem">Start with Bacon ipsum dolor sit amet</label>
+        </div>
+        <div class="cf-form-field">
+           <label>Number of Paragraphs</label>
+          <select class="cf-form-input" id="numberOfParagraphs" aria-invalid="false">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <button id="bacon_button" class="cf-btn-primary">Generate Bacon</button>
+        <div class="cf-form-hint">
+            Get Bacon Themed Loren Ipsum Text.
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        window.contentfulExtension.init(function (api) {
+            api.window.startAutoResizer();
+            var value = api.field.getValue();
+
+            var baconTextBox = $("#bacon_text");
+            var numberOfParagraphsBox = $("#numberOfParagraphs");
+            var baconErrorTextBox = $("#baconErrorText");
+            var startWithLoremBox = $("#startWithLorem");
+
+
+            baconTextBox.val(value);
+
+            var baconUri = "https://baconipsum.com/api/?type=meat-and-filler&format=text";
+            var para = "&paras=";
+            var startWithLorem = "&start-with-lorem=";
+
+            var numberOfParagraphs = 1;
+            var startWithLoremStatus = 0;
+
+            $(function(){
+                $("#bacon_button").click(function() {
+
+                    constructedUri = baconUri + para + numberOfParagraphs + startWithLorem + startWithLoremStatus;
+
+                    $.get( constructedUri, function( data ) {
+                        baconTextBox.val(data);
+                        api.field.setValue(data);
+                        baconTextBox.attr('aria-invalid', 'false');
+                        numberOfParagraphsBox.attr('aria-invalid', 'false');
+                        baconErrorTextBox.hide();
+                     })
+                    .fail(function() {
+                        baconTextBox.attr('aria-invalid', 'true');
+                        numberOfParagraphsBox.attr('aria-invalid', 'true');
+                        baconErrorTextBox.show();
+                    });
+
+                });
+            });
+
+            baconTextBox.on("input", function () {
+                api.field.setValue(this.value);
+            })
+
+            numberOfParagraphsBox.on("input", function () {
+                numberOfParagraphs = this.value;
+            })
+
+            startWithLoremBox.on("input", function () {
+                if (startWithLoremStatus == 0 ){
+                    startWithLoremStatus =1;
+                }else{
+                    startWithLoremStatus = 0;
+                }
+            })
+
+            api.field.onValueChanged(function (data) {
+                if (baconTextBox.val() !== data) {
+                    baconTextBox.val(data);
+                }
+            })
+
+        })
+    </script>
+</body>
+
+</html>

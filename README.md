@@ -57,6 +57,8 @@ updated automatically. The extension also supports *collaborative editing*.
 
 [External API](./samples/external-api) demonstrates accessing an external API and storing the underlying data within contentful.
 
+[Optimizely Audiences](./samples/optimizely-audiences) demonstrates how structured content can be tagged with audience Ids loaded from an Optimizely project.
+
 [Shopify](./samples/shopify) integrates your shopify account to search and select products to display on your frontend.
 
 ## Managing extensions

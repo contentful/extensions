@@ -1,11 +1,172 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Custom Translate Widget</title>
-  <link rel="stylesheet" type="text/css" href="lib/cf-extension.css">
+  <link rel="stylesheet" type="text/css" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
+  <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
 </head>
+
 <body>
-  <script src="lib/cf-extension-api.js"></script>
-  <script src="translate.js"></script>
+  <script>
+    'use strict';
+
+    /**
+     * Custom translation ext using the UI extensions API.
+     * Translates text from the default locale to every other locales present in a space
+     * Uses the Yandex Translator Service - https://tech.yandex.com/translate/
+     */
+
+    +function () {
+      var ext = {};
+
+      // Hardcoding secrets for now
+      ext.apiKey = 'trnsl.1.1.20151015T080754Z.fac48f0d13a96c3a.c0c58058288c42ba40de8aec2b36d9d86c3adb1d';
+
+
+      ext.events = {
+        initialize: function (resp) {
+          // Define API
+          ext.cfApi = resp;
+          // Create HTML elements
+          ext.elements = {
+            input: createElement('input', { type: 'text', className: 'cf-form-input' }, createElement('p')),
+            populateAll: createElement('input', { type: 'submit', className: 'cf-btn-primary', value: 'Populate all other locales' })
+          };
+
+          // Attach event listeners
+          ext.elements.input.addEventListener('input', ext.events.textUpdated);
+          ext.elements.populateAll.addEventListener('click', ext.events.doTranslations);
+
+          // Watch for changes on the default language field
+          if (ext.cfApi.locales.default !== ext.cfApi.field.locale) {
+            var apiName = ext.cfApi.field.id;
+            ext.cfApi.entry.fields[apiName].onValueChanged(ext.cfApi.field.locale, ext.events.fieldsUpdated);
+          }
+
+          // Populate current values
+          ext.events.fieldsUpdated();
+
+          var isDefaultLocale = ext.cfApi.locales.default === ext.cfApi.field.locale;
+
+          // Hide Populate button on non-default locales
+          if (!isDefaultLocale) {
+            ext.uiUpdate.hideElement(ext.elements.populateAll);
+          }
+
+          // Set iframe size
+          ext.cfApi.window.updateHeight((isDefaultLocale ? 110 : 60));
+        },
+
+        fieldsUpdated: function () {
+          var currentValue = ext.cfApi.field.getValue();
+
+          // Show translate button when there is a value in the default locale
+          ext.uiUpdate.updateInput(currentValue);
+
+          // Show or hide translate button
+          if (ext.cfApi.locales.default === ext.cfApi.field.locale) {
+            ext.uiUpdate.enableElement(ext.elements.populateAll, !!currentValue);
+          } else {
+            // Save value
+            ext.cfApi.field.setValue(currentValue);
+          }
+        },
+
+        textUpdated: function () {
+          var val = ext.elements.input.value.toString();
+          ext.cfApi.field.setValue(val);
+          ext.events.fieldsUpdated();
+        },
+
+        doTranslations: function (ev) {
+          ev.preventDefault();
+          var currentLocale = ext.cfApi.field.locale;
+          var idx = ext.cfApi.locales.available.indexOf(currentLocale);
+          var arr = ext.cfApi.locales.available.slice();
+          arr.splice(idx, 1);
+          var languagePair;
+          var text = ext.cfApi.field.getValue();
+          arr.forEach(function (language) {
+            languagePair = getYandexCode(currentLocale, language);
+            getTranslation(text, languagePair, language);
+          });
+        }
+      };
+
+      ext.uiUpdate = {
+        updateInput: function (text) {
+          // because sometimes getValue() returns an empty object instead of null...
+          text = (typeof text === 'object') ? undefined : text;
+          ext.elements.input.value = text ? text : '';
+        },
+        enableElement: function (element, enabled) {
+          element.disabled = !enabled;
+        },
+        hideElement: function (element) {
+          element.style.display = 'none';
+        }
+      };
+
+      function callTranslateApi(text, lang) {
+        return new Promise(function (resolve, reject) {
+          var endpoint = 'https://translate.yandex.net/api/v1.5/tr.json/translate?key='
+            + ext.apiKey + '&lang=' + lang + '&text=' + encodeURIComponent(text);
+
+          var xhr = new XMLHttpRequest();
+
+          xhr.open('GET', endpoint, true);
+          xhr.send();
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              resolve(JSON.parse(xhr.response));
+            } else {
+              setTimeout(function () {
+                reject();
+              }, 200);
+            }
+          };
+        });
+      }
+
+      function createElement(elem, opts, parent) {
+        var e = document.createElement(elem);
+        var prop;
+        for (prop in opts) {
+          e[prop] = opts[prop];
+        }
+        parent = parent || document.body;
+        parent.appendChild(e);
+        return e;
+      }
+
+      // Call the translate API and insert the text into the correct locale
+      function getTranslation(text, lang, targetLocale) {
+        callTranslateApi(text, lang)
+          .then(function (resp) {
+            var translation = resp.text.join(' ');
+            var apiName = ext.cfApi.field.id;
+            ext.cfApi.entry.fields[apiName].setValue(translation, targetLocale);
+          });
+      }
+
+      // Map Contentful locales to Yandex locale code
+      function getYandexCode(fromLocale, toLocale) {
+        function getCode(cfLocale) {
+          var translationMap = {
+            'en-US': 'en',
+            'de-DE': 'de',
+            'fr-FR': 'fr'
+          };
+          return translationMap[cfLocale] ? translationMap[cfLocale] : cfLocale.substring(0, 2);
+        }
+        return getCode(fromLocale) + '-' + getCode(toLocale);
+      }
+
+      window.contentfulExtension.init(ext.events.initialize);
+
+    }();
+  </script>
 </body>
+
 </html>

@@ -1,6 +1,6 @@
 {
   "id": "translate",
   "name": "Translate Widget",
-  "src": "http://localhost:3000/",
+  "srcdoc": "index.html",
   "fieldTypes": ["Symbol", "Text"]
 }
