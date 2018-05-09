@@ -1,4 +1,4 @@
-# Contentful Shopify Product UI Extension
+# Contentful Shopify Product UI extension
 Add a custom UI field to Contentful that allows users to search and select Shopify products.
 
 ![figure](./Shopify-Product-Demo.gif "Contentful Shopify Product UI Extension demo")
@@ -7,8 +7,8 @@ Add a custom UI field to Contentful that allows users to search and select Shopi
 ## Installation
 
 ```sh
-git clone git@github.com:suhmantha1/contentful-ui-shopify.git
-cd contentful-ui-shopify
+git clone git@github.com:contentful/extensions.git
+cd extensions/samples/shopify
 npm install
 ```
 
@@ -28,17 +28,17 @@ Load environment variables
 source .env
 ```
 
-Add `Shopify` credentials in `index.html`. Replace `REPLACE_shopifyUrl` with your Shopify Url, which will be in the form `https://demo.myshopify.com/api/graphql`.
-Then, replace `REPLACE_shopifyToken` with your Shopify token
-
-
 ### Create
 
 ```sh
 npm run create
 ```
 
-Create task will register the extension in your space on Contentful.
+The `create` command will register the extension in your space on Contentful. To use it create a new field of type `JSON object` in the content model of your choice. In the "appearance" tab of this field you can then edit the Shopify settings.
+
+To make the UI extension work you'll need a valid API token and the API endpoint of your Shopify store. By default the UI-extension uses a Contentful shopify store.
+
+![figure](./shopify-parameters.jpg "Contentful Shopify UI Extension parameters")
 
 ### Update
 
@@ -49,5 +49,5 @@ npm run update
 Update task will upload the extension to your space on Contentful.
 
 ## Ready to Use
-Shopify products are now available in your `content model`. Add a `JSON Object` field, and select `Shopify Products` in the `appearance` tab.
+
 ![figure](./shopify-object.png "Contentful Shopify Product UI Extension json object")
