@@ -53,8 +53,6 @@ way to integrate with 3rd party media services.
 [Chessboard](./samples/chessboard) displays a chessboard and stores the board position as a JSON object. You can drag pieces on the chessboard and the position data will be
 updated automatically. The extension also supports *collaborative editing*.
 
-[Inbound References](./samples/inbound-references) provides a sidebar widget that shows all entries that link to a given entry in the sidebar.
-
 [External API](./samples/external-api) demonstrates accessing an external API and storing the underlying data within contentful.
 
 [Optimizely Audiences](./samples/optimizely-audiences) demonstrates how structured content can be tagged with audience Ids loaded from an Optimizely project.
