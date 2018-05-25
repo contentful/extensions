@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
+  <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
+</head>
+<body>
+  <div class="cf-form-field">
+    <input type="text" class="cf-form-input">
+    <div class="cf-form-hint">I am a UI Extension with a default value:
+      <span class="default-value"></span>
+    </div>
+  </div>
+  <script>
+    'use strict';
+    window.contentfulExtension.init(function (extension) {
+
+      extension.window.startAutoResizer();
+
+      var inputEl = document.querySelector('.cf-form-input');
+
+      var detachValueChangeHandler = extension.field.onValueChanged(valueChangeHandler);
+
+      inputEl.addEventListener('input', keyboardInputHandler);
+      window.addEventListener('onbeforeunload', unloadHandler);
+
+      var defaultColor = extension.parameters.instance.defaultColor;
+      document.querySelector('.default-value').appendChild(document.createTextNode(defaultColor))
+
+      if (extension.entry.getSys().version == 1 && extension.field.getValue() === undefined) {
+        extension.field.setValue(defaultColor);
+      }
+
+      function valueChangeHandler(value) {
+        inputEl.value = value;
+        extension.field.setInvalid(isInvalidColor(value));
+        document.querySelector(".cf-form-field").style.borderLeft = "5px solid " + value;
+      }
+
+      function keyboardInputHandler() {
+        var value = inputEl.value;
+        if (typeof value !== 'string' || value === '') {
+          extension.field.removeValue();
+        } else {
+          extension.field.setValue(value);
+        }
+      }
+
+      function isInvalidColor(value) {
+        return value === undefined || value.match(/#([a-f0-9]{3}){1,2}\b/i) === null;
+      }
+
+      function unloadHandler() {
+        window.removeEventListener('onbeforeunload', unloadHandler);
+        inputEl.removeEventListener('input', keyboardInputHandler);
+        detachValueChangeHandler();
+      }
+    });
+  </script>
+</body>
+</html>
