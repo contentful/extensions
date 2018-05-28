@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://unpkg.com/contentful-ui-extensions-sdk@3/dist/cf-extension.css" />
+    <script src="https://unpkg.com/contentful-ui-extensions-sdk@3/dist/cf-extension-api.js"></script>
+    <script src="https://unpkg.com/codemirror@5.8.0/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/codemirror@5.8.0/lib/codemirror.css" />
+    <script src="https://unpkg.com/codemirror@5.8.0/addon/edit/closebrackets.js"></script>
+    <script src="https://unpkg.com/codemirror@5.8.0/addon/edit/matchbrackets.js"></script>
+    <style type="text/css">
+     body {
+         margin: 0;
+         font-family: sans-serif;
+     }
+
+     /* Codemirror */
+     .CodeMirror {
+         border: 1px solid rgb(223, 229, 233);
+         font-size: 1.2em;
+     }
+
+     .cm-s-default .cm-string {
+         color: #536171;
+     }
+     .cm-s-default .cm-number {
+         color: #2BA9E9;
+     }
+     .cm-s-default .cm-atom {
+         color: #E0534E;
+     }
+
+
+     /* Toolbar */
+     .toolbar {
+         border: 1px solid #dfe5e9;
+         border-bottom: 0;
+         background-color: #f7f9fa;
+         padding: 8px;
+         display: flex;
+     }
+
+     .title {
+         line-height: 22px;
+         width: 110px;
+         font-size: 0.8em;
+         font-weight: 600;
+         color: #536171;
+     }
+
+     .title:after {
+         content: 'JSON Editor';
+     }
+
+     .validation {
+         font-size: 0.8em;
+         color: #E0534E;
+         line-height: 22px;
+         flex: 1 1 auto;
+         text-align: right;
+     }
+
+     .undo, .redo {
+         font-size: 0.8em;
+         width: 50px;
+         border: 1px solid #dfe5e9;
+         margin-right: 8px;
+         line-height: 20px;
+         text-align: center;
+         border-radius: 2px;
+         color: #B9C1CB;
+         flex: 0 1 auto;
+     }
+
+     .undo.active, .redo.active {
+         color: #536171;
+         cursor: pointer;
+     }
+
+
+     .undo.active:hover, .redo.active:hover {
+         background-color: #dfe5e9;
+     }
+
+     .undo:after {
+         content: 'Undo';
+     }
+
+     .redo:after {
+         content: 'Redo';
+     }
+
+    </style>
+  </head>
+  <body>
+    <script>
+     /*
+      * Custom JSON editor extension
+      * Displays JSON object, validates on the fly and saves if its valid
+      */
+
+           +function() {
+
+               if (typeof window.contentfulExtension === 'undefined') {
+                   // Backwards compatibility with devloper preview program.
+                   window.contentfulExtension = window.contentfulWidget;
+               }
+               if (typeof window.contentfulExtension === 'undefined') {
+                   throw new Error('Depends on contentful-extension-api.js');
+               }
+
+               var cfApi;
+               var cm;
+               var elements = {};
+
+               var editorSize = {
+                   width: 'auto',
+                   height: 310
+               };
+
+               // Keeps track of some states
+               var inputValid = true;
+               var undoable = false;
+               var redoable = false;
+
+               var events = {
+                   initialize: function(resp) {
+                       cfApi = resp;
+
+                       // Create elements
+                       elements.toolbar = createElement('div', {className: 'toolbar'});
+                       elements.editor = createElement('div')
+                       elements.title = createElement('div', {className: 'title'}, elements.toolbar);
+                       elements.undo = createElement('div', {className: 'undo'}, elements.toolbar);
+                       elements.redo = createElement('div', {className: 'redo'}, elements.toolbar);
+                       elements.info = createElement('div', {className: 'validation'}, elements.toolbar);
+
+                       // Initialize Code Mirror
+                       cm = CodeMirror(elements.editor, {
+                           matchBrackets: true,
+                           autoCloseBrackets: true,
+                           mode: {name: 'javascript', json: true},
+                           lineWrapping: true,
+                           viewportMargin: Infinity,
+                           indentUnit: 4,
+                           theme: 'default',
+                           lineNumbers: true
+                       });
+
+                       cm.setSize(editorSize.width, editorSize.height - 50);
+
+                       // Watch for events
+                       window.addEventListener('cfWidgetReady', events.extensionReady);
+                       cm.on('change', events.textChanged);
+                       elements.undo.addEventListener('click', events.undo);
+                       elements.redo.addEventListener('click', events.redo);
+
+
+                       var val = cfApi.field.getValue();
+                       cm.doc.setValue(beautify(val));
+                       cm.clearHistory();
+                       updateHistorySize();
+                       // Update height
+                       cfApi.window.updateHeight(editorSize.height);
+                   },
+                   textChanged: function(evt) {
+                       validateAndSave(evt.getValue());
+                       updateHistorySize();
+                   },
+                   undo: function(evt) {
+                       evt.preventDefault();
+                       cm.undo();
+                   },
+                   redo: function(evt) {
+                       evt.preventDefault();
+                       cm.redo();
+                   }
+
+               };
+
+               var createElement = function(elem, opts, parent) {
+                   var e = document.createElement(elem);
+                   var prop;
+
+                   for (prop in opts) {
+                       e[prop] = opts[prop];
+                   }
+                   parent = parent || document.body;
+                   parent.appendChild(e);
+                   return e;
+               };
+
+               var isValidJson = function(str) {
+                   var parsed;
+                   try {
+                       parsed = JSON.parse(str)
+                   } catch (e) {
+                       return false;
+                   }
+                   // An object or array is valid JSON
+                   if (typeof parsed !== 'object') {
+                       return false;
+                   }
+                   return true;
+               };
+
+               // Takes an object and returns a pretty-printed JSON string
+               var beautify = function(obj) {
+                   if (obj === null || obj === undefined) {
+                       return '';
+                   } else {
+                       return JSON.stringify(obj, null, '\t');
+                   }
+               };
+
+               // http://davidwalsh.name/javascript-debounce-function
+               var debounce = function(func, wait, immediate) {
+                   var timeout;
+                   return function() {
+                       var context = this, args = arguments;
+                       var later = function() {
+                           timeout = null;
+                           if (!immediate) func.apply(context, args);
+                       };
+                       var callNow = immediate && !timeout;
+                       clearTimeout(timeout);
+                       timeout = setTimeout(later, wait);
+                       if (callNow) func.apply(context, args);
+                   };
+               };
+
+               var validateAndSave = debounce(function(str) {
+                   if (str === '') {
+                       updateValidationMessage(true); // don't show invalid message
+                   } else if (isValidJson(str)) {
+                       var val = JSON.parse(str);
+                       updateValidationMessage(val);
+                       cfApi.field.setValue(val);
+                   } else {
+                       updateValidationMessage(false)
+                   }
+               }, 150);
+
+               var updateHistorySize = function() {
+                   if ((cm.historySize().undo > 0) === undoable) {
+                       undoable = !undoable;
+                       elements.undo.className = undoable ? 'undo' : 'undo active';
+                   }
+                   if ((cm.historySize().redo > 0) === redoable) {
+                       redoable = !redoable;
+                       elements.redo.className = redoable ? 'redo' : 'redo active';
+                   }
+               };
+
+               var updateValidationMessage = function(valid) {
+                   if (valid !== inputValid) {
+                       elements.info.innerHTML = valid ? '' : 'JSON is invalid';
+                       inputValid = valid;
+                   }
+               };
+
+               window.contentfulExtension.init(events.initialize);
+
+           }();
+
+    </script>
+  </body>
+</html>

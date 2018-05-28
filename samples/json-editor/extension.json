@@ -1,6 +1,6 @@
 {
   "id": "jsonEditor",
   "name": "JSON Editor",
-  "src": "http://localhost:3000/index.all.html",
+  "srcdoc": "./index.html",
   "fieldTypes": ["Object"]
 }
