@@ -1,53 +1,71 @@
-# Contentful Shopify Product UI extension
-Add a custom UI field to Contentful that allows users to search and select Shopify products.
+# Contentful UI Extension to load products from Shopify's Storefront API
 
-![figure](./Shopify-Product-Demo.gif "Contentful Shopify Product UI Extension demo")
+Adds a custom UI field to Contentful that allows users to search and select Shopify products.
 
+![figure](http://contentful.github.io/extensions/assets/Shopify-Product-Demo.gif "Contentful Shopify Product UI Extension demo")
 
-## Installation
+To make the UI extension work you'll need a valid [Storefront API token](https://help.shopify.com/api/reference/access/storefrontaccesstoken) and the API endpoint of your Shopify store. By default the UI-extension uses instance parameters which are pre-configured for demo purposes:
 
-```sh
-git clone git@github.com:contentful/extensions.git
-cd extensions/samples/shopify
-npm install
+See `extension.json` for the details:
+
+```json
+{
+  "name": "Shopify Products",
+  "id": "contentful-ui-shopify",
+  "fieldTypes": ["Object"],
+  "srcdoc": "./index.html",
+  "parameters": {
+    "instance": [
+      {
+        "id": "apiToken",
+        "name": "Shopify Access Token",
+        "type": "Symbol",
+        "default": "b5392a6d4ba10c47cb4ad1645bf78eb4"
+      },
+      {
+        "id": "apiEndpoint",
+        "name": "Shopify GraphQL endpoint",
+        "type": "Symbol",
+        "default": "https://contentful-demo.myshopify.com/api/graphql"
+      }
+    ]
+  }
+}
 ```
 
-### Configure
+![figure](http://contentful.github.io/extensions/assets//shopify-parameters.jpg "Contentful Shopify UI Extension parameters")
 
-Create a configuration file with your credentials for Contentful.
+## Assign to a field of a content type
 
-```sh
-cp env.example .env
+![figure](http://contentful.github.io/extensions/assets//shopify-object.png "Contentful Shopify Product UI Extension json object")
+
+## Usage
+
+Make sure you have the Contentful CLI installed:
+
+```bash
+npm install contentful-cli -g
 ```
 
-Open `.env` in a editor of your liking and add your Contentful space ID, and management token. [Learn how to obtain a token](https://www.contentful.com/developers/docs/references/authentication/#getting-an-oauth-token).
+You are logged in:
 
-Load environment variables
-
-```sh
-source .env
+```bash
+contentful login
 ```
 
-### Create
+And have a space selected:
 
-```sh
-npm run create
+```bash
+contentful space use
 ```
 
-The `create` command will register the extension in your space on Contentful. To use it create a new field of type `JSON object` in the content model of your choice. In the "appearance" tab of this field you can then edit the Shopify settings.
+To install the UI Extension:
 
-To make the UI extension work you'll need a valid API token and the API endpoint of your Shopify store. By default the UI-extension uses a Contentful shopify store.
-
-![figure](./shopify-parameters.jpg "Contentful Shopify UI Extension parameters")
-
-### Update
-
-```sh
-npm run update
+```bash
+contentful extension create
 ```
 
-Update task will upload the extension to your space on Contentful.
-
-## Ready to Use
-
-![figure](./shopify-object.png "Contentful Shopify Product UI Extension json object")
+To update the UI Extension:
+```bash
+contentful extension update --force
+```
