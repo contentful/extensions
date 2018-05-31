@@ -66,6 +66,7 @@ contentful extension create
 ```
 
 To update the UI Extension:
+
 ```bash
 contentful extension update --force
 ```
