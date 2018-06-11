@@ -7,7 +7,7 @@
     "instance": [
       {
         "id": "apiToken",
-        "name": "Shopify Access Token",
+        "name": "Shopify Read-only Storefront Access Token",
         "type": "Symbol",
         "default": "b5392a6d4ba10c47cb4ad1645bf78eb4"
       },
