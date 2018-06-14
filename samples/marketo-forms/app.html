@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" >
+    <title>Marketo Forms</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/contentful-ui-extensions-sdk@3/dist/cf-extension.css">
+    <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
+    <script src="https://unpkg.com/jquery@3"></script>
+  </head>
+
+  <body>
+    <div class="cf-form-field">
+      <select id="mkto-forms" class="cf-form-input"></select>
+      <div class="cf-form-hint">Please select the desired Marketo form for this content.</div>
+    </div>
+
+    <script type="text/javascript">
+      window.contentfulExtension.init(function(api) {
+        api.window.startAutoResizer();
+        var value = api.field.getValue();
+        var serviceUri = api.parameters.installation.serviceUri;
+        var selectField = $("#mkto-forms");
+        var finalResponse = [];
+
+        $.ajax({
+          url: serviceUri,
+          type: "GET",
+          crossDomain: true,
+          dataType: "json",
+          success: function(response) {
+           	finalResponse = response
+            
+            response.forEach(function(value, index) {
+              var option = document.createElement("option");
+              option.setAttribute("value", index);
+              option.innerText = value.name;
+
+              selectField.append(option);
+            });
+            selectField.val(api.field.getValue());
+          },
+          error: function(xhr, status) {
+            console.log("Error fetching data. Status:", status);
+          }
+        });
+
+        selectField.on("input", function() {
+          api.field.setValue(finalResponse[this.value]);
+        });
+      });
+    </script>
+  </body>
+</html>

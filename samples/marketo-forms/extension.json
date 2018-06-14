@@ -1,0 +1,16 @@
+{
+  "id": "1zB0ahISdm8Mc0uQC04u2g",
+  "name": "Marketo forms",
+  "srcdoc": "./app.html",
+  "fieldTypes": ["Object"],
+  "parameters": {
+    "installation": [
+      {
+        "id": "serviceUri",
+        "type": "Symbol",
+        "name": "Lambda Function URL",
+        "required": true
+      }
+    ]
+  }
+}
