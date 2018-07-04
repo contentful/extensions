@@ -124,8 +124,6 @@ The properties of an extension can be stored in a descriptor JSON file for conve
 
 ### Commands
 
-As with most other resources at Contentful, extension can be
-
 `contentful extension` is composed of 5 subcommands that you can use to manage extensions:
 
 **Create**
