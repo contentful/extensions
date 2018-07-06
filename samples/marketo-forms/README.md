@@ -53,7 +53,7 @@ Next, create a Service and get Client Secret and Client ID from that Service.
 
 Now that you have these credentials you can deploy your Lambda function to your desired platform.
 
-[Here is the code for the lambda function](./lambda-function.js) that you will be deploying. Make sure you are able to install dependencies as it relies upon `axios` and `dotenv`.
+[Here is the code for the lambda function](./lambda-function.js) that you will be deploying. Make sure you are able to install dependencies as it relies upon `axios`
 
 Copy the values you have from step 1 into the Environment Variables section of your lambda hosting platform. These are the names of the variables you will be adding to that section. **Make sure these are added exactly as below otherwise your lambda function won't work**.
 

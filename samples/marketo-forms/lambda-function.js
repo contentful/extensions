@@ -1,4 +1,3 @@
-require("dotenv").config();
 const axios = require("axios");
 
 exports.handler = function(event, context, callback) {
