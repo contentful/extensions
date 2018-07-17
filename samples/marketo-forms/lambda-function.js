@@ -8,7 +8,7 @@ const request = ({ method, hostname, path, headers }) =>
         response.on("data", chunk => (data += chunk));
         response.on("end", () => resolve(JSON.parse(data)));
       })
-      .on("error", () => reject(err));
+      .on("error", () => reject(err)).end();
   });
 
 exports.handler = function(event, context, callback) {
@@ -19,7 +19,7 @@ exports.handler = function(event, context, callback) {
       process.env.MKTO_CLIENT_ID
     }&client_secret=${process.env.MKTO_CLIENT_SECRET}`
   })
-    .then(res => res.data.access_token)
+    .then(res => res.access_token)
     .then(bearer =>
       request({
         method: "GET",
@@ -36,7 +36,7 @@ exports.handler = function(event, context, callback) {
               "Access-Control-Allow-Origin": "*",
               "Content-Type": "application/json"
             },
-            body: JSON.stringify(response.data.result)
+            body: JSON.stringify(res)
           })
         )
         .catch(err => {
