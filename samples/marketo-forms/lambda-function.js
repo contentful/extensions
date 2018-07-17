@@ -8,7 +8,8 @@ const request = ({ method, hostname, path, headers }) =>
         response.on("data", chunk => (data += chunk));
         response.on("end", () => resolve(JSON.parse(data)));
       })
-      .on("error", () => reject(err)).end();
+      .on("error", () => reject(err))
+      .end();
   });
 
 exports.handler = function(event, context, callback) {
