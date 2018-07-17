@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" >
+    <title>Marketo Forms</title>
+    <link rel="stylesheet" href="https://unpkg.com/contentful-ui-extensions-sdk@3/dist/cf-extension.css">
+    <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
+    <script src="https://unpkg.com/jquery@3"></script>
+    <style>
+      .-warning {
+        color: #d9453f;
+        margin-top: 4px;
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="cf-form-field">
+      <select id="mkto-forms" class="cf-form-input">
+        <option value="-1" disabled>Select...</option>
+      </select>
+      <div class="cf-form-hint">Please select the desired Marketo form for this content.</div>
+      <div class="cf-form-hint -warning" data-mkto-warning>⚠️ The form you have selected in Contentful no longer exists in Marketo.</div>
+      <div class="cf-form-hint -warning" data-lambda-warning>⚠️ Error fetching data.</div>
+    </div>
+
+    <script type="text/javascript">
+      window.contentfulExtension.init(function(api) {
+        api.window.startAutoResizer();
+        var value = api.field.getValue();
+        var serviceUri = api.parameters.installation.serviceUri;
+        var selectField = $("#mkto-forms");
+        var forms = [];
+
+        $.ajax({
+          url: serviceUri,
+          type: "GET",
+          crossDomain: true,
+          dataType: "json",
+          success: function(response) {
+            forms = response;
+
+            forms.forEach(function(value, index) {
+              var option = document.createElement("option");
+              option.setAttribute("value", index);
+              option.innerText = value.name;
+
+              selectField.append(option);
+            });
+
+            var value = api.field.getValue();
+            var id = value && value.id;
+
+            var index = forms.findIndex(function(form) {
+              return form.id === id;
+            });
+
+            selectField.val(index);
+
+            if (id && index < 0) {
+              $("[data-mkto-warning]").show();
+            }
+          },
+          error: function(xhr, status) {
+            $("[data-lambda-warning]").show();
+            console.log("Error fetching data. Status:", status);
+          }
+        });
+
+        selectField.on("input", function() {
+          api.field.setValue(forms[this.value]);
+        });
+      });
+    </script>
+  </body>
+</html>

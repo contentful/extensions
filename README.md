@@ -59,6 +59,8 @@ updated automatically. The extension also supports *collaborative editing*.
 
 [Shopify](./samples/shopify) integrates your shopify account to search and select products to display on your frontend.
 
+[Marketo forms](./samples/marketo-forms) adds the ability to get all the Marketo provided context of your forms into your Contentful entry.
+
 ## Managing extensions
 
 > tl;dr This section explains how to manage extensions in a Contentful space  through the Contentful CLI.
