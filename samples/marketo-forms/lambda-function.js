@@ -8,7 +8,7 @@ const request = ({ method, hostname, path, headers }) =>
         response.on("data", chunk => (data += chunk));
         response.on("end", () => resolve(JSON.parse(data)));
       })
-      .on("error", () => reject(err))
+      .on("error", err => reject(err))
       .end();
   });
 
@@ -37,7 +37,7 @@ exports.handler = function(event, context, callback) {
               "Access-Control-Allow-Origin": "*",
               "Content-Type": "application/json"
             },
-            body: JSON.stringify(res)
+            body: JSON.stringify(res.result)
           })
         )
         .catch(err => {
