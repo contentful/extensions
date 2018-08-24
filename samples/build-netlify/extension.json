@@ -1,0 +1,38 @@
+{
+    "id": "build-netlify",
+    "name": "build-netlify",
+    "srcdoc": "./index.html",
+    "fieldTypes": ["Symbol"],
+    "sidebar": true,
+    "parameters": {
+      "instance": [
+        {
+          "id": "netlifyBuildHookURL",
+          "type": "Symbol",
+          "name": "Build Hook URL",
+          "description": "Netlify Build Hook URL that will be triggered once user clicks on button.",
+          "required": true
+        },
+        {
+          "id": "access",
+          "type": "Enum",
+          "name": "Access",
+          "options": [{"all": "All users"}, {"admins": "Admins only"}],
+          "required": true,
+          "default": "all"
+        },
+        {
+          "id": "netlifyAPIToken",
+          "type": "Symbol",
+          "name": "Personal Netlify Token",
+          "description": "Generate personal access token on Netlify. Be CAREFUL with exposing this token, this extension is for demo purpose only."
+        },
+        {
+          "id": "netlifySiteId",
+          "type": "Symbol",
+          "name": "Site API ID",
+          "description": "Get API ID on settings page of your site"
+        }
+      ]
+    }
+  }
