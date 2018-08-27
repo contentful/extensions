@@ -7,10 +7,11 @@ This Sidebar Extension shows how to use Netlify API so you could trigger Netlify
 ## Requirements
 
 1. Get Build URL on [Netlify](https://www.netlify.com/docs/webhooks/).
+   * You can provide this information on real setup.
 2. (optional) If you want to see the status of the build you triggered, you need to provide the following information:
-  * Get [Personal Access Token](https://app.netlify.com/account/applications)
-  * Get API ID of your site in Site Details.
-  * **We would not recommend to expose this information on real setup, use only for demo purpose**
+   * Get [Personal Access Token](https://app.netlify.com/account/applications)
+   * Get API ID of your site in Site Details.
+   * **We would not recommend to expose this information on real setup, use only for demo purpose**
 
 ## Setup
 
