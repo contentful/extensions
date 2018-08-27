@@ -18,6 +18,7 @@
     function showExtension(params) {
       document.getElementById('root').style.display = 'block';
 
+      const POLLING_TIME = 3000;
       const netlifyBuildHookURL = params.instance.netlifyBuildHookURL;
       const netlifyAPIToken = params.instance.netlifyAPIToken;
       const netlifySiteId = params.instance.netlifySiteId;
@@ -60,7 +61,7 @@
             interval.clear();
           }
           checkStatuses();
-          interval = window.setInterval(checkStatuses, 3000);
+          interval = window.setInterval(checkStatuses, POLLING_TIME);
         }
       }
 
