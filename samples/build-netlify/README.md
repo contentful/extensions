@@ -2,7 +2,7 @@
 
 This Sidebar Extension shows how to use Netlify API so you could trigger Netlify builds manually while editing content.
 
-![Screenshot of extension](http://contentful.github.io/extensions/assets/netlify-build.png "Screenshot of extension")
+![Screenshot of extension](../../docs/assets/netlify-build.png "Screenshot of extension")
 
 ## Requirements
 
@@ -17,9 +17,9 @@ This Sidebar Extension shows how to use Netlify API so you could trigger Netlify
 
 1. Setup extension.
 2. Go to *Content model* and create new field.
-![Create new field](http://contentful.github.io/extensions/assets/netlify-build-step-2.png "Create new field")
+![Create new field](../../docs/assets/netlify-build-step-2.png "Create new field")
 3. Go to *Appearance* tab and provide all required information.
-![Provide information](http://contentful.github.io/extensions/assets/netlify-build-step-3.png "Provide information")
+![Provide information](../../docs/assets/netlify-build-step-3.png "Provide information")
 4. Save changes in *Content model*
 5. Edit your content and build your website when you feel it's time to build.
 
