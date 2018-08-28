@@ -61,6 +61,8 @@ updated automatically. The extension also supports *collaborative editing*.
 
 [Marketo forms](./samples/marketo-forms) adds the ability to get all the Marketo provided context of your forms into your Contentful entry.
 
+[Build Netlify](./samples/build-netlify) allows you to trigger Netlify builds manually while editing content.
+
 ## Managing extensions
 
 > tl;dr This section explains how to manage extensions in a Contentful space  through the Contentful CLI.
