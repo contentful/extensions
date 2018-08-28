@@ -22,9 +22,9 @@
           "default": "all"
         },
         {
-          "id": "netlifyAPIToken",
+          "id": "netlifyPAT",
           "type": "Symbol",
-          "name": "Personal Netlify Token",
+          "name": "Netlify Personal Access Token",
           "description": "Generate personal access token on Netlify. Be CAREFUL with exposing this token, this extension is for demo purpose only."
         },
         {

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <title>Build on Netlify</title>
+  <meta charset="utf-8">
   <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
   <link rel="stylesheet" href="https://unpkg.com/contentful-ui-extensions-sdk@3/dist/cf-extension.css" />
 </head>
@@ -18,56 +17,56 @@
     function showExtension(params) {
       document.getElementById('root').style.display = 'block';
 
-      const POLLING_TIME = 3000;
-      const netlifyBuildHookURL = params.instance.netlifyBuildHookURL;
-      const netlifyAPIToken = params.instance.netlifyAPIToken;
-      const netlifySiteId = params.instance.netlifySiteId;
+      var POLLING_INTERVAL = 3000;
+      var netlifyBuildHookURL = params.instance.netlifyBuildHookURL;
+      var netlifyPAT = params.instance.netlifyPAT;
+      var netlifySiteId = params.instance.netlifySiteId;
 
       function triggerBuild() {
         return window.fetch(netlifyBuildHookURL, {
-          method: "POST"
+          method: 'POST'
         });
       }
 
       var interval = null;
-      var $triggerBuildBtn = document.getElementById('triggerBuild');
-      var $infoBox = document.getElementById('infoBox');
-      var $history = document.getElementById('history');
+      var triggerBuildBtn = document.getElementById('triggerBuild');
+      var infoBox = document.getElementById('infoBox');
+      var history = document.getElementById('history');
 
       function checkStatuses() {
-        if (netlifySiteId && netlifyAPIToken) {
-          window.fetch('https://api.netlify.com/api/v1/sites/' + netlifySiteId + '/builds?access_token=' + netlifyAPIToken)
+        if (netlifySiteId && netlifyPAT) {
+          window.fetch('https://api.netlify.com/api/v1/sites/' + netlifySiteId + '/builds?access_token=' + netlifyPAT)
             .then(function (response) {
               return response.json()
             })
             .then(function (data) {
-              const markup = data.slice(0, 5).map(function (item) {
+              var markup = data.slice(0, 5).map(function (item) {
                 return [
                   '<li>',
-                    (new Date(item['created_at'])).toLocaleString(),
+                  (new Date(item['created_at'])).toLocaleString(),
                   ' - ',
                   item.done ? 'Finished' : 'Building...',
                   '</li>'
                 ].join('');
               }).join('');
-              $history.innerHTML = markup;
+              history.innerHTML = markup;
             });
         }
       }
 
       function startPollingStatuses() {
-        if (netlifySiteId && netlifyAPIToken) {
+        if (netlifySiteId && netlifyPAT) {
           if (interval) {
             interval.clear();
           }
           checkStatuses();
-          interval = window.setInterval(checkStatuses, POLLING_TIME);
+          interval = window.setInterval(checkStatuses, POLLING_INTERVAL);
         }
       }
 
-      $triggerBuildBtn.addEventListener('click', function () {
+      triggerBuildBtn.addEventListener('click', function () {
         triggerBuild().then(function (data) {
-          $infoBox.innerHTML = 'The build is triggered!';
+          infoBox.innerHTML = 'The build is triggered!';
           startPollingStatuses();
         });
       });
@@ -76,12 +75,12 @@
     }
 
     window.contentfulExtension.init(function (extension) {
-      if (extension.parameters.instance.access === 'all' ||
-        extension.user.spaceMembership.admin === true) {
+      var accessibleForEverybody = extension.parameters.instance.access === 'all';
+      var isAdmin = extension.user.spaceMembership.admin === true
+      if (accessibleForEverybody || isAdmin) {
         showExtension(extension.parameters);
       }
     });
   </script>
 </body>
-
 </html>
