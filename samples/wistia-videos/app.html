@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" >
+    <title>Wistia Videos</title>
+    <link rel="stylesheet" href="https://unpkg.com/contentful-ui-extensions-sdk@3/dist/cf-extension.css">
+    <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
+    <script src="https://unpkg.com/jquery@3"></script>
+  </head>
+
+  <body>
+    <div class="cf-form-field">
+      WISTIA VIDEOS HERE
+    </div>
+
+    <script type="text/javascript">
+      window.contentfulExtension.init(function(api) {
+        api.window.startAutoResizer();
+        var value = api.field.getValue();
+        
+        var serviceUri = api.parameters.installation.serviceUri;
+
+        api.field.setValue({ serviceUri: serviceUri });
+      });
+    </script>
+  </body>
+</html>
