@@ -1,4 +1,4 @@
-# Build Netlify
+# Netlify - build manually
 
 This Sidebar Extension shows how to use Netlify API so you could trigger Netlify builds manually while editing content.
 
