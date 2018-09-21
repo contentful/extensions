@@ -1,6 +1,6 @@
 {
     "id": "build-netlify",
-    "name": "build-netlify",
+    "name": "Netlify - build manually",
     "srcdoc": "./index.html",
     "fieldTypes": ["Symbol"],
     "sidebar": true,
