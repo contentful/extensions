@@ -1,5 +1,6 @@
 {
   "name": "Marketo forms",
+  "id": "marketo-forms",
   "srcdoc": "./app.html",
   "fieldTypes": ["Object"],
   "parameters": {
