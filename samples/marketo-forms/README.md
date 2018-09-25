@@ -19,7 +19,7 @@ We’ll need your Munchkin Account ID, Client Secret, and Client ID.
 
 To get your Munchkin Account ID login to your Marketo account, click Admin in the top right corner, then click Munchkin on the left side bar.
 
-![](/docs/assets/marketo_get_munchkin_id.png?dl=1)
+![](../../docs/assets/marketo_get_munchkin_id.png)
 
 To get your Client Secret and Client ID, you must create a role that has full API access, an API only user, and then create a Service in Marketo. To create a role with full API access:
 
@@ -28,7 +28,7 @@ To get your Client Secret and Client ID, you must create a role that has full AP
 3.  Click on the Roles tab.
 4.  Click New Role. Name your role and open the API Access box and select Read Only Assets to assign the user these permissions. Click Create.
 
-![](/docs/assets/marketo_make_new_role.png?dl=1)
+![](../../docs/assets/marketo_make_new_role.png)
 
 Now that you’ve created an API role, you have to assign that role to an API only user.
 
@@ -43,11 +43,11 @@ Next, create a Service and get Client Secret and Client ID from that Service.
 3.  Select Custom for the Service from the drop down.
 4.  Select the new API Only user you invited. This User must be an API Only user and be assigned a role that has full API access.
 
-![](/docs/assets/marketo_make_new_service.png?dl=1)
+![](../../docs/assets/marketo_make_new_service.png)
 
 5.  Click View Details on the new service that you’ve created and a small window will display with your Client Secret and Client ID.
 
-![](/docs/assets/marketo_view_details.png?dl=1)
+![](../../docs/assets/marketo_view_details.png)
 
 ### 2. Deploy the Lambda function
 
