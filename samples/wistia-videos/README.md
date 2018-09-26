@@ -2,7 +2,7 @@
 
 This UI extension allows your editors to see a nice dropdown of all the videos in your Wistia account sorted by Projects. Your developers can then use this data to construct landing pages from the data.
 
-![](/docs/assets/wistia-ui-extension.png)
+![](./screenshot.png)
 
 ## Requirements
 

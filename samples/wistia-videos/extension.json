@@ -1,5 +1,6 @@
 {
   "name": "Wistia Videos",
+  "id": "wistia-videos",
   "srcdoc": "./app.html",
   "fieldTypes": ["Object"],
   "parameters": {
