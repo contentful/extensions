@@ -2,7 +2,7 @@
 
 The diff editor extension shows the diff between the draft value and the published value of a short text field.
 
-![Screenshot of Diff extension](http://contentful.github.io/extensions/assets/diff-extension.png)
+![Screenshot of Diff extension](../../docs/assets/diff-extension.png)
 
 ## Installation and usage
 
