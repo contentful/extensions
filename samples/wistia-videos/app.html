@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" >
+    <title>Wistia Videos</title>
+    <link rel="stylesheet" href="https://unpkg.com/contentful-ui-extensions-sdk@3/dist/cf-extension.css">
+    <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
+    <script src="https://unpkg.com/jquery@3"></script>
+    <style>
+      .-warning {
+        color: #d9453f;
+        margin-top: 4px;
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="cf-form-field">
+      <select id="wistia-videos" class="cf-form-input">
+        <option value="-1" disabled>Select...</option>
+      </select>
+      <div class="cf-form-hint">Please select the desired Wistia video for this content.</div>
+      <div class="cf-form-hint -warning" data-warning>⚠️ The video you have selected in Contentful no longer exists in Wistia.</div>
+      <div class="cf-form-hint -warning" data-lambda-warning>⚠️ Error fetching data.</div>
+    </div>
+
+    <script type="text/javascript">
+      /*!
+       * Remove duplicates from an array.
+       * Adapted from https://stackoverflow.com/a/23263937
+       * (c) 2017 Chris Ferdinandi, MIT License, https://gomakethings.com
+       * @param  {Array} arr The array
+       * @return {Array}     A new array without duplicates
+       */
+      var arrayUnique = function(arr) {
+        return arr.filter(function(item, index) {
+          return arr.indexOf(item) >= index;
+        });
+      };
+
+      window.contentfulExtension.init(function(api) {
+        api.window.startAutoResizer();
+        var value = api.field.getValue();
+        var serviceUri = api.parameters.installation.serviceUri;
+        var selectField = $("#wistia-videos");
+        var videos = [];
+
+        $.ajax({
+          url: serviceUri,
+          type: "GET",
+          crossDomain: true,
+          dataType: "json",
+          success: function(response) {
+            videos = response;
+
+            var structureResponse = function(response) {
+              var projects = response.map(function(video) {
+                return video.project.name;
+              });
+
+              return arrayUnique(projects).map(function(name) {
+                var videosByProject = function(video) {
+                  return video.project.name === name;
+                };
+
+                return {
+                  name: name,
+                  videos: response.filter(videosByProject),
+                  length: response.filter(videosByProject).length
+                };
+              });
+            };
+
+            structureResponse(response).forEach(function(project) {
+              var optgroup = document.createElement("optgroup");
+              optgroup.setAttribute("label", project.name);
+
+              project.videos.forEach(function(video, index) {
+                var option = document.createElement("option");
+                option.setAttribute("value", video.id);
+                option.innerText = video.name;
+
+                $(optgroup).append(option);
+              });
+
+              selectField.append(optgroup);
+            });
+
+            var value = api.field.getValue();
+
+            var id = value && value.id;
+
+            var index = videos.findIndex(function(video) {
+              return video.id === id;
+            });
+
+            selectField.val(id);
+
+            if (id && index < 0) {
+              $("[data-warning]").show();
+            }
+          },
+          error: function(xhr, status) {
+            $("[data-lambda-warning]").show();
+            console.log("Error fetching data. Status:", status);
+          }
+        });
+
+        selectField.on("input", function() {
+          api.field.setValue(videos.filter(video => video.id == this.value)[0]);
+        });
+      });
+    </script>
+  </body>
+</html>
