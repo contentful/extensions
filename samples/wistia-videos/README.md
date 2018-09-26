@@ -18,11 +18,11 @@ Go to your _Account > Settings_ in Wistia. On the sidebar click on **API Access*
 
 Create an API key with the permissions _Read all project and video data_.
 
-![](/docs/assets/wistia-create-api-key.png)
+![](../../docs/assets/wistia-create-api-key.png)
 
 Once you've created your API Token click _Copy_ and save it for the next step.
 
-![](/docs/assets/wistia-api-key-password.png)
+![](../../docs/assets/wistia-api-key-password.png)
 
 ### 2. Deploy the Lambda function
 
