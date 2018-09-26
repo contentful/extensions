@@ -2,10 +2,10 @@
 
 Vanilla HTML5 UI Extension template implementing the basic lifecycle methods to better understand the concept.
 
-![Screenshot of template](http://contentful.github.io/extensions/assets/uiextensions-vanilla-extension.png)
+![Screenshot of template](../../docs/assets/uiextensions-vanilla-extension.png)
 The UI Extension in the Contentful web app
 
-![Screenshot of params](http://contentful.github.io/extensions/assets/uiextensions-vanilla-extension-params.png)
+![Screenshot of params](../../docs/assets/uiextensions-vanilla-extension-params.png)
 Assigning the UI Extension to a content type and setting the instance parameter
 
 The template includes:
