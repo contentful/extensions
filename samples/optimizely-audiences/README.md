@@ -2,7 +2,7 @@
 
 This UI Extension shows how to make structured content personalisable. The idea is to tag structured content in Contentful with audience ids loaded from a project in Optimizely.
 
-![Screenshot of template](http://contentful.github.io/extensions/assets/optimizely-audiences.png)
+![Screenshot of template](../../docs/assets/optimizely-audiences.png)
 
 ## Requirements
 
