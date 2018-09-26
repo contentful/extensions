@@ -2,7 +2,7 @@
 
 This UI Extension renders a `single line` input element which populates a default field value. It behaves like the default `single line` appearance but the user can choose a default field value from a list that is configurable.
 
-![Screenshot of template](http://contentful.github.io/extensions/assets/uiextensions-default-field-value.png)
+![Screenshot of template](../../docs/assets/uiextensions-default-field-value.png)
 The UI Extension in the Contentful web app
 
 In this example the provided options for a `color` field are:
@@ -41,7 +41,7 @@ The default values are defined through [instance parameters][instance-params] wh
 
 We used an `enum` field which pre-defines the available values to hex values of `blue`, `yellow` and `red`. When assigning the extension to a field in a content type, those values can be used to set the default value:
 
-![Screenshot of params](http://contentful.github.io/extensions/assets/uiextensions-default-field-value-assign.png)
+![Screenshot of params](../../docs/assets/uiextensions-default-field-value-assign.png)
 Assigning the UI Extension to a content type and setting the instance parameter
 
 During rendering of the extension in the entry editor, the extension will set the field value to default.
