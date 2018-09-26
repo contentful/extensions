@@ -2,7 +2,7 @@
 
 Adds a custom UI field to Contentful that allows users to search and select Shopify products.
 
-![figure](http://contentful.github.io/extensions/assets/Shopify-Product-Demo.gif "Contentful Shopify Product UI Extension demo")
+![figure](../../docs/assets/Shopify-Product-Demo.gif "Contentful Shopify Product UI Extension demo")
 
 To make the UI extension work you'll need a valid [Storefront API token](https://help.shopify.com/api/reference/access/storefrontaccesstoken) with `unauthenticated_read_product_listings` scope and the API endpoint of your Shopify store. By default the UI-extension uses instance parameters which are pre-configured for demo purposes:
 
@@ -33,11 +33,11 @@ See `extension.json` for the details:
 }
 ```
 
-![figure](http://contentful.github.io/extensions/assets//shopify-parameters.jpg "Contentful Shopify UI Extension parameters")
+![figure](../../docs/assets/shopify-parameters.jpg "Contentful Shopify UI Extension parameters")
 
 ## Assign to a field of a content type
 
-![figure](http://contentful.github.io/extensions/assets//shopify-object.png "Contentful Shopify Product UI Extension json object")
+![figure](../../docs/assets/shopify-object.png "Contentful Shopify Product UI Extension json object")
 
 ## Usage
 
