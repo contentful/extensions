@@ -1,38 +1,39 @@
 {
-    "id": "build-netlify",
-    "name": "Netlify - build manually",
-    "srcdoc": "./index.html",
-    "fieldTypes": ["Symbol"],
-    "sidebar": true,
-    "parameters": {
-      "instance": [
-        {
-          "id": "netlifyBuildHookURL",
-          "type": "Symbol",
-          "name": "Build Hook URL",
-          "description": "Netlify Build Hook URL that will be triggered once user clicks on button.",
-          "required": true
-        },
-        {
-          "id": "access",
-          "type": "Enum",
-          "name": "Access",
-          "options": [{"all": "All users"}, {"admins": "Admins only"}],
-          "required": true,
-          "default": "all"
-        },
-        {
-          "id": "netlifyPAT",
-          "type": "Symbol",
-          "name": "Netlify Personal Access Token",
-          "description": "Generate personal access token on Netlify. Be CAREFUL with exposing this token, this extension is for demo purpose only."
-        },
-        {
-          "id": "netlifySiteId",
-          "type": "Symbol",
-          "name": "Site API ID",
-          "description": "Get API ID on settings page of your site"
-        }
-      ]
-    }
+  "id": "build-netlify",
+  "name": "Netlify - build manually",
+  "srcdoc": "./index.html",
+  "fieldTypes": ["Symbol"],
+  "sidebar": true,
+  "parameters": {
+    "instance": [
+      {
+        "id": "netlifyBuildHookURL",
+        "type": "Symbol",
+        "name": "Netlify Build Hook URL",
+        "description": "The Netlify Build Hook URL that will be triggered once the user clicks on the build button.",
+        "required": true
+      },
+      {
+        "id": "access",
+        "type": "Enum",
+        "name": "Contentful user access",
+        "description": "Allow  triggering builds for all users or only for admins.",
+        "options": [{ "all": "All users" }, { "admins": "Admins only" }],
+        "required": true,
+        "default": "all"
+      },
+      {
+        "id": "netlifyPAT",
+        "type": "Symbol",
+        "name": "Netlify Personal Access Token",
+        "description": "Generate a personal access token on Netlify. Be CAREFUL with exposing this token, this extension is for demo purpose only."
+      },
+      {
+        "id": "netlifySiteId",
+        "type": "Symbol",
+        "name": "Netlify Site API ID",
+        "description": "Get the API ID on the settings page of your site"
+      }
+    ]
   }
+}

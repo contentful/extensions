@@ -5,6 +5,22 @@
   <meta charset="utf-8">
   <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
   <link rel="stylesheet" href="https://unpkg.com/contentful-ui-extensions-sdk@3/dist/cf-extension.css" />
+  <style>
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    img {
+      max-width: 50%;
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 
 <body style="margin: 0;">
@@ -16,13 +32,13 @@
   </div>
   <script>
 
-    function showExtension(params) {
+    function showExtension(extension) {
       document.getElementById('root').style.display = 'block';
 
       var POLLING_INTERVAL = 3000;
-      var netlifyBuildHookURL = params.instance.netlifyBuildHookURL;
-      var netlifyPAT = params.instance.netlifyPAT;
-      var netlifySiteId = params.instance.netlifySiteId;
+      var netlifyBuildHookURL = extension.parameters.instance.netlifyBuildHookURL;
+      var netlifyPAT = extension.parameters.instance.netlifyPAT;
+      var netlifySiteId = extension.parameters.instance.netlifySiteId;
 
       function triggerBuild() {
         return window.fetch(netlifyBuildHookURL, {
@@ -45,27 +61,31 @@
             })
             .then(function (data) {
               var markup =
-                '<a href=' + data.url + '>' +
+                '<a target="_blank" href=' + data.url + '>' +
                 data.url +
                 '</a>';
 
               site.innerHTML = markup;
             });
-          window.fetch('https://api.netlify.com/api/v1/sites/' + netlifySiteId + '/builds?access_token=' + netlifyPAT)
+          window.fetch('https://api.netlify.com/api/v1/sites/' + netlifySiteId + '/deploys?access_token=' + netlifyPAT)
             .then(function (response) {
               return response.json()
             })
             .then(function (data) {
+              console.log(data)
               var markup = data.slice(0, 5).map(function (item) {
+
                 return [
-                  '<li>',
+                  '<li><a target="_blank" href="https://app.netlify.com/sites/' + item.name + '/deploys/' + item.id + '">',
                   (new Date(item['created_at'])).toLocaleString(),
                   ' - ',
-                  item.done ? 'Finished' : 'Building...',
-                  '</li>'
+                  'State: ' + item.state,
+                  '</a></li>'
                 ].join('');
+
               }).join('');
               history.innerHTML = markup;
+              //extension.window.updateHeight()
             });
         }
       }
@@ -91,10 +111,11 @@
     }
 
     window.contentfulExtension.init(function (extension) {
+      extension.window.startAutoResizer()
       var accessibleForEverybody = extension.parameters.instance.access === 'all';
       var isAdmin = extension.user.spaceMembership.admin === true
       if (accessibleForEverybody || isAdmin) {
-        showExtension(extension.parameters);
+        showExtension(extension);
       }
     });
   </script>
