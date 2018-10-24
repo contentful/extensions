@@ -56,7 +56,7 @@
 
             var isOpen = false
 
-            document.addEventListener('BynderAddMedia', function () {
+            document.addEventListener('BynderAddMedia', function (e) {
                 isOpen = false
                 var assetIds = e.detail.map(function (asset) {
                     return asset.id
