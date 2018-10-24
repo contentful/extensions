@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
+<link rel="stylesheet" href="https://unpkg.com/contentful-ui-extensions-sdk@3/dist/cf-extension.css" />
+
+<style>
+    body {
+        overflow: auto;
+    }
+
+    .logo {
+        background-image: url(https://www.bynder.com/static/3.0/dist/img/svg/glyph-blue.svg);
+        background-repeat: no-repeat;
+        width: 25px;
+        height: 25px;
+        margin-right: 10px;
+        float: left;
+    }
+
+    #selection {
+        display: none;
+    }
+</style>
+
+
+<body>
+    <div class="logo">
+
+    </div>
+    <div id="bynder-compactview" data-fullScreen="true" data-assetTypes="image,video" data-autoload="false" data-button="Load media from bynder.com"
+        data-collections="true" data-folder="bynder-compactview" data-fullScreen="false" data-header="true"
+        data-language="en_US" data-mode="multi" data-zindex="300" data-defaultEnvironment="https://contentful.getbynder.com">
+    </div>
+    <div id="selection">
+        <p>Selected media:</p>
+        <div id="importedAssets"></div>
+    </div>
+
+    <script src="https://d8ejoa1fys2rk.cloudfront.net/modules/compactview/includes/js/client-1.1.0.min.js"></script>
+
+
+    <script>
+        window.contentfulExtension.init(function (api) {
+            var assetsListsContainer = document.getElementById('selection')
+            var assetsList = document.getElementById('importedAssets')
+
+            renderIds(api.field.getValue())
+
+            var isOpen = false
+
+            document.addEventListener('BynderAddMedia', function (e) {
+                isOpen = false
+                // The selected assets go in the event detail property
+                var selectedAssets = e.detail
+                var assetIds = []
+                selectedAssets.map(function (asset) {
+                    assetIds.push(asset.id)
+                })
+                renderIds(assetIds)
+                api.field.setValue(assetIds)
+                api.window.updateHeight()
+            })
+
+
+            document.getElementById('bynder-compactview').addEventListener('click', function (e) {
+                if (isOpen === false) {
+                    isOpen = true
+                    api.window.updateHeight(500)
+                }
+            })
+
+            function renderIds(ids) {
+                if (!ids || ids.length === 0) {
+                    assetsListsContainer.style.display = 'none'
+                    api.window.updateHeight()
+                    return
+                }
+                assetsListsContainer.style.display = 'block'
+                assetsList.innerHTML = '<ul style="clear:both">'
+                ids.map(function (item) {
+                    assetsList.innerHTML += [
+                        '<li>',
+                        item,
+                        '</li>'
+                    ].join('')
+                })
+                assetsList.innerHTML += '</ul>'
+                api.window.updateHeight()
+            }
+        })
+    </script>
+</body>
