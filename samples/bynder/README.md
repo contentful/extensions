@@ -30,7 +30,7 @@ The UI Extension in the Contentful web app
 For local development, start a webserver:
 
 ```bash
-❯python -m SimpleHTTPServer
+python -m SimpleHTTPServer
 ```
 
 Remember to enable mixed-mode in your browser if you serve the extensions from `http` and not `https`.

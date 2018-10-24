@@ -82,11 +82,7 @@
                 }
                 assetsList.innerHTML = '<ul style="clear:both">'
                 ids.map(function (item) {
-                    assetsList.innerHTML += [
-                        '<li>',
-                        item,
-                        '</li>'
-                    ].join('')
+                    assetsList.innerHTML += ('<li>' + item + '</li>')
                 })
                 assetsList.innerHTML += '</ul>'
                 assetsListsContainer.style.display = 'block'
