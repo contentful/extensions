@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-
 <meta charset="utf-8">
-<script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
 <link rel="stylesheet" href="https://unpkg.com/contentful-ui-extensions-sdk@3/dist/cf-extension.css" />
 
 <style>
@@ -47,6 +45,7 @@
     </div>
 
     <script src="https://d8ejoa1fys2rk.cloudfront.net/modules/compactview/includes/js/client-1.1.0.min.js"></script>
+    <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
 
     <script>
         window.contentfulExtension.init(function (api) {
@@ -59,7 +58,6 @@
 
             document.addEventListener('BynderAddMedia', function () {
                 isOpen = false
-                // The selected assets go in the event detail property
                 var selectedAssets = e.detail
                 var assetIds = []
                 selectedAssets.map(function (asset) {
@@ -71,7 +69,7 @@
             })
 
 
-            document.getElementById('bynder-compactview').addEventListener('click', function (e) {
+            document.getElementById('bynder-compactview').addEventListener('click', function () {
                 if (!isOpen) {
                     isOpen = true
                     api.window.updateHeight(500)
