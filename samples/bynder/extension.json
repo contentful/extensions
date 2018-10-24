@@ -1,6 +1,6 @@
 {
   "id": "bynder-browse-media",
   "name": "Bynder media browser",
-  "src": "./extension.html",
+  "srcdoc": "./extension.html",
   "fieldTypes": ["Symbols"]
 }
