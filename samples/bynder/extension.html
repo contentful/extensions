@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<meta charset="utf-8">
 <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
 <link rel="stylesheet" href="https://unpkg.com/contentful-ui-extensions-sdk@3/dist/cf-extension.css" />
 
@@ -9,7 +10,7 @@
     }
 
     .logo {
-        background-image: url(https://www.bynder.com/static/3.0/dist/img/svg/glyph-blue.svg);
+        background-image: url("https://www.bynder.com/static/3.0/dist/img/svg/glyph-blue.svg");
         background-repeat: no-repeat;
         width: 25px;
         height: 25px;
@@ -24,12 +25,21 @@
 
 
 <body>
-    <div class="logo">
-
-    </div>
-    <div id="bynder-compactview" data-fullScreen="true" data-assetTypes="image,video" data-autoload="false" data-button="Load media from bynder.com"
-        data-collections="true" data-folder="bynder-compactview" data-fullScreen="false" data-header="true"
-        data-language="en_US" data-mode="multi" data-zindex="300" data-defaultEnvironment="https://contentful.getbynder.com">
+    <div class="logo"></div>
+    <div
+        id="bynder-compactview"
+        data-fullScreen="true"
+        data-assetTypes="image,video"
+        data-autoload="false"
+        data-button="Load media from bynder.com"
+        data-collections="true"
+        data-folder="bynder-compactview"
+        data-fullScreen="false"
+        data-header="true"
+        data-language="en_US"
+        data-mode="multi"
+        data-zindex="300"
+        data-defaultEnvironment="https://contentful.getbynder.com">
     </div>
     <div id="selection">
         <p>Selected media:</p>
@@ -37,7 +47,6 @@
     </div>
 
     <script src="https://d8ejoa1fys2rk.cloudfront.net/modules/compactview/includes/js/client-1.1.0.min.js"></script>
-
 
     <script>
         window.contentfulExtension.init(function (api) {
@@ -48,7 +57,7 @@
 
             var isOpen = false
 
-            document.addEventListener('BynderAddMedia', function (e) {
+            document.addEventListener('BynderAddMedia', function () {
                 isOpen = false
                 // The selected assets go in the event detail property
                 var selectedAssets = e.detail
@@ -63,19 +72,18 @@
 
 
             document.getElementById('bynder-compactview').addEventListener('click', function (e) {
-                if (isOpen === false) {
+                if (!isOpen) {
                     isOpen = true
                     api.window.updateHeight(500)
                 }
             })
 
             function renderIds(ids) {
-                if (!ids || ids.length === 0) {
+                if (!Array.isArray(ids) || ids.length < 1) {
                     assetsListsContainer.style.display = 'none'
                     api.window.updateHeight()
                     return
                 }
-                assetsListsContainer.style.display = 'block'
                 assetsList.innerHTML = '<ul style="clear:both">'
                 ids.map(function (item) {
                     assetsList.innerHTML += [
@@ -85,6 +93,7 @@
                     ].join('')
                 })
                 assetsList.innerHTML += '</ul>'
+                assetsListsContainer.style.display = 'block'
                 api.window.updateHeight()
             }
         })
