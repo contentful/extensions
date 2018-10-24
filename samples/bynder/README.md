@@ -10,7 +10,11 @@ The UI Extension in the Contentful web app
 ## How does the UI Extension work?
 
 - it loads Bynder's compact view
-- prompts the user for the URL
+- prompts the user for the URL of the brand portal
+- starts an OAuth flow with Bynder to authenticate the user
+- credentials are stored in `LocalStorage` of the origin of the extension
+- Bynder's compact view is used to browse and select media
+- the ids of the media is stored in a `Symbols` filed in Contentful
 
 ## Requirements
 
