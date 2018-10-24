@@ -58,10 +58,8 @@
 
             document.addEventListener('BynderAddMedia', function () {
                 isOpen = false
-                var selectedAssets = e.detail
-                var assetIds = []
-                selectedAssets.map(function (asset) {
-                    assetIds.push(asset.id)
+                var assetIds = e.detail.map(function (asset) {
+                    return asset.id
                 })
                 renderIds(assetIds)
                 api.field.setValue(assetIds)
