@@ -25,7 +25,7 @@
                  input.cfFormField = input.cfFormField || this.closest(input, '.cf-form-field');
              },
              getButton: el(function (el, text, icon, title) {
-                 el.className = text.match(/save/i) ? 'cf-btn-primary' : 'cf-btn-secondary';
+                 el.className = text.innerText.match(/save/i) ? 'cf-btn-primary' : 'cf-btn-secondary';
              }),
              getHeader: el(function (el, text) {
                  if (!(text instanceof HTMLElement)) {
