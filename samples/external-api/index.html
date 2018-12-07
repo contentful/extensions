@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>External API UI Extension Sample</title>
+    <link
+      rel="stylesheet"
+      href="//unpkg.com/@contentful/forma-36-react-components@1.0.0/dist/styles.css"
+    />
+    <script src="//unpkg.com/contentful-ui-extensions-sdk@3"></script>
+    <script src="//unpkg.com/react@16.6.3/umd/react.production.min.js"></script>
+    <script src="//unpkg.com/react-dom@16.6.3/umd/react-dom.production.min.js"></script>
+    <script src="//unpkg.com/@contentful/forma-36-react-components@1.0.0/dist/umd/forma-36-react-components.production.min.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/javascript">
+      const h = React.createElement;
+
+      const { SelectField, Option, Spinner } = Forma36;
+
+      class App extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            error: false,
+            hasLoaded: false,
+            items: [],
+            value: props.api.field.getValue()
+          };
+          this.onChange = this.onChange.bind(this);
+        }
+
+        componentDidMount() {
+          fetch("https://jsonplaceholder.typicode.com/users")
+            .then(res => res.json())
+            .then(
+              items => {
+                this.setState({
+                  hasLoaded: true,
+                  items
+                });
+              },
+              error => {
+                this.setState({
+                  hasLoaded: true,
+                  error: error
+                });
+              }
+            );
+        }
+
+        onChange({ target: { value } }) {
+          this.setState({ value });
+          this.props.api.field.setValue(value);
+        }
+
+        render() {
+          return h(
+            "div",
+            {},
+            !this.state.hasLoaded && h(Spinner),
+            this.state.hasLoaded &&
+              h(
+                SelectField,
+                {
+                  name: "names",
+                  id: "names",
+                  labelText: "Select name",
+                  helpText: "Get dummy user data from an external API",
+                  onChange: this.onChange,
+                  value: this.state.value
+                },
+                this.state.items.map(item =>
+                  h(
+                    Option,
+                    { key: item.id, value: item.id.toString() },
+                    item.name
+                  )
+                )
+              )
+          );
+        }
+      }
+
+      window.contentfulExtension.init(api => {
+        ReactDOM.render(h(App, { api }), document.getElementById("root"));
+      });
+    </script>
+  </body>
+</html>
