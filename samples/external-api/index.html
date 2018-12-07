@@ -7,9 +7,11 @@
       rel="stylesheet"
       href="//unpkg.com/@contentful/forma-36-react-components@1.0.0/dist/styles.css"
     />
+    <script src="//unpkg.com/whatwg-fetch@3.0.0/dist/fetch.umd.js"></script>
     <script src="//unpkg.com/contentful-ui-extensions-sdk@3"></script>
     <script src="//unpkg.com/react@16.6.3/umd/react.production.min.js"></script>
     <script src="//unpkg.com/react-dom@16.6.3/umd/react-dom.production.min.js"></script>
+    <script src="//unpkg.com/create-react-class@15.6.3/create-react-class.min.js"></script>
     <script src="//unpkg.com/@contentful/forma-36-react-components@1.0.0/dist/umd/forma-36-react-components.production.min.js"></script>
   </head>
 
@@ -17,47 +19,46 @@
     <div id="root"></div>
 
     <script type="text/javascript">
-      const h = React.createElement;
+      var h = React.createElement;
 
-      const { SelectField, Option, Spinner } = Forma36;
+      var { SelectField, Option, Spinner } = Forma36;
 
-      class App extends React.Component {
-        constructor(props) {
-          super(props);
-          this.state = {
+      var App = createReactClass({
+        getInitialState: function() {
+          return {
             error: false,
             hasLoaded: false,
             items: [],
-            value: props.api.field.getValue()
+            value: this.props.api.field.getValue()
           };
-          this.onChange = this.onChange.bind(this);
-        }
+        },
 
-        componentDidMount() {
+        componentDidMount: function() {
           fetch("https://jsonplaceholder.typicode.com/users")
             .then(res => res.json())
             .then(
-              items => {
+              function(items) {
                 this.setState({
                   hasLoaded: true,
                   items
                 });
-              },
-              error => {
+              }.bind(this),
+              function(error) {
                 this.setState({
                   hasLoaded: true,
                   error: error
                 });
-              }
+              }.bind(this)
             );
-        }
+        },
 
-        onChange({ target: { value } }) {
-          this.setState({ value });
+        onChange: function(event) {
+          var value = event.target.value;
+          this.setState({ value: value });
           this.props.api.field.setValue(value);
-        }
+        },
 
-        render() {
+        render: function() {
           return h(
             "div",
             {},
@@ -73,20 +74,21 @@
                   onChange: this.onChange,
                   value: this.state.value
                 },
-                this.state.items.map(item =>
-                  h(
+                h(Option, { value: "" }, "Pick a user"),
+                this.state.items.map(function(item) {
+                  return h(
                     Option,
-                    { key: item.id, value: item.id.toString() },
+                    { key: item.id, value: `${item.id}` },
                     item.name
-                  )
-                )
+                  );
+                })
               )
           );
         }
-      }
+      });
 
-      window.contentfulExtension.init(api => {
-        ReactDOM.render(h(App, { api }), document.getElementById("root"));
+      window.contentfulExtension.init(function(api) {
+        ReactDOM.render(h(App, { api: api }), document.getElementById("root"));
       });
     </script>
   </body>
