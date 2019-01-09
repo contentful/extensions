@@ -20,7 +20,8 @@ var cfExt = window.contentfulExtension || window.contentfulWidget
 
 cfExt.init(function (api) {
   var slugField = api.field
-  var titleField = api.entry.fields.title
+  var titleFieldName = api.contentType.displayField
+  var titleField = api.entry.fields[titleFieldName]
 
   var _ = window._
   var getSlug = window.getSlug
