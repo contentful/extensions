@@ -2,7 +2,7 @@
 
 This repository provides samples of Contentful UI extensions, developed using the [UI Extensions SDK](https://www.contentful.com/developers/docs/extensibility/ui-extensions/sdk-reference/). 
 
-If you don't know what UI Extensions are or how to use them, please refer to our [documentation]([UI Extensions general documentation](https://www.contentful.com/developers/docs/extensibility/ui-extensions/)).
+If you don't know what UI Extensions are or how to use them, please refer to our [documentation](https://www.contentful.com/developers/docs/extensibility/ui-extensions/).
 
 ## Sections
 - [UI extension examples](#ui-extension-examples) is a curated list of common problems solvable with an extension.
