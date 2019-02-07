@@ -15,10 +15,6 @@ import {
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.onClickPublish = this.onClickPublish.bind(this)
-    this.onClickUnpublish = this.onClickUnpublish.bind(this)
-    this.onUpdate = this.onUpdate.bind(this)
-    this.onError = this.onError.bind(this)
 
     // Update component state when a field value changes
     const fields = this.props.extension.entry.fields
@@ -30,7 +26,7 @@ class App extends React.Component {
     this.state = this.constructState()
   }
 
-  constructState() {
+  constructState = () => {
     const sys = this.props.extension.entry.getSys()
 
     return {
@@ -40,15 +36,15 @@ class App extends React.Component {
     }
   }
 
-  onError(error) {
+  onError = error => {
     this.props.extension.notifier.error(error.message)
   }
 
-  onUpdate() {
+  onUpdate = () => {
     this.setState(this.constructState())
   }
 
-  hasUnpublishedReferences(entry) {
+  hasUnpublishedReferences = entry => {
     const entryReferenceIds = []
 
     for (let name in entry.fields) {
@@ -71,7 +67,7 @@ class App extends React.Component {
       })
   }
 
-  isLinkedToPublishedEntries(entry) {
+  isLinkedToPublishedEntries = entry => {
     return this.props.extension.space
       .getEntries({ links_to_entry: entry.sys.id })
       .then(linkedEntries => {
@@ -82,7 +78,7 @@ class App extends React.Component {
       })
   }
 
-  onClickUnpublish() {
+  onClickUnpublish = () => {
     const ext = this.props.extension
     const sys = ext.entry.getSys()
 
@@ -108,7 +104,7 @@ class App extends React.Component {
     })
   }
 
-  onClickPublish() {
+  onClickPublish = () => {
     const ext = this.props.extension
     const sys = ext.entry.getSys()
 
@@ -137,7 +133,7 @@ class App extends React.Component {
     })
   }
 
-  renderStatusLabel() {
+  renderStatusLabel = () => {
     if (this.state.isPublished) {
       return "Published"
     }
@@ -149,7 +145,7 @@ class App extends React.Component {
     return "Published (pending changes)"
   }
 
-  render() {
+  render = () => {
     const ago = relativeDate(
       new Date(this.props.extension.entry.getSys().updatedAt)
     )

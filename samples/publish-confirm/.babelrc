@@ -1,12 +1,5 @@
 {
   "plugins": [
-    ["transform-react-jsx"],
-    [
-      "transform-runtime",
-      {
-        "polyfill": false,
-        "regenerator": true
-      }
-    ]
+      "@babel/plugin-proposal-class-properties"
   ]
 }
