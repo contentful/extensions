@@ -1,0 +1,7 @@
+{
+  "id": "custom-publish",
+  "name": "Publish",
+  "srcdoc": "./index.html",
+  "sidebar": true,
+  "fieldTypes": ["Symbol"]
+}

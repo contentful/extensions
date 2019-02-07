@@ -1,0 +1,26 @@
+{
+  "name": "publish-confirm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@contentful/forma-36-fcss": "0.0.9",
+    "@contentful/forma-36-react-components": "^2.3.0",
+    "babel-polyfill": "^6.26.0",
+    "contentful-ui-extensions-sdk": "^3.5.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "relative-date": "github:azer/relative-date"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-runtime": "^6.26.0"
+  }
+}
