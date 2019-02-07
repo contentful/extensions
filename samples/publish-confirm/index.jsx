@@ -31,7 +31,7 @@ class App extends React.Component {
   }
 
   constructState() {
-    const sys = this.getEntrySys()
+    const sys = this.props.extension.entry.getSys()
 
     return {
       isDraft: !sys.publishedVersion,
@@ -49,10 +49,6 @@ class App extends React.Component {
 
   onUpdate() {
     this.setState(this.constructState())
-  }
-
-  getEntrySys() {
-    return this.props.extension.entry.getSys()
   }
 
   hasUnpublishedReferences(entry) {
