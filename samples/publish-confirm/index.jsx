@@ -16,14 +16,23 @@ class App extends React.Component {
   constructor(props) {
     super(props)
 
+    // Trigger update method to setup initial state
+    this.state = this.constructState()
+  }
+
+  componentDidMount = () => {
     // Update component state when a field value changes
     const fields = this.props.extension.entry.fields
     for (let key in fields) {
       fields[key].onValueChanged(this.onUpdate)
     }
+  }
 
-    // Trigger update method to setup initial state
-    this.state = this.constructState()
+  componentWillUnmount = () => {
+    const fields = this.props.extension.entry.fields
+    for (let key in fields) {
+      fields[key].detachValueChangeHandler(this.onUpdate)
+    }
   }
 
   constructState = () => {
