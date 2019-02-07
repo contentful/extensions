@@ -41,10 +41,7 @@ class App extends React.Component {
   }
 
   onError(error) {
-    this.props.extension.dialogs.openAlert({
-      title: "An error happened",
-      message: error.message
-    })
+    this.props.extension.notifier.error(error.message)
   }
 
   onUpdate() {
