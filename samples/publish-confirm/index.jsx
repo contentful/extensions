@@ -156,7 +156,8 @@ class App extends React.Component {
       const unpublishedReferences = await this.unpublishedReferences(entry)
 
       let title = "Publish entry?"
-      let message = "This entry will be published. Continue?"
+      let message =
+        "This entry will be published and become available on your website or app."
       let confirmLabel = "Publish"
 
       if (unpublishedReferences.length > 0) {
