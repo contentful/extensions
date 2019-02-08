@@ -40,6 +40,9 @@ class App extends React.Component {
         displayFieldsMap
       })
     })
+
+    // Listen sys changes
+    this.detachFns.push(this.props.extension.entry.onSysChanged(this.onUpdate))
   }
 
   componentWillUnmount = () => {
@@ -215,6 +218,7 @@ class App extends React.Component {
           buttonType="positive"
           isFullWidth={true}
           onClick={this.onClickPublish}
+          disabled={this.state.isPublished}
         >
           Publish
         </Button>
