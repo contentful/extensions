@@ -1,16 +1,6 @@
 import "babel-polyfill"
 import { init } from "contentful-ui-extensions-sdk"
-import React from "react"
-import ReactDOM from "react-dom"
 import { default as relativeDate } from "relative-date"
-import "@contentful/forma-36-react-components/dist/styles.css"
-import "@contentful/forma-36-fcss/dist/styles.css"
-import {
-  Button,
-  TextLink,
-  Paragraph,
-  Subheading
-} from "@contentful/forma-36-react-components"
 
 class App extends React.Component {
   constructor(props) {
@@ -209,11 +199,11 @@ class App extends React.Component {
 
     return (
       <div className="foo">
-        <Paragraph extraClassNames="f36-margin-bottom--s">
+        <Forma36.Paragraph extraClassNames="f36-margin-bottom--s">
           <strong>Status: </strong>
           {this.renderStatusLabel()}
-        </Paragraph>
-        <Button
+        </Forma36.Paragraph>
+        <Forma36.Button
           extraClassNames="publish-button"
           buttonType="positive"
           isFullWidth={true}
@@ -221,14 +211,14 @@ class App extends React.Component {
           disabled={this.state.isPublished}
         >
           Publish
-        </Button>
-        <TextLink
+        </Forma36.Button>
+        <Forma36.TextLink
           extraClassNames="f36-margin-top--s f36-margin-bottom--xs"
           onClick={this.onClickUnpublish}
         >
           Unpublish
-        </TextLink>
-        <Paragraph>Last saved {ago}</Paragraph>
+        </Forma36.TextLink>
+        <Forma36.Paragraph>Last saved {ago}</Forma36.Paragraph>
       </div>
     )
   }
