@@ -21,18 +21,29 @@ class App extends React.Component {
   }
 
   componentDidMount = () => {
+    this.detachFns = []
+
     // Update component state when a field value changes
     const fields = this.props.extension.entry.fields
     for (let key in fields) {
-      fields[key].onValueChanged(this.onUpdate)
+      this.detachFns.push(fields[key].onValueChanged(this.onUpdate))
     }
+
+    // Pull content types. We'll need them to find out display fields
+    this.props.extension.space.getContentTypes().then(allContentTypes => {
+      const displayFieldsMap = {}
+      allContentTypes.items.forEach(ct => {
+        displayFieldsMap[ct.sys.id] = ct.displayField
+      })
+
+      this.setState({
+        displayFieldsMap
+      })
+    })
   }
 
   componentWillUnmount = () => {
-    const fields = this.props.extension.entry.fields
-    for (let key in fields) {
-      fields[key].detachValueChangeHandler(this.onUpdate)
-    }
+    this.detachFns.forEach(detach => detach())
   }
 
   constructState = () => {
@@ -53,16 +64,18 @@ class App extends React.Component {
     this.setState(this.constructState())
   }
 
-  hasUnpublishedReferences = entry => {
+  unpublishedReferences = entry => {
+    const referenceFieldNames = []
     const entryReferenceIds = []
 
     for (let name in entry.fields) {
-      let locale = Object.keys(entry.fields[name])[0]
+      let locale = this.props.extension.locales.default
       if (
         entry.fields[name][locale].sys &&
         entry.fields[name][locale].sys.type === "Link" &&
         entry.fields[name][locale].sys.linkType === "Entry"
       ) {
+        referenceFieldNames.push(name)
         entryReferenceIds.push(entry.fields[name][locale].sys.id)
       }
     }
@@ -72,19 +85,27 @@ class App extends React.Component {
         "sys.id[in]": entryReferenceIds.join(",")
       })
       .then(referenceEntries => {
-        return referenceEntries.items.some(entry => !entry.sys.publishedVersion)
+        return referenceEntries.items
+          .filter(entry => !entry.sys.publishedVersion)
+          .map((entry, ind) => ({
+            field: referenceFieldNames[ind],
+            entry
+          }))
       })
   }
 
-  isLinkedToPublishedEntries = entry => {
+  getLinkedAndPublishedEntries = entry => {
     return this.props.extension.space
       .getEntries({ links_to_entry: entry.sys.id })
-      .then(linkedEntries => {
-        return (
-          linkedEntries.items.length > 0 &&
-          linkedEntries.items.every(entry => !!entry.sys.publishedVersion)
-        )
-      })
+      .then(linkedEntries =>
+        linkedEntries.items.filter(entry => !!entry.sys.publishedVersion)
+      )
+  }
+
+  getEntryDisplayFieldValue = entry => {
+    return entry.fields[
+      this.state.displayFieldsMap[entry.sys.contentType.sys.id]
+    ][this.props.extension.locales.default]
   }
 
   onClickUnpublish = () => {
@@ -92,18 +113,32 @@ class App extends React.Component {
     const sys = ext.entry.getSys()
 
     ext.space.getEntry(sys.id).then(async entry => {
-      const isLinkedToPublishedEntries = await this.isLinkedToPublishedEntries(
+      const linkedAndPublishedEntries = await this.getLinkedAndPublishedEntries(
         entry
       )
 
+      let title = "Unpublish entry?"
+      let message = "This entry will be unpublished. Continue?"
+      let confirmLabel = "Unpublish"
+
+      if (linkedAndPublishedEntries.length > 0) {
+        title = "Entry is linked in other entries"
+        confirmLabel = "Unpublish anyway"
+        message =
+          `There are ${
+            linkedAndPublishedEntries.length
+          } entries that link to this entry: ` +
+          linkedAndPublishedEntries
+            .map(this.getEntryDisplayFieldValue)
+            .join(", ")
+      }
+
       this.props.extension.dialogs
         .openConfirm({
-          title: "Unpublish",
-          message: isLinkedToPublishedEntries
-            ? "There is one other entry that links to this entry. If you unpublish it, your app(s) might break."
-            : "This entry will be unpublished. Continue?",
-          confirmLabel: "Yes, unpublish",
-          cancelLabel: "No"
+          title,
+          message,
+          confirmLabel,
+          cancelLabel: "Cancel"
         })
         .then(result => {
           if (!result) return
@@ -118,18 +153,26 @@ class App extends React.Component {
     const sys = ext.entry.getSys()
 
     ext.space.getEntry(sys.id).then(async entry => {
-      const hasUnpublishedReferences = await this.hasUnpublishedReferences(
-        entry
-      )
+      const unpublishedReferences = await this.unpublishedReferences(entry)
+
+      let title = "Publish entry?"
+      let message = "This entry will be published. Continue?"
+      let confirmLabel = "Publish"
+
+      if (unpublishedReferences.length > 0) {
+        title = "You have unpublished links"
+        message =
+          "Not all links on this entry are published. See sections: " +
+          unpublishedReferences.map(ref => ref.field).join(", ")
+        confirmLabel = "Publish anyway"
+      }
 
       this.props.extension.dialogs
         .openConfirm({
-          title: "Publish",
-          message: hasUnpublishedReferences
-            ? "It appears that you’ve linked to entry/entries that hasn't been published yet."
-            : "This entry will be published. Continue?",
-          confirmLabel: "Yes, publish",
-          cancelLabel: "No"
+          title,
+          message,
+          confirmLabel,
+          cancelLabel: "Cancel"
         })
         .then(result => {
           if (!result) return
