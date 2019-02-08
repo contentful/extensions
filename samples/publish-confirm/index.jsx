@@ -118,7 +118,8 @@ class App extends React.Component {
       )
 
       let title = "Unpublish entry?"
-      let message = "This entry will be unpublished. Continue?"
+      let message =
+        "This entry will be unpublished and will not be available on your website or app anymore."
       let confirmLabel = "Unpublish"
 
       if (linkedAndPublishedEntries.length > 0) {
