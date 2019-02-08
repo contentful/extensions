@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel index.html"
+    "start": "parcel src/index.html"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +20,7 @@
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "cssnano": "^4.1.8",
     "parcel": "^1.11.0"
   }
 }
