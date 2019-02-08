@@ -1,7 +1,7 @@
 {
   "id": "custom-publish",
   "name": "Custom Publish Button",
-  "srcdoc": "./dist/index.html",
+  "srcdoc": "./build/index.html",
   "sidebar": true,
   "fieldTypes": ["Symbol"]
 }
