@@ -1,6 +1,4 @@
-import "babel-polyfill"
-import { init } from "contentful-ui-extensions-sdk"
-import { default as relativeDate } from "relative-date"
+import relativeDate from "relative-date"
 
 class App extends React.Component {
   constructor(props) {
@@ -43,6 +41,7 @@ class App extends React.Component {
     const sys = this.props.extension.entry.getSys()
 
     return {
+      working: false,
       isDraft: !sys.publishedVersion,
       hasPendingChanges: sys.version > (sys.publishedVersion || 0) + 1,
       isPublished: sys.version === (sys.publishedVersion || 0) + 1
@@ -50,6 +49,7 @@ class App extends React.Component {
   }
 
   onError = error => {
+    this.setState({ working: false })
     this.props.extension.notifier.error(error.message)
   }
 
@@ -101,83 +101,94 @@ class App extends React.Component {
     ][this.props.extension.locales.default]
   }
 
-  onClickUnpublish = () => {
+  onClickUnpublish = async () => {
+    this.setState({ working: true })
+
     const ext = this.props.extension
     const sys = ext.entry.getSys()
 
-    ext.space.getEntry(sys.id).then(async entry => {
-      const linkedAndPublishedEntries = await this.getLinkedAndPublishedEntries(
-        entry
-      )
+    const entry = await ext.space.getEntry(sys.id)
+    const linkedAndPublishedEntries = await this.getLinkedAndPublishedEntries(entry)
 
-      let title = "Unpublish entry?"
-      let message =
-        "This entry will be unpublished and will not be available on your website or app anymore."
-      let confirmLabel = "Unpublish"
+    let title = "Unpublish entry?"
+    let message =
+      "This entry will be unpublished and will not be available on your website or app anymore."
+    let confirmLabel = "Unpublish"
 
-      if (linkedAndPublishedEntries.length > 0) {
-        title = "Entry is linked in other entries"
-        confirmLabel = "Unpublish anyway"
-        message =
-          `There are ${
-            linkedAndPublishedEntries.length
-          } entries that link to this entry: ` +
-          linkedAndPublishedEntries
-            .map(this.getEntryDisplayFieldValue)
-            .join(", ")
-      }
+    if (linkedAndPublishedEntries.length > 0) {
+      title = "Entry is linked in other entries"
+      confirmLabel = "Unpublish anyway"
+      message =
+        `There are ${
+          linkedAndPublishedEntries.length
+        } entries that link to this entry: ` +
+        linkedAndPublishedEntries
+          .map(this.getEntryDisplayFieldValue)
+          .join(", ")
+    }
 
-      this.props.extension.dialogs
-        .openConfirm({
-          title,
-          message,
-          confirmLabel,
-          cancelLabel: "Cancel"
-        })
-        .then(result => {
-          if (!result) return
+    const result = await this.props.extension.dialogs
+      .openConfirm({
+        title,
+        message,
+        confirmLabel,
+        cancelLabel: "Cancel"
+      })
 
-          entry.then(() => this.onUpdate()).catch(error => this.onError(error))
-        })
-    })
+    if (!result) {
+      this.setState({ working: false })
+      return
+    }
+
+    try {
+      await ext.space.unpublishEntry(entry)
+      this.onUpdate()
+    } catch (error) {
+      this.onError(error)
+    }
   }
 
-  onClickPublish = () => {
+  onClickPublish = async () => {
+    this.setState({ working: true })
+
     const ext = this.props.extension
     const sys = ext.entry.getSys()
 
-    ext.space.getEntry(sys.id).then(async entry => {
-      const unpublishedReferences = await this.unpublishedReferences(entry)
+    const entry = await ext.space.getEntry(sys.id)
+    const unpublishedReferences = await this.unpublishedReferences(entry)
 
-      let title = "Publish entry?"
-      let message =
-        "This entry will be published and become available on your website or app."
-      let confirmLabel = "Publish"
+    let title = "Publish entry?"
+    let message =
+      "This entry will be published and become available on your website or app."
+    let confirmLabel = "Publish"
 
-      if (unpublishedReferences.length > 0) {
-        title = "You have unpublished links"
-        message =
-          "Not all links on this entry are published. See sections: " +
-          unpublishedReferences.map(ref => ref.field).join(", ")
-        confirmLabel = "Publish anyway"
+    if (unpublishedReferences.length > 0) {
+      title = "You have unpublished links"
+      message =
+        "Not all links on this entry are published. See sections: " +
+        unpublishedReferences.map(ref => ref.field).join(", ")
+      confirmLabel = "Publish anyway"
+    }
+
+    const result = await this.props.extension.dialogs
+      .openConfirm({
+        title,
+        message,
+        confirmLabel,
+        cancelLabel: "Cancel"
+      })
+
+      if (!result) {
+        this.setState({ working: false })
+        return
       }
 
-      this.props.extension.dialogs
-        .openConfirm({
-          title,
-          message,
-          confirmLabel,
-          cancelLabel: "Cancel"
-        })
-        .then(result => {
-          if (!result) return
-
-          ext.space
-            .publishEntry(entry)
-            .then(() => this.onUpdate())
-            .catch(error => this.onError(error))
-        })
-    })
+    try {
+      await ext.space.publishEntry(entry)
+      this.onUpdate()
+    } catch (error) {
+      this.onError(error)
+    }
   }
 
   renderStatusLabel = () => {
@@ -208,7 +219,8 @@ class App extends React.Component {
           buttonType="positive"
           isFullWidth={true}
           onClick={this.onClickPublish}
-          disabled={this.state.isPublished}
+          disabled={this.state.isPublished || this.state.working}
+          loading={this.state.working}
         >
           Publish
         </Forma36.Button>
@@ -224,7 +236,7 @@ class App extends React.Component {
   }
 }
 
-init(extension => {
+contentfulExtension.init(extension => {
   ReactDOM.render(
     <App extension={extension} />,
     document.getElementById("root")
