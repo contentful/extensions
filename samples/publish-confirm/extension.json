@@ -1,0 +1,6 @@
+{
+  "id": "publish-with-confirmation",
+  "name": "Publish button with confirmation",
+  "srcdoc": "./build/index.html",
+  "sidebar": true
+}
