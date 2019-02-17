@@ -13,7 +13,8 @@ class App extends React.Component {
         "https://" + projectId + "-preview.gtsb.io/" + contentTypeSlug + "/",
       isAutoUpdate: isAutoUpdate,
       webhookUrl:
-        "https://backends.ctffns.net/gatsby-preview-proxy/" + projectId
+        "https://backends.ctffns.net/gatsby-preview-proxy/" + projectId,
+      debounceInterval: null
     }
   }
 
@@ -40,13 +41,15 @@ class App extends React.Component {
 
   onSysChanged = () => {
     if (this.state.isAutoUpdate) {
-      this.refreshGatsbyPreview()
+      if (this.state.debounceInterval) {
+        clearInterval(this.state.debounceInterval)
+      }
+      this.state.debounceInterval = setInterval(this.refreshGatsbyPreview, 1000)
     }
   }
 
   refreshGatsbyPreview = () => {
-    console.log("preview!")
-    this.state.inThrottle = false
+    clearInterval(this.state.debounceInterval)
 
     fetch(this.state.webhookUrl, {
       method: "POST",
