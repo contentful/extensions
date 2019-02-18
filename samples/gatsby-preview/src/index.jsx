@@ -4,33 +4,30 @@ class App extends React.Component {
 
     const parameters = this.props.sdk.parameters
     const projectId = parameters.installation.projectId
-    
+
     const { contentTypeSlug, isAutoUpdate } = parameters.instance
 
     this.state = {
       projectId,
       projectUrl:
-        "https://" + projectId + "-preview.gtsb.io/" + contentTypeSlug + "/",
+        'https://' + projectId + '-preview.gtsb.io/' + contentTypeSlug + '/',
       isAutoUpdate: isAutoUpdate,
       webhookUrl:
-        "https://backends.ctffns.net/gatsby-preview-proxy/" + projectId,
-      debounceInterval: null,
-      isUpdated: false
+        'https://backends.ctffns.net/gatsby-preview-proxy/' + projectId
     }
   }
 
   componentDidMount = () => {
-    
     this.detachFn = this.props.sdk.entry.onSysChanged(this.onSysChanged)
 
     this.props.sdk.window.startAutoResizer()
-
-    this.state.debounceInterval = setInterval(this.refreshGatsbyPreview, 1000)
   }
 
   componentWillUnmount = () => {
     this.detachFn()
-    clearInterval(this.state.debounceInterval)
+    if (this.debounceInterval) {
+      clearInterval(this.debounceInterval)
+    }
   }
 
   onError = error => {
@@ -42,22 +39,25 @@ class App extends React.Component {
     if (!this.state.isAutoUpdate) {
       return
     }
-    this.state.isUpdated = true
+    if (this.debounceInterval) {
+      clearInterval(this.debounceInterval)
+    }
+    this.debounceInterval = setInterval(this.refreshGatsbyPreview, 1000)
   }
 
   refreshGatsbyPreview = () => {
-    if (!this.state.isUpdated) {
-      return
+    if (this.debounceInterval) {
+      clearInterval(this.debounceInterval)
     }
-    
-    this.state.isUpdated = false
 
     fetch(this.state.webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({})
-    })
-      .then(success => this.props.sdk.notifier.success("Gatsby Preview Updated!"), error => this.props.sdk.notifier.error(error))
+    }).then(
+      success => this.props.sdk.notifier.success('Gatsby Preview Updated!'),
+      error => this.props.sdk.notifier.error(error)
+    )
   }
 
   openPreviewTab = () => {
@@ -66,7 +66,7 @@ class App extends React.Component {
     )
   }
   onChange = e => {
-    this.setState({ isAutoUpdate: e.target.value === "yes" }, () => {
+    this.setState({ isAutoUpdate: e.target.value === 'yes' }, () => {
       console.log(this.state.isAutoUpdate)
     })
     //e.target.checked = true
@@ -80,17 +80,6 @@ class App extends React.Component {
             Open preview
           </Forma36.Button>
 
-          {/* <Forma36.FieldGroup>
-            <Forma36.CheckboxField
-              labelText="Auto update"
-              helpText="Any change will refresh the preview"
-              disabled={false}
-              value="yes"
-              onChange={this.onRadioChange}
-              checked={this.state.isAutoUpdate}
-            />
-          </Forma36.FieldGroup> */}
-
           <Forma36.FieldGroup row={true}>
             <Forma36.RadioButtonField
               labelText="Auto-update"
@@ -102,7 +91,6 @@ class App extends React.Component {
               name="autoUpdate"
             />
             <Forma36.RadioButtonField
-            
               labelText="Manual update"
               disabled={false}
               checked={!this.state.isAutoUpdate}
@@ -110,7 +98,6 @@ class App extends React.Component {
               value="no"
               onChange={this.onChange}
               labelIsLight
-              
               name="autoUpdate"
             />
           </Forma36.FieldGroup>
@@ -125,16 +112,16 @@ class App extends React.Component {
 
           <div
             style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-end"
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-end'
             }}
           >
             <Forma36.Paragraph
               extraClassNames=""
               element="p"
-              style={{ marginRight: "5%" }}
+              style={{ marginRight: '5%' }}
             >
               Powered by:
             </Forma36.Paragraph>
@@ -153,5 +140,5 @@ class App extends React.Component {
 }
 
 contentfulExtension.init(sdk => {
-  ReactDOM.render(<App sdk={sdk} />, document.getElementById("root"))
+  ReactDOM.render(<App sdk={sdk} />, document.getElementById('root'))
 })
