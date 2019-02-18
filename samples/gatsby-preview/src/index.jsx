@@ -104,13 +104,13 @@ class App extends React.Component {
               labelText="Auto-update"
               disabled={false}
               checked={this.state.isAutoUpdate}
-              checked
               value="yes"
               onChange={this.onChange}
               labelIsLight
-              id="termsCheckbox"
+              name="autoUpdate"
             />
             <Forma36.RadioButtonField
+            
               labelText="Manual update"
               disabled={false}
               checked={!this.state.isAutoUpdate}
@@ -118,7 +118,8 @@ class App extends React.Component {
               value="no"
               onChange={this.onChange}
               labelIsLight
-              id="termsCheckboxOption2"
+              
+              name="autoUpdate"
             />
           </Forma36.FieldGroup>
 
