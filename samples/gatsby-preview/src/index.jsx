@@ -10,10 +10,10 @@ class App extends React.Component {
     this.state = {
       projectId,
       projectUrl:
-        'https://' + projectId + '-preview.gtsb.io/' + contentTypeSlug + '/',
+        "https://" + projectId + "-preview.gtsb.io/" + contentTypeSlug + "/",
       isAutoUpdate: isAutoUpdate,
       webhookUrl:
-        'https://backends.ctffns.net/gatsby-preview-proxy/' + projectId
+        "https://backends.ctffns.net/gatsby-preview-proxy/" + projectId
     }
   }
 
@@ -51,11 +51,11 @@ class App extends React.Component {
     }
 
     fetch(this.state.webhookUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({})
     }).then(
-      success => this.props.sdk.notifier.success('Gatsby Preview Updated!'),
+      success => this.props.sdk.notifier.success("Gatsby Preview Updated!"),
       error => this.props.sdk.notifier.error(error)
     )
   }
@@ -66,7 +66,7 @@ class App extends React.Component {
     )
   }
   onChange = e => {
-    this.setState({ isAutoUpdate: e.target.value === 'yes' }, () => {
+    this.setState({ isAutoUpdate: e.target.value === "yes" }, () => {
       console.log(this.state.isAutoUpdate)
     })
     //e.target.checked = true
@@ -112,16 +112,16 @@ class App extends React.Component {
 
           <div
             style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'flex-end'
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-end"
             }}
           >
             <Forma36.Paragraph
               extraClassNames=""
               element="p"
-              style={{ marginRight: '5%' }}
+              style={{ marginRight: "5%" }}
             >
               Powered by:
             </Forma36.Paragraph>
@@ -140,5 +140,5 @@ class App extends React.Component {
 }
 
 contentfulExtension.init(sdk => {
-  ReactDOM.render(<App sdk={sdk} />, document.getElementById('root'))
+  ReactDOM.render(<App sdk={sdk} />, document.getElementById("root"))
 })
