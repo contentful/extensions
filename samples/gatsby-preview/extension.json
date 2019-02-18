@@ -9,8 +9,7 @@
       {
         "id": "contentTypeSlug",
         "type": "Symbol",
-        "name": "URL slug for content type",
-        "default": ""
+        "name": "URL slug for content type"
       },
       {
         "id": "isAutoUpdate",

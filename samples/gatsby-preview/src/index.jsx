@@ -2,36 +2,35 @@ class App extends React.Component {
   constructor(props) {
     super(props)
 
-    let parameters = this.props.sdk.parameters
-    let projectId = parameters.installation.projectId
-    let contentTypeSlug = parameters.instance.contentTypeSlug
-    let isAutoUpdate = parameters.instance.isAutoUpdate
+    const parameters = this.props.sdk.parameters
+    const projectId = parameters.installation.projectId
+    
+    const { contentTypeSlug, isAutoUpdate } = parameters.instance
 
     this.state = {
-      projectId: projectId,
+      projectId,
       projectUrl:
         "https://" + projectId + "-preview.gtsb.io/" + contentTypeSlug + "/",
       isAutoUpdate: isAutoUpdate,
       webhookUrl:
         "https://backends.ctffns.net/gatsby-preview-proxy/" + projectId,
-      debounceInterval: null
+      debounceInterval: null,
+      isUpdated: false
     }
   }
 
   componentDidMount = () => {
-    this.detachFns = []
-
-    this.detachFns.push(this.props.sdk.entry.onSysChanged(this.onSysChanged))
+    
+    this.detachFn = this.props.sdk.entry.onSysChanged(this.onSysChanged)
 
     this.props.sdk.window.startAutoResizer()
+
+    this.state.debounceInterval = setInterval(this.refreshGatsbyPreview, 1000)
   }
 
   componentWillUnmount = () => {
-    this.detachFns.forEach(detach => detach())
-  }
-
-  constructState = () => {
-    return
+    this.detachFn()
+    clearInterval(this.state.debounceInterval)
   }
 
   onError = error => {
@@ -43,29 +42,22 @@ class App extends React.Component {
     if (!this.state.isAutoUpdate) {
       return
     }
-    if (this.state.debounceInterval) {
-      clearInterval(this.state.debounceInterval)
-    }
-    this.state.debounceInterval = setInterval(this.refreshGatsbyPreview, 1000)
+    this.state.isUpdated = true
   }
 
   refreshGatsbyPreview = () => {
-    clearInterval(this.state.debounceInterval)
+    if (!this.state.isUpdated) {
+      return
+    }
+    
+    this.state.isUpdated = false
 
     fetch(this.state.webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({})
     })
-      .then(res => res.json())
-      .then(
-        function(jsonResp) {
-          this.props.sdk.notifier.success("Gatsby Preview Updated!")
-        }.bind(this),
-        function(error) {
-          this.props.sdk.notifier.error(error)
-        }.bind(this)
-      )
+      .then(success => this.props.sdk.notifier.success("Gatsby Preview Updated!"), error => this.props.sdk.notifier.error(error))
   }
 
   openPreviewTab = () => {
