@@ -2,16 +2,15 @@ class App extends React.Component {
   constructor(props) {
     super(props)
 
-    const parameters = this.props.sdk.parameters
-    const projectId = parameters.installation.projectId
-
+    const { parameters } = this.props.sdk
+    const { projectId } = parameters.installation
     const { contentTypeSlug, isAutoUpdate } = parameters.instance
 
     this.state = {
       projectId,
+      isAutoUpdate,
       projectUrl:
         "https://" + projectId + "-preview.gtsb.io/" + contentTypeSlug + "/",
-      isAutoUpdate: isAutoUpdate,
       webhookUrl:
         "https://backends.ctffns.net/gatsby-preview-proxy/" + projectId
     }
@@ -42,7 +41,7 @@ class App extends React.Component {
     if (this.debounceInterval) {
       clearInterval(this.debounceInterval)
     }
-    this.debounceInterval = setInterval(this.refreshGatsbyPreview, 1000)
+    this.debounceInterval = setInterval(this.refreshGatsbyPreview, 600)
   }
 
   refreshGatsbyPreview = () => {
@@ -55,8 +54,8 @@ class App extends React.Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({})
     }).then(
-      success => this.props.sdk.notifier.success("Gatsby Preview Updated!"),
-      error => this.props.sdk.notifier.error(error)
+      success => this.props.sdk.notifier.success("Gatsby Preview updated!"),
+      error => this.props.sdk.notifier.error("Gatsby Preview failed :(")
     )
   }
 
@@ -65,11 +64,8 @@ class App extends React.Component {
       this.state.projectUrl + this.props.sdk.entry.fields.slug.getValue()
     )
   }
-  onChange = e => {
-    this.setState({ isAutoUpdate: e.target.value === "yes" }, () => {
-      console.log(this.state.isAutoUpdate)
-    })
-    //e.target.checked = true
+  onAutoUpdateChange = e => {
+    this.setState({ isAutoUpdate: e.target.value === "yes" })
   }
 
   render = () => {
@@ -86,7 +82,7 @@ class App extends React.Component {
               disabled={false}
               checked={this.state.isAutoUpdate}
               value="yes"
-              onChange={this.onChange}
+              onChange={this.onAutoUpdateChange}
               labelIsLight
               name="autoUpdate"
             />
@@ -96,7 +92,7 @@ class App extends React.Component {
               checked={!this.state.isAutoUpdate}
               name="someOption"
               value="no"
-              onChange={this.onChange}
+              onChange={this.onAutoUpdateChange}
               labelIsLight
               name="autoUpdate"
             />

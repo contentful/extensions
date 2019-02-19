@@ -1,6 +1,6 @@
 {
   "id": "gatsby-preview",
-  "name": "Live preview builds with Gatsby Preview",
+  "name": "Gatsby Preview: Instant preview builds",
   "srcdoc": "./build/index.html",
   "fieldTypes": ["Symbol"],
   "sidebar": true,
