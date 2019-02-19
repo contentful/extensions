@@ -41,7 +41,7 @@ class App extends React.Component {
     if (this.debounceInterval) {
       clearInterval(this.debounceInterval)
     }
-    this.debounceInterval = setInterval(this.refreshGatsbyPreview, 600)
+    this.debounceInterval = setInterval(this.refreshGatsbyPreview, 1000)
   }
 
   refreshGatsbyPreview = () => {
