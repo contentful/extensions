@@ -1,0 +1,15 @@
+{
+  "name": "gatsby-preview",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "rimraf build/* && parcel build src/index.jsx -d ./build --no-source-maps && node build.js && rimraf build/index.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "parcel": "^1.11.0",
+    "rimraf": "^2.6.3"
+  }
+}
