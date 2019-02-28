@@ -19,6 +19,10 @@ class App extends React.Component {
         "-preview.gtsb.io/" +
         contentTypeSlug +
         entrySlug,
+      /**
+        Note: Gatsby doesn't support CORS hence the request needs to go through a proxy.
+        When using this extension in your own setup, please replace this URL with a proxy you own.
+      */
       webhookUrl:
         "https://backends.ctffns.net/gatsby-preview-proxy/" + projectId
     }
