@@ -1,0 +1,7 @@
+{
+  "id": "content-tree",
+  "name": "Content Tree",
+  "srcdoc": "./build/index.html",
+  "sidebar": true,
+  "fieldTypes": ["Object"]
+}
