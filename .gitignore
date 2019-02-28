@@ -3,3 +3,4 @@ dist
 .env
 npm-debug.log
 .cache
+samples/.vscode/settings.json
