@@ -6,11 +6,19 @@ class App extends React.Component {
     const { projectId } = parameters.installation
     const { contentTypeSlug, isAutoUpdate } = parameters.instance
 
+    const entrySlug = this.props.sdk.entry.fields.slug
+      ? "/" + this.props.sdk.entry.fields.slug.getValue()
+      : ""
+
     this.state = {
       projectId,
       isAutoUpdate,
-      projectUrl:
-        "https://" + projectId + "-preview.gtsb.io/" + contentTypeSlug + "/",
+      previewUrl:
+        "https://" +
+        projectId +
+        "-preview.gtsb.io/" +
+        contentTypeSlug +
+        entrySlug,
       webhookUrl:
         "https://backends.ctffns.net/gatsby-preview-proxy/" + projectId
     }
@@ -60,9 +68,7 @@ class App extends React.Component {
   }
 
   openPreviewTab = () => {
-    window.open(
-      this.state.projectUrl + this.props.sdk.entry.fields.slug.getValue()
-    )
+    window.open(this.state.previewUrl)
   }
   onAutoUpdateChange = e => {
     this.setState({ isAutoUpdate: e.target.value === "yes" })
