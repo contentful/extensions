@@ -1,8 +1,8 @@
-# Gatsby Preview (beta)
+# Gatsby Preview
+
+Gatsby is an open-source, modern website framework based on React to create and deploy websites or web apps with ease. This UI Extension connects to [Gatsby Preview](https://www.gatsbyjs.com/preview/) which lets you see updates to your Gatsby site as soon as you change content in Contentful. This makes it easy for content creators to see changes they make to the website before going live.
 
 **Note:** Gatsby Preview is still in beta, please be mindful when using this extension.
-
-This UI Extension connects to [Gatsby Preview](https://www.gatsbyjs.com/preview/) to see content changes in Contentful updated in real time in your Gatsby site.
 
 ![Demo of the extension](demo.gif)
 
