@@ -1,4 +1,4 @@
-import { default as debounce } from "debounce-fn"
+import debounce from "debounce-fn"
 
 const filterDuplicates = x => [...new Set(x)]
 
