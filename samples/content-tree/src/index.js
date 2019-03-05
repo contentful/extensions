@@ -1,4 +1,15 @@
 import debounce from "debounce-fn"
+import React from "react"
+import ReactDOM from "react-dom"
+import {
+  SectionHeading,
+  Paragraph,
+  Icon
+} from "@contentful/forma-36-react-components"
+import "@contentful/forma-36-react-components/dist/styles.css"
+import "@contentful/forma-36-fcss/dist/styles.css"
+import { init } from "contentful-ui-extensions-sdk"
+import "./index.css"
 
 const filterDuplicates = x => [...new Set(x)]
 
@@ -296,14 +307,14 @@ class App extends React.Component {
 
     return (
       <section>
-        <Forma36.Paragraph element="a" extraClassNames="link selected">
-          <Forma36.Icon
+        <Paragraph element="a" extraClassNames="link selected">
+          <Icon
             icon="ChevronDown"
             color="secondary"
             extraClassNames="left-icon"
           />
           {title}
-        </Forma36.Paragraph>
+        </Paragraph>
         <section className="child-refs">
           {this.state.childReferences.map(this.renderReferencesOfField)}
         </section>
@@ -316,18 +327,18 @@ class App extends React.Component {
 
     return this.state.siblingReferences.map(parentLink => (
       <section className="sibling-refs">
-        <Forma36.Paragraph
+        <Paragraph
           element="a"
           extraClassNames="link"
           onClick={this.openEntry(parentLink.id)}
         >
-          <Forma36.Icon
+          <Icon
             icon="ChevronDown"
             color="secondary"
             extraClassNames="left-icon"
           />
           {parentLink.title}
-        </Forma36.Paragraph>
+        </Paragraph>
         <section className="child-refs">
           {parentLink.fields.map(this.renderReferencesOfField)}
         </section>
@@ -338,9 +349,9 @@ class App extends React.Component {
   renderReferencesOfField = ({ fieldLabel, entryIds }) => {
     return (
       <section>
-        <Forma36.SectionHeading extraClassNames="section-label">
+        <SectionHeading extraClassNames="section-label">
           {fieldLabel}
-        </Forma36.SectionHeading>
+        </SectionHeading>
         {entryIds.map(id => this.state.entryMap[id]).map(this.renderRow)}
       </section>
     )
@@ -358,20 +369,20 @@ class App extends React.Component {
       reference.sys.id === entryId && this.state.childReferences.length > 0
 
     return [
-      <Forma36.Paragraph
+      <Paragraph
         onClick={this.openEntry(reference.sys.id)}
         className={`link ${entryId === reference.sys.id ? "selected" : ""} ${
           isPublished ? "published" : ""
         }`}
         element="a"
       >
-        <Forma36.Icon
+        <Icon
           icon={listChildRefs ? "ChevronDown" : "ChevronRight"}
           color="secondary"
           extraClassNames="left-icon"
         />
         {title}
-      </Forma36.Paragraph>,
+      </Paragraph>,
       listChildRefs ? (
         <section className="child-refs">
           {this.state.childReferences.map(this.renderReferencesOfField)}
@@ -381,7 +392,7 @@ class App extends React.Component {
   }
 }
 
-contentfulExtension.init(extension => {
+init(extension => {
   ReactDOM.render(
     <App extension={extension} />,
     document.getElementById("root")
