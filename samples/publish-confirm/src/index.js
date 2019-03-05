@@ -1,4 +1,11 @@
-import relativeDate from "relative-date"
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Button, TextLink, Paragraph } from '@contentful/forma-36-react-components';
+import { init } from 'contentful-ui-extensions-sdk';
+import relativeDate from "relative-date";
+import '@contentful/forma-36-react-components/dist/styles.css';
+import '@contentful/forma-36-fcss/dist/styles.css';
+import './index.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -178,10 +185,10 @@ class App extends React.Component {
         cancelLabel: "Cancel"
       })
 
-      if (!result) {
-        this.setState({ working: false })
-        return
-      }
+    if (!result) {
+      this.setState({ working: false })
+      return
+    }
 
     try {
       await ext.space.publishEntry(entry)
@@ -209,12 +216,12 @@ class App extends React.Component {
     )
 
     return (
-      <div className="foo">
-        <Forma36.Paragraph extraClassNames="f36-margin-bottom--s">
+      <>
+        <Paragraph extraClassNames="f36-margin-bottom--s">
           <strong>Status: </strong>
           {this.renderStatusLabel()}
-        </Forma36.Paragraph>
-        <Forma36.Button
+        </Paragraph>
+        <Button
           extraClassNames="publish-button"
           buttonType="positive"
           isFullWidth={true}
@@ -223,22 +230,22 @@ class App extends React.Component {
           loading={this.state.working}
         >
           Publish
-        </Forma36.Button>
-        <Forma36.TextLink
+        </Button>
+        <TextLink
           extraClassNames="f36-margin-top--s f36-margin-bottom--xs"
           onClick={this.onClickUnpublish}
         >
           Unpublish
-        </Forma36.TextLink>
-        <Forma36.Paragraph>Last saved {ago}</Forma36.Paragraph>
-      </div>
+        </TextLink>
+        <Paragraph>Last saved {ago}</Paragraph>
+      </>
     )
   }
 }
 
-contentfulExtension.init(extension => {
+init(extension => {
   ReactDOM.render(
     <App extension={extension} />,
     document.getElementById("root")
   )
-})
+});
