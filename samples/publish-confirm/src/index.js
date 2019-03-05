@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button, TextLink, Paragraph } from '@contentful/forma-36-react-components';
-import './index.css';
-import '@contentful/forma-36-react-components/dist/styles.css';
-import '@contentful/forma-36-fcss/dist/styles.css';
 import { init } from 'contentful-ui-extensions-sdk';
 import relativeDate from "relative-date";
+import '@contentful/forma-36-react-components/dist/styles.css';
+import '@contentful/forma-36-fcss/dist/styles.css';
+import './index.css';
 
 class App extends React.Component {
   constructor(props) {
