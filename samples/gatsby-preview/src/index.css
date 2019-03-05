@@ -1,0 +1,22 @@
+html,
+body,
+div {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+.gatsby-logo {
+  width: 40px;
+  height: 40px;
+}
+.flexcontainer {
+  display: flex;
+  flex-direction: column;
+}
+.flexcontainer > * {
+  margin-bottom: 5%;
+}
