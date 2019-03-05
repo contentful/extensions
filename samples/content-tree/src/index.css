@@ -1,0 +1,55 @@
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .link {
+      display: block;
+      font: 1rem sans-serif;
+      padding: 0.75rem 2rem 0.75rem 2rem;
+      position: relative;
+      color: #536171;
+      cursor: pointer;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .link::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      -moz-border-radius: 7.5px;
+      -webkit-border-radius: 7.5px;
+      border-radius: 7.5px;
+      background-color: rgb(255, 225, 0);
+      position: absolute;
+      right: 10px;
+      top: calc(50% - 5px);
+    }
+
+    .link.published::before {
+      background-color: rgb(0, 155, 0);
+    }
+
+    .link:hover,
+    .link.selected {
+      background: #dfe5e9;
+    }
+
+    .link .left-icon {
+      position: absolute;
+      left: 0.5rem;
+      fill: #000;
+    }
+
+    .section-label {
+      margin: 0.5rem 0;
+      color: #a2a9b1;
+    }
+
+    .child-refs {
+      margin: 0 0 0 1.5rem;
+    }
