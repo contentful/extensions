@@ -10,7 +10,8 @@ div {
 }
 
 .gatsby-logo {
-  max-width: 40%;
+  width: 40px;
+  height: 40px;
 }
 .flexcontainer {
   display: flex;
