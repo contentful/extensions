@@ -1,8 +1,0 @@
-language: node_js
-node_js: [6]
-before_install:
-  - 'cd core-field-editors'
-install:
-  - 'npm install'
-script:
-  - 'npm test'
