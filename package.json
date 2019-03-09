@@ -1,0 +1,36 @@
+{
+  "private": true,
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "commander": "^2.20.0",
+    "cpy": "^7.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jest": "^22.4.1",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-react": "^7.12.4",
+    "lerna": "^3.13.1",
+    "log-symbols": "^2.2.0",
+    "make-dir": "^2.1.0",
+    "netlify": "^2.4.1",
+    "ora": "^3.4.0",
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.3"
+  },
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "bootstrap": "lerna bootstrap",
+    "prettier": "prettier marketplace/**/*.js scripts/**/*.js --write",
+    "build": "lerna run build -- -- --no-inline && node ./scripts/build.js",
+    "deploy": "node ./scripts/deploy.js",
+    "lint": "eslint marketplace/**/*.js scripts/**/*.js --ignore-path .gitignore",
+    "test": "lerna run test",
+    "coverage": "lerna run coverage"
+  },
+  "engines": {
+    "node": ">=10.15.0"
+  },
+  "name": "extensions"
+}

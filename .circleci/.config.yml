@@ -1,0 +1,28 @@
+version: 2.0
+
+cache-key: &cache-key
+  key: dependency-cache-primary-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - restore_cache: *cache-key
+      - run:
+          name: Installing dependencies
+          command: npm install
+      - save_cache:
+          <<: *cache-key
+          paths:
+            - ./node_modules
+      - run:
+          name: Linting code
+          command: npm run lint
+      - run:
+          name: Running unit tests
+          command: npm run test
+      - run:
+          name: Building extension code
+          command: npm run build
