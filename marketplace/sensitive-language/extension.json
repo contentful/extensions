@@ -1,0 +1,24 @@
+{
+  "id": "sensitive-language",
+  "name": "Sensitive Language",
+  "sidebar": true,
+  "parameters": {
+    "installation": [
+      {
+        "id": "profanitySureness",
+        "name": "Profanity sureness",
+        "description": "Level of likelihood for a potential profanity to be reported.",
+        "type": "Enum",
+        "options": [
+          {"0": "Unlikely"},
+          {"1": "Maybe"},
+          {"2": "Red"}
+        ],
+        "default": "0"
+      }
+    ],
+    "instance": [
+
+    ]
+  }
+}

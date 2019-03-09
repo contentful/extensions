@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NoIssues: renders correctly 1`] = `
+<div
+  className="typography"
+>
+  <div
+    className="subheading"
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+      }
+    }
+  >
+    <div
+      className="icon"
+      color="positive"
+      extraClassNames="f36-margin-right--xs"
+      icon="CheckCircle"
+    />
+    No issues found
+  </div>
+  <div
+    className="paragraph"
+    style={
+      Object {
+        "marginBottom": 0,
+      }
+    }
+  >
+    All checked files seem to be free on insenstive language. Good job!
+  </div>
+</div>
+`;

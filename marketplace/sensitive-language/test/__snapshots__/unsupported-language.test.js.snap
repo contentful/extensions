@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnsupportedLanguage: renders correctly 1`] = `
+<div
+  className="typography"
+>
+  <div
+    className="subheading"
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+      }
+    }
+  >
+    <div
+      className="icon"
+      color="negative"
+      extraClassNames="f36-margin-right--xs"
+      icon="Warning"
+    />
+    Unsupported language
+  </div>
+  <div
+    className="paragraph"
+    style={
+      Object {
+        "marginBottom": 0,
+      }
+    }
+  >
+    The sensitive language feature only works for English text. The default locale of this space is German (de-De).
+  </div>
+</div>
+`;

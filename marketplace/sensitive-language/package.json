@@ -1,0 +1,51 @@
+{
+  "name": "sensitive-language",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "@babel/core": "7.3.4",
+    "@babel/plugin-proposal-class-properties": "7.3.4",
+    "@babel/plugin-transform-runtime": "7.3.4",
+    "@babel/preset-env": "7.3.4",
+    "@babel/preset-react": "7.0.0",
+    "@contentful/contentful-extension-scripts": "0.7.3",
+    "contentful-cli": "^0.26.2",
+    "jest": "^24.7.0",
+    "react-test-renderer": "^16.8.6"
+  },
+  "dependencies": {
+    "@contentful/forma-36-fcss": "^0.0.13",
+    "@contentful/forma-36-react-components": "^2.9.1",
+    "@contentful/forma-36-tokens": "^0.2.0",
+    "@contentful/rich-text-plain-text-renderer": "^13.0.0",
+    "alex": "^7.1.0",
+    "contentful-ui-extensions-sdk": "^3.5.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "sdk": "^0.5.0"
+  },
+  "scripts": {
+    "configure": "contentful space use && contentful space environment use",
+    "prestart": "contentful extension update --src http://localhost:1234 --force",
+    "start": "contentful-extension-scripts start",
+    "build": "contentful-extension-scripts build",
+    "deploy": "npm run build && contentful extension update --force",
+    "login": "contentful login",
+    "logout": "contentful logout",
+    "help": "contentful-extension-scripts help",
+    "test": "jest test/*.test.js",
+    "coverage": "jest --coverage test/*.test.js"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "IE >= 11",
+    "not IE 10"
+  ],
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "testEnvironment": "node"
+  }
+}
