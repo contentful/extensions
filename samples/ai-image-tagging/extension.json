@@ -1,0 +1,6 @@
+{
+  "id": "ai-image-tagging",
+  "name": "ai-image-tagging",
+  "srcdoc": "./build/index.html",
+  "sidebar": true
+}
