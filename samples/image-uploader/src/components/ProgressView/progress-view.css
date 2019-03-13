@@ -1,0 +1,46 @@
+:root {
+  --progress-view-bar-height: 0.25rem;
+}
+
+.progress-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: no-repeat center center;
+  background-size: cover;
+}
+
+.progress-view .overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: calc(100% - var(--uploadProgress));
+  height: calc(100% - var(--progress-view-bar-height));
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.75);
+  transition: width .3s;
+}
+
+.progress-view .bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: var(--progress-view-bar-height);
+  width: var(--uploadProgress);
+  background: #007fff;
+  transition: width 0.3s;
+}
+
+.progress-view .bar-placeholder {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: calc(100% - var(--uploadProgress));
+  height: var(--progress-view-bar-height);
+  background: #eee;
+  transition: width 0.3s;
+}

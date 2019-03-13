@@ -1,0 +1,2 @@
+export const ASSET_PROCESSING_POLL_MS = 1000
+export const MAX_ASSET_TITLE_LEN = 25

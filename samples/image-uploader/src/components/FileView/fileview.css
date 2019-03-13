@@ -1,0 +1,38 @@
+.file-view {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 2rem;
+}
+
+.file-view header {
+  background:#f2f2f2 no-repeat center center;
+  background-size: contain;
+}
+
+.file-view .details .filename {
+  margin-bottom: 0.5rem;
+}
+
+.file-view .details .row {
+  color: #555;
+}
+
+.file-view .details strong {
+  font-weight: 700;
+}
+
+.file-view .buttonset {
+  margin-top: 1rem;
+}
+
+.file-view .buttonset .button {
+  margin-left: 0.5rem;
+}
+
+.file-view .buttonset .button:first-child {
+  margin-left: 0;
+}
+
+.file-view img {
+  height: 100%;
+}
