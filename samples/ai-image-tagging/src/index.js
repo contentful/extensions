@@ -10,7 +10,7 @@ import { init } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss'
 
-import { ImageTaggingHelp } from './ImageTaggingHelp/image-tagging-help'
+import { ImageTaggingHelp } from './ImageTaggingHelp/ImageTaggingHelp'
 import { getAssetFields, findImageField, findTagsField, getTagFields } from "./lib/content-type";
 import { mergeTags, requestTags } from './lib/tags';
 

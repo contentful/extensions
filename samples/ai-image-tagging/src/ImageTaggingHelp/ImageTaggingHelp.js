@@ -1,11 +1,9 @@
 import { get, uniq } from 'lodash'
 import React from 'react';
 import PropTypes from 'prop-types';
-import {List, ListItem, Paragraph} from '@contentful/forma-36-react-components';
-import '@contentful/forma-36-react-components/dist/styles.css';
-import '@contentful/forma-36-fcss'
+import { List, ListItem, Paragraph } from '@contentful/forma-36-react-components';
 
-import './image-tagging-help.css'
+import './ImageTaggingHelp.css'
 
 const getContentTypeUrl = (contentType) => {
   const spaceId = get(contentType, 'sys.space.sys.id');
@@ -32,10 +30,10 @@ export class ImageTaggingHelp extends React.Component {
             target='_blank'
           >{contentType.name}</a>:</Paragraph>
         <List>
-          {!hasImageField ?
-            <ListItem extraClassNames='help_list__item'>A 'Media' field as the image source</ListItem> : ''}
-          {!hasTagField ?
-            <ListItem extraClassNames='help_list__item'>A 'Short text, list' field to store the tags</ListItem> : ''}
+          { !hasImageField ?
+            <ListItem extraClassNames='help_list__item'>A 'Media' field as the image source</ListItem> : null }
+          { !hasTagField ?
+            <ListItem extraClassNames='help_list__item'>A 'Short text, list' field to store the tags</ListItem> : null }
         </List>
       </div>
     )
