@@ -2,24 +2,15 @@ import React from "react"
 import PropTypes from "prop-types"
 import ReactDOM from "react-dom"
 import "@contentful/forma-36-react-components/dist/styles.css"
-import { init } from "contentful-ui-extensions-sdk"
-import {
-  SectionHeading,
-  Subheading,
-  Heading,
-  Icon,
-  Button,
-  Illustration,
-  Paragraph,
-  Spinner
-} from "@contentful/forma-36-react-components"
 
+import { Spinner } from "@contentful/forma-36-react-components"
+import { init } from "contentful-ui-extensions-sdk"
 import UploadView from "./components/UploadView"
 import ProgressView from "./components/ProgressView"
 import FileView from "./components/FileView"
 import Dropzone from "./components/Dropzone"
 import { readFileAsURL, trimFilename } from "./utils"
-import { ASSET_PROCESSING_POLL_MS, MAX_ASSET_TITLE_LEN } from "./config"
+import { MAX_ASSET_TITLE_LEN } from "./config"
 
 import "./index.css"
 
@@ -64,7 +55,7 @@ class App extends React.Component {
     )[0]
 
     try {
-      this.uploadNewAssetForImageWrapper(file)
+      this.uploadNewAsset(file)
     } catch (err) {
       this.onError(err)
     }
@@ -142,7 +133,7 @@ class App extends React.Component {
     })
   }
 
-  /* `uploadNewAssetForImageWrapper(file: File): void` takes an HTML5 File object
+  /* `uploadNewAsset(file: File): void` takes an HTML5 File object
      that contains the image user selected and performs following tasks;
 
       * Encode file as a base64 url
@@ -152,7 +143,7 @@ class App extends React.Component {
       * Wait until the asset is processed
       * Publish the asset
   */
-  uploadNewAssetForImageWrapper = async file => {
+  uploadNewAsset = async file => {
     this.setUploadProgress(0)
     this.setState({ file })
 
@@ -226,6 +217,10 @@ class App extends React.Component {
       return (
         <FileView
           file={this.state.asset.fields.file[this.props.sdk.field.locale]}
+          isPublished={
+            this.state.asset.sys.version ===
+            (this.state.asset.sys.publishedVersion || 0) + 1
+          }
           isDraggingOver={this.state.isDraggingOver}
           onDrop={this.onDropFiles}
           onDragOverStart={this.onDragOverStart}

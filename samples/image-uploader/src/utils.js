@@ -33,5 +33,5 @@ export function trimFilename(filename, len) {
   const extMatch = filename.match(/\.\w+$/)
   const ext = extMatch ? extMatch[0] : ""
 
-  return `${basename.slice(0, len - ext.length + 1)}${ext}`
+  return `${basename.slice(0, len - ext.length + 3)}..${ext}`
 }

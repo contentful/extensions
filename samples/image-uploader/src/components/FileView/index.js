@@ -42,6 +42,9 @@ export default function FileView(props) {
           <Paragraph extraClassNames="row">
             <strong>Type:</strong> {file.contentType}
           </Paragraph>
+          <Paragraph extraClassNames="row">
+            <strong>Status:</strong> {props.isPublished ? "Published" : "Draft"}
+          </Paragraph>
         </main>
         <nav className="buttonset">
           <Button
