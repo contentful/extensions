@@ -5,3 +5,4 @@ npm-debug.log
 .cache
 samples/.vscode/settings.json
 **/build
+.idea/

@@ -1,5 +1,3 @@
-import { get, uniq } from 'lodash'
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
@@ -69,11 +67,17 @@ class App extends React.Component {
       return
     }
 
-    const assetId = get(entry.fields[imageField].getValue(), 'sys.id');
-    const asset = await space.getAsset(assetId);
-    const imageUrl = get(asset, 'fields.file[en-US].url');
+    let imageUrl;
+    try {
+      const assetId = entry.fields[imageField].getValue().sys.id;
+      const asset = await space.getAsset(assetId);
+      imageUrl = asset.fields.file['en-US'].url;
 
-    if (!imageUrl) {
+      if (!imageUrl) {
+        bail('Add an image to the entry first');
+        return
+      }
+    } catch (e) {
       bail('Add an image to the entry first');
       return
     }

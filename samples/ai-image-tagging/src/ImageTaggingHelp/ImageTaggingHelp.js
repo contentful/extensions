@@ -1,4 +1,3 @@
-import { get, uniq } from 'lodash'
 import React from 'react';
 import PropTypes from 'prop-types';
 import { List, ListItem, Paragraph } from '@contentful/forma-36-react-components';
@@ -6,8 +5,8 @@ import { List, ListItem, Paragraph } from '@contentful/forma-36-react-components
 import './ImageTaggingHelp.css'
 
 const getContentTypeUrl = (contentType) => {
-  const spaceId = get(contentType, 'sys.space.sys.id');
-  const contentTypeId = get(contentType, 'sys.id');
+  const spaceId = contentType.sys.space.sys.id;
+  const contentTypeId = contentType.sys.id;
 
   return `https://app.contentful.com/spaces/${spaceId}/content_types/${contentTypeId}/fields`
 };

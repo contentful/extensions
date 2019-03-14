@@ -1,5 +1,3 @@
-import { uniq } from 'lodash';
-
 const BACKEND_URL = 'https://staging.ctffns.net/image-tagging';
 
 export const requestTags = async (imageUrl) => {
@@ -22,4 +20,4 @@ export const requestTags = async (imageUrl) => {
 };
 
 export const mergeTags = (oldTags, newTags) =>
-  uniq((oldTags).concat(newTags)).sort();
+  new Set((oldTags).concat(newTags));
