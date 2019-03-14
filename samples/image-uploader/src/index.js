@@ -190,13 +190,15 @@ class App extends React.Component {
     )
     this.setUploadProgress(85)
 
-    this.setState({
-      asset: processedAsset
-    })
-
     // Publish the asset
-    await this.props.sdk.space.publishAsset(processedAsset)
+    const publishedAsset = await this.props.sdk.space.publishAsset(
+      processedAsset
+    )
     this.setUploadProgress(95)
+
+    this.setState({
+      asset: publishedAsset
+    })
 
     // Set the value of the reference field as a link to the asset created above
     await this.props.sdk.field.setValue({
