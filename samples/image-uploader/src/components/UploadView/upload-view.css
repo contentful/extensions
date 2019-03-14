@@ -6,8 +6,6 @@
 }
 
 .upload-view main {
-  position: relative;
-  height: 10rem;
 }
 
 .upload-view .image-icon {
@@ -19,10 +17,17 @@
   color: #333;
 }
 
+.upload-view nav {
+
+  margin-top: 3rem;
+}
+
 .upload-view .browse-button {
-  position: absolute;
-  bottom: 0;
-  left: 1.25rem;
+  position: relative;
+}
+
+.upload-view .link-existing {
+  margin-left: 1rem;
 }
 
 .upload-view.dragover {

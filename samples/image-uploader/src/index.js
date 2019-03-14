@@ -41,6 +41,8 @@ class App extends React.Component {
     }
   }
 
+  componentWillUpdate(_, nextState) {}
+
   componentWillUnmount() {
     this.detachExternalChangeHandler()
   }
@@ -76,6 +78,18 @@ class App extends React.Component {
     this.props.sdk.navigator.openAsset(this.state.asset.sys.id, {
       slideIn: true
     })
+  }
+
+  onClickLinkExisting = async () => {
+    const selectedAsset = await this.props.sdk.dialogs.selectSingleAsset({
+      locale: this.props.sdk.field.locale
+    })
+
+    try {
+      await this.setFieldLink(selectedAsset.sys.id)
+    } catch (err) {
+      this.onError(err)
+    }
   }
 
   onClickRemove = () => {
@@ -196,6 +210,22 @@ class App extends React.Component {
     this.setUploadProgress(100)
   }
 
+  setFieldLink(assetId) {
+    return this.props.sdk.field
+      .setValue({
+        sys: {
+          type: "Link",
+          linkType: "Asset",
+          id: assetId
+        }
+      })
+      .then(() =>
+        this.props.sdk.space
+          .getAsset(this.state.value.sys.id)
+          .then(asset => this.setState({ asset }))
+      )
+  }
+
   setUploadProgress(percent) {
     this.setState({
       uploading: percent < 100,
@@ -245,6 +275,7 @@ class App extends React.Component {
         onDrop={this.onDropFiles}
         onDragOverStart={this.onDragOverStart}
         onDragOverEnd={this.onDragOverEnd}
+        onClickLinkExisting={this.onClickLinkExisting}
       />
     )
   }

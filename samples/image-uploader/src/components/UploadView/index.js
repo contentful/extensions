@@ -1,6 +1,10 @@
 import React from "react"
-import { Subheading, Button, Icon } from "@contentful/forma-36-react-components"
-
+import {
+  Subheading,
+  Button,
+  Icon,
+  TextLink
+} from "@contentful/forma-36-react-components"
 import Dropzone from "../Dropzone"
 import "./upload-view.css"
 
@@ -14,18 +18,6 @@ export default function UploadView(props) {
       onDragOverEnd={props.onDragOverEnd}
     >
       <main>
-        {!props.isDraggingOver ? (
-          <Button buttonType="muted" extraClassNames="button browse-button">
-            <input
-              className="file-picker"
-              type="file"
-              accept="image/x-png,image/gif,image/jpeg"
-              onChange={props.onDrop}
-            />
-            Select files
-          </Button>
-        ) : null}
-
         <Icon
           color={props.isDraggingOver ? "secondary" : "muted"}
           icon="Asset"
@@ -35,6 +27,26 @@ export default function UploadView(props) {
         <Subheading extraClassNames="image-icon-label">
           Drop an image here
         </Subheading>
+
+        {!props.isDraggingOver ? (
+          <nav>
+            <Button buttonType="muted" extraClassNames="button browse-button">
+              <input
+                className="file-picker"
+                type="file"
+                accept="image/x-png,image/gif,image/jpeg"
+                onChange={props.onDrop}
+              />
+              Select files
+            </Button>
+            <TextLink
+              extraClassNames="link-existing"
+              onClick={props.onClickLinkExisting}
+            >
+              Link existing asset
+            </TextLink>
+          </nav>
+        ) : null}
       </main>
     </Dropzone>
   )
