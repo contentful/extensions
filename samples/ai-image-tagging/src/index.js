@@ -83,7 +83,7 @@ class App extends React.Component {
     }
 
     try {
-      const newTags = await requestTags('https:' + imageUrl);
+      const newTags = await requestTags('https:' + imageUrl + '?w=1080');
 
       const tags = overwriteTags ? newTags : mergeTags(entry.fields[tagField].getValue() || [], newTags);
       entry.fields[tagField].setValue(tags);
@@ -163,7 +163,6 @@ class App extends React.Component {
     return (<div className='f36-color--text-light'>{
       hasImageField && hasTagField ?
         <div>
-          <Paragraph extraClassNames='f36-color--text-light'>Tag images of up to 5 MB automatically.</Paragraph>
           {imageFields.length > 1 || tagFields.length > 1 ?
             this.renderFieldSelector(contentType, imageFields, tagFields) : ''}
           <CheckboxField
