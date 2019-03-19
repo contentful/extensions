@@ -46,22 +46,13 @@ class App extends React.Component {
     const { entry, space, notifier, parameters: { instance: { tagFieldId, imageFieldId } } } = sdk;
 
     const { overwriteTags } = this.state;
-
-    if (!imageFieldId) {
-      bail('Add an image field to the content type first');
-      return
-    }
-
-    if (!tagFieldId) {
-      bail('Add a text list field to the content type first');
-      return
-    }
+    const defaultLocale = sdk.locales.default;
 
     let imageUrl;
     try {
       const assetId = entry.fields[imageFieldId].getValue().sys.id;
       const asset = await space.getAsset(assetId);
-      imageUrl = asset.fields.file['en-US'].url;
+      imageUrl = asset.fields.file[defaultLocale].url;
 
       if (!imageUrl) {
         bail('Add an image to the entry first');
