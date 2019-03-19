@@ -2,5 +2,19 @@
   "id": "image-tagging-sidebar",
   "name": "image-tagging",
   "srcdoc": "./build/index.html",
-  "sidebar": true
+  "sidebar": true,
+  "parameters": {
+    "instance": [
+      {
+        "id": "imageFieldId",
+        "type": "Symbol",
+        "name": "Id of a 'Media' field as the image source"
+      },
+      {
+        "id": "tagFieldId",
+        "type": "Symbol",
+        "name": "Id of a 'Short text, list' field to store the tags"
+      }
+    ]
+  }
 }
