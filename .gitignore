@@ -4,3 +4,4 @@ dist
 npm-debug.log
 .cache
 samples/.vscode/settings.json
+.idea/

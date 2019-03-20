@@ -1,0 +1,22 @@
+{
+  "id": "image-tagging-sidebar",
+  "name": "ai-image-tagging",
+  "srcdoc": "./build/index.html",
+  "sidebar": true,
+  "parameters": {
+    "instance": [
+      {
+        "id": "imageFieldId",
+        "type": "Symbol",
+        "name": "Image field",
+        "description": "Id of a 'Media' field as the image source"
+      },
+      {
+        "id": "tagFieldId",
+        "type": "Symbol",
+        "name": "Tags field",
+        "description": "Id of a 'Short text, list' field to store the tags"
+      }
+    ]
+  }
+}
