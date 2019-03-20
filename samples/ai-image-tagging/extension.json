@@ -8,12 +8,14 @@
       {
         "id": "imageFieldId",
         "type": "Symbol",
-        "name": "Id of a 'Media' field as the image source"
+        "name": "Image field",
+        "description": "Id of a 'Media' field as the image source"
       },
       {
         "id": "tagFieldId",
         "type": "Symbol",
-        "name": "Id of a 'Short text, list' field to store the tags"
+        "name": "Tags field",
+        "description": "Id of a 'Short text, list' field to store the tags"
       }
     ]
   }
