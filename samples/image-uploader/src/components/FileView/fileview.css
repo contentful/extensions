@@ -11,6 +11,9 @@
 
 .file-view .details .filename {
   margin-bottom: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .file-view .details .row {

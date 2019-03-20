@@ -8,9 +8,7 @@ import { init } from "contentful-ui-extensions-sdk"
 import UploadView from "./components/UploadView"
 import ProgressView from "./components/ProgressView"
 import FileView from "./components/FileView"
-import Dropzone from "./components/Dropzone"
-import { readFileAsURL, trimFilename } from "./utils"
-import { MAX_ASSET_TITLE_LEN } from "./config"
+import { readFileAsURL } from "./utils"
 
 import "./index.css"
 
@@ -22,7 +20,7 @@ class App extends React.Component {
   dropzoneEl = React.createRef()
   state = {
     isDraggingOver: false,
-    value: this.props.sdk.field.getValue()
+    value: this.props.sdk.field.getValue(this.findProperLocale())
   }
 
   componentDidMount() {
@@ -52,12 +50,16 @@ class App extends React.Component {
     event.stopPropagation()
 
     // Read the file that was just selected
-    const file = Array.prototype.slice.call(
+    const files = Array.prototype.slice.call(
       event.target.files || event.dataTransfer.files
-    )[0]
+    )
+
+    if (files.length > 1) {
+      return this.onError(new Error("Please drop only one image at a time"))
+    }
 
     try {
-      this.uploadNewAsset(file)
+      this.uploadNewAsset(files[0])
     } catch (err) {
       this.onError(err)
     }
@@ -119,32 +121,44 @@ class App extends React.Component {
   /*
      Create a new (unprocessed) asset entry for given upload and file.
 
-     createAsset(upload: UploadEntity, file: File): Promise<AssetEntity>
+     createAsset(upload: UploadEntity, file: File, locale: string): Promise<AssetEntity>
   */
-  createAsset = (upload, file) => {
-    return this.props.sdk.space.createAsset({
+  createAsset = (upload, file, locale) => {
+    const asset = {
       fields: {
-        title: {
-          "en-US": trimFilename(file.name, MAX_ASSET_TITLE_LEN)
-        },
-        description: {
-          "en-US": ""
-        },
-        file: {
-          "en-US": {
-            contentType: file.type,
-            fileName: file.name,
-            uploadFrom: {
-              sys: {
-                type: "Link",
-                linkType: "Upload",
-                id: upload.sys.id
-              }
-            }
-          }
+        title: {},
+        description: {},
+        file: {}
+      }
+    }
+
+    asset.fields.title[locale] = file.name
+    asset.fields.description[locale] = file.name
+    asset.fields.file[locale] = {
+      contentType: file.type,
+      fileName: file.name,
+      uploadFrom: {
+        sys: {
+          type: "Link",
+          linkType: "Upload",
+          id: upload.sys.id
         }
       }
-    })
+    }
+
+    return this.props.sdk.space.createAsset(asset)
+  }
+
+  /*
+    If customers prefers localization of references, always return default locale.
+    If not, return current locale.
+  */
+  findProperLocale() {
+    if (this.props.sdk.entry.fields[this.props.sdk.field.id].type === "Link") {
+      return this.props.sdk.locales.default
+    }
+
+    return this.props.sdk.field.locale
   }
 
   /* `uploadNewAsset(file: File): void` takes an HTML5 File object
@@ -170,44 +184,51 @@ class App extends React.Component {
     const upload = await this.props.sdk.space.createUpload(base64Data)
     this.setUploadProgress(40)
 
+    // Some customers use different locale model than others, so we need to figure out what works for them best
+    const locale = this.findProperLocale()
+
     // Create an unprocessed asset record that links to the upload record created above
     // It reads asset title and filenames from the HTML5 File object we're passing as second parameter
-    const rawAsset = await this.createAsset(upload, file)
+    const rawAsset = await this.createAsset(upload, file, locale)
     this.setUploadProgress(50)
 
     // Send a request to start processing the asset. This will happen asynchronously.
-    await this.props.sdk.space.processAsset(
-      rawAsset,
-      this.props.sdk.field.locale
-    )
+    await this.props.sdk.space.processAsset(rawAsset, locale)
 
     this.setUploadProgress(55)
 
     // Wait until asset is processed.
     const processedAsset = await this.props.sdk.space.waitUntilAssetProcessed(
       rawAsset.sys.id,
-      this.props.sdk.field.locale
+      locale
     )
     this.setUploadProgress(85)
 
-    // Publish the asset
-    const publishedAsset = await this.props.sdk.space.publishAsset(
-      processedAsset
-    )
+    // Publish the asset, ignore if it fails
+    let publishedAsset
+    try {
+      publishedAsset = await this.props.sdk.space.publishAsset(processedAsset)
+
+      this.setState({
+        asset: publishedAsset
+      })
+    } catch (err) {}
+
     this.setUploadProgress(95)
 
-    this.setState({
-      asset: publishedAsset
-    })
+    const asset = publishedAsset || processedAsset
 
     // Set the value of the reference field as a link to the asset created above
-    await this.props.sdk.field.setValue({
-      sys: {
-        type: "Link",
-        linkType: "Asset",
-        id: processedAsset.sys.id
-      }
-    })
+    await this.props.sdk.field.setValue(
+      {
+        sys: {
+          type: "Link",
+          linkType: "Asset",
+          id: asset.sys.id
+        }
+      },
+      locale
+    )
 
     this.setUploadProgress(100)
   }
@@ -248,7 +269,7 @@ class App extends React.Component {
       // Display existing asset if user is not dragging over an image
       return (
         <FileView
-          file={this.state.asset.fields.file[this.props.sdk.field.locale]}
+          file={this.state.asset.fields.file[this.findProperLocale()]}
           isPublished={
             this.state.asset.sys.version ===
             (this.state.asset.sys.publishedVersion || 0) + 1

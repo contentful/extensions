@@ -6,8 +6,6 @@ import {
 } from "@contentful/forma-36-react-components"
 
 import Dropzone from "../Dropzone"
-import { trimFilename } from "../../utils"
-import { MAX_ASSET_TITLE_LEN } from "../../config"
 
 import "./fileview.css"
 
@@ -29,9 +27,7 @@ export default function FileView(props) {
       <header style={bg} />
       <section className="details">
         <main>
-          <Heading extraClassNames="filename">
-            {trimFilename(file.fileName, MAX_ASSET_TITLE_LEN)}
-          </Heading>
+          <Heading extraClassNames="filename">{file.fileName}</Heading>
           <Paragraph extraClassNames="row">
             <strong>Dimensions:</strong> {file.details.image.width}x
             {file.details.image.height}
