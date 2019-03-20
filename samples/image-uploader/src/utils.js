@@ -1,3 +1,5 @@
+import imageMimeTypes from "./image-mime-types.json"
+
 /* Takes an HTML5 file, encodes as Base64 data Url,
    returns a two element list of Base64 Url prefix and
    raw Base64 data.
@@ -47,4 +49,25 @@ export function getAssetIdFromDataTransfer(dataTransfer) {
   }
 
   return match[1]
+}
+
+// getMimeTypeByPath(path: string): [mimetype, isImage]
+export function getMimeTypeByPath(uri) {
+  // Unsplash doesn't have file extensions in their urls, so
+  if (isUnsplashImageUrl(uri)) {
+    return [imageMimeTypes["jpeg"], true]
+  }
+
+  const type =
+    imageMimeTypes[
+      uri
+        .replace(/\?.*$/, "")
+        .split(".")
+        .slice(-1)[0]
+    ]
+  return [type, !!type]
+}
+
+function isUnsplashImageUrl(url) {
+  return /https:\/\/images.unsplash.com\/photo-[\w-]+\/?/.test(url)
 }

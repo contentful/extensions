@@ -8,7 +8,12 @@ import { init } from "contentful-ui-extensions-sdk"
 import UploadView from "./components/UploadView"
 import ProgressView from "./components/ProgressView"
 import FileView from "./components/FileView"
-import { readFileAsUrl, getAssetIdFromDataTransfer } from "./utils"
+import {
+  readFileAsUrl,
+  getImageUrlFromDataTransfer,
+  getAssetIdFromDataTransfer,
+  getMimeTypeByPath
+} from "./utils"
 
 import "./index.css"
 
@@ -64,6 +69,11 @@ class App extends React.Component {
 
       if (assetId) {
         return this.reuseExistingAsset(assetId)
+      }
+
+      const imageUrl = getImageUrlFromDataTransfer(event.dataTransfer)
+      if (imageUrl) {
+        return this.uploadImageUrl(imageUrl)
       }
     }
   }
@@ -153,6 +163,27 @@ class App extends React.Component {
     return this.props.sdk.space.createAsset(asset)
   }
 
+  // createAssetWithImageUrl(imageUrl, contentType, locale)
+  createAssetWithImageUrl = (imageUrl, contentType, locale) => {
+    const asset = {
+      fields: {
+        title: {},
+        description: {},
+        file: {}
+      }
+    }
+
+    asset.fields.title[locale] = imageUrl
+    asset.fields.description[locale] = imageUrl
+    asset.fields.file[locale] = {
+      contentType,
+      fileName: imageUrl,
+      upload: imageUrl
+    }
+
+    return this.props.sdk.space.createAsset(asset)
+  }
+
   /*
     If customers prefers localization of references, always return default locale.
     If not, return current locale.
@@ -204,7 +235,7 @@ class App extends React.Component {
     )
   }
 
-  /* `uploadNewAsset(file: File): void` takes an HTML5 File object
+  /* `uploadNewAsset(file?: File): void` takes an HTML5 File object
      that contains the image user selected and performs following tasks;
 
       * Encode file as a base64 url
@@ -214,7 +245,12 @@ class App extends React.Component {
       * Wait until the asset is processed
       * Publish the asset
   */
-  uploadNewAsset = async file => {
+  uploadNewAsset = async (file, imageUrl) => {
+    const [contentType, isImage] = getMimeTypeByPath(file.name)
+    if (!isImage) {
+      return this.onError(new Error("Only images are allowed"))
+    }
+
     this.setUploadProgress(0)
     this.setState({ file })
 
@@ -275,6 +311,68 @@ class App extends React.Component {
     this.setUploadProgress(100)
   }
 
+  uploadImageUrl = async imageUrl => {
+    const [contentType, isImage] = getMimeTypeByPath(imageUrl)
+
+    if (!isImage) {
+      return this.onError(new Error("Only images are allowed"))
+    }
+
+    this.setUploadProgress(0)
+
+    this.setState({
+      imageUrl
+    })
+
+    const locale = this.findProperLocale()
+    const rawAsset = await this.createAssetWithImageUrl(
+      imageUrl,
+      contentType,
+      locale
+    )
+
+    this.setUploadProgress(25)
+
+    // Send a request to start processing the asset. This will happen asynchronously.
+    await this.props.sdk.space.processAsset(rawAsset, locale)
+    this.setUploadProgress(30)
+
+    // Wait until asset is processed.
+    const processedAsset = await this.props.sdk.space.waitUntilAssetProcessed(
+      rawAsset.sys.id,
+      locale
+    )
+
+    this.setUploadProgress(80)
+
+    // Publish the asset, ignore if it fails
+    let publishedAsset
+    try {
+      publishedAsset = await this.props.sdk.space.publishAsset(processedAsset)
+    } catch (err) {}
+
+    this.setUploadProgress(90)
+
+    const asset = publishedAsset || processedAsset
+    this.setState({
+      asset
+    })
+
+    // Set the value of the reference field as a link to the asset created above
+    await this.props.sdk.field.setValue(
+      {
+        sys: {
+          type: "Link",
+          linkType: "Asset",
+          id: asset.sys.id
+        }
+      },
+      locale
+    )
+
+    this.setUploadProgress(100)
+  }
+
   setFieldLink(assetId) {
     return this.props.sdk.field
       .setValue({
@@ -302,6 +400,7 @@ class App extends React.Component {
     if (this.state.uploading) {
       return (
         <ProgressView
+          imageUrl={this.state.imageUrl}
           base64Prefix={this.state.base64Prefix}
           base64Data={this.state.base64Data}
           uploadProgress={this.state.uploadProgress}
