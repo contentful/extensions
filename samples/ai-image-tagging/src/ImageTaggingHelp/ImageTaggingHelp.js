@@ -43,7 +43,7 @@ export class ImageTaggingHelp extends React.Component {
     }
   };
 
-  render = () => {
+  render() {
     const { contentType, imageFieldId, tagFieldId } = this.props;
 
     return (

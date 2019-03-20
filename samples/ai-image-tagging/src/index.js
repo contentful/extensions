@@ -31,16 +31,14 @@ class App extends React.Component {
   loadTags = async () => {
     const bail = (message) => {
       notifier.error(message);
-      this.setState(state => ({
-        ...state,
+      this.setState({
         loadingTags: false,
-      }))
+      })
     };
 
-    this.setState(state => ({
-      ...state,
+    this.setState({
       loadingTags: true,
-    }));
+    });
 
     const { sdk } = this.props;
     const { entry, space, notifier, parameters: { instance: { tagFieldId, imageFieldId } } } = sdk;
@@ -73,22 +71,20 @@ class App extends React.Component {
       bail('Failed to load tags for image')
     }
 
-    this.setState(state => ({
-      ...state,
+    this.setState({
       loadingTags: false,
-    }))
+    })
   };
 
   onTagMergeChanged = (event) => {
     const overwriteTags = event.target.checked;
 
-    this.setState((state) => ({
-      ...state,
+    this.setState({
       overwriteTags,
-    }))
+    })
   };
 
-  render = () => {
+  render() {
     const { contentType, parameters: { instance: { imageFieldId, tagFieldId } } } = this.props.sdk;
     const { loadingTags, overwriteTags } = (this.state || {});
 
@@ -103,14 +99,14 @@ class App extends React.Component {
             name='overwriteTags'
             checked={overwriteTags}
             labelIsLight={true}
-            onChange={e => this.onTagMergeChanged(e)}
+            onChange={this.onTagMergeChanged}
             id='overwriteTags'
             extraClassNames='config_overwrite_tags'
           />
           <Button
             buttonType='muted'
             isFullWidth={true}
-            onClick={() => this.loadTags()}
+            onClick={this.loadTags}
             loading={loadingTags}
             disabled={loadingTags}
           >
