@@ -1,4 +1,4 @@
-const getField = (contentType, fieldId) =>
+export const getField = (contentType, fieldId) =>
   contentType.fields.find(field => field.id === fieldId);
 
 export const isCompatibleImageField = (contentType, fieldId) => {

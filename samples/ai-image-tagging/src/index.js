@@ -89,11 +89,11 @@ class App extends React.Component {
   };
 
   render = () => {
-    const { contentType, parameters } = this.props.sdk;
+    const { contentType, parameters: { instance: { imageFieldId, tagFieldId } } } = this.props.sdk;
     const { loadingTags, overwriteTags } = (this.state || {});
 
-    const hasImageField = isCompatibleImageField(contentType, parameters.instance.imageFieldId);
-    const hasTagField = isCompatibleTagField(contentType, parameters.instance.tagFieldId);
+    const hasImageField = isCompatibleImageField(contentType, imageFieldId);
+    const hasTagField = isCompatibleTagField(contentType, tagFieldId);
 
     return (<div className='f36-color--text-light'>{
       hasImageField && hasTagField ?
@@ -116,7 +116,7 @@ class App extends React.Component {
           >
             Auto-tag image
           </Button>
-        </div> : <ImageTaggingHelp contentType={contentType} />
+        </div> : <ImageTaggingHelp contentType={contentType} tagFieldId={tagFieldId} imageFieldId={imageFieldId}/>
     }</div>);
   };
 }
