@@ -1,14 +1,13 @@
 export const getField = (contentType, fieldId) =>
   contentType.fields.find(field => field.id === fieldId);
 
-export const isCompatibleImageField = (contentType, fieldId) => {
-  const field = getField(contentType, fieldId);
+export const isCompatibleImageField = (field) => !!(field && field.linkType === 'Asset');
 
-  return !!(field && field.linkType === 'Asset');
-};
+export const isCompatibleTagField = (field) => !!(field && field.type === 'Array' && field.items.type === 'Symbol');
 
-export const isCompatibleTagField = (contentType, fieldId) => {
-  const field = getField(contentType, fieldId);
+export const getContentTypeUrl = (contentType) => {
+  const spaceId = contentType.sys.space.sys.id;
+  const contentTypeId = contentType.sys.id;
 
-  return !!(field && field.type === 'Array' && field.items.type === 'Symbol');
+  return `https://app.contentful.com/spaces/${spaceId}/content_types/${contentTypeId}/sidebar_configuration`
 };

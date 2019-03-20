@@ -7,7 +7,7 @@ import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss'
 
 import { ImageTaggingHelp } from './ImageTaggingHelp/ImageTaggingHelp'
-import { isCompatibleTagField, isCompatibleImageField } from "./lib/content-type";
+import { isCompatibleTagField, isCompatibleImageField, getField } from './lib/content-type';
 import { mergeTags, requestTags } from './lib/tags';
 
 import './index.css';
@@ -88,8 +88,8 @@ class App extends React.Component {
     const { contentType, parameters: { instance: { imageFieldId, tagFieldId } } } = this.props.sdk;
     const { loadingTags, overwriteTags } = (this.state || {});
 
-    const hasImageField = isCompatibleImageField(contentType, imageFieldId);
-    const hasTagField = isCompatibleTagField(contentType, tagFieldId);
+    const hasImageField = isCompatibleImageField(getField(contentType, imageFieldId));
+    const hasTagField = isCompatibleTagField(getField(contentType, tagFieldId));
 
     return (<div className='f36-color--text-light'>{
       hasImageField && hasTagField ?
