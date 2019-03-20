@@ -1,13 +1,8 @@
 import React from "react"
 import "./progress-view.css"
 
-export default function ProgressView({
-  imageUrl,
-  base64Prefix,
-  base64Data,
-  uploadProgress
-}) {
-  const imageUrl = imageUrl || `${base64Prefix},${base64Data}`
+export default function UploadView(props) {
+  const imageUrl = props.imageUrl || `${props.base64Prefix},${props.base64Data}`
 
   const background = {
     backgroundImage: `url(${imageUrl})`
@@ -15,7 +10,7 @@ export default function ProgressView({
 
   // Pass upload progress as CSS variable so we can adjust the size of progress components
   const uploadProgress = {
-    "--uploadProgress": `${uploadProgress}%`
+    "--uploadProgress": `${props.uploadProgress}%`
   }
 
   return (

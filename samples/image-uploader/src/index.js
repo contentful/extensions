@@ -54,6 +54,12 @@ class App extends React.Component {
     event.preventDefault()
     event.stopPropagation()
 
+    this.setState({
+      imageUrl: undefined,
+      base64Prefix: undefined,
+      base64Data: undefined
+    })
+
     // Read the file that was just selected
     const files = Array.prototype.slice.call(
       event.target.files || event.dataTransfer.files
