@@ -1,10 +1,10 @@
-/* Takes an HTML5 file, encodes as Base64 data URL,
-   returns a two element list of Base64 URL prefix and
+/* Takes an HTML5 file, encodes as Base64 data Url,
+   returns a two element list of Base64 Url prefix and
    raw Base64 data.
 
-   readFileAsURL(file: HTMLFile): [string, string]
+   readFileAsUrl(file: HTMLFile): [string, string]
  */
-export function readFileAsURL(file) {
+export function readFileAsUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
 
@@ -22,4 +22,29 @@ export function readFileAsURL(file) {
 
     reader.readAsDataURL(file)
   })
+}
+
+// getImageUrlFromDataTransfer(dataTransfer: DataTransfer): string?
+export function getImageUrlFromDataTransfer(dataTransfer) {
+  const html = dataTransfer.getData("text/html")
+  if (!html) {
+    return
+  }
+
+  const frag = document.createElement("main")
+  frag.innerHTML = html
+
+  return frag.querySelector("img").src
+}
+
+// getAssetIdFromDataTransfer(dataTransfer: DataTransfer): string?
+export function getAssetIdFromDataTransfer(dataTransfer) {
+  const plain = dataTransfer.getData("text/plain")
+  const match = plain.match(/spaces\/\w+\/assets\/(\w+)\/?$/)
+
+  if (!match) {
+    return
+  }
+
+  return match[1]
 }

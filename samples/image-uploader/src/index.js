@@ -8,7 +8,7 @@ import { init } from "contentful-ui-extensions-sdk"
 import UploadView from "./components/UploadView"
 import ProgressView from "./components/ProgressView"
 import FileView from "./components/FileView"
-import { readFileAsURL } from "./utils"
+import { readFileAsUrl, getAssetIdFromDataTransfer } from "./utils"
 
 import "./index.css"
 
@@ -54,14 +54,17 @@ class App extends React.Component {
       event.target.files || event.dataTransfer.files
     )
 
-    if (files.length > 1) {
-      return this.onError(new Error("Please drop only one image at a time"))
+    if (files.length) {
+      return this.uploadFiles(files)
     }
 
-    try {
-      this.uploadNewAsset(files[0])
-    } catch (err) {
-      this.onError(err)
+    if (event.dataTransfer) {
+      // Check if another asset was dragndropped.
+      const assetId = getAssetIdFromDataTransfer(event.dataTransfer)
+
+      if (assetId) {
+        return this.reuseExistingAsset(assetId)
+      }
     }
   }
 
@@ -111,6 +114,7 @@ class App extends React.Component {
   }
 
   onError = error => {
+    console.error(error)
     this.props.sdk.notifier.error(error.message)
   }
 
@@ -161,6 +165,45 @@ class App extends React.Component {
     return this.props.sdk.field.locale
   }
 
+  // uploadFiles(files: File[])
+  uploadFiles = files => {
+    if (files.length > 1) {
+      return this.onError(new Error("Please drop only one image at a time"))
+    }
+
+    try {
+      this.uploadNewAsset(files[0])
+    } catch (err) {
+      this.onError(err)
+    }
+  }
+
+  // reuseExistingAsset(assetId)
+  reuseExistingAsset = async assetId => {
+    let asset
+
+    try {
+      asset = await this.props.sdk.space.getAsset(assetId)
+    } catch (err) {
+      this.onError(err)
+    }
+
+    this.setState({
+      asset
+    })
+
+    await this.props.sdk.field.setValue(
+      {
+        sys: {
+          type: "Link",
+          linkType: "Asset",
+          id: assetId
+        }
+      },
+      this.findProperLocale()
+    )
+  }
+
   /* `uploadNewAsset(file: File): void` takes an HTML5 File object
      that contains the image user selected and performs following tasks;
 
@@ -176,7 +219,7 @@ class App extends React.Component {
     this.setState({ file })
 
     // Encode the file as Base64, so we can pass it through SDK proxy to get it uploaded
-    const [base64Prefix, base64Data] = await readFileAsURL(file)
+    const [base64Prefix, base64Data] = await readFileAsUrl(file)
     this.setState({ base64Prefix, base64Data })
     this.setUploadProgress(10)
 
@@ -208,15 +251,14 @@ class App extends React.Component {
     let publishedAsset
     try {
       publishedAsset = await this.props.sdk.space.publishAsset(processedAsset)
-
-      this.setState({
-        asset: publishedAsset
-      })
     } catch (err) {}
 
     this.setUploadProgress(95)
 
     const asset = publishedAsset || processedAsset
+    this.setState({
+      asset
+    })
 
     // Set the value of the reference field as a link to the asset created above
     await this.props.sdk.field.setValue(
