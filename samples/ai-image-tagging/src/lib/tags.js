@@ -20,4 +20,4 @@ export const requestTags = async (imageUrl) => {
 };
 
 export const mergeTags = (oldTags, newTags) =>
-  new Set((oldTags).concat(newTags));
+  Array.from(new Set((oldTags).concat(newTags)));

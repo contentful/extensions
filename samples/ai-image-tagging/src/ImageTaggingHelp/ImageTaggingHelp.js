@@ -50,10 +50,7 @@ export class ImageTaggingHelp extends React.Component {
       <div>
 
         <Paragraph element='p' extraClassNames={'f36-color--text-light'}>
-          To be able to use image auto tagging, adjust the sidebar configuration of your content type <a
-            href={getContentTypeUrl(contentType)}
-            target='_blank'
-          >{contentType.name}</a> and resolve the following issues:
+          To be able to use image auto tagging, adjust the extension configuration and resolve the following issues:
         </Paragraph>
         <List>
           {this.renderFieldHelp(
@@ -69,6 +66,14 @@ export class ImageTaggingHelp extends React.Component {
             'Tags field',
             'Short text, list field to store the tags')}
         </List>
+        <Paragraph element='p' extraClassNames={'f36-color--text-light'}>
+          To change the configuration, go to the <a
+            href={getContentTypeUrl(contentType)}
+            target='_blank'
+        >sidebar configuration</a> of your content type {contentType.name} and
+          click <span className={'help_description__highlight'}>Change instance parameters</span> on
+          the Ai-image-tagging card.
+        </Paragraph>
       </div>
     )
   }

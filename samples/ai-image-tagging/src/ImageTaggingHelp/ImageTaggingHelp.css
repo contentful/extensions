@@ -5,3 +5,7 @@
 .help_field_configuration {
     margin-top: 10px;
 }
+
+.help_description__highlight {
+    font-style: italic;
+}

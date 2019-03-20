@@ -1,6 +1,6 @@
 {
   "id": "image-tagging-sidebar",
-  "name": "image-tagging",
+  "name": "ai-image-tagging",
   "srcdoc": "./build/index.html",
   "sidebar": true,
   "parameters": {
