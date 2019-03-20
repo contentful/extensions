@@ -23,7 +23,6 @@ class App extends React.Component {
     sdk: PropTypes.object.isRequired
   }
 
-  dropzoneEl = React.createRef()
   state = {
     isDraggingOver: false,
     value: this.props.sdk.field.getValue(this.findProperLocale())
