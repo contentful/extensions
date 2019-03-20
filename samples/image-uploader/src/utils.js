@@ -23,15 +23,3 @@ export function readFileAsURL(file) {
     reader.readAsDataURL(file)
   })
 }
-
-export function trimFilename(filename, len) {
-  if (filename.length <= len) {
-    return filename
-  }
-
-  const basename = filename.replace(/\.\w+$/)
-  const extMatch = filename.match(/\.\w+$/)
-  const ext = extMatch ? extMatch[0] : ""
-
-  return `${basename.slice(0, len - ext.length + 3)}..${ext}`
-}
