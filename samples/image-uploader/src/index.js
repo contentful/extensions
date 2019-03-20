@@ -283,45 +283,7 @@ class App extends React.Component {
     // It reads asset title and filenames from the HTML5 File object we're passing as second parameter
     const rawAsset = await this.createAsset(upload, file, locale)
     this.setUploadProgress(50)
-
-    // Send a request to start processing the asset. This will happen asynchronously.
-    await this.props.sdk.space.processAsset(rawAsset, locale)
-
-    this.setUploadProgress(55)
-
-    // Wait until asset is processed.
-    const processedAsset = await this.props.sdk.space.waitUntilAssetProcessed(
-      rawAsset.sys.id,
-      locale
-    )
-    this.setUploadProgress(85)
-
-    // Publish the asset, ignore if it fails
-    let publishedAsset
-    try {
-      publishedAsset = await this.props.sdk.space.publishAsset(processedAsset)
-    } catch (err) {}
-
-    this.setUploadProgress(95)
-
-    const asset = publishedAsset || processedAsset
-    this.setState({
-      asset
-    })
-
-    // Set the value of the reference field as a link to the asset created above
-    await this.props.sdk.field.setValue(
-      {
-        sys: {
-          type: "Link",
-          linkType: "Asset",
-          id: asset.sys.id
-        }
-      },
-      locale
-    )
-
-    this.setUploadProgress(100)
+    this.processAndPublishAsset(rawAsset, locale)
   }
 
   createNewAssetFromImageUrl = async imageUrl => {
@@ -345,18 +307,26 @@ class App extends React.Component {
     )
 
     this.setUploadProgress(25)
+    this.processAndPublishAsset(rawAsset, locale)
+  }
 
+  /*
+    - Send a request to start processing the asset
+    - Wait until the asset is processed
+    - Publish the asset
+  */
+  processAndPublishAsset = async (rawAsset, locale) => {
     // Send a request to start processing the asset. This will happen asynchronously.
     await this.props.sdk.space.processAsset(rawAsset, locale)
-    this.setUploadProgress(30)
+
+    this.setUploadProgress(55)
 
     // Wait until asset is processed.
     const processedAsset = await this.props.sdk.space.waitUntilAssetProcessed(
       rawAsset.sys.id,
       locale
     )
-
-    this.setUploadProgress(80)
+    this.setUploadProgress(85)
 
     // Publish the asset, ignore if it fails
     let publishedAsset
@@ -364,7 +334,7 @@ class App extends React.Component {
       publishedAsset = await this.props.sdk.space.publishAsset(processedAsset)
     } catch (err) {}
 
-    this.setUploadProgress(90)
+    this.setUploadProgress(95)
 
     const asset = publishedAsset || processedAsset
     this.setState({
