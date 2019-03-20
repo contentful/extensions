@@ -51,6 +51,22 @@ export function getAssetIdFromDataTransfer(dataTransfer) {
   return match[1]
 }
 
+// getBase64FromDataTransfer(dataTransfer: DataTransfer): [base64Prefix, base64Data]
+export function getBase64FromDataTransfer(dataTransfer) {
+  const src = getImageUrlFromDataTransfer(dataTransfer)
+  if (!/^data:image\/\w+;base64,/.test(src)) {
+    return
+  }
+
+  const parts = src.split(",")
+
+  return {
+    prefix: parts[0],
+    data: parts[1],
+    type: src.split(/:|;/)[1]
+  }
+}
+
 // getMimeTypeByPath(path: string): [mimetype, isImage]
 export function getMimeTypeByPath(uri) {
   // Unsplash doesn't have file extensions in their urls, so

@@ -12,6 +12,7 @@ import {
   readFileAsUrl,
   getImageUrlFromDataTransfer,
   getAssetIdFromDataTransfer,
+  getBase64FromDataTransfer,
   getMimeTypeByPath
 } from "./utils"
 
@@ -60,21 +61,32 @@ class App extends React.Component {
     )
 
     if (files.length) {
-      return this.uploadFiles(files)
+      return this.createNewAssetFromFiles(files)
     }
 
-    if (event.dataTransfer) {
-      // Check if another asset was dragndropped.
-      const assetId = getAssetIdFromDataTransfer(event.dataTransfer)
+    if (!event.dataTransfer) {
+      return
+    }
 
-      if (assetId) {
-        return this.reuseExistingAsset(assetId)
-      }
+    // Check if another asset was dragndropped.
+    const assetId = getAssetIdFromDataTransfer(event.dataTransfer)
+    if (assetId) {
+      return this.reuseExistingAsset(assetId)
+    }
 
-      const imageUrl = getImageUrlFromDataTransfer(event.dataTransfer)
-      if (imageUrl) {
-        return this.uploadImageUrl(imageUrl)
-      }
+    // Check if an image with base64 type was dragndropped
+    const base64 = getBase64FromDataTransfer(event.dataTransfer)
+    if (base64) {
+      return this.createNewAssetFromBase64(base64.prefix, base64.data, {
+        name: "Unnamed",
+        type: base64.type
+      })
+    }
+
+    // Check if an image url was dragndropped
+    const imageUrl = getImageUrlFromDataTransfer(event.dataTransfer)
+    if (imageUrl) {
+      return this.createNewAssetFromImageUrl(imageUrl)
     }
   }
 
@@ -196,19 +208,6 @@ class App extends React.Component {
     return this.props.sdk.field.locale
   }
 
-  // uploadFiles(files: File[])
-  uploadFiles = files => {
-    if (files.length > 1) {
-      return this.onError(new Error("Please drop only one image at a time"))
-    }
-
-    try {
-      this.uploadNewAsset(files[0])
-    } catch (err) {
-      this.onError(err)
-    }
-  }
-
   // reuseExistingAsset(assetId)
   reuseExistingAsset = async assetId => {
     let asset
@@ -235,29 +234,38 @@ class App extends React.Component {
     )
   }
 
-  /* `uploadNewAsset(file?: File): void` takes an HTML5 File object
-     that contains the image user selected and performs following tasks;
+  createNewAssetFromFiles = async files => {
+    // Only one image at a time is supported. In the future, we can accept set of images per locale ?
+    if (files.length > 1) {
+      return this.onError(new Error("Please drop only one image at a time"))
+    }
 
-      * Encode file as a base64 url
-      * Upload the image via SDK
-      * Create a raw asset object that links to the upload created
-      * Send a request to start processing the asset
-      * Wait until the asset is processed
-      * Publish the asset
-  */
-  uploadNewAsset = async (file, imageUrl) => {
+    const file = files[0]
+    this.setState({ file })
+    this.setUploadProgress(0)
+
     const [contentType, isImage] = getMimeTypeByPath(file.name)
     if (!isImage) {
       return this.onError(new Error("Only images are allowed"))
     }
 
-    this.setUploadProgress(0)
-    this.setState({ file })
-
     // Encode the file as Base64, so we can pass it through SDK proxy to get it uploaded
     const [base64Prefix, base64Data] = await readFileAsUrl(file)
-    this.setState({ base64Prefix, base64Data })
+    this.createNewAssetFromBase64(base64Prefix, base64Data, file)
+  }
+
+  /* `createNewAssetFromFile(file?: File): void` takes base64 data
+     that contains the image and performs following tasks;
+
+     * Upload the image via SDK
+     * Create a raw asset object that links to the upload created
+     * Send a request to start processing the asset
+     * Wait until the asset is processed
+     * Publish the asset
+     */
+  createNewAssetFromBase64 = async (base64Prefix, base64Data, file) => {
     this.setUploadProgress(10)
+    this.setState({ base64Prefix, base64Data })
 
     // Upload the Base64 encoded image
     const upload = await this.props.sdk.space.createUpload(base64Data)
@@ -311,7 +319,7 @@ class App extends React.Component {
     this.setUploadProgress(100)
   }
 
-  uploadImageUrl = async imageUrl => {
+  createNewAssetFromImageUrl = async imageUrl => {
     const [contentType, isImage] = getMimeTypeByPath(imageUrl)
 
     if (!isImage) {
