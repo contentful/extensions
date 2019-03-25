@@ -19,9 +19,14 @@
     ],
     "installation": [
       {
-        "id": "projectId",
+        "id": "previewUrl",
         "type": "Symbol",
-        "name": "The Id of the Gatsby Preview Project"
+        "name": "The url of your Gatsby Preview instance"
+      },
+      {
+        "id": "webhookUrl",
+        "type": "Symbol",
+        "name": "The url of the webhook to rebuild your Gatsby Preview instance"
       }
     ]
   }

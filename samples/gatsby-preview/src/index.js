@@ -1,37 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Button, FieldGroup, RadioButtonField, Paragraph } from '@contentful/forma-36-react-components';
-import { init } from 'contentful-ui-extensions-sdk';
-import '@contentful/forma-36-react-components/dist/styles.css';
-import './index.css';
+import React from "react"
+import ReactDOM from "react-dom"
+import {
+  Button,
+  FieldGroup,
+  RadioButtonField,
+  Paragraph
+} from "@contentful/forma-36-react-components"
+import { init } from "contentful-ui-extensions-sdk"
+import "@contentful/forma-36-react-components/dist/styles.css"
+import "./index.css"
 
 class App extends React.Component {
   constructor(props) {
     super(props)
 
     const { parameters } = this.props.sdk
-    const { projectId } = parameters.installation
+    const { webhookUrl, previewUrl } = parameters.installation
     const { contentTypeSlug, isAutoUpdate } = parameters.instance
 
-    const entrySlug = this.props.sdk.entry.fields.slug
-      ? "/" + this.props.sdk.entry.fields.slug.getValue()
-      : ""
+    let slug = contentTypeSlug ? contentTypeSlug : ""
+
+    if (this.props.sdk.entry.fields.slug) {
+      slug += "/" + this.props.sdk.entry.fields.slug.getValue()
+    }
 
     this.state = {
-      projectId,
       isAutoUpdate,
-      previewUrl:
-        "https://" +
-        projectId +
-        "-preview.gtsb.io/" +
-        contentTypeSlug +
-        entrySlug,
-      /**
-        Note: Gatsby doesn't support CORS hence the request needs to go through a proxy.
-        When using this extension in your own setup, please replace this URL with a proxy you own.
-      */
-      webhookUrl:
-        "https://backends.ctffns.net/gatsby-preview-proxy/" + projectId
+      previewUrl: previewUrl + slug,
+      webhookUrl
     }
   }
 
@@ -89,7 +85,11 @@ class App extends React.Component {
     return (
       <div className="extension">
         <div className="flexcontainer">
-          <Button buttonType="positive" onClick={this.openPreviewTab} isFullWidth>
+          <Button
+            buttonType="positive"
+            onClick={this.openPreviewTab}
+            isFullWidth
+          >
             Open preview
           </Button>
 
@@ -102,6 +102,7 @@ class App extends React.Component {
               onChange={this.onAutoUpdateChange}
               labelIsLight
               name="autoUpdate"
+              id="checkbox1"
             />
             <RadioButtonField
               labelText="Manual update"
@@ -112,6 +113,7 @@ class App extends React.Component {
               onChange={this.onAutoUpdateChange}
               labelIsLight
               name="autoUpdate"
+              id="checkbox2"
             />
           </FieldGroup>
 
@@ -140,9 +142,8 @@ class App extends React.Component {
               Powered by:
             </Paragraph>
 
-
             <img
-              src={require('./gatsby.svg')}
+              src={require("./gatsby.svg")}
               className="gatsby-logo"
               alt="Gatsby"
             />
@@ -155,4 +156,4 @@ class App extends React.Component {
 
 init(sdk => {
   ReactDOM.render(<App sdk={sdk} />, document.getElementById("root"))
-});
+})
