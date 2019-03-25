@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { Button, CheckboxField } from '@contentful/forma-36-react-components';
-import { init } from 'contentful-ui-extensions-sdk';
+import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss'
 
@@ -85,14 +85,15 @@ class App extends React.Component {
   };
 
   render() {
-    const { contentType, parameters: { instance: { imageFieldId, tagFieldId } } } = this.props.sdk;
+    const { contentType, field, location, parameters: { instance: { imageFieldId, tagFieldId } } } = this.props.sdk;
     const { loadingTags, overwriteTags } = (this.state || {});
 
     const hasImageField = isCompatibleImageField(getField(contentType, imageFieldId));
     const hasTagField = isCompatibleTagField(getField(contentType, tagFieldId));
+    const isInCorrectLocation = location.is(locations.LOCATION_ENTRY_SIDEBAR);
 
     return (<div className='f36-color--text-light'>{
-      hasImageField && hasTagField ?
+      isInCorrectLocation && hasImageField && hasTagField ?
         <div>
           <CheckboxField
             labelText='Overwrite existing tags'
@@ -112,7 +113,13 @@ class App extends React.Component {
           >
             Auto-tag image
           </Button>
-        </div> : <ImageTaggingHelp contentType={contentType} tagFieldId={tagFieldId} imageFieldId={imageFieldId}/>
+        </div> : <ImageTaggingHelp
+          isInCorrectLocation={isInCorrectLocation}
+          configuredForField={field}
+          contentType={contentType}
+          tagFieldId={tagFieldId}
+          imageFieldId={imageFieldId}
+        />
     }</div>);
   };
 }
