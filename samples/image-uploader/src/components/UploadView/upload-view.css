@@ -5,9 +5,6 @@
   color: #888;
 }
 
-.upload-view main {
-}
-
 .upload-view .image-icon {
   width: 72px;
   height: 72px;
@@ -18,7 +15,6 @@
 }
 
 .upload-view nav {
-
   margin-top: 3rem;
 }
 
