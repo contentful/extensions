@@ -1,5 +1,3 @@
-import imageMimeTypes from "./image-mime-types.json"
-
 /* Takes an HTML5 file, encodes as Base64 data Url,
    returns a two element list of Base64 Url prefix and
    raw Base64 data.
@@ -67,4 +65,12 @@ export function getBase64FromDataTransfer(dataTransfer) {
     data: parts[1],
     type: src.split(/:|;/)[1]
   }
+}
+
+// isImageAsset(asset: AssetEntity, locale: string): boolean
+export function isImageAsset(asset, locale) {
+  return (
+    asset.fields.file[locale] &&
+    /^image\//.test(asset.fields.file[locale].contentType)
+  )
 }
