@@ -1,5 +1,5 @@
 # Image Uploader
 
-Custom image upload extension specifically built for relieving the indirection pain of using image wrappers.
+Simply upload images with drag & drop in the entry editor. This UI extension will create and publish the underlying assets for you.
 
 ![](https://cldup.com/eJ68bgRXqM.gif)
