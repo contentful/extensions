@@ -8,22 +8,3 @@ div {
   font: inherit;
   vertical-align: baseline;
 }
-
-.config_overwrite_tags {
-  margin: 0 0 10px 0;
-}
-
-.config_overwrite_tags label {
-  color: #8091a5 !important;
-}
-
-.config_field_group {
-  margin-bottom: 10px;
-  margin-top: 10px;
-  color: #8091a5;
-}
-
-.config_field_group label {
-  color: #8091a5 !important;
-  font-weight: normal !important;
-}
