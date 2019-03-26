@@ -1,5 +1,5 @@
 # Image Uploader
 
-Custom image upload extension specifically built for relieving the indirection pain of using image wrappers.
+Image Uploader allows editors to add images effortlessly in the entry editor.
 
 ![](https://cldup.com/eJ68bgRXqM.gif)
