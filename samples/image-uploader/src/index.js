@@ -40,11 +40,9 @@ class App extends React.Component {
       this.props.sdk.space
         .getAsset(this.state.value.sys.id)
         .then(asset => this.setState({ asset }))
-        .catch(this.onError)
+        .catch(() => this.unlinkAsset())
     }
   }
-
-  componentWillUpdate(_, nextState) {}
 
   componentWillUnmount() {
     this.detachExternalChangeHandler()
@@ -125,11 +123,7 @@ class App extends React.Component {
   }
 
   onClickRemove = () => {
-    this.props.sdk.field.setValue(null)
-    this.setState({
-      value: null,
-      asset: null
-    })
+    this.unlinkAsset()
   }
 
   onDragOverEnd = () => {
@@ -356,15 +350,26 @@ class App extends React.Component {
     this.setUploadProgress(100)
   }
 
+  unlinkAsset = () => {
+    this.props.sdk.field.setValue(null, this.findProperLocale())
+    this.setState({
+      value: null,
+      asset: null
+    })
+  }
+
   setFieldLink(assetId) {
     return this.props.sdk.field
-      .setValue({
-        sys: {
-          type: "Link",
-          linkType: "Asset",
-          id: assetId
-        }
-      })
+      .setValue(
+        {
+          sys: {
+            type: "Link",
+            linkType: "Asset",
+            id: assetId
+          }
+        },
+        this.findProperLocale()
+      )
       .then(() =>
         this.props.sdk.space
           .getAsset(this.state.value.sys.id)
