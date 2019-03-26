@@ -1,6 +1,6 @@
 {
   "id": "image-uploader",
-  "name": "image-uploader",
+  "name": "Image Uploader",
   "srcdoc": "./build/index.html",
   "fieldTypes": [
     "Asset"
