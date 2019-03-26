@@ -36,7 +36,9 @@ export function getImageUrlFromDataTransfer(dataTransfer) {
   const frag = document.createElement("main")
   frag.innerHTML = html
 
-  return frag.querySelector("img").src
+  const img = frag.querySelector("img")
+
+  return (img && img.src) || null
 }
 
 // getAssetIdFromDataTransfer(dataTransfer: DataTransfer): string?
@@ -65,25 +67,4 @@ export function getBase64FromDataTransfer(dataTransfer) {
     data: parts[1],
     type: src.split(/:|;/)[1]
   }
-}
-
-// getMimeTypeByPath(path: string): [mimetype, isImage]
-export function getMimeTypeByPath(uri) {
-  // Unsplash doesn't have file extensions in their urls, so
-  if (isUnsplashImageUrl(uri)) {
-    return [imageMimeTypes["jpeg"], true]
-  }
-
-  const type =
-    imageMimeTypes[
-      uri
-        .replace(/\?.*$/, "")
-        .split(".")
-        .slice(-1)[0]
-    ]
-  return [type, !!type]
-}
-
-function isUnsplashImageUrl(url) {
-  return /https:\/\/images.unsplash.com\/photo-[\w-]+\/?/.test(url)
 }

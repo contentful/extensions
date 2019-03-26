@@ -10,10 +10,10 @@ import ProgressView from "./components/ProgressView"
 import FileView from "./components/FileView"
 import {
   readFileAsUrl,
+  findImageContentType,
   getImageUrlFromDataTransfer,
   getAssetIdFromDataTransfer,
-  getBase64FromDataTransfer,
-  getMimeTypeByPath
+  getBase64FromDataTransfer
 } from "./utils"
 
 import "./index.css"
@@ -86,7 +86,7 @@ class App extends React.Component {
       })
     }
 
-    // Check if an image url was dragndropped
+    // Check if an image element was dragndropped
     const imageUrl = getImageUrlFromDataTransfer(event.dataTransfer)
     if (imageUrl) {
       return this.createNewAssetFromImageUrl(imageUrl)
@@ -234,23 +234,27 @@ class App extends React.Component {
   }
 
   createNewAssetFromFiles = async files => {
-    // Only one image at a time is supported. In the future, we can accept set of images per locale ?
-    if (files.length > 1) {
-      return this.onError(new Error("Please drop only one image at a time"))
-    }
+    // Filter only images
+    const imageFiles = files.filter(file => /^image\/[\w-_]+$/.test(file.type))
 
-    const file = files[0]
-    this.setState({ file })
-    this.setUploadProgress(0)
-
-    const [contentType, isImage] = getMimeTypeByPath(file.name)
-    if (!isImage) {
+    // If no images were found, raise an error
+    if (imageFiles.length === 0) {
       return this.onError(new Error("Only images are allowed"))
     }
 
+    // Only one image at a time is supported. In the future, we can accept set of images per locale ?
+    if (imageFiles.length > 1) {
+      return this.onError(new Error("Please drop only one image at a time"))
+    }
+
+    const imageFile = imageFiles[0]
+
+    this.setState({ file: imageFile })
+    this.setUploadProgress(0)
+
     // Encode the file as Base64, so we can pass it through SDK proxy to get it uploaded
-    const [base64Prefix, base64Data] = await readFileAsUrl(file)
-    this.createNewAssetFromBase64(base64Prefix, base64Data, file)
+    const [base64Prefix, base64Data] = await readFileAsUrl(imageFile)
+    this.createNewAssetFromBase64(base64Prefix, base64Data, imageFile)
   }
 
   /* `createNewAssetFromFile(file?: File): void` takes base64 data
@@ -281,24 +285,15 @@ class App extends React.Component {
   }
 
   createNewAssetFromImageUrl = async imageUrl => {
-    const [contentType, isImage] = getMimeTypeByPath(imageUrl)
-
-    if (!isImage) {
-      return this.onError(new Error("Only images are allowed"))
-    }
-
     this.setUploadProgress(0)
 
     this.setState({
       imageUrl
     })
 
+    // const contentType = await findImageContentType(imageUrl)
     const locale = this.findProperLocale()
-    const rawAsset = await this.createAssetWithImageUrl(
-      imageUrl,
-      contentType,
-      locale
-    )
+    const rawAsset = await this.createAssetWithImageUrl(imageUrl, "", locale)
 
     this.setUploadProgress(25)
     this.processAndPublishAsset(rawAsset, locale)
