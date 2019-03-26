@@ -18,10 +18,6 @@ export class ImageTagging extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.props.sdk.window.startAutoResizer();
-  }
-
   loadTags = async () => {
     const bail = (message) => {
       notifier.error(message);
