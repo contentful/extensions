@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { Button, CheckboxField } from '@contentful/forma-36-react-components';
 import { init, locations } from 'contentful-ui-extensions-sdk';
-import '@contentful/forma-36-react-components/dist/styles.css';
-import '@contentful/forma-36-fcss'
 
-import { ImageTaggingHelp } from './ImageTaggingHelp/ImageTaggingHelp'
+import { ImageTaggingHelp } from './components/ImageTaggingHelp'
+import { ImageTaggingLocationError } from './components/ImageTaggingLocationError';
 import { isCompatibleTagField, isCompatibleImageField, getField } from './lib/content-type';
 import { mergeTags, requestTags } from './lib/tags';
 
+import '@contentful/forma-36-react-components/dist/styles.css';
+import '@contentful/forma-36-fcss'
 import './index.css';
 
 class App extends React.Component {
@@ -92,35 +93,40 @@ class App extends React.Component {
     const hasTagField = isCompatibleTagField(getField(contentType, tagFieldId));
     const isInCorrectLocation = location.is(locations.LOCATION_ENTRY_SIDEBAR);
 
-    return (<div className='f36-color--text-light'>{
-      isInCorrectLocation && hasImageField && hasTagField ?
-        <div>
-          <CheckboxField
-            labelText='Overwrite existing tags'
-            name='overwriteTags'
-            checked={overwriteTags}
-            labelIsLight={true}
-            onChange={this.onTagMergeChanged}
-            id='overwriteTags'
-            extraClassNames='config_overwrite_tags'
-          />
-          <Button
-            buttonType='muted'
-            isFullWidth={true}
-            onClick={this.loadTags}
-            loading={loadingTags}
-            disabled={loadingTags}
-          >
-            Auto-tag image
-          </Button>
-        </div> : <ImageTaggingHelp
-          isInCorrectLocation={isInCorrectLocation}
-          configuredForField={field}
-          contentType={contentType}
-          tagFieldId={tagFieldId}
-          imageFieldId={imageFieldId}
+    if (!isInCorrectLocation) {
+      return <ImageTaggingLocationError contentType={contentType} configuredForField={field} />
+    }
+
+    if (!hasImageField || !hasTagField) {
+      return <ImageTaggingHelp
+        contentType={contentType}
+        tagFieldId={tagFieldId}
+        imageFieldId={imageFieldId}
+      />
+    }
+
+    return (
+      <div className='f36-color--text-light'>
+        <CheckboxField
+          labelText='Overwrite existing tags'
+          name='overwriteTags'
+          checked={overwriteTags}
+          labelIsLight={true}
+          onChange={this.onTagMergeChanged}
+          id='overwriteTags'
+          extraClassNames='config_overwrite_tags'
         />
-    }</div>);
+        <Button
+          buttonType='muted'
+          isFullWidth={true}
+          onClick={this.loadTags}
+          loading={loadingTags}
+          disabled={loadingTags}
+        >
+          Auto-tag image
+        </Button>
+      </div>
+    );
   };
 }
 
