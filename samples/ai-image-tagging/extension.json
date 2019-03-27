@@ -1,6 +1,6 @@
 {
   "id": "image-tagging-sidebar",
-  "name": "ai-image-tagging",
+  "name": "Rekogniton - Automatically tag images",
   "srcdoc": "./build/index.html",
   "sidebar": true,
   "parameters": {
