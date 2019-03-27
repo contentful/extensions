@@ -5,4 +5,4 @@ Simply upload images with drag & drop in the entry editor. This UI extension wil
 
 ![](https://cldup.com/eJ68bgRXqM.gif)
 
-Icon made by [Good Ware](https://www.flaticon.com/authors/good-ware)
+Icon made by [Good Ware](https://www.flaticon.com/authors/good-ware) from www.flaticon.com
