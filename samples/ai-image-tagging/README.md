@@ -2,7 +2,7 @@
 
 This extension enables automatic tagging of images.
 
-![Screenshot of extension](http://contentful.github.io/extensions/assets/ai-image-tagging.jpg "Screenshot of extension")
+![Screenshot of extension](https://contentful.github.io/extensions/assets/ai-image-tagging.jpg "Screenshot of extension")
 
 To use, configure it in the Sidebar of a content type that includes two fields at minimum:
 
