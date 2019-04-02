@@ -307,11 +307,11 @@ class App extends React.Component {
 
     return (
       <section>
-        <Paragraph element="a" extraClassNames="link selected">
+        <Paragraph element="a" className="link selected">
           <Icon
             icon="ChevronDown"
             color="secondary"
-            extraClassNames="left-icon"
+            className="left-icon"
           />
           {title}
         </Paragraph>
@@ -329,13 +329,13 @@ class App extends React.Component {
       <section className="sibling-refs">
         <Paragraph
           element="a"
-          extraClassNames="link"
+          className="link"
           onClick={this.openEntry(parentLink.id)}
         >
           <Icon
             icon="ChevronDown"
             color="secondary"
-            extraClassNames="left-icon"
+            className="left-icon"
           />
           {parentLink.title}
         </Paragraph>
@@ -349,7 +349,7 @@ class App extends React.Component {
   renderReferencesOfField = ({ fieldLabel, entryIds }) => {
     return (
       <section>
-        <SectionHeading extraClassNames="section-label">
+        <SectionHeading className="section-label">
           {fieldLabel}
         </SectionHeading>
         {entryIds.map(id => this.state.entryMap[id]).map(this.renderRow)}
@@ -379,7 +379,7 @@ class App extends React.Component {
         <Icon
           icon={listChildRefs ? "ChevronDown" : "ChevronRight"}
           color="secondary"
-          extraClassNames="left-icon"
+          className="left-icon"
         />
         {title}
       </Paragraph>,

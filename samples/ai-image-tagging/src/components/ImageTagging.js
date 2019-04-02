@@ -86,7 +86,7 @@ export class ImageTagging extends React.Component {
           labelIsLight={true}
           onChange={this.onTagMergeChanged}
           id='overwriteTags'
-          extraClassNames='config_overwrite_tags'
+          className='config_overwrite_tags'
         />
         <Button
           buttonType='muted'

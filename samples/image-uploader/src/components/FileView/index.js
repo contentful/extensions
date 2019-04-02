@@ -32,39 +32,39 @@ export default function FileView(props) {
         <header style={bg} />
       ) : (
         <header>
-          <Asset type={type} extraClassNames="file-type-icon" />
+          <Asset type={type} className="file-type-icon" />
         </header>
       )}
       <section className="details">
         <main>
-          <Heading extraClassNames="filename">{file.fileName}</Heading>
+          <Heading className="filename">{file.fileName}</Heading>
           {type === "image" ? (
-            <Paragraph extraClassNames="row">
+            <Paragraph className="row">
               <strong>Dimensions:</strong> {file.details.image.width}x
               {file.details.image.height}
             </Paragraph>
           ) : null}
-          <Paragraph extraClassNames="row">
+          <Paragraph className="row">
             <strong>Size:</strong> {prettySize}
           </Paragraph>
-          <Paragraph extraClassNames="row">
+          <Paragraph className="row">
             <strong>Type:</strong> {file.contentType}
           </Paragraph>
-          <Paragraph extraClassNames="row">
+          <Paragraph className="row">
             <strong>Status:</strong> {props.isPublished ? "Published" : "Draft"}
           </Paragraph>
         </main>
         <nav className="buttonset">
           <Button
             buttonType="muted"
-            extraClassNames="button"
+            className="button"
             onClick={props.onClickEdit}
           >
             Edit
           </Button>
           <Button
             buttonType="muted"
-            extraClassNames="button"
+            className="button"
             onClick={props.onClickRemove}
           >
             Remove

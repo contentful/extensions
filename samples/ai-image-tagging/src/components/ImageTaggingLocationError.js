@@ -5,7 +5,7 @@ import React from 'react';
 export const ImageTaggingLocationError =
   ({ contentType, configuredForField }) =>
     (
-      <Note noteType="primary" extraClassNames={'f36-color--text-light'}>
+      <Note noteType="primary" className="f36-color--text-light">
         The ai-image-tagging extension is an entry-level sidebar extension.
         You are currently using it on a field level.
         Remove the extension from the field {configuredForField ?
