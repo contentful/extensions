@@ -22,11 +22,12 @@
     "react-dom": "16.8.6"
   },
   "scripts": {
-    "prestart": "contentful space use && contentful extension update --src http://localhost:1234 --force",
+    "prestart": "contentful extension update --src http://localhost:1234 --force",
     "start": "contentful-extension-scripts start",
     "build": "contentful-extension-scripts build",
-    "deploy": "npm run build && contentful space use && contentful extension update --force",
+    "deploy": "npm run build && contentful extension update --force",
     "login": "contentful login",
+    "configure": "contentful space use && contentful space environment use",
     "logout": "contentful logout",
     "help": "contentful-extension-scripts help"
   },

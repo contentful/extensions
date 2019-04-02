@@ -7,13 +7,15 @@ yarn-error.log*
 
 # dotenv environment variables file
 .env
+.contentfulrc.json
 
 # parcel-bundler cache
 .cache
 
 # Dependency directories
 node_modules/
+package-lock.json
 
 # Build
-build/*
+build/**
 !/build/index.html
