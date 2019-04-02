@@ -1,0 +1,28 @@
+{
+  "id": "basic-approval-workflow",
+  "name": "Reviews",
+  "srcdoc": "./build/index.html",
+  "sidebar": true,
+  "parameters": {
+    "instance": [
+      {
+        "id": "publishKey",
+        "type": "Symbol",
+        "name": "PubNub publish key",
+        "required": true
+      },
+      {
+        "id": "subscribeKey",
+        "type": "Symbol",
+        "name": "PubNub subscribeKey key",
+        "required": true
+      },
+      {
+        "id": "channelPrefix",
+        "type": "Symbol",
+        "name": "PubNub channel prefix",
+        "required": true
+      }
+    ]
+  }
+}
