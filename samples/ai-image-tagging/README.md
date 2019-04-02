@@ -1,6 +1,8 @@
-# AI Image Tagging
+# AI Image Tagging (alpha)
 
 This extension enables automatic tagging of images.
+
+**NOTE:** The extension uses an alpha backend feature for image recognition. This service is limited in usage during the alpha. Once we move the feature out of alpha it will be available to our higher plans.
 
 ![Screenshot of extension](https://contentful.github.io/extensions/assets/ai-image-tagging.jpg "Screenshot of extension")
 
