@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders analytics 1`] = `
+<section>
+  <div
+    className="analytics"
+    pagePath="/pricing/"
+    viewId="ga:123456"
+  />
+  <div
+    className="signout"
+  >
+    <button
+      onClick={[Function]}
+      type="button"
+    >
+      sign out
+    </button>
+  </div>
+</section>
+`;
+
+exports[`App shows a warning when the entry is not yet published 1`] = `
+<p>
+  Nothing to analyze... entry is not published.
+</p>
+`;
+
+exports[`App shows an error when the slug field is not correctly defined 1`] = `
+<p>
+  Slug field is not correctly defined.
+</p>
+`;
+
+exports[`App uses the prefix parameter to generate the page path 1`] = `
+<section>
+  <div
+    className="analytics"
+    pagePath="/pages/pricing/"
+    viewId="ga:123456"
+  />
+  <div
+    className="signout"
+  >
+    <button
+      onClick={[Function]}
+      type="button"
+    >
+      sign out
+    </button>
+  </div>
+</section>
+`;

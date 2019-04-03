@@ -1,17 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from '@contentful/forma-36-react-components';
 
-import { Timeline } from './timeline.js';
-import { formatDate } from './utils.js';
+import { Analytics } from './analytics.js';
 
-const DAY_IN_MS = 1000 * 60 * 60 * 24;
-const TODAY = new Date();
-const TIMELINE_DIMENSIONS = [
-  { label: 'Day', value: 'date' },
-  { label: 'Week', value: 'week' },
-  { label: 'Month', value: 'month' }
-];
 const CLIENT_ID = '318721834234-s3td95ohvub1bkksn3aicimnltvmtts8.apps.googleusercontent.com';
 
 class App extends React.Component {
@@ -27,11 +18,6 @@ class App extends React.Component {
     this.state = {
       isAuthorized: false,
       hasSlug,
-      range: {
-        start: new Date(TODAY - DAY_IN_MS * 14),
-        end: TODAY
-      },
-      dimension: 'date',
       pagePath
     };
   }
@@ -46,25 +32,11 @@ class App extends React.Component {
     });
   }
 
-  handleDateChange({ target }) {
-    const { range } = this.state;
-    range[target.name] = target.valueAsDate;
-    this.setState({
-      range
-    });
-  }
-
-  handleDimensionChange({ target }) {
-    this.setState({
-      dimension: target.value
-    });
-  }
-
   render() {
-    const { range, dimension, isAuthorized, pagePath, hasSlug } = this.state;
+    const { isAuthorized, pagePath, hasSlug } = this.state;
     const { auth, entry, parameters } = this.props;
     if (!isAuthorized) {
-      return <p>Not logged in</p>;
+      return null;
     }
 
     if (!hasSlug) {
@@ -77,53 +49,7 @@ class App extends React.Component {
 
     return (
       <section>
-        <div className="range">
-          <label>
-            From
-            <input
-              name="start"
-              type="date"
-              onChange={this.handleDateChange.bind(this)}
-              value={formatDate(range.start)}
-            />
-          </label>
-          <label>
-            To
-            <input
-              name="end"
-              type="date"
-              onChange={this.handleDateChange.bind(this)}
-              value={formatDate(range.end)}
-              max={formatDate(TODAY)}
-            />
-          </label>
-        </div>
-        <div className="dimensions">
-          {TIMELINE_DIMENSIONS.map(dimension => {
-            const isActive = dimension.value === this.state.dimension;
-            return (
-              <label key={dimension.value} className={isActive ? 'is-active' : ''}>
-                {dimension.label}
-                <input
-                  type="radio"
-                  name="dimension"
-                  value={dimension.value}
-                  onChange={this.handleDimensionChange.bind(this)}
-                  checked={isActive}
-                />
-              </label>
-            );
-          })}
-        </div>
-        <Timeline
-          pagePath={pagePath}
-          range={range}
-          dimension={dimension}
-          viewId={parameters.viewId}
-        />
-        <div className="info">
-          <Icon icon="InfoCircle" /> {pagePath}
-        </div>
+        <Analytics pagePath={pagePath} viewId={parameters.viewId} />
         <div className="signout">
           <button type="button" onClick={() => auth.signOut()}>
             sign out
