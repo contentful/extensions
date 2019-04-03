@@ -22,7 +22,7 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "bootstrap": "lerna bootstrap",
-    "prettier": "prettier marketplace/**/*.js scripts/**/*.js --write",
+    "prettier": "prettier marketplace/**/*.js scripts/**/*.js --write --ignore-path .gitignore",
     "build": "lerna run build -- -- --no-inline && node ./scripts/build.js",
     "deploy": "node ./scripts/deploy.js",
     "lint": "eslint marketplace/**/*.js scripts/**/*.js --ignore-path .gitignore",
