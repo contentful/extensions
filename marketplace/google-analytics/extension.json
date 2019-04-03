@@ -1,0 +1,31 @@
+{
+  "id": "google-analytics",
+  "name": "google-analytics",
+  "srcdoc": "./build/index.html",
+  "sidebar": true,
+  "parameters": {
+    "instance": [
+      {
+        "id": "viewId",
+        "name": "Analytics View ID",
+        "description": "View ID to access Google analytics",
+        "type": "Symbol",
+        "required": true
+      },
+      {
+        "id": "prefix",
+        "name": "URL path prefix",
+        "description": "URL path preview to query for the right results",
+        "type": "Symbol",
+        "required": false
+      },
+      {
+        "id": "slugId",
+        "name": "Slug field ID",
+        "description": "Field that holds path information to query for the right path",
+        "type": "Symbol",
+        "required": true
+      }
+    ]
+  }
+}

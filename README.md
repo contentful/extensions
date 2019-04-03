@@ -4,6 +4,10 @@ This repository provides samples of Contentful UI extensions, developed using th
 
 If you don't know what UI Extensions are or how to use them, please refer to our [documentation](https://www.contentful.com/developers/docs/extensibility/ui-extensions/).
 
+## Marketplace extensions
+
+This folder contains officially maintained, production quality extensions that are ready to use. You can easily install them from the [Extension Marketplace](https://www.contentful.com/developers/marketplace/).
+
 ## UI extension examples
 
 We are offering a currated list of UI Extension examples under [samples](./samples) which demonstrate many popular use cases such as working with digital asset management, talking to third party APIs, doing OAuth or trigger builds.

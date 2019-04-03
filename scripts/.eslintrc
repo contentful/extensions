@@ -1,0 +1,16 @@
+{
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "../.eslintrc",
+    "plugin:node/recommended"
+  ],
+  "plugins": [
+    "node"
+  ],
+  "rules": {
+    "no-console": "off",
+    "node/no-unpublished-require": "off"
+  }
+}

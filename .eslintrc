@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:promise/recommended",
+    "prettier"
+  ],
+  "plugins": [
+    "promise"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2019
+  },
+  "root": true
+}

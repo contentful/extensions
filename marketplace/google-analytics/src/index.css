@@ -1,0 +1,77 @@
+html,
+body,
+div {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+body {
+  font-size: 14px;
+  line-height: 18px;
+  color: #2d2f31;
+  font-family: 'Avenir Next W01', Helvetica, sans-serif;
+  margin: 0;
+  padding: 1px;
+}
+* {
+  box-sizing: border-box;
+}
+.range {
+  display: flex;
+  padding: 0.5em 0;
+  justify-content: space-between;
+}
+.range label {
+  flex: 1;
+  max-width: 47.5%;
+}
+.range input {
+  width: 100%;
+}
+.dimensions {
+  font-size: 0.875em;
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 0.25em;
+  text-align: center;
+  background: #fff;
+}
+.dimensions input {
+  display: none;
+}
+.dimensions label {
+  padding: 0.25em;
+  flex: 1;
+}
+.dimensions label.is-active {
+  background: #eee;
+  text-decoration: underline;
+}
+.dimensions label + label {
+  border-left: 1px solid #ccc;
+}
+.info {
+  display: flex;
+  align-items: center;
+  padding: 0 0 1em;
+  font-size: 0.875em;
+}
+.info svg {
+  width: 1.5em;
+  height: 1.5em;
+  min-width: 1.5em;
+  margin-right: 0.5em;
+}
+.signout {
+  text-align: right;
+}
+.signout button {
+  font-size: 1em;
+  background: none;
+  border: none;
+  color: #5b9fef;
+}
