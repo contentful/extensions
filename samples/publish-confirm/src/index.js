@@ -217,12 +217,12 @@ class App extends React.Component {
 
     return (
       <>
-        <Paragraph extraClassNames="f36-margin-bottom--s">
+        <Paragraph className="f36-margin-bottom--s">
           <strong>Status: </strong>
           {this.renderStatusLabel()}
         </Paragraph>
         <Button
-          extraClassNames="publish-button"
+          className="publish-button"
           buttonType="positive"
           isFullWidth={true}
           onClick={this.onClickPublish}
@@ -232,7 +232,7 @@ class App extends React.Component {
           Publish
         </Button>
         <TextLink
-          extraClassNames="f36-margin-top--s f36-margin-bottom--xs"
+          className="f36-margin-top--s f36-margin-bottom--xs"
           onClick={this.onClickUnpublish}
         >
           Unpublish

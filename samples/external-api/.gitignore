@@ -9,12 +9,13 @@ yarn-error.log*
 .env
 .contentfulrc.json
 
-# Parcel-bundler cache
+# parcel-bundler cache
 .cache
 
 # Dependency directories
 node_modules/
+package-lock.json
 
 # Build
-build/*
+build/**
 !/build/index.html

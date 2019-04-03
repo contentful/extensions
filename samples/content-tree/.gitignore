@@ -7,6 +7,7 @@ yarn-error.log*
 
 # dotenv environment variables file
 .env
+.contentfulrc.json
 
 # parcel-bundler cache
 .cache
@@ -15,5 +16,5 @@ yarn-error.log*
 node_modules/
 
 # Build
-build/*
+build/**
 !/build/index.html

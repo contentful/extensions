@@ -135,8 +135,6 @@ class App extends React.Component {
             }}
           >
             <Paragraph
-              extraClassNames=""
-              element="p"
               style={{ marginRight: "5%" }}
             >
               Powered by:

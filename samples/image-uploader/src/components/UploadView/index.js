@@ -22,15 +22,15 @@ export default function UploadView(props) {
           color={props.isDraggingOver ? "secondary" : "muted"}
           icon="Asset"
           size="large"
-          extraClassNames="image-icon"
+          className="image-icon"
         />
-        <Subheading extraClassNames="image-icon-label">
+        <Subheading className="image-icon-label">
           Drop an image here
         </Subheading>
 
         {!props.isDraggingOver ? (
           <nav>
-            <Button buttonType="muted" extraClassNames="button browse-button">
+            <Button buttonType="muted" className="button browse-button">
               <input
                 className="file-picker"
                 type="file"
@@ -40,7 +40,7 @@ export default function UploadView(props) {
               Select files
             </Button>
             <TextLink
-              extraClassNames="link-existing"
+              className="link-existing"
               onClick={props.onClickLinkExisting}
             >
               Link existing asset

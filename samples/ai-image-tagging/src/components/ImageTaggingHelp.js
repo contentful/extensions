@@ -11,7 +11,7 @@ import './ImageTaggingHelp.css'
 export const ImageTaggingHelp =
   ({ contentType, imageFieldId, tagFieldId }) => (
     <Note>
-      <Paragraph element='p' extraClassNames={'f36-color--text-light'}>
+      <Paragraph className={'f36-color--text-light'}>
         To be able to use image auto tagging, adjust the extension configuration and resolve the following issues:
       </Paragraph>
       <List>
@@ -30,7 +30,7 @@ export const ImageTaggingHelp =
           configuredFieldId={tagFieldId}
         />
       </List>
-      <Paragraph element='p' extraClassNames={'f36-color--text-light'}>
+      <Paragraph className={'f36-color--text-light'}>
         To change the configuration, go to
         the <SidebarConfigLink contentType={contentType}>sidebar configuration</SidebarConfigLink> of
         your content type {contentType.name} and
