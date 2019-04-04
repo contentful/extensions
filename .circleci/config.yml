@@ -18,6 +18,9 @@ jobs:
           paths:
             - ./node_modules
       - run:
+          name: Install extension dependencies
+          command: npm run bootstrap
+      - run:
           name: Linting code
           command: npm run lint
       - run:
