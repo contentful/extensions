@@ -18,6 +18,12 @@ jobs:
           paths:
             - ./node_modules
       - run:
+          name: Install extension dependencies
+          command: npm run bootstrap
+      - run:
+          name: Check code style
+          command: npm run prettier-check
+      - run:
           name: Linting code
           command: npm run lint
       - run:

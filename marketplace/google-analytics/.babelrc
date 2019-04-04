@@ -1,33 +1,77 @@
 {
-  "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "useBuiltIns": false,
-        "modules": false
-      }
-    ],
-    [
-      "@babel/preset-react",
-      {
-        "useBuiltIns": true
-      }
-    ]
-  ],
-  "plugins": [
-    [
-      "@babel/plugin-proposal-class-properties",
-      {
-        "loose": true
-      }
-    ],
-    [
-      "@babel/plugin-transform-runtime",
-      {
-        "corejs": false,
-        "helpers": false,
-        "regenerator": true
-      }
-    ]
-  ]
+  "env": {
+    "production": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "useBuiltIns": false,
+            "modules": false
+          }
+        ],
+        [
+          "@babel/preset-react",
+          {
+            "useBuiltIns": true
+          }
+        ]
+      ],
+      "plugins": [
+        [
+          "@babel/plugin-transform-runtime",
+          {
+            "corejs": false,
+            "helpers": false,
+            "regenerator": true
+          }
+        ]
+      ]
+    },
+    "development": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "useBuiltIns": false,
+            "modules": false
+          }
+        ],
+        [
+          "@babel/preset-react",
+          {
+            "useBuiltIns": true
+          }
+        ]
+      ],
+      "plugins": [
+        [
+          "@babel/plugin-transform-runtime",
+          {
+            "corejs": false,
+            "helpers": false,
+            "regenerator": true
+          }
+        ]
+      ]
+    },
+    "test": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "useBuiltIns": false,
+            "targets": {
+              "node": 10
+            }
+          }
+        ],
+        [
+          "@babel/preset-react",
+          {
+            "useBuiltIns": true
+          }
+        ]
+      ]
+    }
+  }
 }
