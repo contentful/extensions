@@ -1,12 +1,14 @@
-version: 2.0
+version: 2
+
+docker: &docker
+  - image: circleci/node:10.15.3
 
 cache-key: &cache-key
   key: dependency-cache-primary-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
 
 jobs:
   build:
-    docker:
-      - image: circleci/node:10.15.3
+    docker: *docker
     steps:
       - checkout
       - restore_cache: *cache-key
@@ -32,3 +34,20 @@ jobs:
       - run:
           name: Building extension code
           command: npm run build
+  deploy:
+    docker: *docker
+    steps:
+      - run:
+          name: Deploying extensions
+          command: npm run deploy
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          filters:
+            branches:
+              only:
+                - master
