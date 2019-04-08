@@ -1,14 +1,12 @@
 {
-  "extends": [
-    "eslint:recommended",
-    "plugin:promise/recommended",
-    "prettier"
-  ],
-  "plugins": [
-    "promise"
-  ],
+  "parser": "babel-eslint",
+  "extends": ["eslint:recommended", "plugin:promise/recommended", "prettier"],
+  "plugins": ["promise"],
   "parserOptions": {
-    "ecmaVersion": 2019
+    "ecmaVersion": 8
   },
-  "root": true
+  "root": true,
+  "rules": {
+    "promise/no-nesting": "off"
+  }
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { Button } from '@contentful/forma-36-react-components';
 import { init, locations } from 'contentful-ui-extensions-sdk';
@@ -38,7 +39,7 @@ function Field({ sdk }) {
       id: extension.id,
       width: 900,
       title: 'Select images from contentful.getbynder.com',
-      shouldCloseOnEscapePress: true,
+      shouldCloseOnEscapePress: true
     });
     if (assets) {
       dispatch({ type: 'add-all-assets', payload: assets });
@@ -63,12 +64,7 @@ function Field({ sdk }) {
       )}
       <div className="actions">
         <div className="logo" />
-        <Button
-          icon="Asset"
-          buttonType="muted"
-          size="small"
-          onClick={onBynderDialogOpen}
-        >
+        <Button icon="Asset" buttonType="muted" size="small" onClick={onBynderDialogOpen}>
           Select images in Bynder
         </Button>
       </div>
@@ -76,12 +72,13 @@ function Field({ sdk }) {
   );
 }
 
+Field.propTypes = {
+  sdk: PropTypes.object.isRequired
+};
+
 init(sdk => {
   if (sdk.location.is(locations.LOCATION_DIALOG)) {
-    ReactDOM.render(
-      <BynderDialog sdk={sdk} />,
-      document.getElementById('root')
-    );
+    ReactDOM.render(<BynderDialog sdk={sdk} />, document.getElementById('root'));
   } else {
     ReactDOM.render(<Field sdk={sdk} />, document.getElementById('root'));
   }

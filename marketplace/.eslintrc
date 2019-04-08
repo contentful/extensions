@@ -1,14 +1,11 @@
 {
+  "extends": ["../.eslintrc", "plugin:react/recommended"],
   "env": {
     "browser": true
   },
   "globals": {
     "module": "readonly"
   },
-  "extends": [
-    "../.eslintrc",
-    "plugin:react/recommended"
-  ],
   "parserOptions": {
     "sourceType": "module",
     "ecmaFeatures": {

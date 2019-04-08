@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Card, IconButton } from '@contentful/forma-36-react-components';
 
 export default function Thumbnail({ src, onDeleteClick }) {
@@ -15,3 +16,8 @@ export default function Thumbnail({ src, onDeleteClick }) {
     </Card>
   );
 }
+
+Thumbnail.propTypes = {
+  src: PropTypes.string.isRequired,
+  onDeleteClick: PropTypes.func.isRequired
+};
