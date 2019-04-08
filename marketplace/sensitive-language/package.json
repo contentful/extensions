@@ -14,9 +14,9 @@
     "react-test-renderer": "^16.8.6"
   },
   "dependencies": {
-    "@contentful/forma-36-fcss": "^0.0.13",
-    "@contentful/forma-36-react-components": "^2.9.1",
-    "@contentful/forma-36-tokens": "^0.2.0",
+    "@contentful/forma-36-fcss": "^0.0.17",
+    "@contentful/forma-36-react-components": "^3.2.5",
+    "@contentful/forma-36-tokens": "^0.3.0",
     "@contentful/rich-text-plain-text-renderer": "^13.0.0",
     "alex": "^7.1.0",
     "contentful-ui-extensions-sdk": "^3.5.0",
