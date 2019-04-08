@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const BYNDER_SDK_URL =
+  'https://d8ejoa1fys2rk.cloudfront.net/modules/compactview/includes/js/client-1.4.0.min.js';
+
 export default class Dialog extends React.Component {
   static propTypes = {
     sdk: PropTypes.object.isRequired
@@ -21,14 +24,14 @@ export default class Dialog extends React.Component {
 
   loadBynderScript = () => {
     const script = document.createElement('script');
-    script.src =
-      'https://d8ejoa1fys2rk.cloudfront.net/modules/compactview/includes/js/client-1.4.0.min.js';
+    script.src = BYNDER_SDK_URL;
     script.async = true;
-
     document.body.appendChild(script);
   };
 
   render() {
+    const { bynderURL } = this.props.sdk.parameters.invocation;
+
     return (
       <div className="dialog-container">
         <div
@@ -43,7 +46,7 @@ export default class Dialog extends React.Component {
           data-language="en_US"
           data-mode="multi"
           data-zindex="300"
-          data-defaultEnvironment="https://contentful.getbynder.com"
+          data-defaultEnvironment={bynderURL}
         />
       </div>
     );
