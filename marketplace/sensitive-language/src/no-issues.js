@@ -7,11 +7,11 @@ import { Icon, Typography, Subheading, Paragraph } from '@contentful/forma-36-re
 export function NoIssues() {
   return (
     <Typography>
-      <Subheading style={{ display: 'flex', alignItems: 'center' }}>
-        <Icon icon="CheckCircle" color="positive" extraClassNames="f36-margin-right--xs" />
+      <Subheading className="align-center">
+        <Icon icon="CheckCircle" color="positive" className="f36-margin-right--xs" />
         No issues found
       </Subheading>
-      <Paragraph style={{ marginBottom: 0 }}>
+      <Paragraph className="bottom-margin-none">
         All checked files seem to be free on insenstive language. Good job!
       </Paragraph>
     </Typography>

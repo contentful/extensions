@@ -5,11 +5,11 @@ import { Icon, Typography, Subheading, Paragraph } from '@contentful/forma-36-re
 export function UnsupportedLanguage({ localeCode, localeName }) {
   return (
     <Typography>
-      <Subheading style={{ display: 'flex', alignItems: 'center' }}>
-        <Icon icon="Warning" color="negative" extraClassNames="f36-margin-right--xs" />
+      <Subheading className="align-center">
+        <Icon icon="Warning" color="negative" className="f36-margin-right--xs" />
         Unsupported language
       </Subheading>
-      <Paragraph style={{ marginBottom: 0 }}>
+      <Paragraph className="bottom-margin-none">
         {`The sensitive language feature only works for English text. The default locale of this space is ${localeName} (${localeCode}).`}
       </Paragraph>
     </Typography>

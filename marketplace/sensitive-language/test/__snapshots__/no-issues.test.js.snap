@@ -5,29 +5,17 @@ exports[`NoIssues: renders correctly 1`] = `
   className="typography"
 >
   <div
-    className="subheading"
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-      }
-    }
+    className="align-center"
   >
     <div
-      className="icon"
+      className="f36-margin-right--xs"
       color="positive"
-      extraClassNames="f36-margin-right--xs"
       icon="CheckCircle"
     />
     No issues found
   </div>
   <div
-    className="paragraph"
-    style={
-      Object {
-        "marginBottom": 0,
-      }
-    }
+    className="bottom-margin-none"
   >
     All checked files seem to be free on insenstive language. Good job!
   </div>

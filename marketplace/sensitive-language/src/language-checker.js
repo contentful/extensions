@@ -80,8 +80,8 @@ export class LanguageChecker extends React.Component {
     return (
       <React.Fragment>
         <Typography>
-          <Subheading style={{ display: 'flex', alignItems: 'center' }}>
-            <Icon icon="Warning" color="warning" extraClassNames="f36-margin-right--xs" />
+          <Subheading className="align-center">
+            <Icon icon="Warning" color="warning" className="f36-margin-right--xs" />
             Issues found
           </Subheading>
           <Paragraph>There are some issues with the content in the following fields:</Paragraph>
@@ -95,7 +95,7 @@ export class LanguageChecker extends React.Component {
 
           return (
             <div key={fieldId}>
-              <SectionHeading extraClassNames="f36-margin-bottom--m">
+              <SectionHeading className="f36-margin-bottom--m">
                 {fieldDefiniton.name}
               </SectionHeading>
 
