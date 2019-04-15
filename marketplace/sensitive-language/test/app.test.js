@@ -21,9 +21,6 @@ test('App: bails out for non-english languages', function() {
       names: {
         'de-DE': 'German'
       }
-    },
-    window: {
-      startAutoResizer() {}
     }
   };
 
@@ -38,9 +35,6 @@ test('App: works for English languages', function() {
       names: {
         'en-US': 'English'
       }
-    },
-    window: {
-      startAutoResizer() {}
     },
     contentType: {
       fields: [
@@ -68,9 +62,6 @@ test('App: filters out non-text fields', function() {
       names: {
         'en-US': 'English'
       }
-    },
-    window: {
-      startAutoResizer() {}
     },
     contentType: {
       fields: [

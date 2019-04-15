@@ -8,9 +8,9 @@ import { init } from 'contentful-ui-extensions-sdk';
 import { App } from './app.js';
 
 init(extension => {
-  const root = document.getElementById('root');
+  extension.window.startAutoResizer();
 
-  ReactDOM.render(<App extension={extension} />, root);
+  ReactDOM.render(<App extension={extension} />, document.getElementById('root'));
 });
 
 // Enabling hot reload
