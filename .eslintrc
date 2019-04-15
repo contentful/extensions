@@ -2,7 +2,7 @@
   "extends": ["eslint:recommended", "plugin:promise/recommended", "prettier"],
   "plugins": ["promise"],
   "parserOptions": {
-    "ecmaVersion": 8
+    "ecmaVersion": 2017
   },
   "root": true,
   "rules": {

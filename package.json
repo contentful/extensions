@@ -37,7 +37,7 @@
     "node": ">=10.15.0"
   },
   "lint-staged": {
-    "*.js": [
+    "marketplace/**/*.js": [
       "prettier --write --ignore-path .gitignore",
       "eslint --fix --ignore-path .gitignore",
       "git add"
