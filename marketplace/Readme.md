@@ -12,7 +12,10 @@ modifications:
 
 * Add a `version` property to `package.json` with the value `1.0.0` or higher.
 * Add unit tests. Preferably using Jest.
-  * Modify `.babelrc` to be environments aware
+  * Modify `.babelrc` to be environments aware.
+
+    There need to be at environments for `test` (for Jest), `production` and `development`. The `test` environment must
+    include the transformation of EcmaScript Modules to CommonJS while the other environments should omit this step. 
 * Follow the code formatting and linting rules of this directory.
 
 ## Deployment
