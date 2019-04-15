@@ -1,10 +1,13 @@
-version: 2
+version: 2.1
 
 docker: &docker
   - image: circleci/node:10.15.3
 
 cache-key: &cache-key
   key: dependency-cache-primary-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
+
+orbs:
+  codecov: codecov/codecov@1.0.4
 
 jobs:
   build:
@@ -30,7 +33,7 @@ jobs:
           command: npm run lint
       - run:
           name: Running unit tests
-          command: npm run test
+          command: npm run coverage
       - run:
           name: Building extension code
           command: npm run build
@@ -38,6 +41,9 @@ jobs:
           root: .
           paths:
             - ./dist
+      - codecov/upload:
+          file: marketplace/*/coverage/*.json
+          flags: extensions
   deploy:
     docker: *docker
     steps:
