@@ -24,7 +24,7 @@ Extensions in this directory are automatically deployed to Netlify using a domai
 `{extension-id}-{major-version}.contentfulexts.com`. The `extension-id` is the `id` property in `extension.json`, the
 `major-version` is the first segment of the `version` property in `package.json`.
 
-After adding a new extension, or updating a major version, a Contentful employee need to complete the following steps
+After adding a new extension, or updating a major version, a Contentful employee needs to complete the following steps
 after the PR is merged:
 
 * Log-in the Netlify account and navigate to the newly created site
