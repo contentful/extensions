@@ -22,12 +22,12 @@ export default class Dialog extends React.Component {
     });
   }
 
-  loadBynderScript = () => {
+  loadBynderScript() {
     const script = document.createElement('script');
     script.src = BYNDER_SDK_URL;
     script.async = true;
     document.body.appendChild(script);
-  };
+  }
 
   render() {
     const { bynderURL } = this.props.sdk.parameters.invocation;

@@ -1,5 +1,4 @@
 {
-  "parser": "babel-eslint",
   "extends": ["eslint:recommended", "plugin:promise/recommended", "prettier"],
   "plugins": ["promise"],
   "parserOptions": {
