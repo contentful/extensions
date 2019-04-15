@@ -15,10 +15,10 @@ import alex from 'alex';
 import { NoIssues } from './no-issues.js';
 import { Message } from './message.js';
 
-function checkContent(isRichText, value) {
+function checkContent(isRichText, value, config = {}) {
   const { messages } = isRichText
-    ? alex.text(documentToPlainTextString(value))
-    : alex.markdown(value);
+    ? alex.text(documentToPlainTextString(value), config)
+    : alex.markdown(value, config);
 
   return messages;
 }
@@ -30,7 +30,7 @@ export class LanguageChecker extends React.Component {
   }
 
   componentDidMount() {
-    const { entry, fieldsToCheck } = this.props;
+    const { entry, fieldsToCheck, alexConfig } = this.props;
 
     fieldsToCheck.forEach(fieldDefinition => {
       const fieldId = fieldDefinition.id;
@@ -39,7 +39,7 @@ export class LanguageChecker extends React.Component {
       const isRichText = fieldDefinition.type === 'RichText';
 
       if (currentValue) {
-        const messages = checkContent(isRichText, currentValue);
+        const messages = checkContent(isRichText, currentValue, alexConfig);
 
         this.setState(state => {
           const messageMap = state.messageMap;
@@ -51,7 +51,7 @@ export class LanguageChecker extends React.Component {
       }
 
       field.onValueChanged(value => {
-        const messages = checkContent(isRichText, value);
+        const messages = checkContent(isRichText, value, alexConfig);
 
         this.setState(state => {
           const messageMap = state.messageMap;
@@ -114,5 +114,17 @@ export class LanguageChecker extends React.Component {
 
 LanguageChecker.propTypes = {
   fieldsToCheck: PropTypes.array.isRequired,
-  entry: PropTypes.object.isRequired
+  entry: PropTypes.object.isRequired,
+  alexConfig: PropTypes.shape({
+    noBinary: PropTypes.bool,
+    profanitySureness: PropTypes.oneOf([0, 1, 2]),
+    allow: PropTypes.arrayOf(PropTypes.string)
+  })
+};
+
+LanguageChecker.defaultProps = {
+  alexConfig: {
+    profanitySureness: 0,
+    allow: []
+  }
 };
