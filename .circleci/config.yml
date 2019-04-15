@@ -34,9 +34,20 @@ jobs:
       - run:
           name: Building extension code
           command: npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./dist
   deploy:
     docker: *docker
     steps:
+      - checkout
+      - restore_cache: *cache-key
+      - attach_workspace:
+          at: .
+      - run:
+          name: Installing dependencies
+          command: npm install
       - run:
           name: Deploying extensions
           command: npm run deploy
@@ -47,6 +58,8 @@ workflows:
     jobs:
       - build
       - deploy:
+          requires:
+            - build
           filters:
             branches:
               only:
