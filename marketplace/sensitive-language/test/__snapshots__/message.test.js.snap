@@ -5,9 +5,8 @@ exports[`Message: renders correctly 1`] = `
   className="warning-list__item"
 >
   <div
-    className="icon"
+    className="f36-margin-right--2xs"
     color="negative"
-    extraClassNames="f36-margin-right--2xs"
     icon="Close"
   />
   <div
@@ -24,9 +23,8 @@ exports[`Message: shows optional note 1`] = `
   className="warning-list__item"
 >
   <div
-    className="icon"
+    className="f36-margin-right--2xs"
     color="negative"
-    extraClassNames="f36-margin-right--2xs"
     icon="Close"
   />
   <div
