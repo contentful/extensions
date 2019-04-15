@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Analytics renders correctly 1`] = `
+Array [
+  <div
+    className="range"
+  >
+    <label>
+      From
+      <input
+        name="start"
+        onChange={[Function]}
+        type="date"
+        value="1969-12-18"
+      />
+    </label>
+    <label>
+      To
+      <input
+        max="1970-01-01"
+        name="end"
+        onChange={[Function]}
+        type="date"
+        value="1970-01-01"
+      />
+    </label>
+  </div>,
+  <div
+    className="dimensions"
+  >
+    <label
+      className="is-active"
+    >
+      Day
+      <input
+        checked={true}
+        name="dimension"
+        onChange={[Function]}
+        type="radio"
+        value="date"
+      />
+    </label>
+    <label
+      className=""
+    >
+      Week
+      <input
+        checked={false}
+        name="dimension"
+        onChange={[Function]}
+        type="radio"
+        value="week"
+      />
+    </label>
+    <label
+      className=""
+    >
+      Month
+      <input
+        checked={false}
+        name="dimension"
+        onChange={[Function]}
+        type="radio"
+        value="month"
+      />
+    </label>
+  </div>,
+  <div
+    className="timeline"
+    dimension="date"
+    pagePath="/pricing/"
+    range={
+      Object {
+        "end": 1970-01-01T00:00:02.016Z,
+        "start": 1969-12-18T00:00:02.016Z,
+      }
+    }
+    viewId="ga:123456"
+  />,
+  <div
+    className="info"
+  >
+    <div
+      className="icon"
+      icon="InfoCircle"
+    />
+     
+    /pricing/
+  </div>,
+]
+`;
