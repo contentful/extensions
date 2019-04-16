@@ -12,8 +12,3 @@ init(extension => {
 
   ReactDOM.render(<App extension={extension} />, document.getElementById('root'));
 });
-
-// Enabling hot reload
-if (module.hot) {
-  module.hot.accept();
-}
