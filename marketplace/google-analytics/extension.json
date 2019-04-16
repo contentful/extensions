@@ -1,6 +1,6 @@
 {
   "id": "google-analytics",
-  "name": "google-analytics",
+  "name": "Google Analytics",
   "srcdoc": "./build/index.html",
   "sidebar": true,
   "parameters": {
