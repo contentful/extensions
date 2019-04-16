@@ -1,0 +1,15 @@
+{
+  "id": "bynder-dialog",
+  "name": "bynder-dialog",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": ["Object"],
+  "parameters": {
+    "instance": [
+      {
+        "id": "bynderURL",
+        "name": "Bynder URL",
+        "type": "Symbol"
+      }
+    ]
+  }
+}

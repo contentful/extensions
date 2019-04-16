@@ -1,0 +1,49 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  overflow: hidden;
+}
+
+.logo {
+  background-image: url('https://www.bynder.com/static/3.0/dist/img/svg/glyph-blue.svg');
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 30px;
+  margin-top: 3px;
+  margin-left: 5px;
+  margin-right: 10px;
+  float: left;
+}
+
+.dialog-container {
+  height: 800px;
+  position: relative;
+}
+
+.thumbnail-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.actions {
+  margin-top: 10px;
+}
+
+.thumbnail {
+  display: inline-block;
+  margin: 10px;
+  position: relative;
+}
+
+.thumbnail-remove {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: white;
+}
