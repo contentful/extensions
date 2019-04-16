@@ -19,8 +19,3 @@ init(({ entry, parameters, window }) => {
     );
   });
 });
-
-// Enabling hot reload
-if (module.hot) {
-  module.hot.accept();
-}
