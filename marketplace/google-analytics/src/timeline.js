@@ -52,7 +52,7 @@ class Timeline extends React.Component {
 
 Timeline.propTypes = {
   viewId: PropTypes.string.isRequired,
-  dimension: PropTypes.string.isRequired,
+  dimension: PropTypes.oneOf(['date', 'week', 'month']).isRequired,
   pagePath: PropTypes.string.isRequired,
   range: PropTypes.shape({
     start: PropTypes.instanceOf(Date).isRequired,
