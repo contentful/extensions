@@ -1,4 +1,4 @@
-# ## Bynder Dialog
+## Bynder Dialog
 
 This UI Extension integrates with [Bynder's](https://www.bynder.com) digital asset management platform. It leverages Bynder's [compact view](https://developer-docs.bynder.com/UI%20components/#compact-view) component to browse media in a project on Bynder.
 
