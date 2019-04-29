@@ -36,6 +36,11 @@ export default class App extends React.Component {
         success: PropTypes.func.isRequired,
         error: PropTypes.func.isRequired,
       }).isRequired,
+      parameters: PropTypes.shape({
+        instance: PropTypes.shape({
+          webhookUrl: PropTypes.string,
+        }).isRequired,
+      }).isRequired,
     }).isRequired,
     pubnub: PropTypes.shape({
       publish: PropTypes.func.isRequired,
@@ -237,7 +242,12 @@ export default class App extends React.Component {
       id: id(),
       userId: sdk.user.sys.id,
       version: currentVersion,
+      spaceId: sdk.ids.space,
+      environmentId: sdk.ids.environment,
+      entryId: sdk.ids.entry,
     };
+
+    this.callWebhook(item);
 
     // Send a message for real-time sync and persistence
     pubnub.publish(item);
@@ -247,5 +257,24 @@ export default class App extends React.Component {
       ...state,
       log: [{ ...item, local: true }].concat(state.log),
     }));
+  }
+
+  callWebhook = async (data) => {
+    // Failing to deliver a webhook call should not crash the app.
+    try {
+      const { sdk } = this.props;
+      const { webhookUrl } = sdk.parameters.instance;
+      const valid = typeof webhookUrl === 'string' && webhookUrl.startsWith('https://');
+
+      if (valid) {
+        await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+      }
+    } catch (err) {
+      // Ignore no matter what...
+    }
   }
 }

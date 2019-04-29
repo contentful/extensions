@@ -1,6 +1,6 @@
 export const eventTypes = {
   REVIEW_REQUESTED: 'REVIEW_REQUESTED',
-  REVIEW_REQUEST_CANCELLED: 'REVIEW_REQUEST_CANCELLED',
+  REVIEW_REQUEST_CANCELED: 'REVIEW_REQUEST_CANCELED',
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED',
   PUBLISHED: 'PUBLISHED',
@@ -8,7 +8,7 @@ export const eventTypes = {
 
 export const eventNames = {
   [eventTypes.REVIEW_REQUESTED]: 'Review requested',
-  [eventTypes.REVIEW_REQUEST_CANCELED]: 'Review cancelled',
+  [eventTypes.REVIEW_REQUEST_CANCELED]: 'Review canceled',
   [eventTypes.APPROVED]: 'Approved',
   [eventTypes.REJECTED]: 'Rejected',
   [eventTypes.PUBLISHED]: 'Published',
