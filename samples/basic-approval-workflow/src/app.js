@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Button, Paragraph, Note } from '@contentful/forma-36-react-components';
-import extensionDescriptor from '../extension.json';
 
 import { eventTypes } from './events';
 import id from './id';
@@ -41,6 +40,12 @@ export default class App extends React.Component {
           webhookUrl: PropTypes.string,
         }).isRequired,
       }).isRequired,
+      ids: PropTypes.shape({
+        extension: PropTypes.string.isRequired,
+        space: PropTypes.string.isRequired,
+        environment: PropTypes.string.isRequired,
+        entry: PropTypes.string.isRequired,
+      }),
     }).isRequired,
     pubnub: PropTypes.shape({
       publish: PropTypes.func.isRequired,
@@ -195,7 +200,7 @@ export default class App extends React.Component {
 
     const reviewer = await sdk.dialogs.openExtension({
       title: 'Pick a reviewer',
-      id: extensionDescriptor.id,
+      id: sdk.ids.extension,
       width: 400,
       parameters: { users },
     });
