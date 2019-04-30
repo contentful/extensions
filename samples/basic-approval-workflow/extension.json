@@ -22,6 +22,11 @@
         "type": "Symbol",
         "name": "PubNub channel prefix",
         "required": true
+      },
+      {
+        "id": "webhookUrl",
+        "type": "Symbol",
+        "name": "URL to notify with all workflow actions"
       }
     ]
   }

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Button, Paragraph, Note } from '@contentful/forma-36-react-components';
-import extensionDescriptor from '../extension.json';
 
 import { eventTypes } from './events';
 import id from './id';
@@ -36,6 +35,17 @@ export default class App extends React.Component {
         success: PropTypes.func.isRequired,
         error: PropTypes.func.isRequired,
       }).isRequired,
+      parameters: PropTypes.shape({
+        instance: PropTypes.shape({
+          webhookUrl: PropTypes.string,
+        }).isRequired,
+      }).isRequired,
+      ids: PropTypes.shape({
+        extension: PropTypes.string.isRequired,
+        space: PropTypes.string.isRequired,
+        environment: PropTypes.string.isRequired,
+        entry: PropTypes.string.isRequired,
+      }),
     }).isRequired,
     pubnub: PropTypes.shape({
       publish: PropTypes.func.isRequired,
@@ -190,7 +200,7 @@ export default class App extends React.Component {
 
     const reviewer = await sdk.dialogs.openExtension({
       title: 'Pick a reviewer',
-      id: extensionDescriptor.id,
+      id: sdk.ids.extension,
       width: 400,
       parameters: { users },
     });
@@ -237,7 +247,12 @@ export default class App extends React.Component {
       id: id(),
       userId: sdk.user.sys.id,
       version: currentVersion,
+      spaceId: sdk.ids.space,
+      environmentId: sdk.ids.environment,
+      entryId: sdk.ids.entry,
     };
+
+    this.callWebhook(item);
 
     // Send a message for real-time sync and persistence
     pubnub.publish(item);
@@ -247,5 +262,24 @@ export default class App extends React.Component {
       ...state,
       log: [{ ...item, local: true }].concat(state.log),
     }));
+  }
+
+  callWebhook = async (data) => {
+    // Failing to deliver a webhook call should not crash the app.
+    try {
+      const { sdk } = this.props;
+      const { webhookUrl } = sdk.parameters.instance;
+      const valid = typeof webhookUrl === 'string' && webhookUrl.startsWith('https://');
+
+      if (valid) {
+        await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+      }
+    } catch (err) {
+      // Ignore no matter what...
+    }
   }
 }
