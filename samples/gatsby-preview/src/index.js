@@ -1,85 +1,79 @@
-import React from "react"
-import ReactDOM from "react-dom"
+import React from "react";
+import ReactDOM from "react-dom";
 import {
   Button,
-  FieldGroup,
-  RadioButtonField,
   Paragraph
-} from "@contentful/forma-36-react-components"
-import { init } from "contentful-ui-extensions-sdk"
-import "@contentful/forma-36-react-components/dist/styles.css"
-import "./index.css"
+} from "@contentful/forma-36-react-components";
+import { init } from "contentful-ui-extensions-sdk";
+import "@contentful/forma-36-react-components/dist/styles.css";
+import "./index.css";
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
-    const { parameters } = this.props.sdk
-    const { webhookUrl, previewUrl } = parameters.installation
-    const { contentTypeSlug, isAutoUpdate } = parameters.instance
+    const { parameters } = this.props.sdk;
+    const { webhookUrl, previewUrl } = parameters.installation;
+    const { contentTypeSlug } = parameters.instance;
 
-    let slug = contentTypeSlug ? contentTypeSlug : ""
+    let slug = contentTypeSlug ? contentTypeSlug : "";
 
     if (this.props.sdk.entry.fields.slug) {
-      slug += "/" + this.props.sdk.entry.fields.slug.getValue()
+      slug += "/" + this.props.sdk.entry.fields.slug.getValue();
     }
 
     this.state = {
-      isAutoUpdate,
       previewUrl: previewUrl + slug,
       webhookUrl
-    }
+    };
   }
 
   componentDidMount = () => {
-    this.detachFn = this.props.sdk.entry.onSysChanged(this.onSysChanged)
+    this.detachFn = this.props.sdk.entry.onSysChanged(this.onSysChanged);
 
-    this.props.sdk.window.startAutoResizer()
-  }
+    this.props.sdk.window.startAutoResizer();
+  };
 
   componentWillUnmount = () => {
-    this.detachFn()
+    this.detachFn();
     if (this.debounceInterval) {
-      clearInterval(this.debounceInterval)
+      clearInterval(this.debounceInterval);
     }
-  }
+  };
 
   onError = error => {
-    this.setState({ working: false })
-    this.props.sdk.notifier.error(error.message)
-  }
+    this.setState({ working: false });
+    this.props.sdk.notifier.error(error.message);
+  };
 
   onSysChanged = () => {
-    if (!this.state.isAutoUpdate) {
-      return
-    }
     if (this.debounceInterval) {
-      clearInterval(this.debounceInterval)
+      clearInterval(this.debounceInterval);
     }
-    this.debounceInterval = setInterval(this.refreshGatsbyPreview, 1000)
-  }
+    this.debounceInterval = setInterval(this.refreshGatsbyPreview, 1000);
+  };
 
   refreshGatsbyPreview = () => {
     if (this.debounceInterval) {
-      clearInterval(this.debounceInterval)
+      clearInterval(this.debounceInterval);
     }
 
     fetch(this.state.webhookUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-preview-update-source": "contentful-sidebar-extension"
+      },
       body: JSON.stringify({})
     }).then(
       () => this.props.sdk.notifier.success("Gatsby Preview updated!"),
       () => this.props.sdk.notifier.error("Gatsby Preview failed :(")
-    )
-  }
+    );
+  };
 
   openPreviewTab = () => {
-    window.open(this.state.previewUrl)
-  }
-  onAutoUpdateChange = e => {
-    this.setState({ isAutoUpdate: e.target.value === "yes" })
-  }
+    window.open(this.state.previewUrl);
+  };
 
   render = () => {
     return (
@@ -92,53 +86,15 @@ class App extends React.Component {
           >
             Open preview
           </Button>
-
-          <FieldGroup row={true}>
-            <RadioButtonField
-              labelText="Auto-update"
-              disabled={false}
-              checked={this.state.isAutoUpdate}
-              value="yes"
-              onChange={this.onAutoUpdateChange}
-              labelIsLight
-              name="autoUpdate"
-              id="checkbox1"
-            />
-            <RadioButtonField
-              labelText="Manual update"
-              disabled={false}
-              checked={!this.state.isAutoUpdate}
-              name="someOption"
-              value="no"
-              onChange={this.onAutoUpdateChange}
-              labelIsLight
-              name="autoUpdate"
-              id="checkbox2"
-            />
-          </FieldGroup>
-
-          <Button
-            isFullWidth
-            size="small"
-            buttonType="muted"
-            onClick={this.refreshGatsbyPreview}
-          >
-            Update Preview
-          </Button>
-
           <div
             style={{
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
-              justifyContent: "flex-end"
+              justifyContent: "center"
             }}
           >
-            <Paragraph
-              style={{ marginRight: "5%" }}
-            >
-              Powered by:
-            </Paragraph>
+            <Paragraph style={{ marginRight: "5%" }}>Powered by:</Paragraph>
 
             <img
               src={require("./gatsby.svg")}
@@ -148,10 +104,10 @@ class App extends React.Component {
           </div>
         </div>
       </div>
-    )
-  }
+    );
+  };
 }
 
 init(sdk => {
-  ReactDOM.render(<App sdk={sdk} />, document.getElementById("root"))
-})
+  ReactDOM.render(<App sdk={sdk} />, document.getElementById("root"));
+});
