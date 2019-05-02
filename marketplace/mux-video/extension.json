@@ -1,0 +1,24 @@
+{
+  "id": "mux-video-uploader",
+  "name": "Mux Video Uploader",
+  "src": "https://contentful.mux.dev/extension",
+  "fieldTypes": ["Object"],
+  "parameters": {
+    "installation": [
+      {
+        "id": "muxAccessTokenId",
+        "name": "Mux Access Token ID",
+        "description": "You can create access tokens here: https://dashboard.mux.com/settings/access-tokens",
+        "type": "Symbol",
+        "required": true
+      },
+      {
+        "id": "muxAccessTokenSecret",
+        "name": "Mux Access Token Secret",
+        "description": "You can create access tokens here: https://dashboard.mux.com/settings/access-tokens",
+        "type": "Symbol",
+        "required": true
+      }
+    ]
+  }
+}
