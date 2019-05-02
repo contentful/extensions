@@ -1,6 +1,6 @@
 {
-  "id": "gatsby-preview",
-  "name": "Gatsby Preview: Instant preview builds",
+  "id": "gatsby-preview-sidebar",
+  "name": "Gatsby Preview",
   "srcdoc": "./build/index.html",
   "sidebar": true,
   "parameters": {
@@ -9,12 +9,6 @@
         "id": "contentTypeSlug",
         "type": "Symbol",
         "name": "URL slug for content type"
-      },
-      {
-        "id": "isAutoUpdate",
-        "type": "Boolean",
-        "name": "Automatically update Gatsby Preview?",
-        "default": true
       }
     ],
     "installation": [
