@@ -12,7 +12,6 @@ The extension has the following features:
 
 - monitor changes on content as you type
 - real time preview updates (de-bounced by 1000 ms)
-- manual preview updates
 
 The extension has the following spec:
 
