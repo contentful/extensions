@@ -272,11 +272,9 @@ export default class App extends React.Component {
       const valid = typeof webhookUrl === 'string' && webhookUrl.startsWith('https://');
 
       if (valid) {
-        await fetch(webhookUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
+        const [url] = webhookUrl.split('?'); // Ignore provided QS
+        const qs = Object.keys(data).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`).join('&');
+        await fetch(`${url}?${qs}`);
       }
     } catch (err) {
       // Ignore no matter what...
