@@ -1,0 +1,5 @@
+{
+  "id": "optimizely",
+  "name": "optimizely",
+  "srcdoc": "./build/index.html"
+}
