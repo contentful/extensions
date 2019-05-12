@@ -4,6 +4,7 @@ import './player.css';
 
 interface PlayerProps {
   playbackId: string;
+  onReady: () => void;
 }
 
 class Player extends React.Component<PlayerProps, {}> {
@@ -15,6 +16,7 @@ class Player extends React.Component<PlayerProps, {}> {
 
     this.playerRef = React.createRef();
     this.hls = new Hls();
+    this.hls.on(Hls.Events.MEDIA_ATTACHED, () => this.props.onReady());
   }
 
   componentDidMount() {

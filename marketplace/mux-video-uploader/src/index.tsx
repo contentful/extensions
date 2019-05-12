@@ -10,7 +10,7 @@ import { createUpload } from '@mux/upchunk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
 
-import Player from './preview';
+import Player from './player';
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -223,6 +223,8 @@ export class App extends React.Component<AppProps, AppState> {
     }
   };
 
+  onPlayerReady = () => this.props.sdk.window.updateHeight();
+
   render = () => {
     if (this.state.error) {
       return <Note noteType="negative">{this.state.error}</Note>;
@@ -238,7 +240,7 @@ export class App extends React.Component<AppProps, AppState> {
       }
 
       if (this.state.value.ready) {
-        return <Player playbackId={this.state.value.playbackId} />;
+        return <Player playbackId={this.state.value.playbackId} onReady={this.onPlayerReady} />;
       }
     }
 
