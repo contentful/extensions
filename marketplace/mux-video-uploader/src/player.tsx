@@ -11,12 +11,20 @@ class Player extends React.Component<PlayerProps, {}> {
   playerRef: React.RefObject<HTMLVideoElement>;
   hls: Hls;
 
+  static defaultProps = {
+    onReady: () => {}
+  }
+
   constructor(props: PlayerProps) {
     super(props);
 
     this.playerRef = React.createRef();
     this.hls = new Hls();
-    this.hls.on(Hls.Events.MEDIA_ATTACHED, () => this.props.onReady());
+    this.hls.on(Hls.Events.MEDIA_ATTACHED, () => this.onReady());
+  }
+
+  onReady = () => {
+    this.props.onReady();
   }
 
   componentDidMount() {
