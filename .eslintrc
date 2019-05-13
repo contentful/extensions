@@ -4,6 +4,9 @@
   "parserOptions": {
     "ecmaVersion": 2017
   },
+  "globals": {
+    "Promise": true
+  },
   "root": true,
   "rules": {
     "promise/no-nesting": "off"
