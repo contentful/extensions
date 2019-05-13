@@ -1,5 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import { css } from 'emotion';
 import {
   Typography,
   Heading,
@@ -11,12 +12,25 @@ import {
   TableCell
 } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
+import OptimizelyClient from './optimizely-client';
+import StatusBar from './components/status-bar';
+import ReferencesSection from './components/references-section';
+import ExperimentSection from './components/experiment-section';
+import VariationsSection from './components/variations-section';
+import SectionSplitter from './components/section-splitter';
 
 import prepareReferenceInfo, * as ReferenceInfo from './reference-info';
 
-export default class App extends React.Component {
-  state = {};
+const PROJECT_ID = '11699754004';
+const TOKEN = '2:y65PaQwDbaNo8WZUkVskR0i14F6EYbCWSO3EMdDlhdBZ8JVdZIFs';
 
+const styles = {
+  root: css({
+    margin: tokens.spacingL
+  })
+};
+
+export default class App extends React.Component {
   static propTypes = {
     sdk: PropTypes.shape({
       space: PropTypes.object.isRequired,
@@ -25,23 +39,25 @@ export default class App extends React.Component {
     }).isRequired
   };
 
+  constructor(props) {
+    super(props);
+    this.client = new OptimizelyClient({ sdk: props.sdk, token: TOKEN, project: PROJECT_ID });
+    this.state = {
+      loaded: false
+    };
+  }
+
   async componentDidMount() {
     const { sdk } = this.props;
     const { space, ids, locales } = sdk;
 
-    const [contentTypesRes, entriesRes, apiData] = await Promise.all([
+    const [contentTypesRes, entriesRes] = await Promise.all([
       space.getContentTypes(),
-      space.getEntries({ links_to_entry: ids.entry, skip: 0, limit: 1000 }),
-      sdk.alpha('proxyGetRequest', {
-        appId: 'optimizely',
-        url: 'https://jsonplaceholder.typicode.com/todos/1',
-        headers: {}
-      })
+      space.getEntries({ links_to_entry: ids.entry, skip: 0, limit: 1000 })
     ]);
 
-    console.log(apiData);
-
     this.setState({
+      loaded: true,
       referenceInfo: prepareReferenceInfo({
         contentTypes: contentTypesRes.items,
         entries: entriesRes.items,
@@ -68,16 +84,20 @@ export default class App extends React.Component {
   };
 
   render() {
-    const { referenceInfo } = this.state;
-
-    if (!referenceInfo) {
+    if (!this.state.loaded) {
       return null;
     }
 
-    const { references } = referenceInfo;
-
     return (
-      <div style={{ padding: tokens.spacingL }}>
+      <div className={styles.root}>
+        <StatusBar />
+        <SectionSplitter />
+        <ReferencesSection references={this.state.referenceInfo.references} sdk={this.props.sdk} />
+        <SectionSplitter />
+        <ExperimentSection />
+        <SectionSplitter />
+        <VariationsSection />
+        <SectionSplitter />
         <Typography>
           <Heading>Incoming references</Heading>
           <Paragraph>This variation container is used in the following entries:</Paragraph>
@@ -91,7 +111,7 @@ export default class App extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {references.map(entry => (
+              {this.state.referenceInfo.references.map(entry => (
                 <TableRow key={entry.id}>
                   <TableCell>{entry.title}</TableCell>
                   <TableCell>{entry.contentTypeName}</TableCell>

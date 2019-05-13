@@ -1,0 +1,32 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  font-family: 'Avenir Next W01', -apple-system, BlinkMacSystemTypography, 'Segoe UI', Cantarell,
+    Helvetica, Arial, sans-serif;
+}
+
+@font-face {
+  font-family: 'Avenir Next W01';
+  src: url('https://static.contentful.com/app/avenir-regular-normal-457e94a5b6.woff2')
+    format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Avenir Next W01';
+  src: url('https://static.contentful.com/app/avenir-medium-normal-24932ad03d.woff2')
+    format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir Next W01';
+  src: url('https://static.contentful.com/app/avenir-demibold-normal-d42bfc911f.woff2')
+    format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
