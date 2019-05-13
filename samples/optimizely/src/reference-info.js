@@ -15,7 +15,7 @@ function findLinkingFieldIds(entry, ct, variationContainerId) {
     const locales = Object.keys(get(entry, ['fields', field.id], {}));
 
     // For every locale in this field...
-    const found = !!locales.find((locale) => {
+    const found = !!locales.find(locale => {
       const value = get(entry, ['fields', field.id, locale]);
 
       // If the field-locale is a single Entry refenrence, check
@@ -46,7 +46,6 @@ function findLinkingFieldIds(entry, ct, variationContainerId) {
   }, []);
 }
 
-
 // Depending on a field type (Array vs Link) validations are stored
 // in a different place.
 function getValidationsPath(field) {
@@ -65,7 +64,7 @@ function getValidationsPath(field) {
 // uniform. We used to allow strings and null values.
 function normalizeLinkContentTypeValidation(
   linkContentTypeValidation,
-  variationContainerContentTypeId,
+  variationContainerContentTypeId
 ) {
   const ctIds = linkContentTypeValidation.linkContentType;
 
@@ -99,8 +98,8 @@ function prepareFieldLinkValidations(field, variationContainerContentTypeId) {
     hasLinkValidation: true,
     linkContentTypes: normalizeLinkContentTypeValidation(
       linkContentTypeValidation,
-      variationContainerContentTypeId,
-    ),
+      variationContainerContentTypeId
+    )
   };
 }
 
@@ -110,18 +109,17 @@ function prepareReferenceInfoForEntry(
   entry,
   ct,
   variationContainerId,
-  variationContainerContentTypeId,
+  variationContainerContentTypeId
 ) {
-  return findLinkingFieldIds(entry, ct, variationContainerId)
-    .map((fieldId) => {
-      const field = (ct.fields || []).find(f => f.id === fieldId);
+  return findLinkingFieldIds(entry, ct, variationContainerId).map(fieldId => {
+    const field = (ct.fields || []).find(f => f.id === fieldId);
 
-      return {
-        id: field.id,
-        name: field.name,
-        ...prepareFieldLinkValidations(field, variationContainerContentTypeId),
-      };
-    });
+    return {
+      id: field.id,
+      name: field.name,
+      ...prepareFieldLinkValidations(field, variationContainerContentTypeId)
+    };
+  });
 }
 
 // Combined link validations (of fields in a single entry or across
@@ -137,7 +135,9 @@ function combineLinkValidations(linkValidations, ctMap) {
       return {
         combinedLinkValidationType: COMBINED_LINK_VALIDATION_INTERSECTION,
         linkContentTypes: linkValidationsIntersection,
-        linkContentTypeNames: linkValidationsIntersection.map(ctId => get(ctMap, [ctId, 'name'], 'Untitled')),
+        linkContentTypeNames: linkValidationsIntersection.map(ctId =>
+          get(ctMap, [ctId, 'name'], 'Untitled')
+        )
       };
     }
 
@@ -158,7 +158,9 @@ function combineLinkValidtionsForEntry(entryReferenceInfo, ctMap) {
 
 // Combine link validations for all entries.
 function combineLinkValidationsForReferences(references, ctMap) {
-  const hasConflict = !!references.find(ref => ref.combinedLinkValidationType === COMBINED_LINK_VALIDATION_CONFLICT);
+  const hasConflict = !!references.find(
+    ref => ref.combinedLinkValidationType === COMBINED_LINK_VALIDATION_CONFLICT
+  );
 
   // If there's at least one conflict combination is conflicting too.
   if (hasConflict) {
@@ -169,7 +171,6 @@ function combineLinkValidationsForReferences(references, ctMap) {
     .filter(ref => ref.combinedLinkValidationType === COMBINED_LINK_VALIDATION_INTERSECTION)
     .map(ref => ref.linkContentTypes);
 
-
   // Use the regular algorithm otherwise for all intersections.
   return combineLinkValidations(linkValidations, ctMap);
 }
@@ -179,11 +180,11 @@ export default function prepareReferenceInfo({
   entries,
   variationContainerId,
   variationContainerContentTypeId,
-  defaultLocale,
+  defaultLocale
 }) {
   const ctMap = contentTypes.reduce((acc, ct) => ({ ...acc, [ct.sys.id]: ct }), {});
 
-  const references = entries.map((entry) => {
+  const references = entries.map(entry => {
     const ctId = get(entry, ['sys', 'contentType', 'sys', 'id']);
     const ct = ctMap[ctId];
 
@@ -191,7 +192,7 @@ export default function prepareReferenceInfo({
       entry,
       ct,
       variationContainerId,
-      variationContainerContentTypeId,
+      variationContainerContentTypeId
     );
 
     return {
@@ -199,12 +200,12 @@ export default function prepareReferenceInfo({
       title: get(entry, ['fields', ct.displayField, defaultLocale], 'Untitled'),
       contentTypeName: ct.name,
       referencedFromFields: entryReferenceInfo.map(f => f.name),
-      ...combineLinkValidtionsForEntry(entryReferenceInfo, ctMap),
+      ...combineLinkValidtionsForEntry(entryReferenceInfo, ctMap)
     };
   });
 
   return {
     references,
-    ...combineLinkValidationsForReferences(references, ctMap),
+    ...combineLinkValidationsForReferences(references, ctMap)
   };
 }

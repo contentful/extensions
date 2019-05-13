@@ -1,8 +1,14 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-
 import {
-  Typography, Heading, Paragraph, Table, TableRow, TableHead, TableBody, TableCell,
+  Typography,
+  Heading,
+  Paragraph,
+  Table,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell
 } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 
@@ -15,8 +21,8 @@ export default class App extends React.Component {
     sdk: PropTypes.shape({
       space: PropTypes.object.isRequired,
       ids: PropTypes.object.isRequired,
-      locales: PropTypes.object.isRequired,
-    }).isRequired,
+      locales: PropTypes.object.isRequired
+    }).isRequired
   };
 
   async componentDidMount() {
@@ -29,8 +35,8 @@ export default class App extends React.Component {
       sdk.alpha('proxyGetRequest', {
         appId: 'optimizely',
         url: 'https://jsonplaceholder.typicode.com/todos/1',
-        headers: {},
-      }),
+        headers: {}
+      })
     ]);
 
     console.log(apiData);
@@ -41,12 +47,12 @@ export default class App extends React.Component {
         entries: entriesRes.items,
         variationContainerId: ids.entry,
         variationContainerContentTypeId: ids.contentType,
-        defaultLocale: locales.default,
-      }),
+        defaultLocale: locales.default
+      })
     });
   }
 
-  renderCombinedLinkValidation = (entry) => {
+  renderCombinedLinkValidation = entry => {
     if (entry.combinedLinkValidationType === ReferenceInfo.COMBINED_LINK_VALIDATION_CONFLICT) {
       return 'Conflicting';
     }
@@ -59,7 +65,7 @@ export default class App extends React.Component {
     }
 
     return 'All content types';
-  }
+  };
 
   render() {
     const { referenceInfo } = this.state;
