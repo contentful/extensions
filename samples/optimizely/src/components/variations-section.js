@@ -21,7 +21,15 @@ const styles = {
     marginTop: tokens.spacingXl
   }),
   variationTitle: css({
-    marginBottom: tokens.spacingS
+    small: {
+      color: tokens.colorTextLight,
+      fontWeight: tokens.fontWeightNormal,
+      marginLeft: tokens.spacingXs,
+      fontSize: tokens.fontSizeM
+    }
+  }),
+  entryCard: css({
+    marginTop: tokens.spacingM
   })
 };
 
@@ -37,6 +45,10 @@ function Container(props) {
 Container.propTypes = {
   children: PropTypes.any
 };
+
+function getPercentOfTraffic(variation) {
+  return Math.floor(variation.weight) / 100;
+}
 
 export default function VariationsSection(props) {
   if (!props.loaded) {
@@ -66,8 +78,12 @@ export default function VariationsSection(props) {
       </Paragraph>
       {variations.map(variation => (
         <div key={variation.key} className={styles.variationContainer}>
-          <Subheading className={styles.variationTitle}>{variation.key}</Subheading>
+          <Subheading className={styles.variationTitle}>
+            {variation.key} <small>({getPercentOfTraffic(variation)}% of traffic)</small>
+          </Subheading>
+          {variation.description && <Paragraph>{variation.description}</Paragraph>}
           <EntryCard
+            className={styles.entryCard}
             title="Closer"
             description="Closer is the second and final studio album by English rock band Joy Division. It was released on 18 July 1980 on Factory Records, following the May 1980 suicide of lead singer Ian Curtis. The album was produced by Martin Hannett."
             status="draft"
