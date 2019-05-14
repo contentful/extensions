@@ -33,6 +33,14 @@ export default class App extends React.Component {
       space: PropTypes.object.isRequired,
       ids: PropTypes.object.isRequired,
       locales: PropTypes.object.isRequired,
+      entry: PropTypes.shape({
+        fields: PropTypes.shape({
+          experimentId: PropTypes.shape({
+            getValue: PropTypes.func.isRequired,
+            setValue: PropTypes.func.isRequired
+          }).isRequired
+        }).isRequired
+      }).isRequired,
       parameters: PropTypes.shape({
         installation: PropTypes.shape({
           optimizelyProjectId: PropTypes.string.isRequired
@@ -48,7 +56,8 @@ export default class App extends React.Component {
       project: props.sdk.parameters.installation.optimizelyProjectId
     });
     this.state = {
-      loaded: false
+      loaded: false,
+      experimentId: props.sdk.entry.fields.experimentId.getValue()
     };
   }
 
@@ -74,6 +83,11 @@ export default class App extends React.Component {
       })
     });
   }
+
+  onChangeExperiment = experimentId => {
+    this.setState({ experimentId });
+    this.props.sdk.entry.fields.experimentId.setValue(experimentId);
+  };
 
   renderCombinedLinkValidation = entry => {
     if (entry.combinedLinkValidationType === ReferenceInfo.COMBINED_LINK_VALIDATION_CONFLICT) {
@@ -101,7 +115,12 @@ export default class App extends React.Component {
           sdk={this.props.sdk}
         />
         <SectionSplitter />
-        <ExperimentSection loaded={this.state.loaded} experiments={this.state.experiments} />
+        <ExperimentSection
+          loaded={this.state.loaded}
+          experiments={this.state.experiments}
+          experimentId={this.state.experimentId}
+          onChangeExperiment={this.onChangeExperiment}
+        />
         <SectionSplitter />
         <VariationsSection loaded={this.state.loaded} />
         <SectionSplitter />
