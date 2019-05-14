@@ -43,6 +43,7 @@ export default function ExperimentSection(props) {
           </React.Fragment>
         )}
       </SelectField>
+
       {props.experiment && props.experiment.description && (
         <Paragraph className={styles.description}>
           Description: {props.experiment.description}
