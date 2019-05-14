@@ -1,16 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
-import {
-  Typography,
-  Heading,
-  Paragraph,
-  Table,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell
-} from '@contentful/forma-36-react-components';
+
 import tokens from '@contentful/forma-36-tokens';
 import OptimizelyClient from './optimizely-client';
 import StatusBar from './components/status-bar';
@@ -18,8 +9,8 @@ import ReferencesSection from './components/references-section';
 import ExperimentSection from './components/experiment-section';
 import VariationsSection from './components/variations-section';
 import SectionSplitter from './components/section-splitter';
-
-import prepareReferenceInfo, * as ReferenceInfo from './reference-info';
+import { Status } from './constants';
+import prepareReferenceInfo from './reference-info';
 
 const styles = {
   root: css({
@@ -57,6 +48,7 @@ export default class App extends React.Component {
     });
     this.state = {
       loaded: false,
+      experiments: [],
       experimentId: props.sdk.entry.fields.experimentId.getValue()
     };
   }
@@ -89,25 +81,26 @@ export default class App extends React.Component {
     this.props.sdk.entry.fields.experimentId.setValue(experimentId);
   };
 
-  renderCombinedLinkValidation = entry => {
-    if (entry.combinedLinkValidationType === ReferenceInfo.COMBINED_LINK_VALIDATION_CONFLICT) {
-      return 'Conflicting';
-    }
+  getExperiment = () => {
+    return this.state.experiments.find(
+      experiment => experiment.id.toString() === this.state.experimentId
+    );
+  };
 
-    if (entry.combinedLinkValidationType === ReferenceInfo.COMBINED_LINK_VALIDATION_INTERSECTION) {
-      if (entry.linkContentTypeNames.length > 1) {
-        return `Intersection of content types used: ${entry.linkContentTypeNames.join(', ')}`;
-      }
-      return entry.linkContentTypeNames[0];
+  getStatus = experiment => {
+    if (!experiment) {
+      return Status.SelectExperiment;
     }
-
-    return 'All content types';
+    return Status.AddContent;
   };
 
   render() {
+    const experiment = this.getExperiment();
+    const status = this.getStatus(experiment);
+
     return (
       <div className={styles.root}>
-        <StatusBar loaded={this.state.loaded} />
+        <StatusBar loaded={this.state.loaded} status={status} />
         <SectionSplitter />
         <ReferencesSection
           loaded={this.state.loaded}
@@ -118,38 +111,12 @@ export default class App extends React.Component {
         <ExperimentSection
           loaded={this.state.loaded}
           experiments={this.state.experiments}
-          experimentId={this.state.experimentId}
+          experiment={experiment}
           onChangeExperiment={this.onChangeExperiment}
         />
         <SectionSplitter />
-        <VariationsSection loaded={this.state.loaded} />
-        <SectionSplitter />
-        {this.state.loaded && (
-          <Typography>
-            <Heading>Incoming references</Heading>
-            <Paragraph>This variation container is used in the following entries:</Paragraph>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Entry title</TableCell>
-                  <TableCell>Content type name</TableCell>
-                  <TableCell>Referenced from fields</TableCell>
-                  <TableCell>Combined link validation</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.referenceInfo.references.map(entry => (
-                  <TableRow key={entry.id}>
-                    <TableCell>{entry.title}</TableCell>
-                    <TableCell>{entry.contentTypeName}</TableCell>
-                    <TableCell>{entry.referencedFromFields.join(', ')}</TableCell>
-                    <TableCell>{this.renderCombinedLinkValidation(entry)}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Typography>
-        )}
+        <VariationsSection loaded={this.state.loaded} experiment={experiment} />
+        {/* {this.state.loaded && <IncomingReferences referenceInfo={this.state.referenceInfo} />} */}
       </div>
     );
   }

@@ -3,6 +3,7 @@ import { css } from 'emotion';
 import PropTypes from 'prop-types';
 import { Icon } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
+import { Status } from '../constants';
 
 const styles = {
   note: css({
@@ -29,7 +30,7 @@ const styles = {
   })
 };
 
-function Status(props) {
+function StatusItem(props) {
   return (
     <div className={styles.item}>
       <Icon
@@ -43,7 +44,7 @@ function Status(props) {
   );
 }
 
-Status.propTypes = {
+StatusItem.propTypes = {
   children: PropTypes.string,
   active: PropTypes.bool
 };
@@ -53,38 +54,54 @@ function StatusSeparator() {
 }
 
 export default function StatusBar(props) {
-  if (!props.loaded) {
-    return (
-      <div className={styles.container}>
-        <Status>Select experiment</Status>
-        <StatusSeparator />
-        <Status>Add content</Status>
-        <StatusSeparator />
-        <Status>Publish variations</Status>
-        <StatusSeparator />
-        <Status>Start experiment</Status>
-      </div>
-    );
+  const statuses = {
+    [Status.SelectExperiment]: false,
+    [Status.StartExperiment]: false,
+    [Status.AddContent]: false,
+    [Status.PublishVariations]: false
+  };
+
+  if (props.loaded) {
+    switch (props.status) {
+      case Status.SelectExperiment:
+        break;
+      case Status.AddContent:
+        statuses[Status.SelectExperiment] = true;
+        break;
+      case Status.PublishVariations:
+        statuses[Status.SelectExperiment] = true;
+        statuses[Status.AddContent] = true;
+        break;
+      case Status.StartExperiment:
+        statuses[Status.SelectExperiment] = true;
+        statuses[Status.AddContent] = true;
+        statuses[Status.PublishVariations] = true;
+        break;
+      case Status.Finished:
+        statuses[Status.SelectExperiment] = true;
+        statuses[Status.AddContent] = true;
+        statuses[Status.PublishVariations] = true;
+        statuses[Status.StartExperiment] = true;
+        break;
+    }
   }
 
   return (
-    <React.Fragment>
-      {/* <Note title="Running experiment" className={styles.note}>
-        Changes can affect results. <TextLink>Read more</TextLink>
-      </Note> */}
-      <div className={styles.container}>
-        <Status active>Select experiment</Status>
-        <StatusSeparator />
-        <Status active>Add content</Status>
-        <StatusSeparator />
-        <Status active>Publish variations</Status>
-        <StatusSeparator />
-        <Status>Start experiment</Status>
-      </div>
-    </React.Fragment>
+    <div className={styles.container}>
+      <StatusItem active={statuses[Status.SelectExperiment]}>Select experiment</StatusItem>
+      <StatusSeparator />
+      <StatusItem active={statuses[Status.AddContent]}>Add content</StatusItem>
+      <StatusSeparator />
+      <StatusItem active={statuses[Status.PublishVariations]}>
+        Publish variations and experiment
+      </StatusItem>
+      <StatusSeparator />
+      <StatusItem active={statuses[Status.StartExperiment]}>Start experiment</StatusItem>
+    </div>
   );
 }
 
 StatusBar.propTypes = {
-  loaded: PropTypes.bool.isRequired
+  loaded: PropTypes.bool.isRequired,
+  status: PropTypes.string.isRequired
 };
