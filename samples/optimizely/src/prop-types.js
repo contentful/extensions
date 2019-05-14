@@ -5,7 +5,8 @@ export const VariationType = PropTypes.shape({
   status: PropTypes.string.isRequired,
   weight: PropTypes.number,
   key: PropTypes.string.isRequired,
-  variation_id: PropTypes.number.isRequired
+  variation_id: PropTypes.number.isRequired,
+  description: PropTypes.string
 });
 
 export const ExperimentType = PropTypes.shape({

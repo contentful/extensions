@@ -24,8 +24,15 @@ export default class OptimizelyClient {
     return this.makeRequest(`/experiments/${experimentId}`);
   };
 
-  getExperiments = () => {
-    return this.makeRequest(`/experiments?project_id=${this.project}`);
+  getExperiments = async () => {
+    // todo: make several request if page is full
+    let experiments = await this.makeRequest(
+      `/experiments?project_id=${this.project}&per_page=100&page=1`
+    );
+    experiments = experiments.filter(experiment => {
+      return experiment.status !== 'archived';
+    });
+    return experiments;
   };
 
   getExperimentResults = experimentId => {
