@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
-import { Heading, TextLink, Tooltip } from '@contentful/forma-36-react-components';
+import {
+  Heading,
+  TextLink,
+  Tooltip,
+  SkeletonContainer,
+  SkeletonBodyText
+} from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 
 const styles = {
@@ -32,6 +38,21 @@ ReferenceItem.propTypes = {
   onClick: PropTypes.func.isRequired
 };
 
+function Container(props) {
+  return (
+    <React.Fragment>
+      <Heading element="h2" className={styles.heading}>
+        Referenced in:
+      </Heading>
+      <div className={styles.container}>{props.children}</div>
+    </React.Fragment>
+  );
+}
+
+Container.propTypes = {
+  children: PropTypes.any
+};
+
 export default function ReferencesSection(props) {
   const onItemClick = id => () => {
     props.sdk.navigator.openEntry(id, {
@@ -39,24 +60,30 @@ export default function ReferencesSection(props) {
     });
   };
 
+  if (!props.loaded) {
+    return (
+      <Container>
+        <SkeletonContainer svgHeight="30px" clipId="references-section">
+          <SkeletonBodyText numberOfLines={1} />
+        </SkeletonContainer>
+      </Container>
+    );
+  }
+
   return (
-    <React.Fragment>
-      <Heading element="h2" className={styles.heading}>
-        Referenced in:
-      </Heading>
-      <div className={styles.container}>
-        {props.references.map((entry, index) => (
-          <React.Fragment key={entry.id}>
-            <ReferenceItem entry={entry} onClick={onItemClick(entry.id)} />
-            {index !== props.references.length - 1 && ', '}
-          </React.Fragment>
-        ))}
-      </div>
-    </React.Fragment>
+    <Container>
+      {props.references.map((entry, index) => (
+        <React.Fragment key={entry.id}>
+          <ReferenceItem entry={entry} onClick={onItemClick(entry.id)} />
+          {index !== props.references.length - 1 && ', '}
+        </React.Fragment>
+      ))}
+    </Container>
   );
 }
 
 ReferencesSection.propTypes = {
+  loaded: PropTypes.bool.isRequired,
   references: PropTypes.array,
   sdk: PropTypes.object.isRequired
 };
