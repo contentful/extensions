@@ -52,12 +52,26 @@ function StatusSeparator() {
   return <Icon className={styles.itemSeparator} icon="ChevronRight" size="small" color="muted" />;
 }
 
-export default function StatusBar() {
+export default function StatusBar(props) {
+  if (!props.loaded) {
+    return (
+      <div className={styles.container}>
+        <Status>Select experiment</Status>
+        <StatusSeparator />
+        <Status>Add content</Status>
+        <StatusSeparator />
+        <Status>Publish variations</Status>
+        <StatusSeparator />
+        <Status>Start experiment</Status>
+      </div>
+    );
+  }
+
   return (
     <React.Fragment>
-      <Note title="Running experiment" className={styles.note}>
+      {/* <Note title="Running experiment" className={styles.note}>
         Changes can affect results. <TextLink>Read more</TextLink>
-      </Note>
+      </Note> */}
       <div className={styles.container}>
         <Status active>Select experiment</Status>
         <StatusSeparator />
@@ -70,3 +84,7 @@ export default function StatusBar() {
     </React.Fragment>
   );
 }
+
+StatusBar.propTypes = {
+  loaded: PropTypes.bool.isRequired
+};
