@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'emotion';
 import PropTypes from 'prop-types';
-import { Note, TextLink, Icon } from '@contentful/forma-36-react-components';
+import { Icon } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 
 const styles = {
