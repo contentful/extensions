@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 import { Heading, SelectField, Option, Paragraph } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
+import { ExperimentType } from '../prop-types';
 
 const styles = {
   heading: css({
@@ -15,10 +16,6 @@ const styles = {
 };
 
 export default function ExperimentSection(props) {
-  const experiment = useMemo(() => {
-    return props.experiments.find(experiment => experiment.id.toString() === props.experimentId);
-  }, [props.experimentId, props.experiments]);
-
   return (
     <React.Fragment>
       <Heading element="h2" className={styles.heading}>
@@ -27,7 +24,7 @@ export default function ExperimentSection(props) {
       <SelectField
         labelText="Optimizely experiment"
         required
-        value={props.experimentId}
+        value={props.experiment ? props.experiment.id.toString() : ''}
         onChange={e => {
           props.onChangeExperiment(e.target.value);
         }}
@@ -46,8 +43,10 @@ export default function ExperimentSection(props) {
           </React.Fragment>
         )}
       </SelectField>
-      {experiment && experiment.description && (
-        <Paragraph className={styles.description}>Description: {experiment.description}</Paragraph>
+      {props.experiment && props.experiment.description && (
+        <Paragraph className={styles.description}>
+          Description: {props.experiment.description}
+        </Paragraph>
       )}
     </React.Fragment>
   );
@@ -55,16 +54,8 @@ export default function ExperimentSection(props) {
 
 ExperimentSection.propTypes = {
   loaded: PropTypes.bool.isRequired,
-  experimentId: PropTypes.string,
-  experiments: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      key: PropTypes.string.isRequired,
-      description: PropTypes.string,
-      status: PropTypes.string.isRequired
-    }).isRequired
-  ).isRequired,
+  experiment: ExperimentType,
+  experiments: PropTypes.arrayOf(ExperimentType.isRequired).isRequired,
   onChangeExperiment: PropTypes.func.isRequired
 };
 
