@@ -1,9 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { css } from 'emotion';
-import { Heading, Paragraph, Subheading, EntryCard } from '@contentful/forma-36-react-components';
+import {
+  Heading,
+  Paragraph,
+  Subheading,
+  EntryCard,
+  SkeletonContainer,
+  SkeletonDisplayText
+} from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 
 const styles = {
+  container: css({
+    marginTop: tokens.spacingL
+  }),
   variationContainer: css({
     marginTop: tokens.spacingXl,
     maxWidth: 1000
@@ -13,7 +24,7 @@ const styles = {
   })
 };
 
-export default function VariationsSection() {
+function Container(props) {
   return (
     <React.Fragment>
       <Heading element="h2">Variations:</Heading>
@@ -21,6 +32,31 @@ export default function VariationsSection() {
         Content created in this experiment is only available for this experiment.
       </Paragraph>
 
+      <div className={styles.container}>{props.children}</div>
+    </React.Fragment>
+  );
+}
+
+Container.propTypes = {
+  children: PropTypes.any
+};
+
+export default function VariationsSection(props) {
+  if (!props.loaded) {
+    return (
+      <Container>
+        <div className={styles.variationContainer}>
+          <SkeletonContainer svgHeight={40} clipId="variations-section">
+            <SkeletonDisplayText numberOfLines={1} />
+          </SkeletonContainer>
+          <EntryCard loading />
+        </div>
+      </Container>
+    );
+  }
+
+  return (
+    <Container>
       <div className={styles.variationContainer}>
         <Subheading className={styles.variationTitle}>variation_1</Subheading>
         <EntryCard
@@ -40,6 +76,10 @@ export default function VariationsSection() {
           contentType="Album"
         />
       </div>
-    </React.Fragment>
+    </Container>
   );
 }
+
+VariationsSection.propTypes = {
+  loaded: PropTypes.bool.isRequired
+};

@@ -11,3 +11,7 @@ init(sdk => {
     render(<App sdk={sdk} />, document.getElementById('root'));
   }
 });
+
+// if (module.hot) {
+//   module.hot.accept();
+// }
