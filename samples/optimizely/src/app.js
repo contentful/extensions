@@ -21,12 +21,9 @@ import SectionSplitter from './components/section-splitter';
 
 import prepareReferenceInfo, * as ReferenceInfo from './reference-info';
 
-const PROJECT_ID = '11699754004';
-const TOKEN = '2:y65PaQwDbaNo8WZUkVskR0i14F6EYbCWSO3EMdDlhdBZ8JVdZIFs';
-
 const styles = {
   root: css({
-    margin: tokens.spacingL
+    margin: tokens.spacingXl
   })
 };
 
@@ -35,13 +32,21 @@ export default class App extends React.Component {
     sdk: PropTypes.shape({
       space: PropTypes.object.isRequired,
       ids: PropTypes.object.isRequired,
-      locales: PropTypes.object.isRequired
+      locales: PropTypes.object.isRequired,
+      parameters: PropTypes.shape({
+        installation: PropTypes.shape({
+          optimizelyProjectId: PropTypes.string.isRequired
+        }).isRequired
+      }).isRequired
     }).isRequired
   };
 
   constructor(props) {
     super(props);
-    this.client = new OptimizelyClient({ sdk: props.sdk, token: TOKEN, project: PROJECT_ID });
+    this.client = new OptimizelyClient({
+      sdk: props.sdk,
+      project: props.sdk.parameters.installation.optimizelyProjectId
+    });
     this.state = {
       loaded: false
     };
@@ -51,13 +56,15 @@ export default class App extends React.Component {
     const { sdk } = this.props;
     const { space, ids, locales } = sdk;
 
-    const [contentTypesRes, entriesRes] = await Promise.all([
+    const [contentTypesRes, entriesRes, experiments] = await Promise.all([
       space.getContentTypes(),
-      space.getEntries({ links_to_entry: ids.entry, skip: 0, limit: 1000 })
+      space.getEntries({ links_to_entry: ids.entry, skip: 0, limit: 1000 }),
+      this.client.getExperiments()
     ]);
 
     this.setState({
       loaded: true,
+      experiments,
       referenceInfo: prepareReferenceInfo({
         contentTypes: contentTypesRes.items,
         entries: entriesRes.items,
@@ -84,44 +91,46 @@ export default class App extends React.Component {
   };
 
   render() {
-    if (!this.state.loaded) {
-      return null;
-    }
-
     return (
       <div className={styles.root}>
-        <StatusBar />
+        <StatusBar loaded={this.state.loaded} />
         <SectionSplitter />
-        <ReferencesSection references={this.state.referenceInfo.references} sdk={this.props.sdk} />
+        <ReferencesSection
+          loaded={this.state.loaded}
+          references={this.state.loaded ? this.state.referenceInfo.references : []}
+          sdk={this.props.sdk}
+        />
         <SectionSplitter />
-        <ExperimentSection />
+        <ExperimentSection loaded={this.state.loaded} experiments={this.state.experiments} />
         <SectionSplitter />
-        <VariationsSection />
+        <VariationsSection loaded={this.state.loaded} />
         <SectionSplitter />
-        <Typography>
-          <Heading>Incoming references</Heading>
-          <Paragraph>This variation container is used in the following entries:</Paragraph>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Entry title</TableCell>
-                <TableCell>Content type name</TableCell>
-                <TableCell>Referenced from fields</TableCell>
-                <TableCell>Combined link validation</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {this.state.referenceInfo.references.map(entry => (
-                <TableRow key={entry.id}>
-                  <TableCell>{entry.title}</TableCell>
-                  <TableCell>{entry.contentTypeName}</TableCell>
-                  <TableCell>{entry.referencedFromFields.join(', ')}</TableCell>
-                  <TableCell>{this.renderCombinedLinkValidation(entry)}</TableCell>
+        {this.state.loaded && (
+          <Typography>
+            <Heading>Incoming references</Heading>
+            <Paragraph>This variation container is used in the following entries:</Paragraph>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Entry title</TableCell>
+                  <TableCell>Content type name</TableCell>
+                  <TableCell>Referenced from fields</TableCell>
+                  <TableCell>Combined link validation</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Typography>
+              </TableHead>
+              <TableBody>
+                {this.state.referenceInfo.references.map(entry => (
+                  <TableRow key={entry.id}>
+                    <TableCell>{entry.title}</TableCell>
+                    <TableCell>{entry.contentTypeName}</TableCell>
+                    <TableCell>{entry.referencedFromFields.join(', ')}</TableCell>
+                    <TableCell>{this.renderCombinedLinkValidation(entry)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Typography>
+        )}
       </div>
     );
   }
