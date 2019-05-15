@@ -26,6 +26,9 @@ export default class App extends React.Component {
       space: PropTypes.object.isRequired,
       ids: PropTypes.object.isRequired,
       locales: PropTypes.object.isRequired,
+      dialogs: PropTypes.shape({
+        selectSingleEntry: PropTypes.func.isRequired
+      }).isRequired,
       entry: PropTypes.shape({
         fields: PropTypes.shape({
           experimentId: PropTypes.shape({
@@ -33,7 +36,8 @@ export default class App extends React.Component {
             setValue: PropTypes.func.isRequired
           }).isRequired,
           variations: PropTypes.shape({
-            getValue: PropTypes.func.isRequired
+            getValue: PropTypes.func.isRequired,
+            setValue: PropTypes.func.isRequired
           }).isRequired
         }).isRequired
       }).isRequired,
@@ -89,6 +93,26 @@ export default class App extends React.Component {
     this.props.sdk.entry.fields.experimentId.setValue(experimentId);
   };
 
+  onLinkVariation = async () => {
+    const sdk = this.props.sdk;
+    const data = await sdk.dialogs.selectSingleEntry(
+      sdk.locales.defaultLocale,
+      this.state.referenceInfo.linkContentTypes
+    );
+
+    const values = sdk.entry.fields.variations.getValue() || [];
+    values.push({
+      sys: {
+        type: 'Link',
+        id: data.sys.id,
+        linkType: 'Entry'
+      }
+    });
+
+    sdk.entry.fields.variations.setValue(values);
+    this.setState({ variations: values });
+  };
+
   getExperiment = () => {
     return this.state.experiments.find(
       experiment => experiment.id.toString() === this.state.experimentId
@@ -130,6 +154,7 @@ export default class App extends React.Component {
               contentTypes={this.state.contentTypes}
               experiment={experiment}
               variations={this.state.variations}
+              onLinkVariation={this.onLinkVariation}
             />
             {/* {this.state.loaded && <IncomingReferences referenceInfo={this.state.referenceInfo} />} */}
           </div>

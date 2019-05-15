@@ -81,8 +81,14 @@ export default function VariationsSection(props) {
       <Paragraph>
         Content created in this experiment is only available for this experiment.
       </Paragraph>
-      {linked.map(item => (
-        <VariationItem variation={item.variation} sys={item.sys} key={item.variation.key} />
+      {linked.map((item, index) => (
+        <VariationItem
+          variation={item.variation}
+          sys={item.sys}
+          key={item.variation.key}
+          index={index}
+          onLinkVariation={props.onLinkVariation}
+        />
       ))}
 
       {invalid.length > 0 && (
@@ -100,5 +106,6 @@ export default function VariationsSection(props) {
 VariationsSection.propTypes = {
   loaded: PropTypes.bool.isRequired,
   experiment: ExperimentType,
-  variations: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired
+  variations: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
+  onLinkVariation: PropTypes.func.isRequired
 };
