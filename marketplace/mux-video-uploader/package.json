@@ -53,6 +53,12 @@
     "test": "jest test/*.test.tsx",
     "test:watch": "jest --watchAll"
   },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
+  },
   "browserslist": [
     "last 5 Chrome version",
     "> 1%",

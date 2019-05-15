@@ -23,6 +23,7 @@ interface MuxContentfulObject {
   assetId: string;
   playbackId: string;
   ready: boolean;
+  ratio: string;
 }
 
 interface AppState {
@@ -215,6 +216,7 @@ export class App extends React.Component<AppProps, AppState> {
       assetId: this.state.value.assetId,
       playbackId: asset['playback_ids'][0].id,
       ready: asset.status === 'ready',
+      ratio: asset.ratio,
     });
 
     if (asset.status !== 'ready') {
@@ -240,7 +242,13 @@ export class App extends React.Component<AppProps, AppState> {
       }
 
       if (this.state.value.ready) {
-        return <Player playbackId={this.state.value.playbackId} onReady={this.onPlayerReady} />;
+        return (
+          <Player
+            playbackId={this.state.value.playbackId}
+            ratio={this.state.value.ratio}
+            onReady={this.onPlayerReady}
+          />
+        );
       }
     }
 

@@ -4,6 +4,7 @@ import './player.css';
 
 interface PlayerProps {
   playbackId: string;
+  ratio: string;
   onReady: () => void;
 }
 
@@ -46,6 +47,8 @@ class Player extends React.Component<PlayerProps, {}> {
   posterUrl = () =>
     `https://image.mux.com/${this.props.playbackId}/thumbnail.jpg`;
 
+  getHeight = () => this.playerRef.current && this.playerRef.current.offsetWidth * .5625;
+
   render() {
     return (
       <div className="player">
@@ -54,6 +57,7 @@ class Player extends React.Component<PlayerProps, {}> {
           poster={this.posterUrl()}
           controls
           width="100%"
+          height={this.getHeight() + 'px'}
         />
       </div>
     );
