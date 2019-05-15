@@ -88,6 +88,8 @@ export default function VariationsSection(props) {
           key={item.variation.key}
           index={index}
           onLinkVariation={props.onLinkVariation}
+          onOpenVariation={props.onOpenVariation}
+          onRemoveVariation={props.onRemoveVariation}
         />
       ))}
 
@@ -107,5 +109,7 @@ VariationsSection.propTypes = {
   loaded: PropTypes.bool.isRequired,
   experiment: ExperimentType,
   variations: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
-  onLinkVariation: PropTypes.func.isRequired
+  onLinkVariation: PropTypes.func.isRequired,
+  onOpenVariation: PropTypes.func.isRequired,
+  onRemoveVariation: PropTypes.func.isRequired
 };
