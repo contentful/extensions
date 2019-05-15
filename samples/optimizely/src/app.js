@@ -12,6 +12,8 @@ import SectionSplitter from './components/section-splitter';
 import { Status } from './constants';
 import prepareReferenceInfo from './reference-info';
 
+import { SDKContext, ContentTypesContext } from './all-context';
+
 const styles = {
   root: css({
     margin: tokens.spacingXl
@@ -29,6 +31,9 @@ export default class App extends React.Component {
           experimentId: PropTypes.shape({
             getValue: PropTypes.func.isRequired,
             setValue: PropTypes.func.isRequired
+          }).isRequired,
+          variations: PropTypes.shape({
+            getValue: PropTypes.func.isRequired
           }).isRequired
         }).isRequired
       }).isRequired,
@@ -49,6 +54,8 @@ export default class App extends React.Component {
     this.state = {
       loaded: false,
       experiments: [],
+      contentTypes: [],
+      variations: props.sdk.entry.fields.variations.getValue() || [],
       experimentId: props.sdk.entry.fields.experimentId.getValue()
     };
   }
@@ -66,6 +73,7 @@ export default class App extends React.Component {
     this.setState({
       loaded: true,
       experiments,
+      contentTypes: contentTypesRes.items,
       referenceInfo: prepareReferenceInfo({
         contentTypes: contentTypesRes.items,
         entries: entriesRes.items,
@@ -99,25 +107,34 @@ export default class App extends React.Component {
     const status = this.getStatus(experiment);
 
     return (
-      <div className={styles.root}>
-        <StatusBar loaded={this.state.loaded} status={status} />
-        <SectionSplitter />
-        <ReferencesSection
-          loaded={this.state.loaded}
-          references={this.state.loaded ? this.state.referenceInfo.references : []}
-          sdk={this.props.sdk}
-        />
-        <SectionSplitter />
-        <ExperimentSection
-          loaded={this.state.loaded}
-          experiments={this.state.experiments}
-          experiment={experiment}
-          onChangeExperiment={this.onChangeExperiment}
-        />
-        <SectionSplitter />
-        <VariationsSection loaded={this.state.loaded} experiment={experiment} />
-        {/* {this.state.loaded && <IncomingReferences referenceInfo={this.state.referenceInfo} />} */}
-      </div>
+      <SDKContext.Provider value={this.props.sdk}>
+        <ContentTypesContext.Provider value={this.state.contentTypes}>
+          <div className={styles.root}>
+            <StatusBar loaded={this.state.loaded} status={status} />
+            <SectionSplitter />
+            <ReferencesSection
+              loaded={this.state.loaded}
+              references={this.state.loaded ? this.state.referenceInfo.references : []}
+              sdk={this.props.sdk}
+            />
+            <SectionSplitter />
+            <ExperimentSection
+              loaded={this.state.loaded}
+              experiments={this.state.experiments}
+              experiment={experiment}
+              onChangeExperiment={this.onChangeExperiment}
+            />
+            <SectionSplitter />
+            <VariationsSection
+              loaded={this.state.loaded}
+              contentTypes={this.state.contentTypes}
+              experiment={experiment}
+              variations={this.state.variations}
+            />
+            {/* {this.state.loaded && <IncomingReferences referenceInfo={this.state.referenceInfo} />} */}
+          </div>
+        </ContentTypesContext.Provider>
+      </SDKContext.Provider>
     );
   }
 }
