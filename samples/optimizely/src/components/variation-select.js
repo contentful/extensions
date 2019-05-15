@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { TextLink } from '@contentful/forma-36-react-components';
+import {
+  TextLink,
+  Dropdown,
+  DropdownList,
+  DropdownListItem
+} from '@contentful/forma-36-react-components';
 import { css } from 'emotion';
 import tokens from '@contentful/forma-36-tokens';
+import { ReferenceInfoContext } from '../all-context';
 
 const styles = {
   container: css({
@@ -14,6 +20,9 @@ const styles = {
 };
 
 export default function VariationSelect(props) {
+  const [isDropdownShown, setShowDropdown] = useState(false);
+  const referenceInfo = useContext(ReferenceInfoContext);
+
   return (
     <div className={styles.container}>
       {props.duplicate && (
@@ -24,9 +33,34 @@ export default function VariationSelect(props) {
         </div>
       )}
       <div className={styles.item}>
-        <TextLink icon="Plus" disabled onClick={props.onCreateClick}>
-          Create entry and link
-        </TextLink>
+        <Dropdown
+          isOpen={isDropdownShown}
+          onClose={() => {
+            setShowDropdown(false);
+          }}
+          toggleElement={
+            <TextLink
+              icon="Plus"
+              onClick={() => {
+                setShowDropdown(true);
+              }}>
+              Create entry and link
+            </TextLink>
+          }>
+          <DropdownList maxHeight={300}>
+            <DropdownListItem isTitle>Select content type</DropdownListItem>
+            {referenceInfo.linkContentTypes.map((value, index) => (
+              <DropdownListItem
+                key={value}
+                onClick={() => {
+                  props.onCreate(value);
+                  setShowDropdown(false);
+                }}>
+                {referenceInfo.linkContentTypeNames[index]}
+              </DropdownListItem>
+            ))}
+          </DropdownList>
+        </Dropdown>
       </div>
       <div className={styles.item}>
         <TextLink icon="Link" onClick={props.onLinkExistingClick}>
@@ -40,6 +74,6 @@ export default function VariationSelect(props) {
 VariationSelect.propTypes = {
   duplicate: PropTypes.string,
   onLinkExistingClick: PropTypes.func.isRequired,
-  onCreateClick: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired,
   onDuplicateClick: PropTypes.func.isRequired
 };

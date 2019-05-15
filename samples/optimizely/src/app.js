@@ -12,7 +12,7 @@ import SectionSplitter from './components/section-splitter';
 import { Status } from './constants';
 import prepareReferenceInfo from './reference-info';
 
-import { SDKContext, ContentTypesContext } from './all-context';
+import { SDKContext, ContentTypesContext, ReferenceInfoContext } from './all-context';
 
 const styles = {
   root: css({
@@ -121,6 +121,26 @@ export default class App extends React.Component {
     this.props.sdk.navigator.openEntry(id, { slideIn: true });
   };
 
+  onCreateVariation = async (index, contentTypeId) => {
+    const sdk = this.props.sdk;
+
+    const { entity } = await sdk.navigator.openNewEntry(contentTypeId, {
+      slideIn: true
+    });
+
+    const values = sdk.entry.fields.variations.getValue() || [];
+    values.push({
+      sys: {
+        type: 'Link',
+        id: entity.sys.id,
+        linkType: 'Entry'
+      }
+    });
+
+    sdk.entry.fields.variations.setValue(values);
+    this.setState({ variations: values });
+  };
+
   onRemoveVariation = id => {
     const sdk = this.props.sdk;
     let values = sdk.entry.fields.variations.getValue() || [];
@@ -151,33 +171,36 @@ export default class App extends React.Component {
     return (
       <SDKContext.Provider value={this.props.sdk}>
         <ContentTypesContext.Provider value={this.state.contentTypes}>
-          <div className={styles.root}>
-            <StatusBar loaded={this.state.loaded} status={status} />
-            <SectionSplitter />
-            <ReferencesSection
-              loaded={this.state.loaded}
-              references={this.state.loaded ? this.state.referenceInfo.references : []}
-              sdk={this.props.sdk}
-            />
-            <SectionSplitter />
-            <ExperimentSection
-              loaded={this.state.loaded}
-              experiments={this.state.experiments}
-              experiment={experiment}
-              onChangeExperiment={this.onChangeExperiment}
-            />
-            <SectionSplitter />
-            <VariationsSection
-              loaded={this.state.loaded}
-              contentTypes={this.state.contentTypes}
-              experiment={experiment}
-              variations={this.state.variations}
-              onLinkVariation={this.onLinkVariation}
-              onOpenVariation={this.onOpenVariation}
-              onRemoveVariation={this.onRemoveVariation}
-            />
-            {/* {this.state.loaded && <IncomingReferences referenceInfo={this.state.referenceInfo} />} */}
-          </div>
+          <ReferenceInfoContext.Provider value={this.state.referenceInfo}>
+            <div className={styles.root}>
+              <StatusBar loaded={this.state.loaded} status={status} />
+              <SectionSplitter />
+              <ReferencesSection
+                loaded={this.state.loaded}
+                references={this.state.loaded ? this.state.referenceInfo.references : []}
+                sdk={this.props.sdk}
+              />
+              <SectionSplitter />
+              <ExperimentSection
+                loaded={this.state.loaded}
+                experiments={this.state.experiments}
+                experiment={experiment}
+                onChangeExperiment={this.onChangeExperiment}
+              />
+              <SectionSplitter />
+              <VariationsSection
+                loaded={this.state.loaded}
+                contentTypes={this.state.contentTypes}
+                experiment={experiment}
+                variations={this.state.variations}
+                onCreateVariation={this.onCreateVariation}
+                onLinkVariation={this.onLinkVariation}
+                onOpenVariation={this.onOpenVariation}
+                onRemoveVariation={this.onRemoveVariation}
+              />
+              {/* {this.state.loaded && <IncomingReferences referenceInfo={this.state.referenceInfo} />} */}
+            </div>
+          </ReferenceInfoContext.Provider>
         </ContentTypesContext.Provider>
       </SDKContext.Provider>
     );
