@@ -1,35 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
+import { slice } from 'lodash';
 import {
   Heading,
   Paragraph,
-  Subheading,
-  EntryCard,
   SkeletonContainer,
   SkeletonBodyText
 } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import { ExperimentType } from '../prop-types';
+import VariationItem from './variation-item';
 
 const styles = {
   container: css({
     marginTop: tokens.spacingS,
     maxWidth: 1000
-  }),
-  variationContainer: css({
-    marginTop: tokens.spacingXl
-  }),
-  variationTitle: css({
-    small: {
-      color: tokens.colorTextLight,
-      fontWeight: tokens.fontWeightNormal,
-      marginLeft: tokens.spacingXs,
-      fontSize: tokens.fontSizeM
-    }
-  }),
-  entryCard: css({
-    marginTop: tokens.spacingM
   })
 };
 
@@ -46,8 +32,24 @@ Container.propTypes = {
   children: PropTypes.any
 };
 
-function getPercentOfTraffic(variation) {
-  return Math.floor(variation.weight) / 100;
+function mergeReferencesAndVariations(variationReferences, variations) {
+  const linked = [];
+  const invalid = [];
+
+  variations.forEach((variation, index) => {
+    linked.push({
+      variation,
+      sys: variationReferences[index] ? variationReferences[index].sys : undefined
+    });
+  });
+
+  slice(variationReferences, variations.length).forEach(variationReference => {
+    invalid.push({
+      sys: variationReference.sys
+    });
+  });
+
+  return { linked, invalid };
 }
 
 export default function VariationsSection(props) {
@@ -69,33 +71,34 @@ export default function VariationsSection(props) {
     );
   }
 
-  const { variations } = props.experiment;
+  const { linked, invalid } = mergeReferencesAndVariations(
+    props.variations,
+    props.experiment.variations
+  );
 
   return (
     <Container>
       <Paragraph>
         Content created in this experiment is only available for this experiment.
       </Paragraph>
-      {variations.map(variation => (
-        <div key={variation.key} className={styles.variationContainer}>
-          <Subheading className={styles.variationTitle}>
-            {variation.key} <small>({getPercentOfTraffic(variation)}% of traffic)</small>
-          </Subheading>
-          {variation.description && <Paragraph>{variation.description}</Paragraph>}
-          <EntryCard
-            className={styles.entryCard}
-            title="Closer"
-            description="Closer is the second and final studio album by English rock band Joy Division. It was released on 18 July 1980 on Factory Records, following the May 1980 suicide of lead singer Ian Curtis. The album was produced by Martin Hannett."
-            status="draft"
-            contentType="Album"
-          />
-        </div>
+      {linked.map(item => (
+        <VariationItem variation={item.variation} sys={item.sys} key={item.variation.key} />
       ))}
+
+      {invalid.length > 0 && (
+        <React.Fragment>
+          <Heading>Invalid items</Heading>
+          {invalid.map(item => (
+            <VariationItem sys={item.sys} key={item.sys.id} />
+          ))}
+        </React.Fragment>
+      )}
     </Container>
   );
 }
 
 VariationsSection.propTypes = {
   loaded: PropTypes.bool.isRequired,
-  experiment: ExperimentType
+  experiment: ExperimentType,
+  variations: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired
 };

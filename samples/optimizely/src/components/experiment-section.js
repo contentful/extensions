@@ -11,7 +11,10 @@ const styles = {
   }),
   description: css({
     marginTop: tokens.spacingS,
-    color: tokens.colorTextLight
+    color: tokens.colorTextLight,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   })
 };
 
