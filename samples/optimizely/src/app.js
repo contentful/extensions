@@ -26,6 +26,9 @@ export default class App extends React.Component {
       space: PropTypes.object.isRequired,
       ids: PropTypes.object.isRequired,
       locales: PropTypes.object.isRequired,
+      navigator: PropTypes.shape({
+        openEntry: PropTypes.func.isRequired
+      }).isRequired,
       dialogs: PropTypes.shape({
         selectSingleEntry: PropTypes.func.isRequired
       }).isRequired,
@@ -97,6 +100,7 @@ export default class App extends React.Component {
     const sdk = this.props.sdk;
     const data = await sdk.dialogs.selectSingleEntry(
       sdk.locales.defaultLocale,
+      // todo: for some reason it doesn't work properly - need to investigate
       this.state.referenceInfo.linkContentTypes
     );
 
@@ -108,6 +112,20 @@ export default class App extends React.Component {
         linkType: 'Entry'
       }
     });
+
+    sdk.entry.fields.variations.setValue(values);
+    this.setState({ variations: values });
+  };
+
+  onOpenVariation = id => {
+    this.props.sdk.navigator.openEntry(id, { slideIn: true });
+  };
+
+  onRemoveVariation = id => {
+    const sdk = this.props.sdk;
+    let values = sdk.entry.fields.variations.getValue() || [];
+
+    values = values.filter(item => item.sys.id !== id);
 
     sdk.entry.fields.variations.setValue(values);
     this.setState({ variations: values });
@@ -155,6 +173,8 @@ export default class App extends React.Component {
               experiment={experiment}
               variations={this.state.variations}
               onLinkVariation={this.onLinkVariation}
+              onOpenVariation={this.onOpenVariation}
+              onRemoveVariation={this.onRemoveVariation}
             />
             {/* {this.state.loaded && <IncomingReferences referenceInfo={this.state.referenceInfo} />} */}
           </div>

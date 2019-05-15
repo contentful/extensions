@@ -1,8 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 import get from 'lodash.get';
-import { Paragraph, Subheading, EntryCard } from '@contentful/forma-36-react-components';
+import useInterval from '@use-it/interval';
+import {
+  Paragraph,
+  Subheading,
+  EntryCard,
+  DropdownList,
+  DropdownListItem
+} from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import { SDKContext, ContentTypesContext } from '../all-context';
 import VariationSelect from './variation-select';
@@ -75,7 +82,7 @@ function useEntryCard(id) {
   const [entry, setEntry] = useState(null);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
+  const fetchEntry = useCallback(() => {
     sdk.space
       .getEntry(id)
       .then(entry => {
@@ -88,6 +95,14 @@ function useEntryCard(id) {
         setError(true);
       });
   }, [id, sdk]);
+
+  useEffect(() => {
+    fetchEntry();
+  }, [fetchEntry]);
+
+  useInterval(() => {
+    fetchEntry();
+  }, 3000);
 
   return {
     entry,
@@ -116,15 +131,24 @@ export function SelectedReference(props) {
     <EntryCard
       className={styles.entryCard}
       size="small"
+      onClick={props.onEditClick}
       title={entry.title}
       status={entry.status}
       contentType={entry.contentType}
+      dropdownListElements={
+        <DropdownList>
+          <DropdownListItem onClick={props.onEditClick}>Edit</DropdownListItem>
+          <DropdownListItem onClick={props.onRemoveClick}>Remove</DropdownListItem>
+        </DropdownList>
+      }
     />
   );
 }
 
 SelectedReference.propTypes = {
-  sys: PropTypes.object.isRequired
+  sys: PropTypes.object.isRequired,
+  onEditClick: PropTypes.func.isRequired,
+  onRemoveClick: PropTypes.func.isRequired
 };
 
 export default function VariationItem(props) {
@@ -144,7 +168,17 @@ export default function VariationItem(props) {
           )}
         </React.Fragment>
       )}
-      {props.sys && <SelectedReference sys={props.sys} />}
+      {props.sys && (
+        <SelectedReference
+          sys={props.sys}
+          onEditClick={() => {
+            props.onOpenVariation(props.sys.id);
+          }}
+          onRemoveClick={() => {
+            props.onRemoveVariation(props.sys.id);
+          }}
+        />
+      )}
       {!props.sys && (
         <VariationSelect
           duplicate="variation_1"
@@ -163,5 +197,7 @@ VariationItem.propTypes = {
   index: PropTypes.number.isRequired,
   variation: PropTypes.object,
   sys: PropTypes.object,
-  onLinkVariation: PropTypes.func.isRequired
+  onLinkVariation: PropTypes.func.isRequired,
+  onOpenVariation: PropTypes.func.isRequired,
+  onRemoveVariation: PropTypes.func.isRequired
 };
