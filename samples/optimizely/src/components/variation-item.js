@@ -2,9 +2,10 @@ import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 import get from 'lodash.get';
-import { Paragraph, Subheading, EntryCard, TextLink } from '@contentful/forma-36-react-components';
+import { Paragraph, Subheading, EntryCard } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import { SDKContext, ContentTypesContext } from '../all-context';
+import VariationSelect from './variation-select';
 
 const styles = {
   variationContainer: css({
@@ -145,20 +146,22 @@ export default function VariationItem(props) {
       )}
       {props.sys && <SelectedReference sys={props.sys} />}
       {!props.sys && (
-        <div>
-          <div>
-            <TextLink>Create entry and link</TextLink>
-          </div>
-          <div>
-            <TextLink>Link an existing entry</TextLink>
-          </div>
-        </div>
+        <VariationSelect
+          duplicate="variation_1"
+          onCreateClick={() => {}}
+          onDuplicateClick={() => {}}
+          onLinkExistingClick={() => {
+            props.onLinkVariation(props.index);
+          }}
+        />
       )}
     </div>
   );
 }
 
 VariationItem.propTypes = {
+  index: PropTypes.number.isRequired,
   variation: PropTypes.object,
-  sys: PropTypes.object
+  sys: PropTypes.object,
+  onLinkVariation: PropTypes.func.isRequired
 };
