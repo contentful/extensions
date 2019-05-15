@@ -8,7 +8,9 @@ import {
   Subheading,
   EntryCard,
   DropdownList,
-  DropdownListItem
+  DropdownListItem,
+  Note,
+  TextLink
 } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import { SDKContext, ContentTypesContext } from '../all-context';
@@ -34,6 +36,9 @@ const styles = {
     marginTop: tokens.spacingXs
   }),
   entryCard: css({
+    marginTop: tokens.spacingM
+  }),
+  missingNote: css({
     marginTop: tokens.spacingM
   })
 };
@@ -119,8 +124,13 @@ export function SelectedReference(props) {
   }
 
   if (error) {
-    // todo: provide a correct placeholder with ability to delete reference
-    return <div>Error</div>;
+    return (
+      <Note noteType="warning" title="Entry is missing" className={styles.missingNote}>
+        <TextLink linkType="secondary" onClick={props.onRemoveClick}>
+          Remove missing entry
+        </TextLink>
+      </Note>
+    );
   }
 
   if (!entry) {
@@ -182,7 +192,9 @@ export default function VariationItem(props) {
       {!props.sys && (
         <VariationSelect
           duplicate="variation_1"
-          onCreateClick={() => {}}
+          onCreate={contentType => {
+            props.onCreateVariation(props.index, contentType);
+          }}
           onDuplicateClick={() => {}}
           onLinkExistingClick={() => {
             props.onLinkVariation(props.index);
@@ -197,6 +209,7 @@ VariationItem.propTypes = {
   index: PropTypes.number.isRequired,
   variation: PropTypes.object,
   sys: PropTypes.object,
+  onCreateVariation: PropTypes.func.isRequired,
   onLinkVariation: PropTypes.func.isRequired,
   onOpenVariation: PropTypes.func.isRequired,
   onRemoveVariation: PropTypes.func.isRequired

@@ -87,6 +87,7 @@ export default function VariationsSection(props) {
           sys={item.sys}
           key={item.variation.key}
           index={index}
+          onCreateVariation={props.onCreateVariation}
           onLinkVariation={props.onLinkVariation}
           onOpenVariation={props.onOpenVariation}
           onRemoveVariation={props.onRemoveVariation}
@@ -111,5 +112,6 @@ VariationsSection.propTypes = {
   variations: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
   onLinkVariation: PropTypes.func.isRequired,
   onOpenVariation: PropTypes.func.isRequired,
-  onRemoveVariation: PropTypes.func.isRequired
+  onRemoveVariation: PropTypes.func.isRequired,
+  onCreateVariation: PropTypes.func.isRequired
 };
