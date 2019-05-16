@@ -2,40 +2,42 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import * as nock from 'nock';
 
+import { App } from '../src';
+
 const scope = nock('https://api.mux.com')
-  .get('https://api.mux.com/video/v1/uploads')
+  .get('/video/v1/uploads/1234')
   .reply(200, {
-    license: {
-      key: 'mit',
-      name: 'MIT License',
-      spdx_id: 'MIT',
-      url: 'https://api.github.com/licenses/mit',
-      node_id: 'MDc6TGljZW5zZTEz',
+    data: {
+      id: '1234',
     },
   });
-
-import { App } from '../src';
 
 const SDK_MOCK = {
   parameters: {
     installation: {
       muxAccessTokenId: 'abcd1234',
-      muxAccessTokenSecret: 'efgh5678'
-    }
+      muxAccessTokenSecret: 'efgh5678',
+    },
   },
   field: {
     getValue: () => ({}),
-    onValueChanged: () => ({})
+    onValueChanged: () => ({}),
+    setValue: () => ({}),
   },
   window: {
-    startAutoResizer: () => {}
-  }
+    startAutoResizer: () => {},
+  },
 };
 
 test('throws an error if required installation parameters are not configured', () => {
   const mockedSdk = {
     ...SDK_MOCK,
-    parameters: { installation: { muxAccessTokenId: undefined, muxAccessTokenSecret: undefined } }
+    parameters: {
+      installation: {
+        muxAccessTokenId: undefined,
+        muxAccessTokenSecret: undefined,
+      },
+    },
   };
 
   const wrapper = mount(<App sdk={mockedSdk as any} />);
@@ -44,7 +46,7 @@ test('throws an error if required installation parameters are not configured', (
 });
 
 test('displays an upload form before the user does anything', () => {
-  const mockedSdk = {...SDK_MOCK};
+  const mockedSdk = { ...SDK_MOCK };
 
   const wrapper = mount(<App sdk={mockedSdk as any} />);
   expect(wrapper.find('input').prop('type')).toBe('file');
@@ -56,9 +58,9 @@ test('displays a player when the asset is ready', () => {
     field: {
       ...SDK_MOCK.field,
       getValue: () => ({
-        ready: true
-      })
-    }
+        ready: true,
+      }),
+    },
   };
 
   const wrapper = mount(<App sdk={mockedSdk as any} />);
@@ -72,9 +74,9 @@ test('displays a loading state between the asset getting created and waiting for
       ...SDK_MOCK.field,
       getValue: () => ({
         assetId: 'abcd1234',
-        ready: false
-      })
-    }
+        ready: false,
+      }),
+    },
   };
 
   const wrapper = mount(<App sdk={mockedSdk as any} />);
@@ -87,8 +89,8 @@ test('displays upload progress while uploading', () => {
     ...SDK_MOCK,
     field: {
       ...SDK_MOCK.field,
-      getValue: () => ({})
-    }
+      getValue: () => ({}),
+    },
   };
 
   const wrapper = mount(<App sdk={mockedSdk as any} />);
@@ -107,8 +109,8 @@ test('checks the status of an unfinished asset on load', () => {
       ...SDK_MOCK.field,
       getValue: () => ({
         uploadId: '1234',
-      })
-    }
+      }),
+    },
   };
 
   const wrapper = mount(<App sdk={mockedSdk as any} />);

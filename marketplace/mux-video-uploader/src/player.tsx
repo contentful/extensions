@@ -13,8 +13,9 @@ class Player extends React.Component<PlayerProps, {}> {
   hls: Hls;
 
   static defaultProps = {
-    onReady: () => {}
-  }
+    ratio: '16:9',
+    onReady: () => {},
+  };
 
   constructor(props: PlayerProps) {
     super(props);
@@ -26,7 +27,7 @@ class Player extends React.Component<PlayerProps, {}> {
 
   onReady = () => {
     this.props.onReady();
-  }
+  };
 
   componentDidMount() {
     if (!this.playerRef.current) {
@@ -47,7 +48,18 @@ class Player extends React.Component<PlayerProps, {}> {
   posterUrl = () =>
     `https://image.mux.com/${this.props.playbackId}/thumbnail.jpg`;
 
-  getHeight = () => this.playerRef.current && this.playerRef.current.offsetWidth * .5625;
+  convertRatio = () => {
+    const [width, height] = this.props.ratio.split(':').map(n => parseFloat(n));
+    return height / width;
+  };
+
+  getHeight = () => {
+    if (!this.playerRef.current) return;
+
+    console.log(this.playerRef.current.offsetWidth);
+
+    return this.playerRef.current.offsetWidth * this.convertRatio();
+  }
 
   render() {
     return (

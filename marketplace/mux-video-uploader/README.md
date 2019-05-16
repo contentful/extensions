@@ -75,7 +75,8 @@ The Mux Asset JSON object you'll get in your clients will look like this:
   "uploadId": "some-upload-id",
   "assetId": "some-asset-id",
   "playbackId": "a-public-playback-id"
-  "ready": true
+  "ready": true,
+  "ratio": "16:9",
 }
 ```
 
