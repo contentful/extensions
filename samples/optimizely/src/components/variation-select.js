@@ -25,13 +25,13 @@ export default function VariationSelect(props) {
 
   return (
     <div className={styles.container}>
-      {props.duplicate && (
+      {/* {props.duplicate && (
         <div className={styles.item}>
           <TextLink icon="Copy" disabled onClick={props.onDuplicateClick}>
             Duplicate {props.duplicate}
           </TextLink>
         </div>
-      )}
+      )} */}
       <div className={styles.item}>
         <Dropdown
           isOpen={isDropdownShown}
