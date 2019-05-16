@@ -69,11 +69,19 @@ const getCardProperties = (entry, allContentTypes, defaultLocale) => {
   }
 
   const displayField = contentType.displayField;
+  const descriptionFieldType = contentType.fields
+    .filter(field => field.id !== displayField)
+    .find(field => field.type === 'Text');
+
+  const description = descriptionFieldType
+    ? get(entry, ['fields', descriptionFieldType.id, defaultLocale], '')
+    : '';
   const title = get(entry, ['fields', displayField, defaultLocale], 'Untitled');
   const status = getEntryStatus(entry.sys);
 
   return {
     title,
+    description,
     contentType: contentType.name,
     status
   };
@@ -140,9 +148,10 @@ export function SelectedReference(props) {
   return (
     <EntryCard
       className={styles.entryCard}
-      size="small"
+      size={entry.description ? 'default' : 'small'}
       onClick={props.onEditClick}
       title={entry.title}
+      description={entry.description}
       status={entry.status}
       contentType={entry.contentType}
       dropdownListElements={
