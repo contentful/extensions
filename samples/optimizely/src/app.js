@@ -1,9 +1,8 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
-
+import useMethods from 'use-methods';
 import tokens from '@contentful/forma-36-tokens';
-import OptimizelyClient from './optimizely-client';
 import StatusBar from './components/status-bar';
 import ReferencesSection from './components/references-section';
 import ExperimentSection from './components/experiment-section';
@@ -20,96 +19,108 @@ const styles = {
   })
 };
 
-export default class App extends React.Component {
-  static propTypes = {
-    sdk: PropTypes.shape({
-      space: PropTypes.object.isRequired,
-      ids: PropTypes.object.isRequired,
-      locales: PropTypes.object.isRequired,
-      navigator: PropTypes.shape({
-        openEntry: PropTypes.func.isRequired
-      }).isRequired,
-      dialogs: PropTypes.shape({
-        selectSingleEntry: PropTypes.func.isRequired
-      }).isRequired,
-      entry: PropTypes.shape({
-        fields: PropTypes.shape({
-          experimentId: PropTypes.shape({
-            getValue: PropTypes.func.isRequired,
-            setValue: PropTypes.func.isRequired
-          }).isRequired,
-          variations: PropTypes.shape({
-            getValue: PropTypes.func.isRequired,
-            setValue: PropTypes.func.isRequired
-          }).isRequired,
-          meta: PropTypes.shape({
-            getValue: PropTypes.func.isRequired,
-            setValue: PropTypes.func.isRequired
-          }).isRequired
-        }).isRequired
-      }).isRequired,
-      parameters: PropTypes.shape({
-        installation: PropTypes.shape({
-          optimizelyProjectId: PropTypes.string.isRequired
-        }).isRequired
-      }).isRequired
-    }).isRequired
+const methods = state => {
+  return {
+    setInitialData({ experiments, contentTypes, referenceInfo }) {
+      state.experiments = experiments;
+      state.contentTypes = contentTypes;
+      state.referenceInfo = referenceInfo;
+      state.loaded = true;
+    },
+    setError(message) {
+      state.error = message;
+    },
+    setExperimentId(id) {
+      state.experimentId = id;
+    },
+    setVariations(variations) {
+      state.variations = variations;
+    }
   };
+};
 
-  constructor(props) {
-    super(props);
-    this.client = new OptimizelyClient({
-      sdk: props.sdk,
-      project: props.sdk.parameters.installation.optimizelyProjectId
-    });
-    this.state = {
-      loaded: false,
-      experiments: [],
-      contentTypes: [],
-      meta: props.sdk.entry.fields.meta.getValue() || {},
-      variations: props.sdk.entry.fields.variations.getValue() || [],
-      experimentId: props.sdk.entry.fields.experimentId.getValue()
-    };
-  }
+const getInitialValue = sdk => ({
+  loaded: false,
+  error: false,
+  experiments: [],
+  contentTypes: [],
+  meta: sdk.entry.fields.meta.getValue() || {},
+  variations: sdk.entry.fields.variations.getValue() || [],
+  experimentId: sdk.entry.fields.experimentId.getValue()
+});
 
-  async componentDidMount() {
-    const { sdk } = this.props;
-    const { space, ids, locales } = sdk;
+const fetchInitialData = async (sdk, client) => {
+  const { space, ids, locales } = sdk;
 
-    const [contentTypesRes, entriesRes, experiments] = await Promise.all([
-      space.getContentTypes(),
-      space.getEntries({ links_to_entry: ids.entry, skip: 0, limit: 1000 }),
-      this.client.getExperiments()
-    ]);
+  const [contentTypesRes, entriesRes, experiments] = await Promise.all([
+    space.getContentTypes(),
+    space.getEntries({ links_to_entry: ids.entry, skip: 0, limit: 1000 }),
+    client.getExperiments()
+  ]);
 
-    this.setState({
-      loaded: true,
-      experiments,
+  return {
+    experiments,
+    contentTypes: contentTypesRes.items,
+    referenceInfo: prepareReferenceInfo({
       contentTypes: contentTypesRes.items,
-      referenceInfo: prepareReferenceInfo({
-        contentTypes: contentTypesRes.items,
-        entries: entriesRes.items,
-        variationContainerId: ids.entry,
-        variationContainerContentTypeId: ids.contentType,
-        defaultLocale: locales.default
-      })
-    });
-  }
+      entries: entriesRes.items,
+      variationContainerId: ids.entry,
+      variationContainerContentTypeId: ids.contentType,
+      defaultLocale: locales.default
+    })
+  };
+};
 
-  onChangeExperiment = experimentId => {
-    this.setState({ experimentId });
-    this.props.sdk.entry.fields.experimentId.setValue(experimentId);
+export default function App(props) {
+  const [state, actions] = useMethods(methods, getInitialValue(props.sdk));
+
+  useEffect(() => {
+    fetchInitialData(props.sdk, props.client)
+      .then(data => {
+        actions.setInitialData(data);
+        return data;
+      })
+      .catch(() => {
+        actions.setError('Unable to load initial data');
+      });
+  }, []);
+
+  useEffect(() => {
+    const unsubsribeExperimentChange = props.sdk.entry.fields.experimentId.onValueChanged(data => {
+      actions.setExperimentId(data);
+    });
+    const unsubsribeVariationsChange = props.sdk.entry.fields.variations.onValueChanged(data => {
+      actions.setVariations(data || []);
+    });
+    return () => {
+      unsubsribeExperimentChange();
+      unsubsribeVariationsChange();
+    };
+  }, []);
+
+  const getExperiment = () => {
+    return state.experiments.find(experiment => experiment.id.toString() === state.experimentId);
   };
 
-  onLinkVariation = async () => {
-    const sdk = this.props.sdk;
-    const data = await sdk.dialogs.selectSingleEntry(
-      sdk.locales.defaultLocale,
+  const getStatus = experiment => {
+    if (!experiment) {
+      return Status.SelectExperiment;
+    }
+    return Status.AddContent;
+  };
+
+  const onChangeExperiment = experimentId => {
+    props.sdk.entry.fields.experimentId.setValue(experimentId);
+  };
+
+  const onLinkVariation = async () => {
+    const data = await props.sdk.dialogs.selectSingleEntry(
+      props.sdk.locales.defaultLocale,
       // todo: for some reason it doesn't work properly - need to investigate
-      this.state.referenceInfo.linkContentTypes
+      state.referenceInfo.linkContentTypes
     );
 
-    const values = sdk.entry.fields.variations.getValue() || [];
+    const values = props.sdk.entry.fields.variations.getValue() || [];
     values.push({
       sys: {
         type: 'Link',
@@ -118,22 +129,19 @@ export default class App extends React.Component {
       }
     });
 
-    sdk.entry.fields.variations.setValue(values);
-    this.setState({ variations: values });
+    props.sdk.entry.fields.variations.setValue(values);
   };
 
-  onOpenVariation = id => {
-    this.props.sdk.navigator.openEntry(id, { slideIn: true });
+  const onOpenVariation = id => {
+    props.sdk.navigator.openEntry(id, { slideIn: true });
   };
 
-  onCreateVariation = async (index, contentTypeId) => {
-    const sdk = this.props.sdk;
-
-    const { entity } = await sdk.navigator.openNewEntry(contentTypeId, {
+  const onCreateVariation = async (index, contentTypeId) => {
+    const { entity } = await props.sdk.navigator.openNewEntry(contentTypeId, {
       slideIn: true
     });
 
-    const values = sdk.entry.fields.variations.getValue() || [];
+    const values = props.sdk.entry.fields.variations.getValue() || [];
     values.push({
       sys: {
         type: 'Link',
@@ -141,74 +149,83 @@ export default class App extends React.Component {
         linkType: 'Entry'
       }
     });
-
-    sdk.entry.fields.variations.setValue(values);
-    this.setState({ variations: values });
+    props.sdk.entry.fields.variations.setValue(values);
   };
 
-  onRemoveVariation = id => {
-    const sdk = this.props.sdk;
-    let values = sdk.entry.fields.variations.getValue() || [];
-
+  const onRemoveVariation = id => {
+    let values = props.sdk.entry.fields.variations.getValue() || [];
     values = values.filter(item => item.sys.id !== id);
-
-    sdk.entry.fields.variations.setValue(values);
-    this.setState({ variations: values });
+    props.sdk.entry.fields.variations.setValue(values);
   };
 
-  getExperiment = () => {
-    return this.state.experiments.find(
-      experiment => experiment.id.toString() === this.state.experimentId
-    );
-  };
+  const experiment = getExperiment();
+  const status = getStatus(experiment);
 
-  getStatus = experiment => {
-    if (!experiment) {
-      return Status.SelectExperiment;
-    }
-    return Status.AddContent;
-  };
-
-  render() {
-    const experiment = this.getExperiment();
-    const status = this.getStatus(experiment);
-
-    return (
-      <SDKContext.Provider value={this.props.sdk}>
-        <ContentTypesContext.Provider value={this.state.contentTypes}>
-          <ReferenceInfoContext.Provider value={this.state.referenceInfo}>
-            <div className={styles.root}>
-              <StatusBar loaded={this.state.loaded} status={status} />
-              <SectionSplitter />
-              <ReferencesSection
-                loaded={this.state.loaded}
-                references={this.state.loaded ? this.state.referenceInfo.references : []}
-                sdk={this.props.sdk}
-              />
-              <SectionSplitter />
-              <ExperimentSection
-                loaded={this.state.loaded}
-                disabled={this.state.variations.length > 0}
-                experiments={this.state.experiments}
-                experiment={experiment}
-                onChangeExperiment={this.onChangeExperiment}
-              />
-              <SectionSplitter />
-              <VariationsSection
-                loaded={this.state.loaded}
-                contentTypes={this.state.contentTypes}
-                experiment={experiment}
-                variations={this.state.variations}
-                onCreateVariation={this.onCreateVariation}
-                onLinkVariation={this.onLinkVariation}
-                onOpenVariation={this.onOpenVariation}
-                onRemoveVariation={this.onRemoveVariation}
-              />
-              {/* {this.state.loaded && <IncomingReferences referenceInfo={this.state.referenceInfo} />} */}
-            </div>
-          </ReferenceInfoContext.Provider>
-        </ContentTypesContext.Provider>
-      </SDKContext.Provider>
-    );
-  }
+  return (
+    <SDKContext.Provider value={props.sdk}>
+      <ContentTypesContext.Provider value={state.contentTypes}>
+        <ReferenceInfoContext.Provider value={state.referenceInfo}>
+          <div className={styles.root}>
+            <StatusBar loaded={state.loaded} status={status} />
+            <SectionSplitter />
+            <ReferencesSection
+              loaded={state.loaded}
+              references={state.loaded ? state.referenceInfo.references : []}
+              sdk={props.sdk}
+            />
+            <SectionSplitter />
+            <ExperimentSection
+              loaded={state.loaded}
+              disabled={state.variations.length > 0}
+              experiments={state.experiments}
+              experiment={experiment}
+              onChangeExperiment={onChangeExperiment}
+            />
+            <SectionSplitter />
+            <VariationsSection
+              loaded={state.loaded}
+              contentTypes={state.contentTypes}
+              experiment={experiment}
+              variations={state.variations}
+              onCreateVariation={onCreateVariation}
+              onLinkVariation={onLinkVariation}
+              onOpenVariation={onOpenVariation}
+              onRemoveVariation={onRemoveVariation}
+            />
+            {/* {this.state.loaded && <IncomingReferences referenceInfo={this.state.referenceInfo} />} */}
+          </div>
+        </ReferenceInfoContext.Provider>
+      </ContentTypesContext.Provider>
+    </SDKContext.Provider>
+  );
 }
+
+const AppTypes = {
+  client: PropTypes.any.isRequired,
+  sdk: PropTypes.shape({
+    space: PropTypes.object.isRequired,
+    ids: PropTypes.object.isRequired,
+    locales: PropTypes.object.isRequired,
+    navigator: PropTypes.shape({
+      openEntry: PropTypes.func.isRequired,
+      openNewEntry: PropTypes.func.isRequired
+    }).isRequired,
+    dialogs: PropTypes.shape({
+      selectSingleEntry: PropTypes.func.isRequired
+    }).isRequired,
+    entry: PropTypes.shape({
+      fields: PropTypes.shape({
+        experimentId: PropTypes.object.isRequired,
+        variations: PropTypes.object.isRequired,
+        meta: PropTypes.object.isRequired
+      }).isRequired
+    }).isRequired,
+    parameters: PropTypes.shape({
+      installation: PropTypes.shape({
+        optimizelyProjectId: PropTypes.string.isRequired
+      }).isRequired
+    }).isRequired
+  }).isRequired
+};
+
+App.propTypes = AppTypes;
