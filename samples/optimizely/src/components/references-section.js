@@ -6,7 +6,8 @@ import {
   TextLink,
   Tooltip,
   SkeletonContainer,
-  SkeletonBodyText
+  SkeletonBodyText,
+  Paragraph
 } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 
@@ -20,6 +21,9 @@ const styles = {
   }),
   item: css({
     marginRight: tokens.spacingM,
+    marginBottom: tokens.spacingM
+  }),
+  emptyParagraph: css({
     marginBottom: tokens.spacingM
   })
 };
@@ -72,12 +76,18 @@ export default function ReferencesSection(props) {
 
   return (
     <Container>
-      {props.references.map((entry, index) => (
-        <React.Fragment key={entry.id}>
-          <ReferenceItem entry={entry} onClick={onItemClick(entry.id)} />
-          {index !== props.references.length - 1 && ', '}
-        </React.Fragment>
-      ))}
+      {props.references.length > 0 &&
+        props.references.map((entry, index) => (
+          <React.Fragment key={entry.id}>
+            <ReferenceItem entry={entry} onClick={onItemClick(entry.id)} />
+            {index !== props.references.length - 1 && ', '}
+          </React.Fragment>
+        ))}
+      {props.references.length === 0 && (
+        <Paragraph className={styles.emptyParagraph}>
+          No other entries link to this entry.
+        </Paragraph>
+      )}
     </Container>
   );
 }
