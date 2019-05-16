@@ -41,6 +41,10 @@ export default class App extends React.Component {
           variations: PropTypes.shape({
             getValue: PropTypes.func.isRequired,
             setValue: PropTypes.func.isRequired
+          }).isRequired,
+          meta: PropTypes.shape({
+            getValue: PropTypes.func.isRequired,
+            setValue: PropTypes.func.isRequired
           }).isRequired
         }).isRequired
       }).isRequired,
@@ -62,6 +66,7 @@ export default class App extends React.Component {
       loaded: false,
       experiments: [],
       contentTypes: [],
+      meta: props.sdk.entry.fields.meta.getValue() || {},
       variations: props.sdk.entry.fields.variations.getValue() || [],
       experimentId: props.sdk.entry.fields.experimentId.getValue()
     };
@@ -183,6 +188,7 @@ export default class App extends React.Component {
               <SectionSplitter />
               <ExperimentSection
                 loaded={this.state.loaded}
+                disabled={this.state.variations.length > 0}
                 experiments={this.state.experiments}
                 experiment={experiment}
                 onChangeExperiment={this.onChangeExperiment}
