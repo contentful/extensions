@@ -11,7 +11,7 @@ import SectionSplitter from './components/section-splitter';
 import { Status } from './constants';
 import prepareReferenceInfo from './reference-info';
 
-import { SDKContext, ContentTypesContext, ReferenceInfoContext } from './all-context';
+import { SDKContext, GlobalStateContext } from './all-context';
 
 const styles = {
   root: css({
@@ -35,6 +35,9 @@ const methods = state => {
     },
     setVariations(variations) {
       state.variations = variations;
+    },
+    setEntry(id, entry) {
+      state.entries[id] = entry;
     }
   };
 };
@@ -46,7 +49,8 @@ const getInitialValue = sdk => ({
   contentTypes: [],
   meta: sdk.entry.fields.meta.getValue() || {},
   variations: sdk.entry.fields.variations.getValue() || [],
-  experimentId: sdk.entry.fields.experimentId.getValue()
+  experimentId: sdk.entry.fields.experimentId.getValue(),
+  entries: {}
 });
 
 const fetchInitialData = async (sdk, client) => {
@@ -72,7 +76,8 @@ const fetchInitialData = async (sdk, client) => {
 };
 
 export default function App(props) {
-  const [state, actions] = useMethods(methods, getInitialValue(props.sdk));
+  const globalState = useMethods(methods, getInitialValue(props.sdk));
+  const [state, actions] = globalState;
 
   useEffect(() => {
     fetchInitialData(props.sdk, props.client)
@@ -163,39 +168,37 @@ export default function App(props) {
 
   return (
     <SDKContext.Provider value={props.sdk}>
-      <ContentTypesContext.Provider value={state.contentTypes}>
-        <ReferenceInfoContext.Provider value={state.referenceInfo}>
-          <div className={styles.root}>
-            <StatusBar loaded={state.loaded} status={status} />
-            <SectionSplitter />
-            <ReferencesSection
-              loaded={state.loaded}
-              references={state.loaded ? state.referenceInfo.references : []}
-              sdk={props.sdk}
-            />
-            <SectionSplitter />
-            <ExperimentSection
-              loaded={state.loaded}
-              disabled={state.variations.length > 0}
-              experiments={state.experiments}
-              experiment={experiment}
-              onChangeExperiment={onChangeExperiment}
-            />
-            <SectionSplitter />
-            <VariationsSection
-              loaded={state.loaded}
-              contentTypes={state.contentTypes}
-              experiment={experiment}
-              variations={state.variations}
-              onCreateVariation={onCreateVariation}
-              onLinkVariation={onLinkVariation}
-              onOpenVariation={onOpenVariation}
-              onRemoveVariation={onRemoveVariation}
-            />
-            {/* {this.state.loaded && <IncomingReferences referenceInfo={this.state.referenceInfo} />} */}
-          </div>
-        </ReferenceInfoContext.Provider>
-      </ContentTypesContext.Provider>
+      <GlobalStateContext.Provider value={globalState}>
+        <div className={styles.root}>
+          <StatusBar loaded={state.loaded} status={status} />
+          <SectionSplitter />
+          <ReferencesSection
+            loaded={state.loaded}
+            references={state.loaded ? state.referenceInfo.references : []}
+            sdk={props.sdk}
+          />
+          <SectionSplitter />
+          <ExperimentSection
+            loaded={state.loaded}
+            disabled={state.variations.length > 0}
+            experiments={state.experiments}
+            experiment={experiment}
+            onChangeExperiment={onChangeExperiment}
+          />
+          <SectionSplitter />
+          <VariationsSection
+            loaded={state.loaded}
+            contentTypes={state.contentTypes}
+            experiment={experiment}
+            variations={state.variations}
+            onCreateVariation={onCreateVariation}
+            onLinkVariation={onLinkVariation}
+            onOpenVariation={onOpenVariation}
+            onRemoveVariation={onRemoveVariation}
+          />
+          {/* {this.state.loaded && <IncomingReferences referenceInfo={this.state.referenceInfo} />} */}
+        </div>
+      </GlobalStateContext.Provider>
     </SDKContext.Provider>
   );
 }
