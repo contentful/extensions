@@ -31,7 +31,10 @@ export default function ExperimentSection(props) {
         onChange={e => {
           props.onChangeExperiment(e.target.value);
         }}
-        selectProps={{ width: 'large', isDisabled: props.loaded === false }}
+        selectProps={{
+          width: 'large',
+          isDisabled: props.disabled === true || props.loaded === false
+        }}
         id="experiment"
         name="experiment">
         {props.loaded === false && <Option value="-1">Fetching experiments...</Option>}
@@ -58,6 +61,7 @@ export default function ExperimentSection(props) {
 
 ExperimentSection.propTypes = {
   loaded: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
   experiment: ExperimentType,
   experiments: PropTypes.arrayOf(ExperimentType.isRequired).isRequired,
   onChangeExperiment: PropTypes.func.isRequired
