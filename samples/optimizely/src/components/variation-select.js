@@ -8,7 +8,7 @@ import {
 } from '@contentful/forma-36-react-components';
 import { css } from 'emotion';
 import tokens from '@contentful/forma-36-tokens';
-import { ReferenceInfoContext } from '../all-context';
+import { GlobalStateContext } from '../all-context';
 
 const styles = {
   container: css({
@@ -21,7 +21,7 @@ const styles = {
 
 export default function VariationSelect(props) {
   const [isDropdownShown, setShowDropdown] = useState(false);
-  const referenceInfo = useContext(ReferenceInfoContext);
+  const [state] = useContext(GlobalStateContext);
 
   return (
     <div className={styles.container}>
@@ -49,14 +49,14 @@ export default function VariationSelect(props) {
           }>
           <DropdownList maxHeight={300}>
             <DropdownListItem isTitle>Select content type</DropdownListItem>
-            {referenceInfo.linkContentTypes.map((value, index) => (
+            {state.referenceInfo.linkContentTypes.map((value, index) => (
               <DropdownListItem
                 key={value}
                 onClick={() => {
                   props.onCreate(value);
                   setShowDropdown(false);
                 }}>
-                {referenceInfo.linkContentTypeNames[index]}
+                {state.referenceInfo.linkContentTypeNames[index]}
               </DropdownListItem>
             ))}
           </DropdownList>

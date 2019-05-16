@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
-import get from 'lodash.get';
 import useInterval from '@use-it/interval';
 import {
   Paragraph,
@@ -13,8 +12,9 @@ import {
   TextLink
 } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
-import { SDKContext, ContentTypesContext } from '../all-context';
+import { SDKContext, GlobalStateContext } from '../all-context';
 import VariationSelect from './variation-select';
+import { getAdditionalEntryInformation } from '../utils';
 
 const styles = {
   variationContainer: css({
@@ -47,64 +47,27 @@ function getPercentOfTraffic(variation) {
   return Math.floor(variation.weight) / 100;
 }
 
-const getEntryStatus = sys => {
-  if (sys.archivedVersion) {
-    return 'archived';
-  } else if (sys.publishedVersion) {
-    if (sys.version > sys.publishedVersion + 1) {
-      return 'changed';
-    } else {
-      return 'published';
-    }
-  } else {
-    return 'draft';
-  }
-};
-
-const getCardProperties = (entry, allContentTypes, defaultLocale) => {
-  const contentTypeId = get(entry, ['sys', 'contentType', 'sys', 'id']);
-  const contentType = allContentTypes.find(contentType => contentType.sys.id === contentTypeId);
-  if (!contentType) {
-    throw new Error(`Content type #${contentTypeId} is not present`);
-  }
-
-  const displayField = contentType.displayField;
-  const descriptionFieldType = contentType.fields
-    .filter(field => field.id !== displayField)
-    .find(field => field.type === 'Text');
-
-  const description = descriptionFieldType
-    ? get(entry, ['fields', descriptionFieldType.id, defaultLocale], '')
-    : '';
-  const title = get(entry, ['fields', displayField, defaultLocale], 'Untitled');
-  const status = getEntryStatus(entry.sys);
-
-  return {
-    title,
-    description,
-    contentType: contentType.name,
-    status
-  };
-};
-
 function useEntryCard(id) {
   const sdk = useContext(SDKContext);
-  const allContentTypes = useContext(ContentTypesContext);
+  const [state, actions] = useContext(GlobalStateContext);
+  const allContentTypes = state.contentTypes;
 
-  const [loading, setLoading] = useState(true);
-  const [entry, setEntry] = useState(null);
+  const entry = state.entries[id];
+
   const [error, setError] = useState(false);
 
   const fetchEntry = useCallback(() => {
     sdk.space
       .getEntry(id)
       .then(entry => {
-        setLoading(false);
-        setEntry(getCardProperties(entry, allContentTypes, sdk.locales.default));
+        const data = {
+          ...entry,
+          meta: getAdditionalEntryInformation(entry, allContentTypes, sdk.locales.default)
+        };
+        actions.setEntry(id, data);
         return entry;
       })
       .catch(() => {
-        setLoading(false);
         setError(true);
       });
   }, [id, sdk]);
@@ -119,7 +82,7 @@ function useEntryCard(id) {
 
   return {
     entry,
-    loading,
+    loading: !entry,
     error
   };
 }
@@ -148,12 +111,12 @@ export function SelectedReference(props) {
   return (
     <EntryCard
       className={styles.entryCard}
-      size={entry.description ? 'default' : 'small'}
+      size={entry.meta.description ? 'default' : 'small'}
       onClick={props.onEditClick}
-      title={entry.title}
-      description={entry.description}
-      status={entry.status}
-      contentType={entry.contentType}
+      title={entry.meta.title}
+      description={entry.meta.description}
+      status={entry.meta.status}
+      contentType={entry.meta.contentType}
       dropdownListElements={
         <DropdownList>
           <DropdownListItem onClick={props.onEditClick}>Edit</DropdownListItem>
