@@ -154,10 +154,10 @@ export default function VariationItem(props) {
         <SelectedReference
           sys={props.sys}
           onEditClick={() => {
-            props.onOpenVariation(props.sys.id);
+            props.onOpenEntry(props.sys.id);
           }}
           onRemoveClick={() => {
-            props.onRemoveVariation(props.sys.id);
+            props.onRemoveVariation(props.sys.id, variation);
           }}
         />
       )}
@@ -165,11 +165,11 @@ export default function VariationItem(props) {
         <VariationSelect
           duplicate="variation_1"
           onCreate={contentType => {
-            props.onCreateVariation(props.index, contentType);
+            props.onCreateVariation(props.variation, contentType);
           }}
           onDuplicateClick={() => {}}
           onLinkExistingClick={() => {
-            props.onLinkVariation(props.index);
+            props.onLinkVariation(props.variation);
           }}
         />
       )}
@@ -178,11 +178,10 @@ export default function VariationItem(props) {
 }
 
 VariationItem.propTypes = {
-  index: PropTypes.number.isRequired,
   variation: PropTypes.object,
   sys: PropTypes.object,
-  onCreateVariation: PropTypes.func.isRequired,
-  onLinkVariation: PropTypes.func.isRequired,
-  onOpenVariation: PropTypes.func.isRequired,
+  onCreateVariation: PropTypes.func,
+  onLinkVariation: PropTypes.func,
+  onOpenEntry: PropTypes.func.isRequired,
   onRemoveVariation: PropTypes.func.isRequired
 };
