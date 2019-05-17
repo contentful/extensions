@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
-import { slice } from 'lodash';
 import {
   Heading,
   Paragraph,
@@ -16,6 +15,9 @@ const styles = {
   container: css({
     marginTop: tokens.spacingS,
     maxWidth: 1000
+  }),
+  unassignedHeader: css({
+    marginTop: tokens.spacingXl
   })
 };
 
@@ -32,24 +34,23 @@ Container.propTypes = {
   children: PropTypes.any
 };
 
-function mergeReferencesAndVariations(variationReferences, variations) {
-  const linked = [];
-  const invalid = [];
+function mergeReferencesAndVariations(variationReferences, variations, meta) {
+  const linkedReferences = Object.values(meta);
 
-  variations.forEach((variation, index) => {
-    linked.push({
+  const mappedVariations = variations.map(variation => {
+    const entryId = meta[variation.key];
+    const reference = variationReferences.find(item => item.sys.id === entryId);
+    return {
       variation,
-      sys: variationReferences[index] ? variationReferences[index].sys : undefined
-    });
+      sys: reference ? reference.sys : undefined
+    };
   });
 
-  slice(variationReferences, variations.length).forEach(variationReference => {
-    invalid.push({
-      sys: variationReference.sys
-    });
-  });
+  const unmappedReferences = variationReferences.filter(
+    item => linkedReferences.includes(item.sys.id) === false
+  );
 
-  return { linked, invalid };
+  return { mappedVariations, unmappedReferences };
 }
 
 export default function VariationsSection(props) {
@@ -71,9 +72,10 @@ export default function VariationsSection(props) {
     );
   }
 
-  const { linked, invalid } = mergeReferencesAndVariations(
+  const { mappedVariations, unmappedReferences } = mergeReferencesAndVariations(
     props.variations,
-    props.experiment.variations
+    props.experiment.variations,
+    props.meta
   );
 
   return (
@@ -81,24 +83,30 @@ export default function VariationsSection(props) {
       <Paragraph>
         Content created in this experiment is only available for this experiment.
       </Paragraph>
-      {linked.map((item, index) => (
+      {mappedVariations.map(item => (
         <VariationItem
           variation={item.variation}
           sys={item.sys}
           key={item.variation.key}
-          index={index}
           onCreateVariation={props.onCreateVariation}
           onLinkVariation={props.onLinkVariation}
-          onOpenVariation={props.onOpenVariation}
+          onOpenEntry={props.onOpenEntry}
           onRemoveVariation={props.onRemoveVariation}
         />
       ))}
-
-      {invalid.length > 0 && (
+      {unmappedReferences.length > 0 && (
         <React.Fragment>
-          <Heading>Invalid items</Heading>
-          {invalid.map(item => (
-            <VariationItem sys={item.sys} key={item.sys.id} />
+          <Heading element="h3" className={styles.unassignedHeader}>
+            Unassigned content
+          </Heading>
+          <Paragraph>These entries have no corresponding variations in Optimizely.</Paragraph>
+          {unmappedReferences.map(item => (
+            <VariationItem
+              sys={item.sys}
+              key={item.sys.id}
+              onOpenEntry={props.onOpenEntry}
+              onRemoveVariation={props.onRemoveVariation}
+            />
           ))}
         </React.Fragment>
       )}
@@ -109,9 +117,10 @@ export default function VariationsSection(props) {
 VariationsSection.propTypes = {
   loaded: PropTypes.bool.isRequired,
   experiment: ExperimentType,
+  meta: PropTypes.object.isRequired,
   variations: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
   onLinkVariation: PropTypes.func.isRequired,
-  onOpenVariation: PropTypes.func.isRequired,
+  onOpenEntry: PropTypes.func.isRequired,
   onRemoveVariation: PropTypes.func.isRequired,
   onCreateVariation: PropTypes.func.isRequired
 };
