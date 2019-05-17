@@ -122,6 +122,16 @@ export default function App(props) {
     return Status.AddContent;
   };
 
+  const experiment = getExperiment();
+  const status = getStatus(experiment);
+
+  useEffect(() => {
+    if (state.loaded) {
+      const title = experiment ? `[Optimizely] ${experiment.name}` : '';
+      props.sdk.entry.fields.experimentTitle.setValue(title);
+    }
+  }, [experiment, state.loaded]);
+
   const onChangeExperiment = experimentId => {
     props.sdk.entry.fields.meta.setValue({});
     props.sdk.entry.fields.experimentId.setValue(experimentId);
@@ -190,9 +200,6 @@ export default function App(props) {
     props.sdk.entry.fields.variations.setValue(values.filter(item => item.sys.id !== entryId));
   };
 
-  const experiment = getExperiment();
-  const status = getStatus(experiment);
-
   return (
     <SDKContext.Provider value={props.sdk}>
       <GlobalStateContext.Provider value={globalState}>
@@ -247,7 +254,8 @@ const AppTypes = {
       fields: PropTypes.shape({
         experimentId: PropTypes.object.isRequired,
         variations: PropTypes.object.isRequired,
-        meta: PropTypes.object.isRequired
+        meta: PropTypes.object.isRequired,
+        experimentTitle: PropTypes.object.isRequired
       }).isRequired
     }).isRequired,
     parameters: PropTypes.shape({
