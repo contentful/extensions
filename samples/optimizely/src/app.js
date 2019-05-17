@@ -32,12 +32,16 @@ const methods = state => {
     },
     setExperimentId(id) {
       state.experimentId = id;
+      state.meta = {};
     },
     setVariations(variations) {
       state.variations = variations;
     },
     setEntry(id, entry) {
       state.entries[id] = entry;
+    },
+    setMeta(meta) {
+      state.meta = meta;
     }
   };
 };
@@ -97,9 +101,13 @@ export default function App(props) {
     const unsubsribeVariationsChange = props.sdk.entry.fields.variations.onValueChanged(data => {
       actions.setVariations(data || []);
     });
+    const unsubscribeMetaChange = props.sdk.entry.fields.meta.onValueChanged(data => {
+      actions.setMeta(data || {});
+    });
     return () => {
       unsubsribeExperimentChange();
       unsubsribeVariationsChange();
+      unsubscribeMetaChange();
     };
   }, []);
 
@@ -115,10 +123,11 @@ export default function App(props) {
   };
 
   const onChangeExperiment = experimentId => {
+    props.sdk.entry.fields.meta.setValue({});
     props.sdk.entry.fields.experimentId.setValue(experimentId);
   };
 
-  const onLinkVariation = async () => {
+  const onLinkVariation = async variation => {
     const data = await props.sdk.dialogs.selectSingleEntry(
       props.sdk.locales.defaultLocale,
       // todo: for some reason it doesn't work properly - need to investigate
@@ -126,41 +135,59 @@ export default function App(props) {
     );
 
     const values = props.sdk.entry.fields.variations.getValue() || [];
-    values.push({
-      sys: {
-        type: 'Link',
-        id: data.sys.id,
-        linkType: 'Entry'
-      }
+    const meta = props.sdk.entry.fields.meta.getValue() || {};
+    props.sdk.entry.fields.meta.setValue({
+      ...meta,
+      [variation.key]: data.sys.id
     });
-
-    props.sdk.entry.fields.variations.setValue(values);
+    props.sdk.entry.fields.variations.setValue([
+      ...values,
+      {
+        sys: {
+          type: 'Link',
+          id: data.sys.id,
+          linkType: 'Entry'
+        }
+      }
+    ]);
   };
 
-  const onOpenVariation = id => {
-    props.sdk.navigator.openEntry(id, { slideIn: true });
+  const onOpenEntry = entryId => {
+    props.sdk.navigator.openEntry(entryId, { slideIn: true });
   };
 
-  const onCreateVariation = async (index, contentTypeId) => {
+  const onCreateVariation = async (variation, contentTypeId) => {
     const { entity } = await props.sdk.navigator.openNewEntry(contentTypeId, {
       slideIn: true
     });
 
     const values = props.sdk.entry.fields.variations.getValue() || [];
-    values.push({
-      sys: {
-        type: 'Link',
-        id: entity.sys.id,
-        linkType: 'Entry'
-      }
+    const meta = props.sdk.entry.fields.meta.getValue() || {};
+
+    props.sdk.entry.fields.meta.setValue({
+      ...meta,
+      [variation.key]: entity.sys.id
     });
-    props.sdk.entry.fields.variations.setValue(values);
+    props.sdk.entry.fields.variations.setValue([
+      ...values,
+      {
+        sys: {
+          type: 'Link',
+          id: entity.sys.id,
+          linkType: 'Entry'
+        }
+      }
+    ]);
   };
 
-  const onRemoveVariation = id => {
-    let values = props.sdk.entry.fields.variations.getValue() || [];
-    values = values.filter(item => item.sys.id !== id);
-    props.sdk.entry.fields.variations.setValue(values);
+  const onRemoveVariation = (entryId, variation) => {
+    const values = props.sdk.entry.fields.variations.getValue() || [];
+    const meta = props.sdk.entry.fields.meta.getValue() || {};
+    if (variation) {
+      delete meta[variation.key];
+    }
+    props.sdk.entry.fields.meta.setValue(meta);
+    props.sdk.entry.fields.variations.setValue(values.filter(item => item.sys.id !== entryId));
   };
 
   const experiment = getExperiment();
@@ -190,13 +217,13 @@ export default function App(props) {
             loaded={state.loaded}
             contentTypes={state.contentTypes}
             experiment={experiment}
+            meta={state.meta}
             variations={state.variations}
             onCreateVariation={onCreateVariation}
             onLinkVariation={onLinkVariation}
-            onOpenVariation={onOpenVariation}
+            onOpenEntry={onOpenEntry}
             onRemoveVariation={onRemoveVariation}
           />
-          {/* {this.state.loaded && <IncomingReferences referenceInfo={this.state.referenceInfo} />} */}
         </div>
       </GlobalStateContext.Provider>
     </SDKContext.Provider>
