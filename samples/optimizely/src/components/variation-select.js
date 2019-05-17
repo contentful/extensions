@@ -23,6 +23,9 @@ export default function VariationSelect(props) {
   const [isDropdownShown, setShowDropdown] = useState(false);
   const [state] = useContext(GlobalStateContext);
 
+  const linkContentTypes = state.referenceInfo.linkContentTypes || [];
+  const linkContentTypeNames = state.referenceInfo.linkContentTypeNames || [];
+
   return (
     <div className={styles.container}>
       {/* {props.duplicate && (
@@ -49,14 +52,14 @@ export default function VariationSelect(props) {
           }>
           <DropdownList maxHeight={300}>
             <DropdownListItem isTitle>Select content type</DropdownListItem>
-            {state.referenceInfo.linkContentTypes.map((value, index) => (
+            {linkContentTypes.map((value, index) => (
               <DropdownListItem
                 key={value}
                 onClick={() => {
                   props.onCreate(value);
                   setShowDropdown(false);
                 }}>
-                {state.referenceInfo.linkContentTypeNames[index]}
+                {linkContentTypeNames[index]}
               </DropdownListItem>
             ))}
           </DropdownList>
