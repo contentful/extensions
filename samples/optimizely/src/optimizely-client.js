@@ -24,11 +24,27 @@ export default class OptimizelyClient {
     return this.makeRequest(`/experiments/${experimentId}`);
   };
 
-  getExperiments = async () => {
-    // todo: make several request if page is full
-    let experiments = await this.makeRequest(
-      `/experiments?project_id=${this.project}&per_page=100&page=1`
+  _getExperimentsPerPage = (perPage, page) => {
+    return this.makeRequest(
+      `/experiments?project_id=${
+        this.project
+      }&per_page=${perPage.toString()}&page=${page.toString()}`
     );
+  };
+
+  getExperiments = async () => {
+    let experiments = [];
+    const PER_PAGE = 100;
+    const MAX_REQUESTS = 5;
+
+    for (let i = 1; i <= MAX_REQUESTS; i++) {
+      const results = await this._getExperimentsPerPage(PER_PAGE, i);
+      experiments = [...experiments, ...results];
+      if (results.length < PER_PAGE) {
+        break;
+      }
+    }
+
     experiments = experiments.filter(experiment => {
       return experiment.status !== 'archived';
     });
