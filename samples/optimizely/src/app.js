@@ -207,6 +207,11 @@ export default function App(props) {
     props.sdk.entry.fields.variations.setValue(values.filter(item => item.sys.id !== entryId));
   };
 
+  const onClearVariations = () => {
+    props.sdk.entry.fields.meta.setValue({});
+    props.sdk.entry.fields.variations.setValue([]);
+  };
+
   return (
     <SDKContext.Provider value={props.sdk}>
       <GlobalStateContext.Provider value={globalState}>
@@ -221,10 +226,11 @@ export default function App(props) {
           <SectionSplitter />
           <ExperimentSection
             loaded={state.loaded}
-            disabled={state.variations.length > 0}
+            disabled={experiment && state.variations.length > 0}
             experiments={state.experiments}
             experiment={experiment}
             onChangeExperiment={onChangeExperiment}
+            onClearVariations={onClearVariations}
           />
           <SectionSplitter />
           <VariationsSection
