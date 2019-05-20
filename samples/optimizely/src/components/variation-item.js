@@ -14,6 +14,7 @@ import {
 import tokens from '@contentful/forma-36-tokens';
 import { SDKContext, GlobalStateContext } from '../all-context';
 import VariationSelect from './variation-select';
+import VariationStats from './variations-stats';
 import { getAdditionalEntryInformation } from '../utils';
 
 const styles = {
@@ -161,9 +162,14 @@ export default function VariationItem(props) {
           }}
         />
       )}
+      {props.variation && props.sys && (
+        <VariationStats
+          variationId={props.variation.variation_id}
+          experimentResults={props.experimentResults}
+        />
+      )}
       {!props.sys && (
         <VariationSelect
-          duplicate="variation_1"
           onCreate={contentType => {
             props.onCreateVariation(props.variation, contentType);
           }}
@@ -179,6 +185,7 @@ export default function VariationItem(props) {
 
 VariationItem.propTypes = {
   variation: PropTypes.object,
+  experimentResults: PropTypes.object,
   sys: PropTypes.object,
   onCreateVariation: PropTypes.func,
   onLinkVariation: PropTypes.func,
