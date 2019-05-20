@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 import useMethods from 'use-methods';
@@ -95,6 +95,27 @@ export default function App(props) {
   const globalState = useMethods(methods, getInitialValue(props.sdk));
   const [state, actions] = globalState;
 
+  const experiment = state.experiments.find(
+    experiment => experiment.id.toString() === state.experimentId
+  );
+
+  /**
+   * Fetch initial portion of data required to render initial state
+   */
+  useEffect(() => {
+    fetchInitialData(props.sdk, props.client)
+      .then(data => {
+        actions.setInitialData(data);
+        return data;
+      })
+      .catch(() => {
+        actions.setError('Unable to load initial data');
+      });
+  }, []);
+
+  /**
+   * Pulling current experiment every 5s to get new status and variatios
+   */
   useInterval(() => {
     if (state.experimentId) {
       props.client
@@ -107,17 +128,9 @@ export default function App(props) {
     }
   }, 5000);
 
-  useEffect(() => {
-    fetchInitialData(props.sdk, props.client)
-      .then(data => {
-        actions.setInitialData(data);
-        return data;
-      })
-      .catch(() => {
-        actions.setError('Unable to load initial data');
-      });
-  }, []);
-
+  /**
+   * Subscribe for changes in entry
+   */
   useEffect(() => {
     const unsubsribeExperimentChange = props.sdk.entry.fields.experimentId.onValueChanged(data => {
       actions.setExperimentId(data);
@@ -135,23 +148,9 @@ export default function App(props) {
     };
   }, []);
 
-  const getExperiment = () => {
-    return state.experiments.find(experiment => experiment.id.toString() === state.experimentId);
-  };
-
-  const getExperimentResults = experiment => {
-    if (!experiment) {
-      return undefined;
-    }
-    return {
-      url: props.client.getResultsUrl(experiment.campaign_id, experiment.id),
-      results: state.experimentsResults[experiment.id]
-    };
-  };
-
-  const experiment = getExperiment();
-  const experimentResults = getExperimentResults(experiment);
-
+  /**
+   * Update title every time experiment is changed
+   */
   useEffect(() => {
     if (state.loaded) {
       const title = experiment ? `[Optimizely] ${experiment.name}` : '';
@@ -159,6 +158,9 @@ export default function App(props) {
     }
   }, [experiment, state.loaded]);
 
+  /**
+   * Fetch experiment results every time experiment is changed
+   */
   useEffect(() => {
     if (state.loaded && experiment) {
       props.client
@@ -171,12 +173,26 @@ export default function App(props) {
     }
   }, [experiment, state.loaded]);
 
-  const onChangeExperiment = experimentId => {
-    props.sdk.entry.fields.meta.setValue({});
-    props.sdk.entry.fields.experimentId.setValue(experimentId);
+  const getExperimentResults = experiment => {
+    if (!experiment) {
+      return undefined;
+    }
+    return {
+      url: props.client.getResultsUrl(experiment.campaign_id, experiment.id),
+      results: state.experimentsResults[experiment.id]
+    };
   };
 
-  const onLinkVariation = async variation => {
+  /**
+   * Handlers
+   */
+
+  const onChangeExperiment = useCallback(experimentId => {
+    props.sdk.entry.fields.meta.setValue({});
+    props.sdk.entry.fields.experimentId.setValue(experimentId);
+  });
+
+  const onLinkVariation = useCallback(async variation => {
     const data = await props.sdk.dialogs.selectSingleEntry({
       locale: props.sdk.locales.default,
       contentTypes: state.referenceInfo.linkContentTypes
@@ -202,13 +218,13 @@ export default function App(props) {
         }
       }
     ]);
-  };
+  });
 
-  const onOpenEntry = entryId => {
+  const onOpenEntry = useCallback(entryId => {
     props.sdk.navigator.openEntry(entryId, { slideIn: true });
-  };
+  });
 
-  const onCreateVariation = async (variation, contentTypeId) => {
+  const onCreateVariation = useCallback(async (variation, contentTypeId) => {
     const data = await props.sdk.navigator.openNewEntry(contentTypeId, {
       slideIn: true
     });
@@ -234,9 +250,9 @@ export default function App(props) {
         }
       }
     ]);
-  };
+  });
 
-  const onRemoveVariation = (entryId, variation) => {
+  const onRemoveVariation = useCallback((entryId, variation) => {
     const values = props.sdk.entry.fields.variations.getValue() || [];
     const meta = props.sdk.entry.fields.meta.getValue() || {};
     if (variation) {
@@ -244,12 +260,12 @@ export default function App(props) {
     }
     props.sdk.entry.fields.meta.setValue(meta);
     props.sdk.entry.fields.variations.setValue(values.filter(item => item.sys.id !== entryId));
-  };
+  });
 
-  const onClearVariations = () => {
+  const onClearVariations = useCallback(() => {
     props.sdk.entry.fields.meta.setValue({});
     props.sdk.entry.fields.variations.setValue([]);
-  };
+  });
 
   return (
     <SDKContext.Provider value={props.sdk}>
@@ -281,7 +297,7 @@ export default function App(props) {
             loaded={state.loaded}
             contentTypes={state.contentTypes}
             experiment={experiment}
-            experimentResults={experimentResults}
+            experimentResults={getExperimentResults(experiment)}
             meta={state.meta}
             variations={state.variations}
             onCreateVariation={onCreateVariation}
