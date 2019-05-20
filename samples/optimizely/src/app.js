@@ -8,7 +8,6 @@ import ReferencesSection from './components/references-section';
 import ExperimentSection from './components/experiment-section';
 import VariationsSection from './components/variations-section';
 import SectionSplitter from './components/section-splitter';
-import { Status } from './constants';
 import prepareReferenceInfo from './reference-info';
 
 import { SDKContext, GlobalStateContext } from './all-context';
@@ -129,16 +128,8 @@ export default function App(props) {
     };
   };
 
-  const getStatus = experiment => {
-    if (!experiment) {
-      return Status.SelectExperiment;
-    }
-    return Status.AddContent;
-  };
-
   const experiment = getExperiment();
   const experimentResults = getExperimentResults(experiment);
-  const status = getStatus(experiment);
 
   useEffect(() => {
     if (state.loaded) {
@@ -243,7 +234,12 @@ export default function App(props) {
     <SDKContext.Provider value={props.sdk}>
       <GlobalStateContext.Provider value={globalState}>
         <div className={styles.root}>
-          <StatusBar loaded={state.loaded} status={status} />
+          <StatusBar
+            loaded={state.loaded}
+            experiment={experiment}
+            variations={state.variations}
+            entries={state.entries}
+          />
           <SectionSplitter />
           <ReferencesSection
             loaded={state.loaded}
@@ -297,7 +293,8 @@ const AppTypes = {
         variations: PropTypes.object.isRequired,
         meta: PropTypes.object.isRequired,
         experimentTitle: PropTypes.object.isRequired
-      }).isRequired
+      }).isRequired,
+      getSys: PropTypes.func.isRequired
     }).isRequired,
     parameters: PropTypes.shape({
       installation: PropTypes.shape({

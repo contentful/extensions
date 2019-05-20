@@ -49,6 +49,10 @@ StatItem.propTypes = {
   label: PropTypes.string
 };
 
+function getPercent(value) {
+  return Math.floor(value * 1000) / 10;
+}
+
 export default function VariationStats(props) {
   const visitorsCount = get(props.experimentResults, [
     'results',
@@ -74,7 +78,7 @@ export default function VariationStats(props) {
             label="visitors"
           />
           <StatItem
-            value={typeof visitorsReach === 'number' ? `${visitorsReach * 100}%` : '-'}
+            value={typeof visitorsReach === 'number' ? `${getPercent(visitorsReach)}%` : '-'}
             label="visitors"
           />
         </div>
