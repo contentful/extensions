@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
-import { Heading, SelectField, Option, Paragraph } from '@contentful/forma-36-react-components';
+import {
+  Heading,
+  SelectField,
+  Option,
+  Paragraph,
+  TextLink
+} from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import { ExperimentType } from '../prop-types';
 
@@ -15,6 +21,10 @@ const styles = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis'
+  }),
+  clearDescription: css({
+    marginTop: tokens.spacingXs,
+    color: tokens.colorTextLightest
   })
 };
 
@@ -49,7 +59,12 @@ export default function ExperimentSection(props) {
           </React.Fragment>
         )}
       </SelectField>
-
+      {props.disabled === true && (
+        <Paragraph className={styles.clearDescription}>
+          To change experiment, first{' '}
+          <TextLink onClick={props.onClearVariations}>clear the content assigned</TextLink>.
+        </Paragraph>
+      )}
       {props.experiment && props.experiment.description && (
         <Paragraph className={styles.description}>
           Description: {props.experiment.description}
@@ -64,7 +79,8 @@ ExperimentSection.propTypes = {
   disabled: PropTypes.bool.isRequired,
   experiment: ExperimentType,
   experiments: PropTypes.arrayOf(ExperimentType.isRequired).isRequired,
-  onChangeExperiment: PropTypes.func.isRequired
+  onChangeExperiment: PropTypes.func.isRequired,
+  onClearVariations: PropTypes.func.isRequired
 };
 
 ExperimentSection.defaultProps = {
