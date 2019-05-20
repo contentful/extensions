@@ -76,7 +76,7 @@ export default function ExperimentSection(props) {
 
 ExperimentSection.propTypes = {
   loaded: PropTypes.bool.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   experiment: ExperimentType,
   experiments: PropTypes.arrayOf(ExperimentType.isRequired).isRequired,
   onChangeExperiment: PropTypes.func.isRequired,
