@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'emotion';
 import PropTypes from 'prop-types';
-import { Icon, Note } from '@contentful/forma-36-react-components';
+import { Icon } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import { Status } from '../constants';
 import { getEntryStatus } from '../utils';
@@ -98,11 +98,6 @@ export default function StatusBar(props) {
 
   return (
     <>
-      {props.loaded && statuses[Status.SelectExperiment] === false && (
-        <Note className={styles.note} noteType="warning">
-          No experiment selected
-        </Note>
-      )}
       <div className={styles.container}>
         <StatusItem active={statuses[Status.SelectExperiment]}>Select experiment</StatusItem>
         <StatusSeparator />
