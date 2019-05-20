@@ -9,6 +9,7 @@ import ExperimentSection from './components/experiment-section';
 import VariationsSection from './components/variations-section';
 import SectionSplitter from './components/section-splitter';
 import prepareReferenceInfo from './reference-info';
+import useInterval from '@use-it/interval';
 
 import { SDKContext, GlobalStateContext } from './all-context';
 
@@ -44,6 +45,14 @@ const methods = state => {
     },
     setExperimentResults(id, results) {
       state.experimentsResults[id] = results;
+    },
+    updateExperiment(id, experiment) {
+      const index = state.experiments.findIndex(
+        experiment => experiment.id.toString() === id.toString()
+      );
+      if (index !== -1) {
+        state.experiments[index] = experiment;
+      }
     }
   };
 };
@@ -85,6 +94,18 @@ const fetchInitialData = async (sdk, client) => {
 export default function App(props) {
   const globalState = useMethods(methods, getInitialValue(props.sdk));
   const [state, actions] = globalState;
+
+  useInterval(() => {
+    if (state.experimentId) {
+      props.client
+        .getExperiment(state.experimentId)
+        .then(experiment => {
+          actions.updateExperiment(state.experimentId, experiment);
+          return experiment;
+        })
+        .catch(() => {});
+    }
+  }, 5000);
 
   useEffect(() => {
     fetchInitialData(props.sdk, props.client)
