@@ -42,6 +42,9 @@ const methods = state => {
     },
     setMeta(meta) {
       state.meta = meta;
+    },
+    setExperimentResults(id, results) {
+      state.experimentsResults[id] = results;
     }
   };
 };
@@ -54,7 +57,8 @@ const getInitialValue = sdk => ({
   meta: sdk.entry.fields.meta.getValue() || {},
   variations: sdk.entry.fields.variations.getValue() || [],
   experimentId: sdk.entry.fields.experimentId.getValue(),
-  entries: {}
+  entries: {},
+  experimentsResults: {}
 });
 
 const fetchInitialData = async (sdk, client) => {
@@ -115,6 +119,16 @@ export default function App(props) {
     return state.experiments.find(experiment => experiment.id.toString() === state.experimentId);
   };
 
+  const getExperimentResults = experiment => {
+    if (!experiment) {
+      return undefined;
+    }
+    return {
+      url: props.client.getResultsUrl(experiment.campaign_id, experiment.id),
+      results: state.experimentsResults[experiment.id]
+    };
+  };
+
   const getStatus = experiment => {
     if (!experiment) {
       return Status.SelectExperiment;
@@ -123,12 +137,25 @@ export default function App(props) {
   };
 
   const experiment = getExperiment();
+  const experimentResults = getExperimentResults(experiment);
   const status = getStatus(experiment);
 
   useEffect(() => {
     if (state.loaded) {
       const title = experiment ? `[Optimizely] ${experiment.name}` : '';
       props.sdk.entry.fields.experimentTitle.setValue(title);
+    }
+  }, [experiment, state.loaded]);
+
+  useEffect(() => {
+    if (state.loaded && experiment) {
+      props.client
+        .getExperimentResults(experiment.id)
+        .then(results => {
+          actions.setExperimentResults(experiment.id, results);
+          return results;
+        })
+        .catch(() => {});
     }
   }, [experiment, state.loaded]);
 
@@ -237,6 +264,7 @@ export default function App(props) {
             loaded={state.loaded}
             contentTypes={state.contentTypes}
             experiment={experiment}
+            experimentResults={experimentResults}
             meta={state.meta}
             variations={state.variations}
             onCreateVariation={onCreateVariation}

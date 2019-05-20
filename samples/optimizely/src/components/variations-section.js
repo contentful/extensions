@@ -86,6 +86,7 @@ export default function VariationsSection(props) {
       {mappedVariations.map(item => (
         <VariationItem
           variation={item.variation}
+          experimentResults={props.experimentResults}
           sys={item.sys}
           key={item.variation.key}
           onCreateVariation={props.onCreateVariation}
@@ -117,6 +118,7 @@ export default function VariationsSection(props) {
 VariationsSection.propTypes = {
   loaded: PropTypes.bool.isRequired,
   experiment: ExperimentType,
+  experimentResults: PropTypes.object,
   meta: PropTypes.object.isRequired,
   variations: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
   onLinkVariation: PropTypes.func.isRequired,
