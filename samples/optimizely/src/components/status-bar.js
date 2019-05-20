@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Icon } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import { Status } from '../constants';
+import { getEntryStatus } from '../utils';
 
 const styles = {
   note: css({
@@ -53,8 +54,36 @@ function StatusSeparator() {
   return <Icon className={styles.itemSeparator} icon="ChevronRight" size="small" color="muted" />;
 }
 
+const checkStatuses = (statuses, experiment, variations, entries) => {
+  if (!experiment) {
+    return statuses;
+  }
+
+  statuses[Status.SelectExperiment] = true;
+  if (experiment.status === 'running') {
+    statuses[Status.StartExperiment] = true;
+  }
+  if (variations) {
+    const allAdded = variations.length === experiment.variations.length;
+    statuses[Status.AddContent] = allAdded;
+
+    const allVariationsArePublished = variations.reduce((prev, item) => {
+      const entry = entries[item.sys.id];
+      if (!entry) {
+        return prev && false;
+      }
+      return prev && getEntryStatus(entry.sys) === 'published';
+    }, true);
+
+    if (allVariationsArePublished) {
+      statuses[Status.PublishVariations] = true;
+    }
+  }
+  return statuses;
+};
+
 export default function StatusBar(props) {
-  const statuses = {
+  let statuses = {
     [Status.SelectExperiment]: false,
     [Status.StartExperiment]: false,
     [Status.AddContent]: false,
@@ -62,28 +91,7 @@ export default function StatusBar(props) {
   };
 
   if (props.loaded) {
-    switch (props.status) {
-      case Status.SelectExperiment:
-        break;
-      case Status.AddContent:
-        statuses[Status.SelectExperiment] = true;
-        break;
-      case Status.PublishVariations:
-        statuses[Status.SelectExperiment] = true;
-        statuses[Status.AddContent] = true;
-        break;
-      case Status.StartExperiment:
-        statuses[Status.SelectExperiment] = true;
-        statuses[Status.AddContent] = true;
-        statuses[Status.PublishVariations] = true;
-        break;
-      case Status.Finished:
-        statuses[Status.SelectExperiment] = true;
-        statuses[Status.AddContent] = true;
-        statuses[Status.PublishVariations] = true;
-        statuses[Status.StartExperiment] = true;
-        break;
-    }
+    statuses = checkStatuses(statuses, props.experiment, props.variations, props.entries);
   }
 
   return (
@@ -92,9 +100,7 @@ export default function StatusBar(props) {
       <StatusSeparator />
       <StatusItem active={statuses[Status.AddContent]}>Add content</StatusItem>
       <StatusSeparator />
-      <StatusItem active={statuses[Status.PublishVariations]}>
-        Publish variations and experiment
-      </StatusItem>
+      <StatusItem active={statuses[Status.PublishVariations]}>Publish variations</StatusItem>
       <StatusSeparator />
       <StatusItem active={statuses[Status.StartExperiment]}>Start experiment</StatusItem>
     </div>
@@ -103,5 +109,7 @@ export default function StatusBar(props) {
 
 StatusBar.propTypes = {
   loaded: PropTypes.bool.isRequired,
-  status: PropTypes.string.isRequired
+  experiment: PropTypes.object,
+  variations: PropTypes.array,
+  entries: PropTypes.object
 };
