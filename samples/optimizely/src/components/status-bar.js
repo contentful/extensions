@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'emotion';
 import PropTypes from 'prop-types';
-import { Icon } from '@contentful/forma-36-react-components';
+import { Icon, Note } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import { Status } from '../constants';
 import { getEntryStatus } from '../utils';
@@ -67,16 +67,18 @@ const checkStatuses = (statuses, experiment, variations, entries) => {
     const allAdded = variations.length === experiment.variations.length;
     statuses[Status.AddContent] = allAdded;
 
-    const allVariationsArePublished = variations.reduce((prev, item) => {
-      const entry = entries[item.sys.id];
-      if (!entry) {
-        return prev && false;
-      }
-      return prev && getEntryStatus(entry.sys) === 'published';
-    }, true);
+    if (allAdded) {
+      const allVariationsArePublished = variations.reduce((prev, item) => {
+        const entry = entries[item.sys.id];
+        if (!entry) {
+          return prev && false;
+        }
+        return prev && getEntryStatus(entry.sys) === 'published';
+      }, true);
 
-    if (allVariationsArePublished) {
-      statuses[Status.PublishVariations] = true;
+      if (allVariationsArePublished) {
+        statuses[Status.PublishVariations] = true;
+      }
     }
   }
   return statuses;
@@ -95,15 +97,22 @@ export default function StatusBar(props) {
   }
 
   return (
-    <div className={styles.container}>
-      <StatusItem active={statuses[Status.SelectExperiment]}>Select experiment</StatusItem>
-      <StatusSeparator />
-      <StatusItem active={statuses[Status.AddContent]}>Add content</StatusItem>
-      <StatusSeparator />
-      <StatusItem active={statuses[Status.PublishVariations]}>Publish variations</StatusItem>
-      <StatusSeparator />
-      <StatusItem active={statuses[Status.StartExperiment]}>Start experiment</StatusItem>
-    </div>
+    <>
+      {props.loaded && statuses[Status.SelectExperiment] === false && (
+        <Note className={styles.note} noteType="warning">
+          No experiment selected
+        </Note>
+      )}
+      <div className={styles.container}>
+        <StatusItem active={statuses[Status.SelectExperiment]}>Select experiment</StatusItem>
+        <StatusSeparator />
+        <StatusItem active={statuses[Status.AddContent]}>Add content</StatusItem>
+        <StatusSeparator />
+        <StatusItem active={statuses[Status.PublishVariations]}>Publish variations</StatusItem>
+        <StatusSeparator />
+        <StatusItem active={statuses[Status.StartExperiment]}>Start experiment</StatusItem>
+      </div>
+    </>
   );
 }
 
