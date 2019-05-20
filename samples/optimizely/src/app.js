@@ -138,11 +138,14 @@ export default function App(props) {
   };
 
   const onLinkVariation = async variation => {
-    const data = await props.sdk.dialogs.selectSingleEntry(
-      props.sdk.locales.defaultLocale,
-      // todo: for some reason it doesn't work properly - need to investigate
-      state.referenceInfo.linkContentTypes
-    );
+    const data = await props.sdk.dialogs.selectSingleEntry({
+      locale: props.sdk.locales.default,
+      contentTypes: state.referenceInfo.linkContentTypes
+    });
+
+    if (!data) {
+      return;
+    }
 
     const values = props.sdk.entry.fields.variations.getValue() || [];
     const meta = props.sdk.entry.fields.meta.getValue() || {};
@@ -167,23 +170,27 @@ export default function App(props) {
   };
 
   const onCreateVariation = async (variation, contentTypeId) => {
-    const { entity } = await props.sdk.navigator.openNewEntry(contentTypeId, {
+    const data = await props.sdk.navigator.openNewEntry(contentTypeId, {
       slideIn: true
     });
+
+    if (!data) {
+      return;
+    }
 
     const values = props.sdk.entry.fields.variations.getValue() || [];
     const meta = props.sdk.entry.fields.meta.getValue() || {};
 
     props.sdk.entry.fields.meta.setValue({
       ...meta,
-      [variation.key]: entity.sys.id
+      [variation.key]: data.entity.sys.id
     });
     props.sdk.entry.fields.variations.setValue([
       ...values,
       {
         sys: {
           type: 'Link',
-          id: entity.sys.id,
+          id: data.entity.sys.id,
           linkType: 'Entry'
         }
       }
