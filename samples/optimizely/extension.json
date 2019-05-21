@@ -1,6 +1,7 @@
 {
   "id": "optimizely",
   "name": "optimizely",
+  "sidebar": true,
   "srcdoc": "./build/index.html",
   "parameters": {
     "installation": [
