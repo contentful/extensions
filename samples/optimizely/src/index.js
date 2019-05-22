@@ -5,6 +5,7 @@ import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
 import OptimizelyClient from './optimizely-client';
 import App from './app';
+import AppSidebar from './app-sidebar';
 import IncorrectContentType, { isValidContentType } from './components/incorrect-content-type';
 
 function renderExtension(elem) {
@@ -12,17 +13,19 @@ function renderExtension(elem) {
 }
 
 init(sdk => {
+  const client = new OptimizelyClient({
+    sdk: sdk,
+    project: sdk.parameters.installation.optimizelyProjectId
+  });
   if (sdk.location.is(locations.LOCATION_ENTRY_EDITOR)) {
     const [valid, missingFields] = isValidContentType(sdk.contentType);
     if (valid) {
-      const client = new OptimizelyClient({
-        sdk: sdk,
-        project: sdk.parameters.installation.optimizelyProjectId
-      });
       renderExtension(<App sdk={sdk} client={client} />);
     } else {
       renderExtension(<IncorrectContentType sdk={sdk} missingFields={missingFields} />);
     }
+  } else if (sdk.location.is(locations.LOCATION_ENTRY_SIDEBAR)) {
+    renderExtension(<AppSidebar sdk={sdk} client={client} />);
   }
 });
 
