@@ -14,6 +14,13 @@ export default function AppSidebar(props) {
   const [experimentId, setExperimentId] = useState(props.sdk.entry.fields.experimentId.getValue());
 
   useEffect(() => {
+    props.sdk.window.startAutoResizer();
+    return () => {
+      props.sdk.window.stopAutoResizer();
+    };
+  }, []);
+
+  useEffect(() => {
     const unsubscribe = props.sdk.entry.fields.experimentId.onValueChanged(value => {
       setExperimentId(value);
     });
@@ -51,7 +58,8 @@ AppSidebar.propTypes = {
       fields: PropTypes.shape({
         experimentId: PropTypes.object.isRequired
       }).isRequired
-    })
+    }),
+    window: PropTypes.object.isRequired
   }).isRequired,
   client: PropTypes.object.isRequired
 };
