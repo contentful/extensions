@@ -69,7 +69,7 @@ class App extends React.Component {
     const normalizedPreviewUrl = normalize(previewUrl)
 
     try {
-      const res = await fetch(`${previewUrl}/___graphql`, {
+      const res = await fetch(`${normalizedPreviewUrl}/___graphql`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
