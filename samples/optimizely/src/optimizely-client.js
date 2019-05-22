@@ -60,4 +60,14 @@ export default class OptimizelyClient {
       this.project
     }/results/${campainId}/experiments/${experimentId}`;
   };
+
+  getExperimentUrl = experimentId => {
+    return `https://app.optimizely.com/v2/projects/${
+      this.project
+    }/experiments/${experimentId}/variations`;
+  };
+
+  getAllExperimentsUrl = () => {
+    return `https://app.optimizely.com/v2/projects/${this.project}/experiments`;
+  };
 }
