@@ -35,7 +35,17 @@ export function isValidContentType(contentType) {
   return [missing.length === 0, missing];
 }
 
-export default function IncorrectContentType(props) {
+export function MissingProjectId() {
+  return (
+    <div className={styles.container}>
+      <Note noteType="negative">
+        Please, set <strong>Optimizely Project ID</strong> in Extension settings.
+      </Note>
+    </div>
+  );
+}
+
+export function IncorrectContentType(props) {
   const title = `Extension "${props.sdk.ids.extension}" cannot be assigned to this content type`;
   return (
     <div className={styles.container}>
