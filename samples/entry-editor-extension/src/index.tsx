@@ -1,5 +1,5 @@
-import * as React from "react"
-import { render } from "react-dom"
+import * as React from 'react';
+import { render } from 'react-dom';
 import {
   TextInput,
   Textarea,
@@ -8,96 +8,65 @@ import {
   Paragraph,
   SectionHeading,
   FieldGroup,
-  RadioButtonField
-} from "@contentful/forma-36-react-components"
-import { init, SidebarExtensionSDK } from "contentful-ui-extensions-sdk"
-// import tokens from "@contentful/forma-36-tokens"
-import "@contentful/forma-36-react-components/dist/styles.css"
-import "./index.css"
-// import { id as extensionId } from "../extension.json"
+  RadioButtonField,
+  Typography
+} from '@contentful/forma-36-react-components';
+import { init, EditorExtensionSDK } from 'contentful-ui-extensions-sdk';
+import '@contentful/forma-36-react-components/dist/styles.css';
+import '@contentful/forma-36-fcss';
+import './index.css';
 
 interface AppProps {
-  sdk: SidebarExtensionSDK
+  sdk: EditorExtensionSDK;
 }
 
 interface AppState {
-  title?: string
-  body?: string
-  hasAbstract: boolean
-  abstract?: string
+  title?: string;
+  body?: string;
+  hasAbstract: boolean;
+  abstract?: string;
 }
 
 class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
-    super(props)
+    super(props);
 
     this.state = {
       title: props.sdk.entry.fields.title.getValue(),
       body: props.sdk.entry.fields.body.getValue(),
       abstract: props.sdk.entry.fields.abstract.getValue(),
       hasAbstract: props.sdk.entry.fields.hasAbstract.getValue()
-    }
+    };
   }
 
-  componentDidMount() {
-    //this.props.sdk.window.startAutoResizer()
-    this.toggleField(this.state.hasAbstract)
-  }
+  onTitleChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.sdk.entry.fields.title.setValue(event.target.value);
+  };
 
-  // onButtonClick = async () => {
-  //   const result = await this.props.sdk.dialogs.openExtension({
-  //     id: extensionId,
-  //     width: 800,
-  //     title: "The same extension rendered in modal window"
-  //   })
-  //   console.log(result)
-  // }
+  onBodyChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.sdk.entry.fields.body.setValue(event.target.value);
+  };
 
-  onTitleChangeHandler = event => {
-    this.props.sdk.entry.fields.title.setValue(event.target.value)
-  }
-  onBodyChangeHandler = event => {
-    this.props.sdk.entry.fields.body.setValue(event.target.value)
-  }
-  onAbstractChangeHandler = event => {
-    this.props.sdk.entry.fields.abstract.setValue(event.target.value)
-  }
-  onHasAbstractChangeHandler = event => {
-    let hasAbstract = event.target.value === "yes"
+  onAbstractChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.sdk.entry.fields.abstract.setValue(event.target.value);
+  };
 
-    this.setState({ hasAbstract })
-    this.props.sdk.entry.fields.hasAbstract.setValue(hasAbstract)
+  onHasAbstractChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const hasAbstract = event.target.value === 'yes';
+    this.setState({ hasAbstract });
+    this.props.sdk.entry.fields.hasAbstract.setValue(hasAbstract);
+  };
 
-    this.toggleField(hasAbstract)
-  }
-  toggleField = (hasAbstract: boolean) => {
-    let show = hasAbstract ? "block" : "none"
-    document.querySelector(".abstractContainer").style.display = show
-  }
   render() {
     return (
-      <div>
-        <Card className="fields">
+      <div className="f36-margin--l">
+        <Typography>
           <DisplayText>Entry extension demo</DisplayText>
-          <Paragraph>
-            This demo uses a single UI Extension to render all UI for an entry.
-          </Paragraph>
+          <Paragraph>This demo uses a single UI Extension to render all UI for an entry.</Paragraph>
           <SectionHeading>Title</SectionHeading>
-          <TextInput
-            // suppressContentEditableWarning={true}
-            // className="title"
-            //contentEditable
-            onChange={this.onTitleChangeHandler}
-            value={this.state.title}
-          />
+          <TextInput onChange={this.onTitleChangeHandler} value={this.state.title} />
           <SectionHeading>Body</SectionHeading>
-          <Textarea
-            // suppressContentEditableWarning={true}
-            // className="body"
-            // contentEditable
-            onChange={this.onBodyChangeHandler}
-            value={this.state.body}
-          />
+          <Textarea onChange={this.onBodyChangeHandler} value={this.state.body} />
           <SectionHeading>Has abstract?</SectionHeading>
           <FieldGroup row={false}>
             <RadioButtonField
@@ -106,7 +75,7 @@ class App extends React.Component<AppProps, AppState> {
               value="yes"
               onChange={this.onHasAbstractChangeHandler}
               name="abstractOption"
-              id="checkbox1"
+              id="yesCheckbox"
             />
             <RadioButtonField
               labelText="No"
@@ -114,38 +83,24 @@ class App extends React.Component<AppProps, AppState> {
               value="no"
               onChange={this.onHasAbstractChangeHandler}
               name="abstractOption"
-              id="checkbox1"
+              id="noCheckbox"
             />
           </FieldGroup>
-          <div className="abstractContainer">
+        </Typography>
+        {this.state.hasAbstract && (
+          <Typography>
             <SectionHeading>Abstract</SectionHeading>
-            <Textarea
-              // suppressContentEditableWarning={true}
-              // className="body"
-              // contentEditable
-              onChange={this.onAbstractChangeHandler}
-              value={this.state.abstract}
-            />
-          </div>
-        </Card>
-        {/* <Button
-          buttonType="positive"
-          isFullWidth={true}
-          onClick={this.keyboardInputHandler}
-        >
-          Click on me to open dialog extension
-        </Button> */}
+            <Textarea onChange={this.onAbstractChangeHandler} value={this.state.abstract} />
+          </Typography>
+        )}
       </div>
-    )
+    );
   }
 }
 
 init(sdk => {
-  render(
-    <App sdk={sdk as SidebarExtensionSDK} />,
-    document.getElementById("root")
-  )
-})
+  render(<App sdk={sdk as EditorExtensionSDK} />, document.getElementById('root'));
+});
 
 /**
  * By default, iframe of the extension is fully reloaded on every save of a source file.
