@@ -5,6 +5,8 @@ import { init } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
 
+const normalize = part => part.replace(/\/$/, '');
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -64,8 +66,10 @@ class App extends React.Component {
     const { contentTypeSlug } = instance;
     const { slug: contentSlug } = entry.fields;
 
+    const normalizedPreviewUrl = normalize(previewUrl)
+
     try {
-      const slug = await fetch(`${previewUrl}/___graphql`, {
+      const res = await fetch(`${previewUrl}/___graphql`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -78,21 +82,20 @@ class App extends React.Component {
           }
         })
       })
-        .then(res => res.json())
-        .then(json => (json && json.data ? json.data.sitePage.path : ``));
+      const { data } = await res.json()
+      const slug = data  ? data.sitePage.path : ``
 
-      const normalize = part => part.replace(/\/$/, '');
-      window.open(`${normalize(previewUrl)}/${slug}`);
+      window.open(`${normalizedPreviewUrl}/${slug}`);
     } catch (e) {
       console.error(e);
 
-      let slug = contentTypeSlug ? contentTypeSlug : '';
+      let slug = contentTypeSlug || '';
 
-      if (this.props.sdk.entry.fields.slug) {
+      if (contentSlug) {
         slug += '/' + contentSlug.getValue();
       }
 
-      window.open(`${previewUrl}${slug}`);
+      window.open(`${normalizedPreviewUrl}/${slug}`);
     }
   };
 
