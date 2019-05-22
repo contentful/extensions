@@ -1,6 +1,6 @@
 {
   "id": "optimizely",
-  "name": "optimizely",
+  "name": "Optimizely Experiment",
   "sidebar": true,
   "srcdoc": "./build/index.html",
   "parameters": {

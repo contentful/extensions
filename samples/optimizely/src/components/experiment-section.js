@@ -28,6 +28,8 @@ const styles = {
   })
 };
 
+const NOT_SELECTED = '-1';
+
 export default function ExperimentSection(props) {
   return (
     <React.Fragment>
@@ -39,7 +41,12 @@ export default function ExperimentSection(props) {
         required
         value={props.experiment ? props.experiment.id.toString() : ''}
         onChange={e => {
-          props.onChangeExperiment(e.target.value);
+          const value = e.target.value;
+          if (value === NOT_SELECTED) {
+            props.onChangeExperiment('');
+          } else {
+            props.onChangeExperiment(e.target.value);
+          }
         }}
         selectProps={{
           width: 'large',
@@ -47,10 +54,10 @@ export default function ExperimentSection(props) {
         }}
         id="experiment"
         name="experiment">
-        {props.loaded === false && <Option value="-1">Fetching experiments...</Option>}
+        {props.loaded === false && <Option value={NOT_SELECTED}>Fetching experiments...</Option>}
         {props.loaded && (
           <React.Fragment>
-            <Option value="-1">Select Optimizely experiment</Option>
+            <Option value={NOT_SELECTED}>Select Optimizely experiment</Option>
             {props.experiments.map(experiment => (
               <Option key={experiment.id.toString()} value={experiment.id.toString()}>
                 {experiment.name || experiment.key} ({experiment.status})
