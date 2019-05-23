@@ -5,24 +5,11 @@ import { init } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
 
+const normalize = part => part.replace(/\/$/, '');
+
 class App extends React.Component {
   constructor(props) {
     super(props);
-
-    const { parameters } = this.props.sdk;
-    const { webhookUrl, previewUrl } = parameters.installation;
-    const { contentTypeSlug } = parameters.instance;
-
-    let slug = contentTypeSlug ? contentTypeSlug : '';
-
-    if (this.props.sdk.entry.fields.slug) {
-      slug += '/' + this.props.sdk.entry.fields.slug.getValue();
-    }
-
-    this.state = {
-      previewUrl: previewUrl + slug,
-      webhookUrl
-    };
   }
 
   componentDidMount = () => {
@@ -55,7 +42,9 @@ class App extends React.Component {
       clearInterval(this.debounceInterval);
     }
 
-    fetch(this.state.webhookUrl, {
+    const { webhookUrl } = this.props.sdk.parameters.installation;
+
+    fetch(webhookUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -68,8 +57,46 @@ class App extends React.Component {
     );
   };
 
-  openPreviewTab = () => {
-    window.open(this.state.previewUrl);
+  openPreviewTab = async () => {
+    const {
+      parameters: { installation, instance },
+      entry
+    } = this.props.sdk;
+    const { previewUrl } = installation;
+    const { contentTypeSlug } = instance;
+    const { slug: contentSlug } = entry.fields;
+
+    const normalizedPreviewUrl = normalize(previewUrl)
+
+    try {
+      const res = await fetch(`${normalizedPreviewUrl}/___graphql`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          query:
+            'query getQualifiedSlug($slugExpr:String) { sitePage( path:{ regex:$slugExpr } ) { path } }',
+          variables: {
+            slugExpr: `/${contentSlug ? contentSlug.getValue() : contentTypeSlug}\/?$/`
+          }
+        })
+      })
+      const { data } = await res.json()
+      const slug = data  ? data.sitePage.path : ``
+
+      window.open(`${normalizedPreviewUrl}/${slug}`);
+    } catch (e) {
+      console.error(e);
+
+      let slug = contentTypeSlug || '';
+
+      if (contentSlug) {
+        slug += '/' + contentSlug.getValue();
+      }
+
+      window.open(`${normalizedPreviewUrl}/${slug}`);
+    }
   };
 
   render = () => {
