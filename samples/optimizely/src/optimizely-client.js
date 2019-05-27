@@ -10,7 +10,7 @@ export default class OptimizelyClient {
       appId: 'optimizely',
       url: `${this.baseURL}${url}`,
       headers: {
-        Authorization: `Bearer 2:y65PaQwDbaNo8WZUkVskR0i14F6EYbCWSO3EMdDlhdBZ8JVdZIFs`
+        Authorization: `Bearer {pat}`
       }
     });
     if (response.status === 200) {
