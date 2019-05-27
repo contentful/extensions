@@ -129,22 +129,27 @@ function prepareReferenceInfoForEntry(
 // - conflicting if intersection results in an empty array
 // - all content types otherwise
 function combineLinkValidations(linkValidations, ctMap) {
+  const getCtName = ctId => get(ctMap, [ctId, 'name'], 'Untitled');
+
   if (linkValidations.length > 0) {
     const linkValidationsIntersection = intersection(...linkValidations);
     if (linkValidationsIntersection.length > 0) {
       return {
         combinedLinkValidationType: COMBINED_LINK_VALIDATION_INTERSECTION,
         linkContentTypes: linkValidationsIntersection,
-        linkContentTypeNames: linkValidationsIntersection.map(ctId =>
-          get(ctMap, [ctId, 'name'], 'Untitled')
-        )
+        linkContentTypeNames: linkValidationsIntersection.map(getCtName)
       };
     }
 
     return { combinedLinkValidationType: COMBINED_LINK_VALIDATION_CONFLICT };
   }
 
-  return { combinedLinkValidationType: COMBINED_LINK_VALIDATION_ALL };
+  const allContentTypeIds = Object.keys(ctMap);
+  return {
+    combinedLinkValidationType: COMBINED_LINK_VALIDATION_ALL,
+    linkContentTypes: allContentTypeIds,
+    linkContentTypeNames: allContentTypeIds.map(getCtName)
+  };
 }
 
 // Combine link validations for all fields in a single entry.
