@@ -85,7 +85,7 @@ class App extends React.Component {
       const { data } = await res.json()
       const slug = data  ? data.sitePage.path : ``
 
-      window.open(`${normalizedPreviewUrl}/${slug}`);
+      window.open(`${normalizedPreviewUrl}${slug}`);
     } catch (e) {
       console.error(e);
 
