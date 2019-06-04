@@ -95,7 +95,7 @@ class App extends React.Component {
         slug += '/' + contentSlug.getValue();
       }
 
-      window.open(`${normalizedPreviewUrl}/${slug}`);
+      window.open(`${normalizedPreviewUrl}${slug}`);
     }
   };
 
