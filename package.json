@@ -17,7 +17,7 @@
     "lint-staged": "^8.1.5",
     "log-symbols": "^2.2.0",
     "make-dir": "^2.1.0",
-    "netlify": "^2.4.1",
+    "netlify": "^2.4.6",
     "ora": "^3.4.0",
     "prettier": "^1.16.4",
     "rimraf": "^2.6.3"
