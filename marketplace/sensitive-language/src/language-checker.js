@@ -41,24 +41,16 @@ export class LanguageChecker extends React.Component {
       if (currentValue) {
         const messages = checkContent(isRichText, currentValue, alexConfig);
 
-        this.setState(state => {
-          const messageMap = state.messageMap;
-
-          messageMap[fieldId] = messages;
-
-          return { messageMap };
+        this.setState(({ messageMap }) => {
+          return { messageMap: { ...messageMap, [fieldId]: messages } };
         });
       }
 
       field.onValueChanged(value => {
         const messages = checkContent(isRichText, value, alexConfig);
 
-        this.setState(state => {
-          const messageMap = state.messageMap;
-
-          messageMap[fieldId] = messages;
-
-          return { messageMap };
+        this.setState(({ messageMap }) => {
+          return { messageMap: { ...messageMap, [fieldId]: messages } };
         });
       });
     });
@@ -67,11 +59,9 @@ export class LanguageChecker extends React.Component {
   render() {
     const messageEntries = Object.entries(this.state.messageMap);
     const { fieldsToCheck } = this.props;
-    let messageCount = 0;
-
-    messageEntries.forEach(([, messages]) => {
-      messageCount += messages.length;
-    });
+    const messageCount = messageEntries.reduce((count, [, messages]) => {
+      return count + messages.length;
+    }, 0);
 
     if (messageCount === 0) {
       return <NoIssues />;
