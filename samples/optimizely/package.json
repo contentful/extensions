@@ -10,7 +10,7 @@
     "@babel/preset-react": "^7.0.0",
     "@contentful/contentful-extension-scripts": "0.9.0",
     "babel-eslint": "^10.0.1",
-    "contentful-cli": "0.26.6",
+    "contentful-cli": "0.27.0",
     "cssnano": "4.1.10",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
@@ -19,8 +19,8 @@
     "eslint-plugin-react": "^7.13.0"
   },
   "dependencies": {
-    "@contentful/forma-36-fcss": "^0.0.18",
-    "@contentful/forma-36-react-components": "^3.8.0",
+    "@contentful/forma-36-fcss": "0.0.19",
+    "@contentful/forma-36-react-components": "3.11.0",
     "@contentful/forma-36-tokens": "^0.3.0",
     "emotion": "10.0.9",
     "lodash.get": "^4.4.2",
@@ -29,7 +29,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "@use-it/interval": "0.1.3",
-    "use-methods": "0.4.7"
+    "use-methods": "0.5.1"
   },
   "scripts": {
     "lint": "eslint src/*.js --fix",
