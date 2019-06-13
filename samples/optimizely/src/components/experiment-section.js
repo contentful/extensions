@@ -43,9 +43,20 @@ export default function ExperimentSection(props) {
         onChange={e => {
           const value = e.target.value;
           if (value === NOT_SELECTED) {
-            props.onChangeExperiment('');
+            props.onChangeExperiment({
+              experimentId: '',
+              experimentKey: ''
+            });
           } else {
-            props.onChangeExperiment(e.target.value);
+            const experiment = props.experiments.find(
+              experiment => experiment.id.toString() === value
+            );
+            if (experiment) {
+              props.onChangeExperiment({
+                experimentId: experiment.id.toString(),
+                experimentKey: experiment.key.toString()
+              });
+            }
           }
         }}
         selectProps={{

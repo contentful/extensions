@@ -16,6 +16,7 @@ const requiredFields = [
     type: 'Symbol'
   },
   { id: 'experimentId', type: 'Symbol' },
+  { id: 'experimentKey', type: 'Symbol' },
   { id: 'meta', type: 'Object' },
   { id: 'variations', type: 'Array' }
 ];

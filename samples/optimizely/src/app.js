@@ -115,7 +115,7 @@ export default function App(props) {
   }, []);
 
   /**
-   * Pulling current experiment every 5s to get new status and variatios
+   * Pulling current experiment every 5s to get new status and variations
    */
   useInterval(() => {
     if (state.experimentId) {
@@ -188,9 +188,10 @@ export default function App(props) {
    * Handlers
    */
 
-  const onChangeExperiment = useCallback(experimentId => {
+  const onChangeExperiment = useCallback(value => {
     props.sdk.entry.fields.meta.setValue({});
-    props.sdk.entry.fields.experimentId.setValue(experimentId);
+    props.sdk.entry.fields.experimentId.setValue(value.experimentId);
+    props.sdk.entry.fields.experimentKey.setValue(value.experimentKey);
   });
 
   const onLinkVariation = useCallback(async variation => {
@@ -272,9 +273,9 @@ export default function App(props) {
   if (combinedLinkValidationType === COMBINED_LINK_VALIDATION_CONFLICT) {
     return (
       <Note noteType="negative" title="Conflict">
-        Validations of reference fields in incoming references yield conflicting references for
-        the Variation Container. Loosen validations or change incoming references so there is
-        at least one shared Content Type validation.
+        Validations of reference fields in incoming references yield conflicting references for the
+        Variation Container. Loosen validations or change incoming references so there is at least
+        one shared Content Type validation.
       </Note>
     );
   }
@@ -339,6 +340,7 @@ const AppTypes = {
     entry: PropTypes.shape({
       fields: PropTypes.shape({
         experimentId: PropTypes.object.isRequired,
+        experimentKey: PropTypes.object.isRequired,
         variations: PropTypes.object.isRequired,
         meta: PropTypes.object.isRequired,
         experimentTitle: PropTypes.object.isRequired
