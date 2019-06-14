@@ -1,0 +1,68 @@
+{
+  "id": "cloudinary-dialog",
+  "name": "cloudinary-dialog",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": ["Object"],
+  "parameters": {
+    "instance": [
+      {
+        "id": "cloudName",
+        "name": "Cloud Name",
+        "description": "The cloud_name of the account to access.",
+        "type": "Symbol",
+        "required": true
+      },
+      {
+        "id": "apiKey",
+        "name": "Api Key",
+        "description": "The account API secret.",
+        "type": "Symbol",
+        "required": true
+      },
+      {
+        "id": "apiKeySecret",
+        "name": "Api Secret",
+        "description": "The account API key.",
+        "type": "Symbol"
+      },
+      {
+        "id": "username",
+        "name": "Username",
+        "description": "The user name to use when logging in to the account.",
+        "type": "Symbol"
+      },
+      {
+        "id": "maxFiles",
+        "name": "Max files to select",
+        "description": "Max number of media assets that can be added during a single session.",
+        "type": "Number",
+        "required": false,
+        "default": 20
+      },
+      {
+        "id": "resourceType",
+        "name": "Allowed Resource Type",
+        "description": "Select which resource types are allowed",
+        "type": "Enum",
+        "required": false,
+        "default": "auto",
+        "options": ["auto", "image", "raw", "video"]
+      },
+      {
+        "id": "folder",
+        "name": "Folder",
+        "description": "Instructs the widget to open in browse mode, displaying the contents of the specified folder.",
+        "type": "Symbol",
+        "default": "/"
+      },
+      {
+        "id": "btnTxt",
+        "name": "Text on button",
+        "description": "Sets the text that is displayed on the button",
+        "type": "Symbol",
+        "default": "Upload or select media files"
+      }
+    ],
+    "installation": []
+  }
+}

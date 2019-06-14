@@ -1,0 +1,56 @@
+html,
+body,
+div {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: hidden;
+}
+iframe {
+  height: 100vh;
+}
+
+.logo {
+  background-image: url("https://cloudinary-res.cloudinary.com/image/upload/fl_attachment/v1/logo/for_white_bg/cloudinary_icon_for_white_bg.svg");
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 30px;
+  margin-top: 3px;
+  margin-left: 5px;
+  margin-right: 10px;
+  float: left;
+}
+
+.dialog-container {
+  height: 800px;
+  position: relative;
+}
+
+.thumbnail-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.actions {
+  margin-top: 10px;
+}
+
+.thumbnail2 {
+  margin: 10px;
+  position: relative;
+}
+
+.thumbnail2 img {
+  width: 150px;
+}
+
+.thumbnail-remove {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: white;
+}
