@@ -1,17 +1,16 @@
 import * as React from 'react';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import {
-  EntityList,
-  EntityListItem,
-  DropdownList,
-  DropdownListItem,
-  CardDragHandle,
-  AssetCard,
-  IconButton
-} from '@contentful/forma-36-react-components';
+import { IconButton, Card } from '@contentful/forma-36-react-components';
 import '@contentful/forma-36-react-components/dist/styles.css';
-import { SortableElementProperties, SortableElementState, SortableElementData } from './interfaces';
+import {
+  SortableElementProperties,
+  SortableElementState,
+  SortableElementData,
+  AssetData
+} from './interfaces';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { CloudinaryResource } from '../../interface';
 
 export class SortableComponent extends React.Component<
   SortableElementProperties,
@@ -25,43 +24,31 @@ export class SortableComponent extends React.Component<
     };
   }
 
-  DragHandle = SortableHandle(() => <CardDragHandle>...</CardDragHandle>);
+  DragHandle = SortableHandle((assetData: AssetData) => (
+    <div className="order">
+      <img
+        width="150"
+        height="150"
+        src={`https://res.cloudinary.com/${this.props.config.cloudName}/${assetData.asset.resource_type}/upload/v${assetData.asset.version}/${assetData.asset.public_id}.jpg`}
+      />
+    </div>
+  ));
 
   SortableItem = SortableElement((data: SortableElementData) => {
     const contentType = (['video', 'image'].includes(data.value.resource_type)
       ? data.value.resource_type
       : undefined) as 'video' | 'image' | undefined;
-
     return (
-      <AssetCard
-        size={'small'}
-        src={data.value.secure_url}
-        className="thumbnail2"
-        title={data.value.public_id}
-        cardDragHandleComponent={<this.DragHandle />}
-        isDragActive={false}
-        withDragHandle={true}
-        type={contentType}
-        dropdownListElements={
-          <DropdownList>
-            <DropdownListItem isTitle>Actions</DropdownListItem>
-            <DropdownListItem
-              isTitle={false}
-              isActive={false}
-              isDisabled={false}
-              onClick={e => this.deleteItem(data.index)}>
-              Delete
-            </DropdownListItem>
-          </DropdownList>
-        }>
+      <Card className="thumbnail">
+        <this.DragHandle asset={data.value} />
         <IconButton
           label="Close"
-          onClick={this.deleteItem}
+          onClick={() => this.deleteItem(data.index)}
           className="thumbnail-remove"
           iconProps={{ icon: 'Close' }}
           buttonType="muted"
         />
-      </AssetCard>
+      </Card>
     );
   });
 
@@ -102,6 +89,15 @@ export class SortableComponent extends React.Component<
   };
 
   render() {
-    return <this.SortableList items={this.state.items} onSortEnd={this.onSortEnd} useDragHandle />;
+    return (
+      <this.SortableList
+        items={this.state.items}
+        onSortMove={this.onSortEnd}
+        onSortEnd={this.onSortEnd}
+        axis="x"
+        pressDelay={0}
+        useDragHandle
+      />
+    );
   }
 }

@@ -4,8 +4,6 @@ export interface ExtensionParameters {
   readonly apiKeySecret?: string;
   readonly username?: string;
   readonly maxFiles: number;
-  readonly resourceType: 'auto' | 'image' | 'raw' | 'video';
-  readonly folder?: string;
   readonly btnTxt: string;
 }
 

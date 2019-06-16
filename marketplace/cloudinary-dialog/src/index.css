@@ -10,10 +10,11 @@ div {
 }
 iframe {
   height: 100vh;
+  position: relative;
 }
 
 .logo {
-  background-image: url("https://cloudinary-res.cloudinary.com/image/upload/fl_attachment/v1/logo/for_white_bg/cloudinary_icon_for_white_bg.svg");
+  background-image: url('https://cloudinary-res.cloudinary.com/image/upload/fl_attachment/v1/logo/for_white_bg/cloudinary_icon_for_white_bg.svg');
   background-repeat: no-repeat;
   width: 30px;
   height: 30px;
@@ -23,9 +24,8 @@ iframe {
   float: left;
 }
 
-.dialog-container {
-  height: 800px;
-  position: relative;
+.actions {
+  margin-top: 10px;
 }
 
 .thumbnail-list {
@@ -35,16 +35,12 @@ iframe {
   padding: 0;
 }
 
-.actions {
-  margin-top: 10px;
-}
-
-.thumbnail2 {
+.thumbnail {
   margin: 10px;
   position: relative;
 }
 
-.thumbnail2 img {
+.thumbnail img {
   width: 150px;
 }
 

@@ -37,23 +37,7 @@
         "description": "Max number of media assets that can be added during a single session.",
         "type": "Number",
         "required": false,
-        "default": 20
-      },
-      {
-        "id": "resourceType",
-        "name": "Allowed Resource Type",
-        "description": "Select which resource types are allowed",
-        "type": "Enum",
-        "required": false,
-        "default": "auto",
-        "options": ["auto", "image", "raw", "video"]
-      },
-      {
-        "id": "folder",
-        "name": "Folder",
-        "description": "Instructs the widget to open in browse mode, displaying the contents of the specified folder.",
-        "type": "Symbol",
-        "default": "/"
+        "default": 1
       },
       {
         "id": "btnTxt",

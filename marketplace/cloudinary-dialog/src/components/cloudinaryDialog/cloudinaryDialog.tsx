@@ -21,7 +21,8 @@ export default class CloudinaryDialog extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this.loadCloudinaryScript();
+    const cloudinary = this.loadCloudinaryScript();
+    cloudinary.show();
     this.props.sdk.window.updateHeight(window.outerHeight);
   }
 
@@ -34,28 +35,25 @@ export default class CloudinaryDialog extends React.Component<Props, State> {
     const data = hash.update(rawSignature).finalize();
     const signature = crypto.codec.hex.fromBits(data);
 
-    cloudinary.openMediaLibrary(
-      {
-        cloud_name: this.state.config.cloudName,
-        api_key: this.state.config.apiKey,
-        username: this.state.config.username,
-        timestamp: now,
-        signature,
-        max_files: this.state.config.maxFiles,
-        multiple: this.state.config.maxFiles > 1,
-        inline_container: '#root',
-        remove_header: true,
-        asset: {
-          resource_type: this.state.config.resourceType
-        },
-        folder: this.state.config.folder !== '/' ? { path: this.state.config.folder } : undefined
-      },
-      {
-        insertHandler: data => {
-          this.props.sdk.close(data);
-        }
+    const options = {
+      cloud_name: this.state.config.cloudName,
+      api_key: this.state.config.apiKey,
+      username: this.state.config.username,
+      timestamp: now,
+      signature,
+      max_files: this.state.config.maxFiles,
+      multiple: this.state.config.maxFiles > 1,
+      inline_container: '#root',
+      remove_header: true
+    };
+
+    console.log(options);
+
+    return cloudinary.createMediaLibrary(options, {
+      insertHandler: data => {
+        this.props.sdk.close(data);
       }
-    );
+    });
   }
 
   render() {
