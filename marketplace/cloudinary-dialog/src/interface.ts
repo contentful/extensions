@@ -4,7 +4,7 @@ export interface ExtensionParameters {
   readonly apiKeySecret?: string;
   readonly username?: string;
   readonly maxFiles: number;
-  readonly resourceType: "auto" | "image" | "raw" | "video";
+  readonly resourceType: 'auto' | 'image' | 'raw' | 'video';
   readonly folder?: string;
   readonly btnTxt: string;
 }
@@ -16,7 +16,7 @@ export interface CloudinaryResponse {
 
 export interface CloudinaryResource {
   readonly public_id: string;
-  readonly resource_type: "auto" | "image" | "raw" | "video";
+  readonly resource_type: 'auto' | 'image' | 'raw' | 'video';
   readonly type: string;
   readonly format: string;
   readonly version: number;
@@ -27,11 +27,4 @@ export interface CloudinaryResource {
   readonly bytes: number;
   readonly duration: number;
   readonly tags: string[];
-  readonly context: {
-    readonly custom: {
-      readonly alt: string;
-      readonly caption: string;
-    };
-    readonly created_at: string;
-  };
 }

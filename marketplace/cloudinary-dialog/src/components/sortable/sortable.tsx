@@ -1,10 +1,6 @@
-import * as React from "react";
-import {
-  SortableContainer,
-  SortableElement,
-  SortableHandle,
-} from "react-sortable-hoc";
-import arrayMove from "array-move";
+import * as React from 'react';
+import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
+import arrayMove from 'array-move';
 import {
   EntityList,
   EntityListItem,
@@ -12,14 +8,10 @@ import {
   DropdownListItem,
   CardDragHandle,
   AssetCard,
-  IconButton,
-} from "@contentful/forma-36-react-components";
-import "@contentful/forma-36-react-components/dist/styles.css";
-import {
-  SortableElementProperties,
-  SortableElementState,
-  SortableElementData,
-} from "./interfaces";
+  IconButton
+} from '@contentful/forma-36-react-components';
+import '@contentful/forma-36-react-components/dist/styles.css';
+import { SortableElementProperties, SortableElementState, SortableElementData } from './interfaces';
 
 export class SortableComponent extends React.Component<
   SortableElementProperties,
@@ -29,23 +21,23 @@ export class SortableComponent extends React.Component<
     super(props);
 
     this.state = {
-      items: props.results,
+      items: props.results
     };
   }
 
   DragHandle = SortableHandle(() => <CardDragHandle>...</CardDragHandle>);
 
   SortableItem = SortableElement((data: SortableElementData) => {
-    const contentType = (["video", "image"].includes(data.value.resource_type)
+    const contentType = (['video', 'image'].includes(data.value.resource_type)
       ? data.value.resource_type
-      : undefined) as "video" | "image" | undefined;
+      : undefined) as 'video' | 'image' | undefined;
 
     return (
       <AssetCard
-        size={"small"}
+        size={'small'}
         src={data.value.secure_url}
         className="thumbnail2"
-        title={data.value.context.custom.caption}
+        title={data.value.public_id}
         cardDragHandleComponent={<this.DragHandle />}
         isDragActive={false}
         withDragHandle={true}
@@ -57,31 +49,19 @@ export class SortableComponent extends React.Component<
               isTitle={false}
               isActive={false}
               isDisabled={false}
-              onClick={e => this.deleteItem(data.index)}
-            >
+              onClick={e => this.deleteItem(data.index)}>
               Delete
             </DropdownListItem>
           </DropdownList>
-        }
-      >
+        }>
         <IconButton
           label="Close"
           onClick={this.deleteItem}
           className="thumbnail-remove"
-          iconProps={{ icon: "Close" }}
+          iconProps={{ icon: 'Close' }}
           buttonType="muted"
         />
       </AssetCard>
-      // <EntityListItem
-      //   thumbnailUrl={data.value.secure_url}
-      //   title={data.value.context.custom.caption}
-      //   description={data.value.context.custom.alt}
-      //   contentType={data.value.resource_type}
-      //   isDragActive={false}
-      //   withDragHandle={true}
-      //   cardDragHandleComponent={<this.DragHandle />}
-      //
-      // />
     );
   });
 
@@ -89,11 +69,7 @@ export class SortableComponent extends React.Component<
     return (
       <div className="thumbnail-list">
         {items.map((value, index) => (
-          <this.SortableItem
-            key={`item-${index}`}
-            index={index}
-            value={value}
-          />
+          <this.SortableItem key={`item-${index}`} index={index} value={value} />
         ))}
       </div>
     );
@@ -101,13 +77,13 @@ export class SortableComponent extends React.Component<
 
   componentWillReceiveProps(props: SortableElementProperties) {
     this.setState({
-      items: props.results,
+      items: props.results
     });
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
     this.setState(({ items }) => ({
-      items: arrayMove(items, oldIndex, newIndex),
+      items: arrayMove(items, oldIndex, newIndex)
     }));
 
     if (this.props.onChange) {
@@ -126,12 +102,6 @@ export class SortableComponent extends React.Component<
   };
 
   render() {
-    return (
-      <this.SortableList
-        items={this.state.items}
-        onSortEnd={this.onSortEnd}
-        useDragHandle
-      />
-    );
+    return <this.SortableList items={this.state.items} onSortEnd={this.onSortEnd} useDragHandle />;
   }
 }

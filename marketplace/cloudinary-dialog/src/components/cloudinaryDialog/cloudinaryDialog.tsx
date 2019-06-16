@@ -1,7 +1,7 @@
-import * as React from "react";
-import { DialogExtensionSDK } from "contentful-ui-extensions-sdk";
-import * as crypto from "sjcl";
-import { ExtensionParameters } from "../../interface";
+import * as React from 'react';
+import { DialogExtensionSDK } from 'contentful-ui-extensions-sdk';
+import * as crypto from 'sjcl';
+import { ExtensionParameters } from '../../interface';
 
 interface Props {
   sdk: DialogExtensionSDK;
@@ -16,19 +16,13 @@ export default class CloudinaryDialog extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      config: props.sdk.parameters.invocation as any,
+      config: props.sdk.parameters.invocation as any
     };
   }
 
   componentDidMount() {
     this.loadCloudinaryScript();
     this.props.sdk.window.updateHeight(window.outerHeight);
-    var h = Math.max(
-      document.documentElement.clientHeight,
-      window.innerHeight || 0,
-    );
-
-    console.log(h);
   }
 
   loadCloudinaryScript() {
@@ -47,22 +41,20 @@ export default class CloudinaryDialog extends React.Component<Props, State> {
         username: this.state.config.username,
         timestamp: now,
         signature,
-        multiple: false,
-        inline_container: "#root",
+        max_files: this.state.config.maxFiles,
+        multiple: this.state.config.maxFiles > 1,
+        inline_container: '#root',
         remove_header: true,
         asset: {
-          resource_type: this.state.config.resourceType,
+          resource_type: this.state.config.resourceType
         },
-        folder:
-          this.state.config.folder !== "/"
-            ? { path: this.state.config.folder }
-            : undefined,
+        folder: this.state.config.folder !== '/' ? { path: this.state.config.folder } : undefined
       },
       {
         insertHandler: data => {
           this.props.sdk.close(data);
-        },
-      },
+        }
+      }
     );
   }
 
