@@ -20,18 +20,6 @@
         "required": true
       },
       {
-        "id": "apiKeySecret",
-        "name": "Api Secret",
-        "description": "The account API key.",
-        "type": "Symbol"
-      },
-      {
-        "id": "username",
-        "name": "Username",
-        "description": "The user name to use when logging in to the account.",
-        "type": "Symbol"
-      },
-      {
         "id": "maxFiles",
         "name": "Max files to select",
         "description": "Max number of media assets that can be added during a single session.",
@@ -44,7 +32,7 @@
         "name": "Text on button",
         "description": "Sets the text that is displayed on the button",
         "type": "Symbol",
-        "default": "Upload or select media files"
+        "default": "Select or Upload file on Cloudinary"
       }
     ],
     "installation": []

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { DialogExtensionSDK } from 'contentful-ui-extensions-sdk';
-import * as crypto from 'sjcl';
 import { ExtensionParameters } from '../../interface';
 
 interface Props {
@@ -29,25 +28,14 @@ export default class CloudinaryDialog extends React.Component<Props, State> {
   loadCloudinaryScript() {
     const cloudinary = (window as any).cloudinary;
 
-    const hash = new crypto.hash.sha256();
-    const now = Math.floor(Date.now() / 1000);
-    const rawSignature = `cloud_name=${this.state.config.cloudName}&timestamp=${now}&username=${this.state.config.username}${this.state.config.apiKeySecret}`;
-    const data = hash.update(rawSignature).finalize();
-    const signature = crypto.codec.hex.fromBits(data);
-
     const options = {
       cloud_name: this.state.config.cloudName,
       api_key: this.state.config.apiKey,
-      username: this.state.config.username,
-      timestamp: now,
-      signature,
       max_files: this.state.config.maxFiles,
       multiple: this.state.config.maxFiles > 1,
       inline_container: '#root',
       remove_header: true
     };
-
-    console.log(options);
 
     return cloudinary.createMediaLibrary(options, {
       insertHandler: data => {

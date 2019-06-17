@@ -23,7 +23,6 @@
     "@contentful/forma-36-fcss": "0.0.20",
     "@contentful/forma-36-react-components": "3.11.2",
     "@contentful/forma-36-tokens": "0.3.0",
-    "@types/sjcl": "1.0.28",
     "array-move": "2.1.0",
     "contentful": "7.7.0",
     "contentful-ui-extensions-sdk": "3.8.0",
@@ -32,8 +31,7 @@
     "prop-types": "15.7.2",
     "react": "16.8.6",
     "react-dom": "16.8.6",
-    "react-sortable-hoc": "1.9.1",
-    "sjcl": "1.0.8"
+    "react-sortable-hoc": "1.9.1"
   },
   "scripts": {
     "prestart": "contentful extension update --src https://localhost:1234 --force",
