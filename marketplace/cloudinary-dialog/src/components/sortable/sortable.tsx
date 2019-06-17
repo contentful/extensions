@@ -9,8 +9,6 @@ import {
   SortableElementData,
   AssetData
 } from './interfaces';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { CloudinaryResource } from '../../interface';
 
 export class SortableComponent extends React.Component<
   SortableElementProperties,
