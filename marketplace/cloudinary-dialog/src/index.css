@@ -14,7 +14,7 @@ iframe {
 }
 
 .logo {
-  background-image: url('https://cloudinary-res.cloudinary.com/image/upload/fl_attachment/v1/logo/for_white_bg/cloudinary_icon_for_white_bg.svg');
+  background-image: url('./img/cloudinary_icon_for_white_bg.svg');
   background-repeat: no-repeat;
   width: 30px;
   height: 30px;
