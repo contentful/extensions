@@ -21,6 +21,11 @@
         "id": "webhookUrl",
         "type": "Symbol",
         "name": "The url of the webhook to rebuild your Gatsby Preview instance"
+      },
+      {
+        "id": "authToken",
+        "type": "Symbol",
+        "name": "Optional Authentication token if your Gatsby Preview instance is not public"
       }
     ]
   }

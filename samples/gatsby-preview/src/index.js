@@ -38,17 +38,22 @@ class App extends React.Component {
   };
 
   refreshGatsbyPreview = () => {
+    const {
+      parameters: { installation }
+    } = this.props.sdk;
+
     if (this.debounceInterval) {
       clearInterval(this.debounceInterval);
     }
 
-    const { webhookUrl } = this.props.sdk.parameters.installation;
+    const { webhookUrl, authToken } = installation;
 
     fetch(webhookUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-preview-update-source': 'contentful-sidebar-extension'
+        'x-preview-update-source': 'contentful-sidebar-extension',
+        'x-preview-auth-token': authToken
       },
       body: JSON.stringify({})
     }).then(
@@ -66,7 +71,7 @@ class App extends React.Component {
     const { contentTypeSlug } = instance;
     const { slug: contentSlug } = entry.fields;
 
-    const normalizedPreviewUrl = normalize(previewUrl)
+    const normalizedPreviewUrl = normalize(previewUrl);
 
     try {
       const res = await fetch(`${normalizedPreviewUrl}/___graphql`, {
@@ -81,9 +86,9 @@ class App extends React.Component {
             slugExpr: `/${contentSlug ? contentSlug.getValue() : contentTypeSlug}\/?$/`
           }
         })
-      })
-      const { data } = await res.json()
-      const slug = data  ? data.sitePage.path : ``
+      });
+      const { data } = await res.json();
+      const slug = data ? data.sitePage.path : ``;
 
       window.open(`${normalizedPreviewUrl}${slug}`);
     } catch (e) {
