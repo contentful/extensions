@@ -50,3 +50,16 @@ iframe {
   right: -10px;
   background-color: white;
 }
+
+.unknownFiletype {
+  height: 100px;
+  width: 100px;
+  background-image: url('./img/no_image_available.svg');
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.CloudinaryImage {
+  height: 100px;
+  width: 100px;
+}

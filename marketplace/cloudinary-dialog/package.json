@@ -24,6 +24,7 @@
     "@contentful/forma-36-react-components": "3.11.2",
     "@contentful/forma-36-tokens": "0.3.0",
     "array-move": "2.1.0",
+    "cloudinary-core": "^2.6.3",
     "contentful": "7.7.0",
     "contentful-ui-extensions-sdk": "3.8.0",
     "core-js": "3.1.4",

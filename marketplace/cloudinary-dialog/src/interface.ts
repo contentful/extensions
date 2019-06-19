@@ -14,7 +14,7 @@ export interface CloudinaryResponse {
 
 export interface CloudinaryResource {
   readonly public_id: string;
-  readonly resource_type: 'auto' | 'image' | 'raw' | 'video';
+  readonly resource_type: 'image' | 'raw' | 'video';
   readonly type: string;
   readonly format: string;
   readonly version: number;

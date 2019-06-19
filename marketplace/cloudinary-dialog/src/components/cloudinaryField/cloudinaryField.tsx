@@ -78,7 +78,7 @@ export class CloudinaryField extends React.Component<Props, State> {
       <React.Fragment>
         {this.state.value && this.state.value.length > 0 && (
           <SortableComponent
-            results={this.state.value}
+            resources={this.state.value}
             onChange={this.updateStateValue}
             config={this.state.config}
           />

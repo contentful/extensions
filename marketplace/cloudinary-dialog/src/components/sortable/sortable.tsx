@@ -1,14 +1,57 @@
 import * as React from 'react';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import { IconButton, Card } from '@contentful/forma-36-react-components';
+import {
+  IconButton,
+  Card,
+  DisplayText,
+  Typography,
+  Paragraph
+} from '@contentful/forma-36-react-components';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import {
   SortableElementProperties,
   SortableElementState,
   SortableElementData,
-  AssetData
+  AssetData,
+  SortableContainerData
 } from './interfaces';
+import CloudinaryThumbnail from '../cloudinaryThumbnail/cloudinaryThumbnail';
+
+const DragHandle = SortableHandle<AssetData>(props => (
+  <div className="order">
+    <CloudinaryThumbnail config={props.config} resource={props.resource} />
+  </div>
+));
+
+const SortableItem = SortableElement<SortableElementData>(props => (
+  <Card className="thumbnail">
+    <DragHandle resource={props.resource} config={props.config} />
+    <IconButton
+      label="Close"
+      onClick={() => props.deleteFnc(props.index)}
+      className="thumbnail-remove"
+      iconProps={{ icon: 'Close' }}
+      buttonType="muted"
+    />
+  </Card>
+));
+
+const SortableList = SortableContainer<SortableContainerData>(props => {
+  return (
+    <div className="thumbnail-list">
+      {props.resources.map((resource, index) => (
+        <SortableItem
+          key={`item-${index}`}
+          index={index}
+          config={props.config}
+          resource={resource}
+          deleteFnc={props.deleteFnc}
+        />
+      ))}
+    </div>
+  );
+});
 
 export class SortableComponent extends React.Component<
   SortableElementProperties,
@@ -18,82 +61,45 @@ export class SortableComponent extends React.Component<
     super(props);
 
     this.state = {
-      items: props.results
+      resources: props.resources
     };
   }
 
-  DragHandle = SortableHandle((assetData: AssetData) => (
-    <div className="order">
-      <img
-        width="150"
-        height="150"
-        src={`https://res.cloudinary.com/${this.props.config.cloudName}/${assetData.asset.resource_type}/upload/v${assetData.asset.version}/${assetData.asset.public_id}.jpg`}
-      />
-    </div>
-  ));
-
-  SortableItem = SortableElement((data: SortableElementData) => {
-    const contentType = (['video', 'image'].includes(data.value.resource_type)
-      ? data.value.resource_type
-      : undefined) as 'video' | 'image' | undefined;
-    return (
-      <Card className="thumbnail">
-        <this.DragHandle asset={data.value} />
-        <IconButton
-          label="Close"
-          onClick={() => this.deleteItem(data.index)}
-          className="thumbnail-remove"
-          iconProps={{ icon: 'Close' }}
-          buttonType="muted"
-        />
-      </Card>
-    );
-  });
-
-  SortableList = SortableContainer(({ items }) => {
-    return (
-      <div className="thumbnail-list">
-        {items.map((value, index) => (
-          <this.SortableItem key={`item-${index}`} index={index} value={value} />
-        ))}
-      </div>
-    );
-  });
-
   componentWillReceiveProps(props: SortableElementProperties) {
     this.setState({
-      items: props.results
+      resources: props.resources
     });
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
-    this.setState(({ items }) => ({
-      items: arrayMove(items, oldIndex, newIndex)
+    this.setState(({ resources }) => ({
+      resources: arrayMove(resources, oldIndex, newIndex)
     }));
 
     if (this.props.onChange) {
-      this.props.onChange(this.state.items);
+      this.props.onChange(this.state.resources);
     }
   };
 
   deleteItem = index => {
-    const state = this.state.items;
+    const state = this.state.resources;
     state.splice(index, 1);
-    this.setState({ items: state });
+    this.setState({ resources: state });
 
     if (this.props.onChange) {
-      this.props.onChange(this.state.items);
+      this.props.onChange(this.state.resources);
     }
   };
 
   render() {
     return (
-      <this.SortableList
-        items={this.state.items}
-        onSortMove={this.onSortEnd}
+      <SortableList
         onSortEnd={this.onSortEnd}
         axis="x"
         pressDelay={0}
+        resources={this.state.resources}
+        config={this.props.config}
+        deleteFnc={this.deleteItem}
         useDragHandle
       />
     );

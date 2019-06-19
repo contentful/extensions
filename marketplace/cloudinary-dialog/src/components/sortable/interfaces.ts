@@ -1,22 +1,25 @@
 import { CloudinaryResource, ExtensionParameters } from '../../interface';
-import { string } from 'prop-types';
+import { CloudinaryThumbnailProps } from '../cloudinaryThumbnail/cloudinaryThumbnail';
 
 export interface SortableElementProperties {
-  readonly results: CloudinaryResource[];
-  readonly config: ExtensionParameters;
   onChange?: (data: CloudinaryResource[]) => void;
+  config: ExtensionParameters;
+  resources: CloudinaryResource[];
+}
+
+export interface SortableContainerData {
+  config: ExtensionParameters;
+  resources: CloudinaryResource[];
+  deleteFnc: (index: number) => void;
 }
 
 export interface SortableElementState {
-  readonly items: CloudinaryResource[];
+  readonly resources: CloudinaryResource[];
 }
 
-export interface SortableElementData {
-  readonly collection?: number;
+export interface SortableElementData extends AssetData {
   readonly index: number;
-  readonly value: CloudinaryResource;
+  deleteFnc: (index: number) => void;
 }
 
-export interface AssetData {
-  asset: CloudinaryResource;
-}
+export interface AssetData extends CloudinaryThumbnailProps {}
