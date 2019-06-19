@@ -23,6 +23,20 @@ async function writeExtensionManifest(extensionDir, manifest) {
   return makeDir(outPutDir).then(() => writeFile(filePath, JSON.stringify(manifest), 'utf8'));
 }
 
+async function writeExtensionHeaders(extensionDir) {
+  const outPutDir = path.join(BUILD_DIR, extensionDir);
+  const filePath = path.join(outPutDir, '_headers');
+
+  const headers = `/*
+  Strict-Transport-Security: max-age=300
+/extension.json
+  Access-Control-Allow-Origin: *
+  Strict-Transport-Security: max-age=300
+`;
+
+  return makeDir(outPutDir).then(() => writeFile(filePath, headers, 'utf8'));
+}
+
 dirs(`${__dirname}/../marketplace`)
   .then(extensions => {
     return Promise.all(
@@ -58,6 +72,7 @@ dirs(`${__dirname}/../marketplace`)
 
         return cpy(path.join(BASE_DIR, extension.name, 'build'), path.join(BUILD_DIR, extensionDir))
           .then(() => writeExtensionManifest(extensionDir, newManifest))
+          .then(() => writeExtensionHeaders(extensionDir))
           .then(() =>
             rename(
               path.join(BUILD_DIR, extensionDir, 'index.html'),
