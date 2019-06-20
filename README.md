@@ -1,6 +1,8 @@
 # Contentful extensions repository
 
-This repository provides samples of Contentful UI extensions, developed using the [UI Extensions SDK](https://www.contentful.com/developers/docs/extensibility/ui-extensions/sdk-reference/). 
+This repository provides samples of Contentful UI extensions, developed using the [UI Extensions SDK](https://www.contentful.com/developers/docs/extensibility/ui-extensions/sdk-reference/).
+
+test
 
 If you don't know what UI Extensions are or how to use them, please refer to our [documentation](https://www.contentful.com/developers/docs/extensibility/ui-extensions/).
 
