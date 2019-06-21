@@ -1,6 +1,5 @@
 html,
-body,
-div {
+body {
   margin: 0;
   padding: 0;
   border: 0;
@@ -9,14 +8,24 @@ div {
   vertical-align: baseline;
 }
 
-.gatsby-logo {
-  width: 40px;
-  height: 40px;
+.preview-button {
+  height: 2.5rem;
+  padding: 0 !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  font-family: "Avenir Next W01", Helvetica, sans-serif !important;
+}
+.preview-button:focus {
+  outline: 0;
+  border: 1px solid #f1defa;
+}
+.powered-by {
+  margin-bottom: 5%;
+}
+.powered-by p {
+  margin-bottom: inherit;
 }
 .flexcontainer {
   display: flex;
   flex-direction: column;
-}
-.flexcontainer > * {
-  margin-bottom: 5%;
 }
