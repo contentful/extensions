@@ -4,9 +4,6 @@
   "srcdoc": "./build/index.html",
   "sidebar": true,
   "parameters": {
-    "instance": [
-      {}
-    ],
     "installation": [
       {
         "id": "previewUrl",
