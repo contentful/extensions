@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Button, Paragraph } from '@contentful/forma-36-react-components';
 import { init } from 'contentful-ui-extensions-sdk';
+import { ExtensionUI } from "@gatsby-cloud-pkg/gatsby-cms-extension-base"
+
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
-
-const normalize = part => part.replace(/\/$/, '');
 
 class App extends React.Component {
   constructor(props) {
@@ -62,66 +61,18 @@ class App extends React.Component {
     );
   };
 
-  openPreviewTab = async () => {
+  render = () => {
     const {
-      parameters: { installation, instance },
+      parameters: { installation },
       entry
     } = this.props.sdk;
-    const { previewUrl } = installation;
-    const { contentTypeSlug } = instance;
+    const { previewUrl, authToken } = installation;
     const { slug: contentSlug } = entry.fields;
-
-    const normalizedPreviewUrl = normalize(previewUrl);
-
-    try {
-      const res = await fetch(`${normalizedPreviewUrl}/___graphql`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          query:
-            'query getQualifiedSlug($slugExpr:String) { sitePage( path:{ regex:$slugExpr } ) { path } }',
-          variables: {
-            slugExpr: `/${contentSlug ? contentSlug.getValue() : contentTypeSlug}\/?$/`
-          }
-        })
-      });
-      const { data } = await res.json();
-      const slug = data ? data.sitePage.path : ``;
-
-      window.open(`${normalizedPreviewUrl}${slug}`);
-    } catch (e) {
-      console.error(e);
-
-      let slug = contentTypeSlug || '';
-
-      if (contentSlug) {
-        slug += '/' + contentSlug.getValue();
-      }
-
-      window.open(`${normalizedPreviewUrl}${slug}`);
-    }
-  };
-
-  render = () => {
+    console.log(contentSlug);
     return (
       <div className="extension">
         <div className="flexcontainer">
-          <Button buttonType="positive" onClick={this.openPreviewTab} isFullWidth>
-            Open preview
-          </Button>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-            <Paragraph style={{ marginRight: '5%' }}>Powered by:</Paragraph>
-
-            <img src={require('./gatsby.svg')} className="gatsby-logo" alt="Gatsby" />
-          </div>
+          <ExtensionUI contentSlug={contentSlug.getValue()} previewInstanceUrl={previewUrl} authToken={authToken} />
         </div>
       </div>
     );
