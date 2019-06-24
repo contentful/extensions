@@ -4,23 +4,21 @@
   "srcdoc": "./build/index.html",
   "sidebar": true,
   "parameters": {
-    "instance": [
-      {
-        "id": "contentTypeSlug",
-        "type": "Symbol",
-        "name": "URL slug for content type"
-      }
-    ],
     "installation": [
       {
         "id": "previewUrl",
         "type": "Symbol",
-        "name": "The url of your Gatsby Preview instance"
+        "name": "The url of your Gatsby Cloud instance"
       },
       {
         "id": "webhookUrl",
         "type": "Symbol",
-        "name": "The url of the webhook to rebuild your Gatsby Preview instance"
+        "name": "The url of the webhook to rebuild your Gatsby Cloud instance"
+      },
+      {
+        "id": "authToken",
+        "type": "Symbol",
+        "name": "Optional Authentication token for private Gatsby Cloud instances"
       }
     ]
   }
