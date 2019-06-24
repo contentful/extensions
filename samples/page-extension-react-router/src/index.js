@@ -68,9 +68,9 @@ class PageExtension extends React.Component {
             />
           </Tabs>
           <Switch>
-            <Route path="/" exact render={() => <MainPage />} />
-            <Route path="/other" exact render={() => <OtherPage />} />
-            <Route render={() => <Page404 />} />
+            <Route path="/" exact render={MainPage} />
+            <Route path="/other" exact render={OtherPage} />
+            <Route render={Page404} />
           </Switch>
         </Router>
       </div>
