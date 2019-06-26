@@ -1,0 +1,6 @@
+{
+  "id": "page-extension-react-router",
+  "name": "Page extension with React Router",
+  "srcdoc": "./build/index.html",
+  "sidebar": true
+}

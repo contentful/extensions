@@ -1,0 +1,44 @@
+{
+  "id": "sensitive-language",
+  "name": "Sensitive Language",
+  "sidebar": true,
+  "parameters": {
+    "installation": [
+      {
+        "id": "profanitySureness",
+        "name": "Profanity sureness",
+        "description": "Level of likelihood for a potential profanity to be reported.",
+        "type": "Enum",
+        "options": [
+          {"0": "Unlikely"},
+          {"1": "Maybe"},
+          {"2": "Likely"}
+        ],
+        "default": "0"
+      },
+      {
+        "id": "ignoredRules",
+        "name": "Ignored Rules",
+        "description": "A comma separated list of rules to ignore. Additional rules can be specified in the content type.",
+        "type": "Symbol",
+        "default": ""
+      }
+    ],
+    "instance": [
+      {
+        "id": "ignoredFields",
+        "name": "Ignored Fields",
+        "description": "A comma separated list of fields to ignore",
+        "type": "Symbol",
+        "default": ""
+      },
+      {
+        "id": "ignoredRules",
+        "name": "Ignored Rules",
+        "description": "A comma separated list of additional rules to ignore. Ignored rules can also be configured globally.",
+        "type": "Symbol",
+        "default": ""
+      }
+    ]
+  }
+}

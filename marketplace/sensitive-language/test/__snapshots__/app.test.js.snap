@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App bails out for non-english languages 1`] = `
+<div
+  className="unsupported-language"
+  localeCode="de-DE"
+  localeName="German"
+/>
+`;
+
+exports[`App filters out ignored fields 1`] = `
+<div
+  alexConfig={
+    Object {
+      "allow": Array [],
+      "profanitySureness": 0,
+    }
+  }
+  className="language-checker"
+  entry={
+    Object {
+      "sys": Object {
+        "id": "ABC",
+      },
+    }
+  }
+  fieldsToCheck={
+    Array [
+      Object {
+        "id": "123",
+        "type": "Symbol",
+      },
+      Object {
+        "id": "012",
+        "type": "RichText",
+      },
+    ]
+  }
+/>
+`;
+
+exports[`App filters out non-text fields 1`] = `
+<div
+  alexConfig={
+    Object {
+      "allow": Array [],
+      "profanitySureness": 0,
+    }
+  }
+  className="language-checker"
+  entry={
+    Object {
+      "sys": Object {
+        "id": "ABC",
+      },
+    }
+  }
+  fieldsToCheck={
+    Array [
+      Object {
+        "id": "123",
+        "type": "Symbol",
+      },
+      Object {
+        "id": "789",
+        "type": "Text",
+      },
+      Object {
+        "id": "012",
+        "type": "RichText",
+      },
+    ]
+  }
+/>
+`;
+
+exports[`App parses parameters 1`] = `
+<div
+  alexConfig={
+    Object {
+      "allow": Array [
+        "slave",
+        "boogeyman-boogeywoman",
+        "he-she",
+        "master-slave",
+      ],
+      "profanitySureness": 2,
+    }
+  }
+  className="language-checker"
+  entry={
+    Object {
+      "sys": Object {
+        "id": "ABC",
+      },
+    }
+  }
+  fieldsToCheck={
+    Array [
+      Object {
+        "id": "123",
+        "type": "Symbol",
+      },
+    ]
+  }
+/>
+`;
+
+exports[`App works for English languages 1`] = `
+<div
+  alexConfig={
+    Object {
+      "allow": Array [],
+      "profanitySureness": 0,
+    }
+  }
+  className="language-checker"
+  entry={
+    Object {
+      "sys": Object {
+        "id": "ABC",
+      },
+    }
+  }
+  fieldsToCheck={
+    Array [
+      Object {
+        "id": "123",
+        "type": "Symbol",
+      },
+    ]
+  }
+/>
+`;

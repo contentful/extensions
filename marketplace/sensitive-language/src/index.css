@@ -1,0 +1,41 @@
+html,
+body,
+div {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+html {
+  font-family: 'Avenir Next W01', sans-serif;
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
+  line-height: 1.5;
+}
+
+.warning-list {
+  padding: 0;
+  margin-top: 0;
+  list-style: none;
+}
+
+.warning-list__item {
+  display: flex;
+  margin-bottom: 0.25rem;
+}
+
+.warning-list__item:last-child {
+  margin-bottom: 0;
+}
+
+.align-center {
+  display: flex;
+  align-items: center;
+}
+
+.bottom-margin-none {
+  margin-bottom: 0;
+}

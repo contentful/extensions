@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Message: renders correctly 1`] = `
+<li
+  className="warning-list__item"
+>
+  <div
+    className="f36-margin-right--2xs"
+    color="negative"
+    icon="Close"
+  />
+  <div
+    className="paragraph"
+    title="Flagged by rule ID \\"simon-says\\". "
+  >
+    Don't do this
+  </div>
+</li>
+`;
+
+exports[`Message: shows optional note 1`] = `
+<li
+  className="warning-list__item"
+>
+  <div
+    className="f36-margin-right--2xs"
+    color="negative"
+    icon="Close"
+  />
+  <div
+    className="paragraph"
+    title="Flagged by rule ID \\"simon-says\\". you really shouldn't"
+  >
+    Don't do this
+  </div>
+</li>
+`;

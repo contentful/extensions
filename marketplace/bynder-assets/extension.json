@@ -1,6 +1,6 @@
 {
-  "id": "bynder-dialog",
-  "name": "bynder-dialog",
+  "id": "bynder-assets",
+  "name": "Bynder Assets",
   "srcdoc": "./build/index.html",
   "fieldTypes": ["Object"],
   "parameters": {

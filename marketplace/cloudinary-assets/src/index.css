@@ -1,0 +1,65 @@
+html,
+body,
+div {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: hidden;
+}
+iframe {
+  height: 100vh;
+  position: relative;
+}
+
+.logo {
+  background-image: url('./img/cloudinary_icon_for_white_bg.svg');
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 30px;
+  margin-top: 3px;
+  margin-left: 5px;
+  margin-right: 10px;
+  float: left;
+}
+
+.actions {
+  margin-top: 10px;
+}
+
+.thumbnail-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.thumbnail {
+  margin: 10px;
+  position: relative;
+}
+
+.thumbnail img {
+  width: 150px;
+}
+
+.thumbnail-remove {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: white;
+}
+
+.unknownFiletype {
+  height: 100px;
+  width: 100px;
+  background-image: url('./img/no_image_available.svg');
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.CloudinaryImage {
+  height: 100px;
+  width: 100px;
+}
