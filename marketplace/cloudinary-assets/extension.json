@@ -1,6 +1,6 @@
 {
   "id": "cloudinary-assets",
-  "name": "cloudinary-assets",
+  "name": "Cloudinary Assets",
   "srcdoc": "./build/index.html",
   "fieldTypes": ["Object"],
   "parameters": {
