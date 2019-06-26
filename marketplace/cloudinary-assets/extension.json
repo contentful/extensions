@@ -1,0 +1,40 @@
+{
+  "id": "cloudinary-assets",
+  "name": "cloudinary-assets",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": ["Object"],
+  "parameters": {
+    "instance": [
+      {
+        "id": "cloudName",
+        "name": "Cloud Name",
+        "description": "The cloud_name of the account to access.",
+        "type": "Symbol",
+        "required": true
+      },
+      {
+        "id": "apiKey",
+        "name": "Api Key",
+        "description": "The account API secret.",
+        "type": "Symbol",
+        "required": true
+      },
+      {
+        "id": "maxFiles",
+        "name": "Max files to select",
+        "description": "Max number of media assets that can be added during a single session.",
+        "type": "Number",
+        "required": false,
+        "default": 1
+      },
+      {
+        "id": "btnTxt",
+        "name": "Text on button",
+        "description": "Sets the text that is displayed on the button",
+        "type": "Symbol",
+        "default": "Select or Upload file on Cloudinary"
+      }
+    ],
+    "installation": []
+  }
+}
