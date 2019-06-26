@@ -1,0 +1,21 @@
+{
+  "env": {
+    "production": {
+      "presets": ["@babel/preset-env"]
+    },
+    "development": {
+      "presets": ["@babel/preset-env"]
+    },
+    "test": {
+      "presets": ["@babel/preset-react", [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": 10
+          }
+        }
+      ]],
+      "plugins": ["import-graphql"]
+    }
+  }
+}

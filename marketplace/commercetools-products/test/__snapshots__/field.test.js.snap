@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommerceToolsField Renders a spinner while loading ApolloClient 1`] = `
+<div
+  className="spinner"
+  size="large"
+/>
+`;
+
+exports[`CommerceToolsField Renders empty state for multiple product(s) 1`] = `
+Array [
+  <div />,
+  <div
+    buttonType="muted"
+    className="button"
+    disabled={false}
+    icon="ShoppingCart"
+    onClick={[Function]}
+    size="small"
+  >
+    Select Products
+  </div>,
+]
+`;
+
+exports[`CommerceToolsField Renders empty state for single product(s) 1`] = `
+Array [
+  <div />,
+  <div
+    buttonType="muted"
+    className="button"
+    disabled={false}
+    icon="ShoppingCart"
+    onClick={[Function]}
+    size="small"
+  >
+    Select Product
+  </div>,
+]
+`;
+
+exports[`CommerceToolsField Renders with existing values for multiple product(s) 1`] = `
+Array [
+  <div>
+    <div
+      className="sortable-product-card"
+      index={0}
+      itemIndex={0}
+      locale="en"
+      removeItem={[Function]}
+      sku="ABCDE1234"
+      sortable={true}
+    />
+    <div
+      className="sortable-product-card"
+      index={1}
+      itemIndex={1}
+      locale="en"
+      removeItem={[Function]}
+      sku="FGHHI1234"
+      sortable={true}
+    />
+    <div
+      className="sortable-product-card"
+      index={2}
+      itemIndex={2}
+      locale="en"
+      removeItem={[Function]}
+      sku="JKLMN5678"
+      sortable={true}
+    />
+  </div>,
+  <div
+    buttonType="muted"
+    className="button"
+    disabled={false}
+    icon="ShoppingCart"
+    onClick={[Function]}
+    size="small"
+  >
+    Select Products
+  </div>,
+]
+`;
+
+exports[`CommerceToolsField Renders with existing values for single product(s) 1`] = `
+<div>
+  <div
+    className="sortable-product-card"
+    index={0}
+    itemIndex={0}
+    locale="en"
+    removeItem={[Function]}
+    sku="ABCDE1234"
+    sortable={false}
+  />
+</div>
+`;

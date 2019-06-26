@@ -1,0 +1,460 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductCardRenderer renders error state 1`] = `
+<div
+  className="card"
+>
+  <div
+    style={
+      Object {
+        "display": "flex",
+      }
+    }
+  >
+    <h1
+      style={
+        Object {
+          "flex": "1 1 auto",
+          "fontSize": ".875rem",
+          "lineHeight": 1.5,
+          "margin": 0,
+        }
+      }
+    >
+      Error fetching product. This might be authentication issue or an issue with the commerce tools API.
+    </h1>
+  </div>
+</div>
+`;
+
+exports[`ProductCardRenderer renders loading state 1`] = `
+<div
+  className="entry-card"
+  dropdownListElements={
+    <React.Fragment>
+      <Unknown>
+        <Unknown
+          onClick={[Function]}
+        >
+          Remove
+        </Unknown>
+      </Unknown>
+    </React.Fragment>
+  }
+  loading={true}
+  title="ABCD1234"
+/>
+`;
+
+exports[`ProductCardRenderer renders missing product state 1`] = `
+<div
+  className="card"
+>
+  <div
+    style={
+      Object {
+        "display": "flex",
+      }
+    }
+  >
+    <h1
+      style={
+        Object {
+          "flex": "1 1 auto",
+          "fontSize": ".875rem",
+          "lineHeight": 1.5,
+          "margin": 0,
+        }
+      }
+    >
+      Product missing or inaccessible
+    </h1>
+    <div
+      buttonType="muted"
+      className="icon-button"
+      iconProps={
+        Object {
+          "icon": "Close",
+        }
+      }
+      label="Remove reference to product"
+      onClick={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`ProductCardRenderer renders with data and not sortable 1`] = `
+<div
+  cardDragHandleComponent={null}
+  className="entry-card"
+  contentType="T-shirts"
+  dropdownListElements={
+    <React.Fragment>
+      <Unknown>
+        <Unknown
+          onClick={[Function]}
+        >
+          Remove
+        </Unknown>
+        <Unknown
+          href="https://mc.commercetools.com/ivos-personal-project/products/2c7f2de9-d30a-42cd-bbca-5783381efb9c/general"
+          target="_blank"
+        >
+          Open in Merchant Center
+        </Unknown>
+      </Unknown>
+    </React.Fragment>
+  }
+  loading={false}
+  thumbnailElement={
+    <img
+      alt=""
+      height="70"
+      src="https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/073315_1_large.jpg"
+      width="70"
+    />
+  }
+  title="Shirt Red Valentino red (ABCD1234)"
+/>
+`;
+
+exports[`ProductCardRenderer renders with data and sortable 1`] = `
+<div
+  cardDragHandleComponent={<DragHandle />}
+  className="entry-card"
+  contentType="T-shirts"
+  dropdownListElements={
+    <React.Fragment>
+      <Unknown>
+        <Unknown
+          onClick={[Function]}
+        >
+          Remove
+        </Unknown>
+        <Unknown
+          href="https://mc.commercetools.com/ivos-personal-project/products/2c7f2de9-d30a-42cd-bbca-5783381efb9c/general"
+          target="_blank"
+        >
+          Open in Merchant Center
+        </Unknown>
+      </Unknown>
+    </React.Fragment>
+  }
+  loading={false}
+  thumbnailElement={
+    <img
+      alt=""
+      height="70"
+      src="https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/073315_1_large.jpg"
+      width="70"
+    />
+  }
+  title="Shirt Red Valentino red (ABCD1234)"
+/>
+`;
+
+exports[`SortableProductCard renders correctly 1`] = `
+<div
+  className="query"
+  query={
+    Object {
+      "definitions": Array [
+        Object {
+          "directives": Array [],
+          "kind": "OperationDefinition",
+          "name": Object {
+            "kind": "Name",
+            "value": "productsList",
+          },
+          "operation": "query",
+          "selectionSet": Object {
+            "kind": "SelectionSet",
+            "selections": Array [
+              Object {
+                "arguments": Array [
+                  Object {
+                    "kind": "Argument",
+                    "name": Object {
+                      "kind": "Name",
+                      "value": "skus",
+                    },
+                    "value": Object {
+                      "kind": "Variable",
+                      "name": Object {
+                        "kind": "Name",
+                        "value": "skus",
+                      },
+                    },
+                  },
+                ],
+                "directives": Array [],
+                "kind": "Field",
+                "name": Object {
+                  "kind": "Name",
+                  "value": "products",
+                },
+                "selectionSet": Object {
+                  "kind": "SelectionSet",
+                  "selections": Array [
+                    Object {
+                      "arguments": Array [],
+                      "directives": Array [],
+                      "kind": "Field",
+                      "name": Object {
+                        "kind": "Name",
+                        "value": "results",
+                      },
+                      "selectionSet": Object {
+                        "kind": "SelectionSet",
+                        "selections": Array [
+                          Object {
+                            "arguments": Array [],
+                            "directives": Array [],
+                            "kind": "Field",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "id",
+                            },
+                          },
+                          Object {
+                            "arguments": Array [],
+                            "directives": Array [],
+                            "kind": "Field",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "masterData",
+                            },
+                            "selectionSet": Object {
+                              "kind": "SelectionSet",
+                              "selections": Array [
+                                Object {
+                                  "arguments": Array [],
+                                  "directives": Array [],
+                                  "kind": "Field",
+                                  "name": Object {
+                                    "kind": "Name",
+                                    "value": "current",
+                                  },
+                                  "selectionSet": Object {
+                                    "kind": "SelectionSet",
+                                    "selections": Array [
+                                      Object {
+                                        "arguments": Array [],
+                                        "directives": Array [],
+                                        "kind": "Field",
+                                        "name": Object {
+                                          "kind": "Name",
+                                          "value": "categories",
+                                        },
+                                        "selectionSet": Object {
+                                          "kind": "SelectionSet",
+                                          "selections": Array [
+                                            Object {
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "nameAllLocales",
+                                              },
+                                              "selectionSet": Object {
+                                                "kind": "SelectionSet",
+                                                "selections": Array [
+                                                  Object {
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "locale",
+                                                    },
+                                                  },
+                                                  Object {
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "value",
+                                                    },
+                                                  },
+                                                ],
+                                              },
+                                            },
+                                          ],
+                                        },
+                                      },
+                                      Object {
+                                        "arguments": Array [],
+                                        "directives": Array [],
+                                        "kind": "Field",
+                                        "name": Object {
+                                          "kind": "Name",
+                                          "value": "nameAllLocales",
+                                        },
+                                        "selectionSet": Object {
+                                          "kind": "SelectionSet",
+                                          "selections": Array [
+                                            Object {
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "locale",
+                                              },
+                                            },
+                                            Object {
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "value",
+                                              },
+                                            },
+                                          ],
+                                        },
+                                      },
+                                      Object {
+                                        "arguments": Array [],
+                                        "directives": Array [],
+                                        "kind": "Field",
+                                        "name": Object {
+                                          "kind": "Name",
+                                          "value": "masterVariant",
+                                        },
+                                        "selectionSet": Object {
+                                          "kind": "SelectionSet",
+                                          "selections": Array [
+                                            Object {
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "sku",
+                                              },
+                                            },
+                                            Object {
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "images",
+                                              },
+                                              "selectionSet": Object {
+                                                "kind": "SelectionSet",
+                                                "selections": Array [
+                                                  Object {
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "url",
+                                                    },
+                                                  },
+                                                ],
+                                              },
+                                            },
+                                          ],
+                                        },
+                                      },
+                                    ],
+                                  },
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+          "variableDefinitions": Array [
+            Object {
+              "directives": Array [],
+              "kind": "VariableDefinition",
+              "type": Object {
+                "kind": "ListType",
+                "type": Object {
+                  "kind": "NonNullType",
+                  "type": Object {
+                    "kind": "NamedType",
+                    "name": Object {
+                      "kind": "Name",
+                      "value": "String",
+                    },
+                  },
+                },
+              },
+              "variable": Object {
+                "kind": "Variable",
+                "name": Object {
+                  "kind": "Name",
+                  "value": "skus",
+                },
+              },
+            },
+          ],
+        },
+      ],
+      "kind": "Document",
+      "loc": Object {
+        "end": 457,
+        "source": Object {
+          "body": "query productsList($skus: [String!]) {
+  products(skus: $skus) {
+    results {
+      id
+      masterData {
+        current {
+          categories {
+            nameAllLocales {
+              locale
+              value
+            }
+          }
+          nameAllLocales {
+            locale
+            value
+          }
+          masterVariant {
+            sku
+            images {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}
+",
+          "locationOffset": Object {
+            "column": 1,
+            "line": 1,
+          },
+          "name": "GraphQL request",
+        },
+        "start": 0,
+      },
+    }
+  }
+  variables={
+    Object {
+      "skus": Array [
+        "ABCD1234",
+      ],
+    }
+  }
+>
+  [object Function]
+</div>
+`;

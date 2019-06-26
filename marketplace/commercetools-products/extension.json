@@ -1,0 +1,51 @@
+{
+  "id": "commercetools-products",
+  "name": "commercetools Products",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": [
+    "Symbol", "Symbols"
+  ],
+  "parameters": {
+    "installation": [
+      {
+        "id": "projectKey",
+        "name": "commercetools Project Key",
+        "type": "Symbol",
+        "required": true
+      },
+      {
+        "id": "clientId",
+        "name": "commercetools Authentication Client ID",
+        "type": "Symbol",
+        "required": true
+      },
+      {
+        "id": "clientSecret",
+        "name": "commercetools Authentication Client Secret",
+        "type": "Symbol",
+        "required": true
+      },
+      {
+        "id": "apiUri",
+        "name": "commercetools API Endpoint",
+        "type": "Symbol",
+        "default": "https://api.commercetools.com",
+        "required": true
+      },
+      {
+        "id": "authUri",
+        "name": "commercetools AUTH API Endpoint",
+        "type": "Symbol",
+        "default": "https://auth.commercetools.com",
+        "required": true
+      },
+      {
+        "id": "locale",
+        "name": "commercetools data locale to display",
+        "type": "Symbol",
+        "default": "en",
+        "required": true
+      }
+    ]
+  }
+}

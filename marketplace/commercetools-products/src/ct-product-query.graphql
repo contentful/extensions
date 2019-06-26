@@ -1,0 +1,27 @@
+query productsList($skus: [String!]) {
+  products(skus: $skus) {
+    results {
+      id
+      masterData {
+        current {
+          categories {
+            nameAllLocales {
+              locale
+              value
+            }
+          }
+          nameAllLocales {
+            locale
+            value
+          }
+          masterVariant {
+            sku
+            images {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}
