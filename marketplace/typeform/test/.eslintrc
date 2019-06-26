@@ -1,0 +1,21 @@
+{
+  "env": {
+    "commonjs": true,
+    "node": true
+  },
+  "extends": [
+    "../../.eslintrc",
+    "plugin:jest/recommended",
+    "plugin:jest/style"
+  ],
+  "rules": {
+    "react/display-name": "off",
+    "react/prop-types": "off"
+  },
+  "parserOptions": {
+    "sourceType": "script",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  }
+}

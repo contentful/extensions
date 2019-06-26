@@ -2,7 +2,8 @@
   "parser": "babel-eslint",
   "extends": ["../.eslintrc", "plugin:react/recommended"],
   "env": {
-    "browser": true
+    "browser": true,
+    "es6": true
   },
   "globals": {
     "module": "readonly"
