@@ -1,6 +1,6 @@
 {
-  "id": "cloudinary-dialog",
-  "name": "cloudinary-dialog",
+  "id": "cloudinary-assets",
+  "name": "cloudinary-assets",
   "srcdoc": "./build/index.html",
   "fieldTypes": ["Object"],
   "parameters": {
