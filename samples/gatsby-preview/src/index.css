@@ -23,6 +23,7 @@ body {
   margin-bottom: 5%;
 }
 .powered-by p {
+  font-family: "Avenir Next W01", Helvetica, sans-serif !important;
   margin-bottom: inherit;
 }
 .flexcontainer {
