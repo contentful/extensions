@@ -24,7 +24,7 @@ jobs:
             - ./node_modules
       - run:
           name: Install extension dependencies
-          command: npm run bootstrap
+          command: npm run bootstrap -- --concurrency=2
       - run:
           name: Check code style
           command: npm run prettier-check
