@@ -1,0 +1,8 @@
+.player {
+  width: 100%;
+  height: auto;
+}
+
+.player video {
+  min-height: 300px;
+}
