@@ -6,10 +6,6 @@
     <title>Commerce Layer UI Extension</title>
     <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
-    <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <style media="screen">
       body {
         overflow: hidden;
@@ -76,6 +72,12 @@
     </div>
 
     <script type="text/javascript">
+      import Vue from 'vue'
+      import _ from 'lodash';
+      import axios from 'axios';
+      import { init } from 'contentful-ui-extensions-sdk';
+
+
       window.contentfulExtension.init(function(extension) {
         extension.window.startAutoResizer()
 
