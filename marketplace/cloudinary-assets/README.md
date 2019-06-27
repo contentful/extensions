@@ -9,4 +9,4 @@ The IDs of selected media is then stored in Contentful. Clients can then easily 
 ## Requirements
 
 - the UI Extension has to be 3rd party hosted using the `src` property
-- an Cloudinary account
+- a Cloudinary account
