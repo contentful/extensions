@@ -14,7 +14,7 @@ iframe {
 }
 
 .logo {
-  background-image: url('./img/cloudinary_icon_for_white_bg.svg');
+  background-image: url(./img/cloudinary_icon_for_white_bg.svg);
   background-repeat: no-repeat;
   width: 30px;
   height: 30px;
@@ -54,7 +54,7 @@ iframe {
 .unknownFiletype {
   height: 100px;
   width: 100px;
-  background-image: url('./img/no_image_available.svg');
+  background-image: url(./img/no_image_available.svg);
   background-size: 100%;
   background-repeat: no-repeat;
 }
