@@ -1,5 +1,5 @@
 {
-  "id": "commercelayer-ui-extension",
+  "id": "commercelayer-sku",
   "name": "Commerce Layer SKU",
   "srcdoc": "./index.html",
   "fieldTypes": ["Object"],
