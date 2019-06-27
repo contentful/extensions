@@ -4,6 +4,8 @@ This UI Extension integrates with [Cloudinary's](https://cloudinary.com/) dynami
 
 The IDs of selected media is then stored in Contentful. Clients can then easily fetch content from Contentful and resolve all needed details on media by using the IDs to fetch binaries or meta data from Cloudinary's API.
 
+![Cloudinary Extension in action](screenshot.png)
+
 ## Requirements
 
 - the UI Extension has to be 3rd party hosted using the `src` property
