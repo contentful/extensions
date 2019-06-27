@@ -3,7 +3,6 @@ import { Button } from '@contentful/forma-36-react-components';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { ExtensionParameters, CloudinaryResponse, CloudinaryResource } from '../../interface';
 import { SortableComponent } from '../sortable/sortable';
-import extension from '../../../extension.json';
 
 interface Props {
   sdk: FieldExtensionSDK;
@@ -56,7 +55,6 @@ export class CloudinaryField extends React.Component<Props, State> {
 
     this.props.sdk.dialogs
       .openExtension({
-        id: extension.id,
         position: 'center',
         title: 'Select or Upload Media',
         shouldCloseOnOverlayClick: true,
