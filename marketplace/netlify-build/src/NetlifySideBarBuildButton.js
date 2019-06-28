@@ -103,13 +103,9 @@ export default class NeflifySideBarBuildButton extends React.Component {
 
   render() {
     const { ready, busy, status, misconfigured, info, ok } = this.state;
-    //  <FeedbackButton target="extensibility" about="Netlify Build Button" />
 
     return (
       <div className={styles.body}>
-        <div className={styles.header}>
-          <span className={styles.alphaLabel}>Alpha</span>
-        </div>
         <Button
           disabled={!ready || busy}
           loading={busy}

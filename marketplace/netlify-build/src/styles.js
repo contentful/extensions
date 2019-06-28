@@ -4,7 +4,9 @@ import tokens from '@contentful/forma-36-tokens';
 export default {
   info: css({
     color: tokens.colorTextLight,
-    marginBottom: tokens.spacingS
+    marginBottom: tokens.spacingM,
+    fontSize: tokens.fontSizeS,
+    fontWeight: tokens.fontWeightNormal
   }),
   button: css({
     marginBottom: tokens.spacingS

@@ -68,7 +68,7 @@ class NetlifyExtension extends React.Component {
         <Select onChange={this.selectSite}>
           {this.state.sites.map((site, index) => (
             <Option key={site.netlifySiteId} value={index}>
-              {site.name}
+              {site.name} (Netlify app)
             </Option>
           ))}
         </Select>
