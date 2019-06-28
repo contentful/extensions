@@ -1,7 +1,7 @@
 {
   "id": "netlify-button",
   "name": "Netlify Build and Preview",
-  "srcdoc": "./build/index.html",
+  "src": "http://localhost:1234",
   "sidebar": true,
   "parameters": {
     "installation": [
