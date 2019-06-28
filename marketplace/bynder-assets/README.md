@@ -18,4 +18,4 @@ The UI Extension in the Contentful web app
 ## Requirements
 
 - the UI Extension has to be 3rd party hosted using the `src` property
-- an account with Bynder with access to a brand portal (`yourIdentifier.getbynder.com`). This value has to be provided to extension using `bynderURL` parameter.
+- an account with Bynder with access to a brand portal (`yourIdentifier.getbynder.com`). This value has to be provided to the extension using the `bynderURL` parameter.
