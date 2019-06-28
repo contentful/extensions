@@ -1,6 +1,6 @@
 {
-  "extends": ["eslint:recommended", "plugin:promise/recommended", "prettier", "plugin:react/recommended"],
-  "plugins": ["babel", "promise", "import", "react"],
+  "extends": ["eslint:recommended", "plugin:promise/recommended", "prettier", "plugin:react/recommended", "plugin:jest/recommended"],
+  "plugins": ["babel", "promise", "import", "react", "jest"],
   "parser": "babel-eslint",
   "settings": {
      "react": {

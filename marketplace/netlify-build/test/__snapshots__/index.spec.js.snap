@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NetlifyExtension should render the NetlifySideBarBuildButton 1`] = `
+Array [
+  <div
+    className="css-a9p51s"
+  >
+    <button
+      className="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--disabled___1E20M Button__Button--full-width___3Fmpo"
+      data-test-id="cf-ui-button"
+      disabled={true}
+      href={null}
+      onBlur={[Function]}
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabIndex={-1}
+      >
+        <span
+          className="Button__Button__label___3tcOj"
+        >
+          Build
+        </span>
+      </span>
+    </button>
+  </div>,
+  <div
+    className="Select__Select__wrapper___2pBIz Select__Select--full___7ei7d"
+  >
+    <select
+      className="Select__Select___31Z46 a11y__focus-border--default___60AXp"
+      data-test-id="cf-ui-select"
+      disabled={false}
+      onChange={[Function]}
+      required={false}
+    >
+      <option
+        data-test-id="cf-ui-select-option"
+        value={0}
+      >
+        friendly
+         (Netlify app)
+      </option>
+    </select>
+    <svg
+      className="Icon__Icon___38Epv Select__Select__icon___boRAZ Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+      data-test-id="cf-ui-icon"
+      height="24"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M7 10l5 5 5-5z"
+      />
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+      />
+    </svg>
+  </div>,
+]
+`;
