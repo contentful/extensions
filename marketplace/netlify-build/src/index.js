@@ -28,7 +28,7 @@ function createSiteStructure(parameters = {}) {
   return sites;
 }
 
-class NetlifyExtension extends React.Component {
+export default class NetlifyExtension extends React.Component {
   static propTypes = {
     sdk: PropTypes.object.isRequired,
     createPubSub: PropTypes.func.isRequired
