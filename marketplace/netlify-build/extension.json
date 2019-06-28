@@ -1,0 +1,53 @@
+{
+  "id": "netlify-button",
+  "name": "Netlify Build and Preview",
+  "srcdoc": "./build/index.html",
+  "sidebar": true,
+  "parameters": {
+    "installation": [
+      {
+        "id": "publishKey",
+        "type": "Symbol",
+        "name": "PubNub publish key",
+        "description": "A public PubNub publish key to publish update events to Netlify",
+        "required": true
+      },
+      {
+        "id": "subscribeKey",
+        "type": "Symbol",
+        "name": "PubNub subscribe key",
+        "description": "A public PubNub subscribe key to listen for update events from Netlify",
+        "required": true
+      },
+      {
+        "id": "channels",
+        "type": "Symbol",
+        "name": "Comma seperated Netlify channel list (Max 3)",
+        "description": "Example: my-app-abc,my-second-app-def,my-third-app-ghi"
+      },
+      {
+        "id": "netlifySiteIds",
+        "type": "Symbol",
+        "name": "Comma seperated Netlify Id list (Max 3)",
+        "description": "Example: 14234e3,143248,35233"
+      },
+      {
+        "id": "buildHookUrls",
+        "type": "Symbol",
+        "name": "Comma seperated Netlify build hook URLs (Max 3)",
+        "description": "https://api.netlify.com/build_hooks/{site-id}"
+      },
+      {
+        "id": "names",
+        "type": "Symbol",
+        "name": "Comma seperated Website name list (Max 3)",
+        "description": "options,My Site"
+      },
+      {
+        "id": "netlifySiteUrls",
+        "type": "Symbol",
+        "name": "Comma seperated Netlify site URLs (Max 3)"
+      }
+    ]
+  }
+}

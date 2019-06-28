@@ -1,0 +1,22 @@
+{
+  "extends": ["eslint:recommended", "plugin:promise/recommended", "prettier", "plugin:react/recommended"],
+  "plugins": ["babel", "promise", "import", "react"],
+  "parser": "babel-eslint",
+  "settings": {
+     "react": {
+       "version": "16.8.0"
+     }
+  },
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "Promise": true,
+    "PubNub": true
+  },
+  "root": true,
+  "rules": {
+    "promise/no-nesting": "off",
+    "babel/semi": 1
+  }
+}
