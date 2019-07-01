@@ -1,22 +1,15 @@
 import { format, distanceInWordsToNow } from 'date-fns';
 
-export const EVENT_TRIGGERED = 'triggered';
-export const EVENT_TRIGGER_FAILED = 'trigger-failed';
-
-const CONTENTFUL_EVENTS = [EVENT_TRIGGERED, EVENT_TRIGGER_FAILED];
-
-const EVENT_BUILD_STARTED = 'build-started';
-const EVENT_BUILD_READY = 'build-ready';
-const EVENT_BUILD_FAILED = 'build-failed';
-
-const NETLIFY_EVENTS = [EVENT_BUILD_STARTED, EVENT_BUILD_READY, EVENT_BUILD_FAILED];
-
-const NETLIFY_STATE_TO_EVENT = {
-  uploaded: EVENT_BUILD_STARTED,
-  building: EVENT_BUILD_STARTED,
-  ready: EVENT_BUILD_READY,
-  error: EVENT_BUILD_FAILED
-};
+import {
+  EVENT_TRIGGERED,
+  EVENT_TRIGGER_FAILED,
+  CONTENTFUL_EVENTS,
+  EVENT_BUILD_STARTED,
+  EVENT_BUILD_READY,
+  EVENT_BUILD_FAILED,
+  NETLIFY_EVENTS,
+  NETLIFY_STATE_TO_EVENT
+} from './contstants';
 
 function isValidNetlifyMessage(msg, siteId) {
   return msg.site_id === siteId && NETLIFY_STATE_TO_EVENT[msg.state];

@@ -1,6 +1,6 @@
 {
   "id": "netlify-button",
-  "name": "Netlify Build and Preview",
+  "name": "Netlify Build",
   "src": "http://localhost:1234",
   "sidebar": true,
   "parameters": {
@@ -9,44 +9,50 @@
         "id": "publishKey",
         "type": "Symbol",
         "name": "PubNub publish key",
-        "description": "A public PubNub publish key to publish update events to Netlify",
+        "description": "A public PubNub publish key to emit update events",
         "required": true
       },
       {
         "id": "subscribeKey",
         "type": "Symbol",
         "name": "PubNub subscribe key",
-        "description": "A public PubNub subscribe key to listen for update events from Netlify",
+        "description": "A public PubNub subscribe key to listen for update events",
         "required": true
       },
       {
         "id": "channels",
         "type": "Symbol",
-        "name": "Comma seperated Netlify channel list (Max 3)",
-        "description": "Example: my-app-abc,my-second-app-def,my-third-app-ghi"
+        "name": "Comma seperated Netlify channel list (max 3)",
+        "description": "Example: my-app-abc,my-second-app-def,my-third-app-ghi",
+        "required": true
       },
       {
         "id": "netlifySiteIds",
         "type": "Symbol",
-        "name": "Comma seperated Netlify Id list (Max 3)",
-        "description": "Example: 14234e3,143248,35233"
+        "name": "Comma seperated Netlify Site Id list (max 3)",
+        "description": "Example: 14234e3,143248,35233",
+        "required": true
       },
       {
         "id": "buildHookUrls",
         "type": "Symbol",
-        "name": "Comma seperated Netlify build hook URLs (Max 3)",
-        "description": "https://api.netlify.com/build_hooks/{site-id}"
+        "name": "Comma seperated Netlify build hook URLs (max 3)",
+        "description": "Example: https://api.netlify.com/build_hooks/xyz,https://api.netlify.com/build_hooks/abc",
+        "required": true
       },
       {
         "id": "names",
         "type": "Symbol",
-        "name": "Comma seperated Website name list (Max 3)",
-        "description": "options,My Site"
+        "name": "Comma seperated Website name list (max 3)",
+        "description": "Example: My Site",
+        "required": true
       },
       {
         "id": "netlifySiteUrls",
         "type": "Symbol",
-        "name": "Comma seperated Netlify site URLs (Max 3)"
+        "name": "Comma seperated Netlify site URLs (max 3)",
+        "description": "Example: https://firefly-12345.netlify.com",
+        "required": true
       }
     ]
   }

@@ -6,8 +6,7 @@ import { normalizeMessage, isOutOfOrder, isDuplicate, messageToState } from './m
 import '@contentful/forma-36-react-components/dist/styles.css';
 import styles from './styles';
 
-const EVENT_TRIGGERED = 'triggered';
-const EVENT_TRIGGER_FAILED = 'trigger-failed';
+import { EVENT_TRIGGERED, EVENT_TRIGGER_FAILED } from './contstants';
 
 export default class NeflifySideBarBuildButton extends React.Component {
   static propTypes = {

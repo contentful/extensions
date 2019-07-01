@@ -8,7 +8,8 @@
      }
   },
   "env": {
-    "browser": true
+    "browser": true,
+    "node": true
   },
   "globals": {
     "Promise": true,

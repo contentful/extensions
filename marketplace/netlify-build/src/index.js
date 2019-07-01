@@ -7,25 +7,25 @@ import { Select, Option } from '@contentful/forma-36-react-components';
 import NeflifySideBarBuildButton from './NetlifySideBarBuildButton';
 
 function createSiteStructure(parameters = {}) {
-  const buildHooks = parameters.buildHookUrls.split(',');
-  const channels = parameters.channels.split(',');
-  const siteIds = parameters.netlifySiteIds.split(',');
-  const names = parameters.names.split(',');
-  const urls = parameters.netlifySiteUrls.split(',');
+  const buildHooks = (parameters.buildHookUrls || '').split(',');
+  const channels = (parameters.channels || '').split(',');
+  const siteIds = (parameters.netlifySiteIds || '').split(',');
+  const names = (parameters.names || '').split(',');
+  const urls = (parameters.netlifySiteUrls || '').split(',');
 
-  const sites = [];
-
-  for (let i = 0; i < buildHooks.length; i++) {
-    sites.push({
-      buildHookUrl: buildHooks[i],
-      channel: channels[i],
-      netlifySiteId: siteIds[i],
-      name: names[i],
-      url: urls[i]
-    });
-  }
-
-  return sites;
+  return buildHooks.reduce(
+    (acc, _, i) =>
+      acc.concat([
+        {
+          buildHookUrl: buildHooks[i],
+          channel: channels[i],
+          netlifySiteId: siteIds[i],
+          name: names[i],
+          url: urls[i]
+        }
+      ]),
+    []
+  );
 }
 
 export default class NetlifyExtension extends React.Component {
@@ -67,7 +67,7 @@ export default class NetlifyExtension extends React.Component {
         />
         <Select onChange={this.selectSite}>
           {this.state.sites.map((site, index) => (
-            <Option key={site.netlifySiteId} value={index}>
+            <Option key={site.netlifySiteId} value={String(index)}>
               {site.name} (Netlify app)
             </Option>
           ))}
