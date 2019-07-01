@@ -21,17 +21,17 @@ export default class NeflifySideBarBuildButton extends React.Component {
   state = { history: [] };
 
   async componentDidMount() {
-    this.createSub();
+    this.createPubSub();
   }
 
   componentDidUpdate(newProps) {
     if (this.props.site !== newProps.site && this.pubsub) {
       this.pubsub.stop();
-      this.createSub();
+      this.createPubSub();
     }
   }
 
-  createSub = async () => {
+  createPubSub = async () => {
     const { site } = this.props;
 
     if (!site.channel || !site.netlifySiteId || !site.buildHookUrl) {
