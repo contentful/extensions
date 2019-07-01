@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Commerce Layer UI Extension</title>
+    <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <style media="screen">
+      body {
+        overflow: hidden;
+        font-family: "Avenir Next W01", Helvetica, sans-serif;
+      }
+      .name {
+        min-height: 72px;
+        font-weight: 600;
+      }
+      .sku,
+      .selected-sku {
+        min-height: 350px;
+        border: 1px solid #eeeeee;
+        margin: 10px;
+        padding: 20px;
+      }
+      .sku {
+        cursor: pointer;
+      }
+      .sku:hover {
+        border: 1px solid #b4c3ca;
+      }
+      .pagination {
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="app">
+      <div v-if="selectedSku">
+        <div class="columns is-gapless">
+          <sku-selected
+            v-bind:sku="selectedSku"
+            v-bind:endpoint="endpoint"
+            @unselect-sku="unselectSku">
+          </sku-selected>
+        </div>
+      </div>
+      <div v-else>
+        <div class="cf-form-field">
+          <input type="text" class="cf-form-input" v-model="query">
+          <div class="cf-form-hint">Found {{ meta.record_count }} SKUs. Filter by name, code, or reference.</div>
+        </div>
+
+        <div class="columns is-multiline is-gapless">
+          <sku-item
+            v-for="sku in skus"
+            v-bind:sku="sku"
+            v-bind:endpoint="endpoint"
+            v-bind:key="sku.id"
+            @select-sku="selectSku">
+          </sku-item>
+        </div>
+
+        <nav class="pagination is-small">
+          <ul class="pagination-list">
+            <li><a class="pagination-link" v-bind:disabled="links.prev == undefined" @click="prevPage">&larr; Prev</a></li>
+            <li><a class="pagination-link" v-bind:disabled="links.next == undefined" @click="nextPage">Next &rarr;</a></li>
+          </ul>
+        </nav>
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      window.contentfulExtension.init(function(extension) {
+        extension.window.startAutoResizer()
+
+        // Available SKU component
+        Vue.component('sku-item', {
+          props: ['sku', 'endpoint'],
+          template: `<div class="column is-one-third">
+            <div class="sku" @click="selectSku">
+              <img :src="sku.attributes.image_url"></img>
+              <p class="name">{{ sku.attributes.name }}</p>
+              <p class="help">{{ sku.attributes.code }}</p>
+            </div>
+          </div>`,
+          methods: {
+            selectSku: function() {
+              this.$emit('select-sku', this.sku.id)
+            }
+          }
+        })
+
+        // Selected SKU component
+        Vue.component('sku-selected', {
+          props: ['sku', 'endpoint'],
+          template: `<div class="column is-one-third">
+            <div class="selected-sku">
+              <img :src="sku.attributes.image_url"></img>
+              <p class="name">{{ sku.attributes.name }}</p>
+              <p class="help">{{ sku.attributes.code }}</p>
+              <p class="help">
+                <a :href="skuEditURL" target="_blank">Edit</a>
+                &middot;
+                <a @click="unselectSku" class="has-text-danger">Remove</a>
+              </p>
+            </div>
+          </div>`,
+          methods: {
+            unselectSku: function() {
+              this.$emit('unselect-sku')
+            }
+          },
+          computed: {
+            skuEditURL () {
+              return `${this.endpoint}/admin/skus/${this.sku.id}/edit`
+            }
+          }
+        })
+
+        var app = new Vue({
+          el: '#app',
+          data: {
+            accessToken: null,
+            endpoint: null,
+            query: null,
+            selectedSkuId: null,
+            skus: [],
+            links: {},
+            meta: {}
+          },
+          computed: {
+            selectedSku () {
+              return _.find(this.skus, (sku) => {
+                return sku.id === this.selectedSkuId
+              })
+            }
+          },
+          created: function() {
+            // Set endpoint
+            this.endpoint = extension.parameters.instance.endpoint
+
+            // Assign the debounced function
+            this.debouncedGetSkus = _.debounce(this.getSkus, 500)
+
+            // Get an access token (valid for 2 hours)
+            // Get the selected SKU or the list of all SKUs
+            axios
+              .post(`${this.endpoint}/oauth/token`, {
+                grant_type: 'client_credentials',
+                client_id: extension.parameters.instance.clientID,
+                client_secret: extension.parameters.instance.clientSecret
+              })
+              .then(response => {
+                this.accessToken = response.data.access_token
+                fieldValue = extension.field.getValue()
+                if (fieldValue) {
+                  skuId = fieldValue.id
+                  this.getSku(skuId)
+                  this.selectedSkuId = skuId
+                } else {
+                  this.getSkus()
+                }
+              })
+          },
+          methods: {
+            getSku: function(skuId) {
+              axios
+                .get(`${this.endpoint}/api/skus/${skuId}`, {
+                  headers: {
+                    'Accept': 'application/vnd.api+json',
+                    'Authorization': `Bearer ${this.accessToken}`
+                  }
+                })
+                .then(response => {
+                  this.skus.push(response.data.data)
+                })
+            },
+            getSkus: function(url) {
+              if (url === undefined) {
+                url = `${this.endpoint}/api/skus`
+              }
+              axios
+                .get(url, {
+                  params: {
+                    'filter[q][name_or_code_or_reference_cont]': this.query,
+                    'page[size]': 9
+                  },
+                  headers: {
+                    'Accept': 'application/vnd.api+json',
+                    'Authorization': `Bearer ${this.accessToken}`
+                  }
+                })
+                .then(response => {
+                  this.skus = response.data.data
+                  this.links = response.data.links
+                  this.meta = response.data.meta
+                })
+            },
+            prevPage: function() {
+              this.getSkus(this.links.prev)
+            },
+            nextPage: function() {
+              this.getSkus(this.links.next)
+            },
+            selectSku: function(skuId) {
+              this.selectedSkuId = skuId
+              this.setFieldValue()
+            },
+            unselectSku: function() {
+              this.selectedSkuId = null
+              extension.field.setValue(null)
+              this.query = null
+              this.getSkus()
+            },
+            setFieldValue: function() {
+              extension.field.setValue({
+                'id': this.selectedSku.id,
+                'code': this.selectedSku.attributes.code,
+                'link': this.selectedSku.links.self,
+                'mode': this.selectedSku.meta.mode
+              })
+            }
+          },
+          watch: {
+            query: function(newQuery, oldQuery) {
+              this.debouncedGetSkus()
+            }
+          }
+        })
+      })
+    </script>
+  </body>
+</html>

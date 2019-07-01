@@ -1,0 +1,28 @@
+{
+  "id": "commercelayer-sku",
+  "name": "Commerce Layer SKU",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": ["Object"],
+  "parameters": {
+    "instance": [
+      {
+        "id": "clientID",
+        "name": "Client ID",
+        "type": "Symbol",
+        "description": "The Client ID of your application on Commerce Layer"
+      },
+      {
+        "id": "clientSecret",
+        "name": "Client secret",
+        "type": "Symbol",
+        "description": "The Client secret of your application on Commerce Layer"
+      },
+      {
+        "id": "endpoint",
+        "name": "Endpoint",
+        "type": "Symbol",
+        "description": "The Endpoint of your organization on Commerce Layer"
+      }
+    ]
+  }
+}
