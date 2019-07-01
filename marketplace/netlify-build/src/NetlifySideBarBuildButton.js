@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import 'whatwg-fetch';
 import { Button, ValidationMessage } from '@contentful/forma-36-react-components';
 import { normalizeMessage, isOutOfOrder, isDuplicate, messageToState } from './message-processor';
 

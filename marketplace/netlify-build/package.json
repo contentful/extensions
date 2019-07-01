@@ -38,7 +38,8 @@
     "prop-types": "15.7.2",
     "pubnub": "4.21.7",
     "react": "16.8.6",
-    "react-dom": "16.8.6"
+    "react-dom": "16.8.6",
+    "whatwg-fetch": "3.0.0"
   },
   "scripts": {
     "start": "contentful-extension-scripts start",
