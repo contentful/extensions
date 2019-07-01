@@ -60,46 +60,20 @@ export function createPubSub(channel, normalizeFn, publishKey, subscribeKey) {
   }
 
   function publish(message) {
-    return new Promise((resolve, reject) => {
-      state.instance.publish(
-        {
-          message,
-          channel,
-          storeInHistory: true
-        },
-        (status, res) => {
-          if (status.error) {
-            reject(status);
-          } else {
-            resolve(res);
-          }
-        }
-      );
+    return state.instance.publish({
+      message,
+      channel,
+      storeInHistory: true
     });
   }
 
   function getHistory(count = 25) {
-    return new Promise((resolve, reject) => {
-      state.instance.history(
-        {
-          channel,
-          count,
-          stringifiedTimeToken: true
-        },
-        (status, res) => {
-          if (status.error) {
-            reject(status);
-          } else {
-            const history = (res.messages || [])
-              .map(({ timetoken, entry }) => normalize(entry, timetoken, normalizeFn))
-              .filter(isObject)
-              .reverse();
-
-            resolve(history);
-          }
-        }
-      );
-    });
+    return state.instance.history({ channel, count, stringifiedTimeToken: true }).then(res =>
+      (res.messages || [])
+        .map(({ timetoken, entry }) => normalize(entry, timetoken, normalizeFn))
+        .filter(isObject)
+        .reverse()
+    );
   }
 
   function stop() {
