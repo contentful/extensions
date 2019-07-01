@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@contentful/forma-36-react-components/dist/components/Button/index';
-import extension from '../extension.json';
 import Thumbnail from './Thumbnail';
 
 function reducer(state, action) {
@@ -31,7 +30,6 @@ function Field({ sdk }) {
 
   const onBynderDialogOpen = async () => {
     const assets = await sdk.dialogs.openExtension({
-      id: extension.id,
       width: 900,
       title: 'Select images from Bynder',
       shouldCloseOnEscapePress: true,
