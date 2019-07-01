@@ -51,10 +51,6 @@ export default class NetlifyExtension extends React.Component {
   };
 
   render() {
-    if (!this.state.users.length) {
-      return null;
-    }
-
     return (
       <>
         <NeflifySideBarBuildButton
