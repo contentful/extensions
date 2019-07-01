@@ -1,9 +1,11 @@
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import { render, cleanup, wait } from '@testing-library/react';
 import NetlifyExtension from '../src/index.js';
 import { createPubSub } from '../src/pubnub-client';
 
 describe('NetlifyExtension', () => {
+  afterEach(cleanup);
+
   it('should render the NetlifySideBarBuildButton and be interactive', async () => {
     const sdkMock = {
       parameters: {
@@ -66,14 +68,12 @@ describe('NetlifyExtension', () => {
 
     global.PubNub = PubNub;
 
-    const component = TestRenderer.create(
+    const { getByTestId, container } = render(
       <NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />
     );
 
-    const instance = component.getInstance();
+    expect(container).toMatchSnapshot();
 
-    await instance.componentDidMount();
-
-    expect(component.toJSON()).toMatchSnapshot();
+    await wait(() => getByTestId('build-button').disabled === false);
   });
 });

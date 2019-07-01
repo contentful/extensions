@@ -1,58 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NetlifyExtension should render the NetlifySideBarBuildButton and be interactive 1`] = `
-Array [
+<div>
   <div
-    className="css-a9p51s"
+    class="css-a9p51s"
   >
     <button
-      className="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--disabled___1E20M Button__Button--full-width___3Fmpo"
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--disabled___1E20M Button__Button--full-width___3Fmpo"
       data-test-id="cf-ui-button"
-      disabled={true}
-      href={null}
-      onBlur={[Function]}
-      onClick={[Function]}
+      data-testid="build-button"
+      disabled=""
       type="button"
     >
       <span
-        className="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
-        tabIndex={-1}
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
       >
         <span
-          className="Button__Button__label___3tcOj"
+          class="Button__Button__label___3tcOj"
         >
           Build
         </span>
       </span>
     </button>
-  </div>,
+  </div>
   <div
-    className="Select__Select__wrapper___2pBIz Select__Select--full___7ei7d"
+    class="Select__Select__wrapper___2pBIz Select__Select--full___7ei7d"
   >
     <select
-      className="Select__Select___31Z46 a11y__focus-border--default___60AXp"
+      class="Select__Select___31Z46 a11y__focus-border--default___60AXp"
       data-test-id="cf-ui-select"
-      disabled={false}
-      onChange={[Function]}
-      required={false}
     >
       <option
         data-test-id="cf-ui-select-option"
         value="0"
       >
-        upbeat
-         (Netlify app)
+        upbeat (Netlify app)
       </option>
       <option
         data-test-id="cf-ui-select-option"
         value="1"
       >
-        friendly
-         (Netlify app)
+        friendly (Netlify app)
       </option>
     </select>
     <svg
-      className="Icon__Icon___38Epv Select__Select__icon___boRAZ Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+      class="Icon__Icon___38Epv Select__Select__icon___boRAZ Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
       data-test-id="cf-ui-icon"
       height="24"
       viewBox="0 0 24 24"
@@ -67,6 +60,6 @@ Array [
         fill="none"
       />
     </svg>
-  </div>,
-]
+  </div>
+</div>
 `;

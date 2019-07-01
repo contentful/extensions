@@ -9,6 +9,7 @@
     "@babel/preset-env": "7.3.4",
     "@babel/preset-react": "7.0.0",
     "@contentful/contentful-extension-scripts": "0.11.0",
+    "@testing-library/react": "^8.0.4",
     "babel-eslint": "^10.0.2",
     "babel-jest": "^24.8.0",
     "contentful-cli": "0.28.0",
@@ -25,8 +26,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",
     "lint-staged": "^8.2.1",
-    "prettier": "^1.16.4",
-    "react-test-renderer": "^16.8.6"
+    "prettier": "^1.16.4"
   },
   "dependencies": {
     "@contentful/forma-36-fcss": "0.0.20",
