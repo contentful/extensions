@@ -23,8 +23,11 @@ export default class NeflifySideBarBuildButton extends React.Component {
     this.createPubSub();
   }
 
-  componentDidUpdate(newProps) {
-    if (this.props.site !== newProps.site && this.pubsub) {
+  componentDidUpdate(prevProps) {
+    // on initial render we may not get a user array
+    const hasNewUsers = !prevProps.users.length && this.props.users.length;
+
+    if (hasNewUsers || (this.props.site !== prevProps.site && this.pubsub)) {
       this.pubsub.stop();
       this.createPubSub();
     }

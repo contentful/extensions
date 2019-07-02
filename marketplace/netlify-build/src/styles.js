@@ -17,9 +17,13 @@ export default {
     alignItems: 'center',
     justifyContent: 'center'
   }),
+  previewContent: css({
+    display: 'flex',
+    alignContent: 'center'
+  }),
   previewIcon: css({
-    marginTop: 0,
-    marginRight: '5px'
+    marginRight: tokens.spacing2Xs,
+    marginTop: '1px'
   }),
   header: css({
     display: 'flex',

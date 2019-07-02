@@ -55,10 +55,6 @@ export default class NetlifyExtension extends React.Component {
     this.setState({ selectedSiteIndex: parseInt(e.target.value, 10) });
   };
 
-  openPreview = () => {
-    window.open(this.state.sites[this.state.selectedSiteIndex].url);
-  };
-
   render() {
     return (
       <>
@@ -68,15 +64,20 @@ export default class NetlifyExtension extends React.Component {
           site={this.state.sites[this.state.selectedSiteIndex]}
         />
         <Button
-          onClick={this.openPreview}
+          href={this.state.sites[this.state.selectedSiteIndex].url}
+          target="_blank"
+          rel="noopener noreferrer"
           buttonType="muted"
           isFullWidth
           data-testid="preview-button"
           className={styles.previewButton}>
-          <Icon icon="ExternalLink" color="muted" className={styles.previewIcon} />
-          Open preview
+          <div className={styles.previewContent}>
+            <Icon icon="ExternalLink" color="muted" className={styles.previewIcon} />
+            Open preview
+          </div>
         </Button>
         <Select onChange={this.selectSite} data-testid="site-selector">
+          {' '}
           {this.state.sites.map((site, index) => (
             <Option key={site.netlifySiteId} value={`${index}`} data-testid={`option-${index}`}>
               {site.name}

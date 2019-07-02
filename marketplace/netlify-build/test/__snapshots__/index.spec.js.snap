@@ -24,10 +24,13 @@ exports[`NetlifyExtension should render the NetlifySideBarBuildButton 1`] = `
       </span>
     </button>
   </div>
-  <button
+  <a
     class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-1f4d741 Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
     data-test-id="cf-ui-button"
     data-testid="preview-button"
+    href="https://upbeat-kare-a02208.netlify.com"
+    rel="noopener noreferrer"
+    target="_blank"
     type="button"
   >
     <span
@@ -37,26 +40,30 @@ exports[`NetlifyExtension should render the NetlifySideBarBuildButton 1`] = `
       <span
         class="Button__Button__label___3tcOj"
       >
-        <svg
-          class="Icon__Icon___38Epv css-1fho4kq Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
-          data-test-id="cf-ui-icon"
-          height="18"
-          viewBox="0 0 24 24"
-          width="18"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          class="css-1dnzbhn"
         >
-          <path
-            d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
-          />
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-        </svg>
-        Open preview
+          <svg
+            class="Icon__Icon___38Epv css-1qv3o9n Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+            data-test-id="cf-ui-icon"
+            height="18"
+            viewBox="0 0 24 24"
+            width="18"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+          Open preview
+        </div>
       </span>
     </span>
-  </button>
+  </a>
   <div
     class="Select__Select__wrapper___2pBIz Select__Select--full___7ei7d"
   >
@@ -65,6 +72,7 @@ exports[`NetlifyExtension should render the NetlifySideBarBuildButton 1`] = `
       data-test-id="cf-ui-select"
       data-testid="site-selector"
     >
+       
       <option
         data-test-id="cf-ui-select-option"
         data-testid="option-0"
@@ -141,10 +149,13 @@ exports[`NetlifyExtension should should show a building message when a build is 
       </span>
     </button>
   </div>
-  <button
+  <a
     class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-1f4d741 Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
     data-test-id="cf-ui-button"
     data-testid="preview-button"
+    href="https://upbeat-kare-a02208.netlify.com"
+    rel="noopener noreferrer"
+    target="_blank"
     type="button"
   >
     <span
@@ -154,26 +165,30 @@ exports[`NetlifyExtension should should show a building message when a build is 
       <span
         class="Button__Button__label___3tcOj"
       >
-        <svg
-          class="Icon__Icon___38Epv css-1fho4kq Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
-          data-test-id="cf-ui-icon"
-          height="18"
-          viewBox="0 0 24 24"
-          width="18"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          class="css-1dnzbhn"
         >
-          <path
-            d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
-          />
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-        </svg>
-        Open preview
+          <svg
+            class="Icon__Icon___38Epv css-1qv3o9n Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+            data-test-id="cf-ui-icon"
+            height="18"
+            viewBox="0 0 24 24"
+            width="18"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+          Open preview
+        </div>
       </span>
     </span>
-  </button>
+  </a>
   <div
     class="Select__Select__wrapper___2pBIz Select__Select--full___7ei7d"
   >
@@ -182,6 +197,7 @@ exports[`NetlifyExtension should should show a building message when a build is 
       data-test-id="cf-ui-select"
       data-testid="site-selector"
     >
+       
       <option
         data-test-id="cf-ui-select-option"
         data-testid="option-0"
@@ -258,10 +274,13 @@ exports[`NetlifyExtension should should show a clickable build button when build
       </span>
     </button>
   </div>
-  <button
+  <a
     class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-1f4d741 Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
     data-test-id="cf-ui-button"
     data-testid="preview-button"
+    href="https://upbeat-kare-a02208.netlify.com"
+    rel="noopener noreferrer"
+    target="_blank"
     type="button"
   >
     <span
@@ -271,26 +290,30 @@ exports[`NetlifyExtension should should show a clickable build button when build
       <span
         class="Button__Button__label___3tcOj"
       >
-        <svg
-          class="Icon__Icon___38Epv css-1fho4kq Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
-          data-test-id="cf-ui-icon"
-          height="18"
-          viewBox="0 0 24 24"
-          width="18"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          class="css-1dnzbhn"
         >
-          <path
-            d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
-          />
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-        </svg>
-        Open preview
+          <svg
+            class="Icon__Icon___38Epv css-1qv3o9n Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+            data-test-id="cf-ui-icon"
+            height="18"
+            viewBox="0 0 24 24"
+            width="18"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+          Open preview
+        </div>
       </span>
     </span>
-  </button>
+  </a>
   <div
     class="Select__Select__wrapper___2pBIz Select__Select--full___7ei7d"
   >
@@ -299,6 +322,7 @@ exports[`NetlifyExtension should should show a clickable build button when build
       data-test-id="cf-ui-select"
       data-testid="site-selector"
     >
+       
       <option
         data-test-id="cf-ui-select-option"
         data-testid="option-0"
@@ -380,10 +404,13 @@ exports[`NetlifyExtension should should show a triggering message when a build i
       Triggered about 2 hours ago at 12:04:59 PM.
     </div>
   </div>
-  <button
+  <a
     class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-1f4d741 Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
     data-test-id="cf-ui-button"
     data-testid="preview-button"
+    href="https://upbeat-kare-a02208.netlify.com"
+    rel="noopener noreferrer"
+    target="_blank"
     type="button"
   >
     <span
@@ -393,26 +420,30 @@ exports[`NetlifyExtension should should show a triggering message when a build i
       <span
         class="Button__Button__label___3tcOj"
       >
-        <svg
-          class="Icon__Icon___38Epv css-1fho4kq Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
-          data-test-id="cf-ui-icon"
-          height="18"
-          viewBox="0 0 24 24"
-          width="18"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          class="css-1dnzbhn"
         >
-          <path
-            d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
-          />
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-        </svg>
-        Open preview
+          <svg
+            class="Icon__Icon___38Epv css-1qv3o9n Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+            data-test-id="cf-ui-icon"
+            height="18"
+            viewBox="0 0 24 24"
+            width="18"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+          Open preview
+        </div>
       </span>
     </span>
-  </button>
+  </a>
   <div
     class="Select__Select__wrapper___2pBIz Select__Select--full___7ei7d"
   >
@@ -421,6 +452,7 @@ exports[`NetlifyExtension should should show a triggering message when a build i
       data-test-id="cf-ui-select"
       data-testid="site-selector"
     >
+       
       <option
         data-test-id="cf-ui-select-option"
         data-testid="option-0"

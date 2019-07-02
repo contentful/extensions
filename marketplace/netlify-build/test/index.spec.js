@@ -99,22 +99,20 @@ describe('NetlifyExtension', () => {
   it('should open the preview window with correct URL', async () => {
     const { getByTestId } = render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
 
-    const openMock = jest.fn();
-    global.open = openMock;
-
-    // click with initial preview url selected
-    getByTestId('preview-button').click();
+    expect(getByTestId('preview-button').href).toEqual('https://upbeat-kare-a02208.netlify.com/');
 
     // select second preview url
     fireEvent.change(getByTestId('site-selector'), { target: { value: '1' } });
 
-    // click to preivew the second url
-    getByTestId('preview-button').click();
+    expect(getByTestId('preview-button').href).toEqual(
+      'https://friendly-easley-6bcf4a.netlify.com/'
+    );
 
-    expect(openMock.mock.calls[0][0]).toEqual('https://upbeat-kare-a02208.netlify.com');
-    expect(openMock.mock.calls[1][0]).toEqual('https://friendly-easley-6bcf4a.netlify.com');
+    // should ensure some basic security practices
+    expect(getByTestId('preview-button').rel).toEqual('noopener noreferrer');
 
-    expect(openMock).toHaveBeenCalledTimes(2);
+    // should open in new window
+    expect(getByTestId('preview-button').target).toEqual('_blank');
   });
 
   it('should subscribe to the correct channels', async () => {
