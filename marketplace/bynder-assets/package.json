@@ -8,8 +8,9 @@
     "@babel/plugin-transform-runtime": "7.3.4",
     "@babel/preset-env": "7.3.4",
     "@babel/preset-react": "7.0.0",
-    "@contentful/contentful-extension-scripts": "0.11.0",
-    "contentful-cli": "0.29.0"
+    "@contentful/contentful-extension-scripts": "0.12.0",
+    "@testing-library/react": "8.0.4",
+    "contentful-cli": "0.33.2"
   },
   "dependencies": {
     "@contentful/forma-36-fcss": "0.0.20",
@@ -24,6 +25,8 @@
     "start": "contentful-extension-scripts start",
     "build": "contentful-extension-scripts build",
     "deploy": "npm run build && contentful extension update --force",
+    "test": "contentful-extension-scripts test --env=jsdom --watch",
+    "test:coverage": "contentful-extension-scripts test --env=jsdom --coverage --passWithNoTests",
     "login": "contentful login",
     "configure": "contentful space use && contentful space environment use",
     "logout": "contentful logout",
