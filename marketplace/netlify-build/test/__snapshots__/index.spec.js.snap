@@ -99,3 +99,359 @@ exports[`NetlifyExtension should render the NetlifySideBarBuildButton 1`] = `
   </div>
 </div>
 `;
+
+exports[`NetlifyExtension should should show a building message when a build is building 1`] = `
+<div>
+  <div
+    class="css-a9p51s"
+  >
+    <button
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--disabled___1E20M Button__Button--full-width___3Fmpo"
+      data-test-id="cf-ui-button"
+      data-testid="build-button"
+      disabled=""
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <span
+          class="Button__Button__label___3tcOj"
+        >
+          Building...
+        </span>
+        <svg
+          class="Spinner__Spinner___32lpa Button__Button__spinner___3j8Aj Spinner__Spinner--small___2hyo0 Spinner__Spinner--white___3Hsq3 Button__Button--spinner--enter___1qgg7 Button__Button--spinner-active___EEKjQ"
+          data-test-id="cf-ui-spinner"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>
+            Loading…
+          </title>
+          <path
+            d="M2,10a8,8,0,0,1,8-8V0a10,10,0,0,0,0,20V18A8,8,0,0,1,2,10Z"
+          />
+          <path
+            d="M10,0V2a8,8,0,0,1,0,16v2A10,10,0,0,0,10,0Z"
+            style="opacity: 0.4;"
+          />
+        </svg>
+      </span>
+    </button>
+  </div>
+  <button
+    class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-1f4d741 Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
+    data-test-id="cf-ui-button"
+    data-testid="preview-button"
+    type="button"
+  >
+    <span
+      class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+      tabindex="-1"
+    >
+      <span
+        class="Button__Button__label___3tcOj"
+      >
+        <svg
+          class="Icon__Icon___38Epv css-1fho4kq Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+          data-test-id="cf-ui-icon"
+          height="18"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+        Open preview
+      </span>
+    </span>
+  </button>
+  <div
+    class="Select__Select__wrapper___2pBIz Select__Select--full___7ei7d"
+  >
+    <select
+      class="Select__Select___31Z46 a11y__focus-border--default___60AXp"
+      data-test-id="cf-ui-select"
+      data-testid="site-selector"
+    >
+      <option
+        data-test-id="cf-ui-select-option"
+        data-testid="option-0"
+        value="0"
+      >
+        upbeat
+      </option>
+      <option
+        data-test-id="cf-ui-select-option"
+        data-testid="option-1"
+        value="1"
+      >
+        friendly
+      </option>
+    </select>
+    <svg
+      class="Icon__Icon___38Epv Select__Select__icon___boRAZ Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+      data-test-id="cf-ui-icon"
+      height="24"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M7 10l5 5 5-5z"
+      />
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+      />
+    </svg>
+  </div>
+</div>
+`;
+
+exports[`NetlifyExtension should should show a clickable build button when build is ready 1`] = `
+<div>
+  <div
+    class="css-a9p51s"
+  >
+    <button
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--disabled___1E20M Button__Button--full-width___3Fmpo"
+      data-test-id="cf-ui-button"
+      data-testid="build-button"
+      disabled=""
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <span
+          class="Button__Button__label___3tcOj"
+        >
+          Building...
+        </span>
+        <svg
+          class="Spinner__Spinner___32lpa Button__Button__spinner___3j8Aj Spinner__Spinner--small___2hyo0 Spinner__Spinner--white___3Hsq3 Button__Button--spinner--enter___1qgg7 Button__Button--spinner-active___EEKjQ"
+          data-test-id="cf-ui-spinner"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>
+            Loading…
+          </title>
+          <path
+            d="M2,10a8,8,0,0,1,8-8V0a10,10,0,0,0,0,20V18A8,8,0,0,1,2,10Z"
+          />
+          <path
+            d="M10,0V2a8,8,0,0,1,0,16v2A10,10,0,0,0,10,0Z"
+            style="opacity: 0.4;"
+          />
+        </svg>
+      </span>
+    </button>
+  </div>
+  <button
+    class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-1f4d741 Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
+    data-test-id="cf-ui-button"
+    data-testid="preview-button"
+    type="button"
+  >
+    <span
+      class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+      tabindex="-1"
+    >
+      <span
+        class="Button__Button__label___3tcOj"
+      >
+        <svg
+          class="Icon__Icon___38Epv css-1fho4kq Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+          data-test-id="cf-ui-icon"
+          height="18"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+        Open preview
+      </span>
+    </span>
+  </button>
+  <div
+    class="Select__Select__wrapper___2pBIz Select__Select--full___7ei7d"
+  >
+    <select
+      class="Select__Select___31Z46 a11y__focus-border--default___60AXp"
+      data-test-id="cf-ui-select"
+      data-testid="site-selector"
+    >
+      <option
+        data-test-id="cf-ui-select-option"
+        data-testid="option-0"
+        value="0"
+      >
+        upbeat
+      </option>
+      <option
+        data-test-id="cf-ui-select-option"
+        data-testid="option-1"
+        value="1"
+      >
+        friendly
+      </option>
+    </select>
+    <svg
+      class="Icon__Icon___38Epv Select__Select__icon___boRAZ Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+      data-test-id="cf-ui-icon"
+      height="24"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M7 10l5 5 5-5z"
+      />
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+      />
+    </svg>
+  </div>
+</div>
+`;
+
+exports[`NetlifyExtension should should show a triggering message when a build is triggered 1`] = `
+<div>
+  <div
+    class="css-a9p51s"
+  >
+    <button
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--disabled___1E20M Button__Button--full-width___3Fmpo"
+      data-test-id="cf-ui-button"
+      data-testid="build-button"
+      disabled=""
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <span
+          class="Button__Button__label___3tcOj"
+        >
+          Triggering...
+        </span>
+        <svg
+          class="Spinner__Spinner___32lpa Button__Button__spinner___3j8Aj Spinner__Spinner--small___2hyo0 Spinner__Spinner--white___3Hsq3 Button__Button--spinner--enter___1qgg7 Button__Button--spinner-active___EEKjQ"
+          data-test-id="cf-ui-spinner"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>
+            Loading…
+          </title>
+          <path
+            d="M2,10a8,8,0,0,1,8-8V0a10,10,0,0,0,0,20V18A8,8,0,0,1,2,10Z"
+          />
+          <path
+            d="M10,0V2a8,8,0,0,1,0,16v2A10,10,0,0,0,10,0Z"
+            style="opacity: 0.4;"
+          />
+        </svg>
+      </span>
+    </button>
+    <div
+      class="css-fvpxna"
+    >
+      Triggered about 2 hours ago at 12:04:59 PM.
+    </div>
+  </div>
+  <button
+    class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-1f4d741 Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
+    data-test-id="cf-ui-button"
+    data-testid="preview-button"
+    type="button"
+  >
+    <span
+      class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+      tabindex="-1"
+    >
+      <span
+        class="Button__Button__label___3tcOj"
+      >
+        <svg
+          class="Icon__Icon___38Epv css-1fho4kq Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+          data-test-id="cf-ui-icon"
+          height="18"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+        Open preview
+      </span>
+    </span>
+  </button>
+  <div
+    class="Select__Select__wrapper___2pBIz Select__Select--full___7ei7d"
+  >
+    <select
+      class="Select__Select___31Z46 a11y__focus-border--default___60AXp"
+      data-test-id="cf-ui-select"
+      data-testid="site-selector"
+    >
+      <option
+        data-test-id="cf-ui-select-option"
+        data-testid="option-0"
+        value="0"
+      >
+        upbeat
+      </option>
+      <option
+        data-test-id="cf-ui-select-option"
+        data-testid="option-1"
+        value="1"
+      >
+        friendly
+      </option>
+    </select>
+    <svg
+      class="Icon__Icon___38Epv Select__Select__icon___boRAZ Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+      data-test-id="cf-ui-icon"
+      height="24"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M7 10l5 5 5-5z"
+      />
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+      />
+    </svg>
+  </div>
+</div>
+`;

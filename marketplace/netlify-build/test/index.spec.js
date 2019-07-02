@@ -7,14 +7,20 @@ const mockaddListener = jest.fn();
 const mocksubscribe = jest.fn();
 const mockpublish = jest.fn();
 const mockhistory = jest.fn(() =>
-  Promise.resolve([
-    {
-      event: 'triggered',
-      userId: '2jvc3kU4n7OIABiFMTaGyB',
-      userName: null,
-      t: '2019-07-02T12:04:59.000Z'
-    }
-  ])
+  Promise.resolve({
+    messages: [
+      {
+        timetoken: '15620690994438613',
+        entry: {
+          contentful: true,
+          event: 'triggered',
+          userId: '2jvc3kU4n7OIABiFMTaGyB'
+        }
+      }
+    ],
+    startTimeToken: '15620690994438613',
+    endTimeToken: '15620690994438613'
+  })
 );
 
 jest.mock('pubnub', () => {
@@ -123,16 +129,94 @@ describe('NetlifyExtension', () => {
     });
   });
 
-  it('should trigger a build', async () => {
-    const { getByTestId } = render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
+  it('should should show a triggering message when a build is triggered', async () => {
+    const { getByTestId, container } = render(
+      <NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />
+    );
 
     await wait();
-    getByTestId('build-button').click();
+    expect(container).toMatchSnapshot();
 
-    expect(mockpublish).toHaveBeenCalledWith({
-      channel: '5d19c2c1b359da07eca189af',
-      message: { contentful: true, event: 'triggered', userId: 'test-id' },
-      storeInHistory: true
-    });
+    getByTestId('build-button').click();
+  });
+
+  it('should should show a building message when a build is building', async () => {
+    mockhistory.mockReturnValue(
+      Promise.resolve({
+        messages: [
+          {
+            timetoken: '15620690994438613',
+            entry: {
+              contentful: true,
+              event: 'triggered',
+              userId: '2jvc3kU4n7OIABiFMTaGyB'
+            }
+          },
+          {
+            timetoken: '15620690994438653',
+            entry: {
+              contentful: true,
+              event: 'build-started',
+              userId: '2jvc3kU4n7OIABiFMTaGyB'
+            }
+          }
+        ],
+        startTimeToken: '15620690994438613',
+        endTimeToken: '15620690994438653'
+      })
+    );
+
+    const { getByTestId, container } = render(
+      <NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />
+    );
+
+    await wait();
+    expect(container).toMatchSnapshot();
+
+    getByTestId('build-button').click();
+  });
+
+  it('should should show a clickable build button when build is ready', async () => {
+    mockhistory.mockReturnValue(
+      Promise.resolve({
+        messages: [
+          {
+            timetoken: '15620690994438613',
+            entry: {
+              contentful: true,
+              event: 'triggered',
+              userId: '2jvc3kU4n7OIABiFMTaGyB'
+            }
+          },
+          {
+            timetoken: '15620690994438653',
+            entry: {
+              contentful: true,
+              event: 'build-started',
+              userId: '2jvc3kU4n7OIABiFMTaGyB'
+            }
+          },
+          {
+            timetoken: '15620690994438693',
+            entry: {
+              contentful: true,
+              event: 'build-ready',
+              userId: '2jvc3kU4n7OIABiFMTaGyB'
+            }
+          }
+        ],
+        startTimeToken: '15620690994438613',
+        endTimeToken: '15620690994438693'
+      })
+    );
+
+    const { getByTestId, container } = render(
+      <NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />
+    );
+
+    await wait();
+    expect(container).toMatchSnapshot();
+
+    getByTestId('build-button').click();
   });
 });
