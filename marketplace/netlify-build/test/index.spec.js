@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, wait } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import NetlifyExtension from '../src/index.js';
 import { createPubSub } from '../src/pubnub-client';
 
@@ -52,28 +52,24 @@ describe('NetlifyExtension', () => {
       }
     };
 
-    const addListener = jest.fn();
-    const subscribe = jest.fn();
-    const publish = jest.fn();
-    const history = jest.fn();
+    jest.mock('pubnub', () => {
+      const addListener = jest.fn();
+      const subscribe = jest.fn();
+      const publish = jest.fn();
+      const history = jest.fn();
 
-    const PubNub = jest.fn(() => ({
-      addListener,
-      subscribe,
-      publish,
-      history,
-      removeListener: jest.fn(),
-      unsubscribe: jest.fn()
-    }));
+      return jest.fn(() => ({
+        addListener,
+        subscribe,
+        publish,
+        history,
+        removeListener: jest.fn(),
+        unsubscribe: jest.fn()
+      }));
+    });
 
-    global.PubNub = PubNub;
-
-    const { getByTestId, container } = render(
-      <NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />
-    );
+    const { container } = render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
 
     expect(container).toMatchSnapshot();
-
-    await wait(() => getByTestId('build-button').disabled === false);
   });
 });
