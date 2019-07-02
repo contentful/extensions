@@ -1,22 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import * as Enzyme from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 import 'isomorphic-fetch';
 
 import * as React from 'react';
 import { mount } from 'enzyme';
-import * as nock from 'nock';
 
 import { App } from '../src';
 
 Enzyme.configure({ adapter: new Adapter() });
-
-const scope = nock('https://api.mux.com')
-  .get('/video/v1/uploads/1234')
-  .reply(200, {
-    data: {
-      id: '1234',
-    },
-  });
 
 const SDK_MOCK = {
   parameters: {
