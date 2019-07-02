@@ -2,71 +2,165 @@
 // import PropTypes from 'prop-types';
 // import ReactDOM from 'react-dom';
 // import { TextInput } from '@contentful/forma-36-react-components';
-// import { init } from 'contentful-ui-extensions-sdk';
+import { init } from 'contentful-ui-extensions-sdk';
+import axios from 'axios';
 import './index.css';
 
-// class App extends React.Component {
-//   static propTypes = {
-//     sdk: PropTypes.object.isRequired
-//   };
+init(function(extension) {
+  extension.window.startAutoResizer();
 
-//   detachExternalChangeHandler = null;
+  // Available SKU component
+  Vue.component('sku-item', {
+    props: ['sku', 'endpoint'],
+    template: `<div class="column is-one-third">
+            <div class="sku" @click="selectSku">
+              <img :src="sku.attributes.image_url"></img>
+              <p class="name">{{ sku.attributes.name }}</p>
+              <p class="help">{{ sku.attributes.code }}</p>
+            </div>
+          </div>`,
+    methods: {
+      selectSku: function() {
+        this.$emit('select-sku', this.sku.id);
+      }
+    }
+  });
 
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       value: props.sdk.field.getValue()
-//     };
-//   }
+  // Selected SKU component
+  Vue.component('sku-selected', {
+    props: ['sku', 'endpoint'],
+    template: `<div class="column is-one-third">
+            <div class="selected-sku">
+              <img :src="sku.attributes.image_url"></img>
+              <p class="name">{{ sku.attributes.name }}</p>
+              <p class="help">{{ sku.attributes.code }}</p>
+              <p class="help">
+                <a :href="skuEditURL" target="_blank">Edit</a>
+                &middot;
+                <a @click="unselectSku" class="has-text-danger">Remove</a>
+              </p>
+            </div>
+          </div>`,
+    methods: {
+      unselectSku: function() {
+        this.$emit('unselect-sku');
+      }
+    },
+    computed: {
+      skuEditURL() {
+        return `${this.endpoint}/admin/skus/${this.sku.id}/edit`;
+      }
+    }
+  });
 
-//   componentDidMount() {
-//     this.props.sdk.window.startAutoResizer();
+  const app = new Vue({
+    el: '#app',
+    data: {
+      accessToken: null,
+      endpoint: null,
+      query: null,
+      selectedSkuId: null,
+      skus: [],
+      links: {},
+      meta: {}
+    },
+    computed: {
+      selectedSku() {
+        return _.find(this.skus, sku => {
+          return sku.id === this.selectedSkuId;
+        });
+      }
+    },
+    created: function() {
+      // Set endpoint
+      this.endpoint = extension.parameters.instance.endpoint;
 
-//     // Handler for external field value changes (e.g. when multiple authors are working on the same entry).
-//     this.detachExternalChangeHandler = this.props.sdk.field.onValueChanged(this.onExternalChange);
-//   }
+      // Assign the debounced function
+      this.debouncedGetSkus = _.debounce(this.getSkus, 500);
 
-//   componentWillUnmount() {
-//     if (this.detachExternalChangeHandler) {
-//       this.detachExternalChangeHandler();
-//     }
-//   }
-
-//   onExternalChange = value => {
-//     this.setState({ value });
-//   };
-
-//   onChange = e => {
-//     const value = e.currentTarget.value;
-//     this.setState({ value });
-//     if (value) {
-//       this.props.sdk.field.setValue(value);
-//     } else {
-//       this.props.sdk.field.removeValue();
-//     }
-//   };
-
-//   render() {
-//     return (
-//       <TextInput
-//         width="large"
-//         type="text"
-//         id="my-field"
-//         value={this.state.value}
-//         onChange={this.onChange}
-//       />
-//     );
-//   }
-// }
-
-// init(sdk => {
-//   ReactDOM.render(<App sdk={sdk} />, document.getElementById('root'));
-// });
-
-// /**
-//  * By default, iframe of the extension is fully reloaded on every save of a source file.
-//  * If you want to use HMR (hot module reload) instead of full reload, uncomment the following lines
-//  */
-// // if (module.hot) {
-// //   module.hot.accept();
-// // }
+      // Get an access token (valid for 2 hours)
+      // Get the selected SKU or the list of all SKUs
+      axios
+        .post(`${this.endpoint}/oauth/token`, {
+          grant_type: 'client_credentials',
+          client_id: extension.parameters.instance.clientID,
+          client_secret: extension.parameters.instance.clientSecret
+        })
+        .then(response => {
+          this.accessToken = response.data.access_token;
+          const fieldValue = extension.field.getValue();
+          if (fieldValue) {
+            const skuId = fieldValue.id;
+            this.getSku(skuId);
+            this.selectedSkuId = skuId;
+          } else {
+            this.getSkus();
+          }
+        });
+    },
+    methods: {
+      getSku: function(skuId) {
+        axios
+          .get(`${this.endpoint}/api/skus/${skuId}`, {
+            headers: {
+              Accept: 'application/vnd.api+json',
+              Authorization: `Bearer ${this.accessToken}`
+            }
+          })
+          .then(response => {
+            this.skus.push(response.data.data);
+          });
+      },
+      getSkus: function(url) {
+        if (url === undefined) {
+          url = `${this.endpoint}/api/skus`;
+        }
+        axios
+          .get(url, {
+            params: {
+              'filter[q][name_or_code_or_reference_cont]': this.query,
+              'page[size]': 9
+            },
+            headers: {
+              Accept: 'application/vnd.api+json',
+              Authorization: `Bearer ${this.accessToken}`
+            }
+          })
+          .then(response => {
+            this.skus = response.data.data;
+            this.links = response.data.links;
+            this.meta = response.data.meta;
+          });
+      },
+      prevPage: function() {
+        this.getSkus(this.links.prev);
+      },
+      nextPage: function() {
+        this.getSkus(this.links.next);
+      },
+      selectSku: function(skuId) {
+        this.selectedSkuId = skuId;
+        this.setFieldValue();
+      },
+      unselectSku: function() {
+        this.selectedSkuId = null;
+        extension.field.setValue(null);
+        this.query = null;
+        this.getSkus();
+      },
+      setFieldValue: function() {
+        extension.field.setValue({
+          id: this.selectedSku.id,
+          code: this.selectedSku.attributes.code,
+          link: this.selectedSku.links.self,
+          mode: this.selectedSku.meta.mode
+        });
+      }
+    },
+    watch: {
+      query: function(newQuery, oldQuery) {
+        this.debouncedGetSkus();
+      }
+    }
+  });
+});
