@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NetlifyExtension should render the NetlifySideBarBuildButton and be interactive 1`] = `
+exports[`NetlifyExtension should render the NetlifySideBarBuildButton 1`] = `
 <div>
   <div
     class="css-a9p51s"
@@ -27,6 +27,7 @@ exports[`NetlifyExtension should render the NetlifySideBarBuildButton and be int
   <button
     class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-1f4d741 Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
     data-test-id="cf-ui-button"
+    data-testid="preview-button"
     type="button"
   >
     <span
@@ -62,15 +63,18 @@ exports[`NetlifyExtension should render the NetlifySideBarBuildButton and be int
     <select
       class="Select__Select___31Z46 a11y__focus-border--default___60AXp"
       data-test-id="cf-ui-select"
+      data-testid="site-selector"
     >
       <option
         data-test-id="cf-ui-select-option"
+        data-testid="option-0"
         value="0"
       >
         upbeat
       </option>
       <option
         data-test-id="cf-ui-select-option"
+        data-testid="option-1"
         value="1"
       >
         friendly

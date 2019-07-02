@@ -71,13 +71,14 @@ export default class NetlifyExtension extends React.Component {
           onClick={this.openPreview}
           buttonType="muted"
           isFullWidth
+          data-testid="preview-button"
           className={styles.previewButton}>
           <Icon icon="ExternalLink" color="muted" className={styles.previewIcon} />
           Open preview
         </Button>
-        <Select onChange={this.selectSite}>
+        <Select onChange={this.selectSite} data-testid="site-selector">
           {this.state.sites.map((site, index) => (
-            <Option key={site.netlifySiteId} value={`${index}`}>
+            <Option key={site.netlifySiteId} value={`${index}`} data-testid={`option-${index}`}>
               {site.name}
             </Option>
           ))}
