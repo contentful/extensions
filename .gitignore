@@ -6,5 +6,6 @@ npm-debug.log
 samples/.vscode/settings.json
 .idea/
 coverage/
+.coverage/
 .contentfulrc.json
 marketplace/**/build/
