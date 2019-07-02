@@ -37,6 +37,11 @@ jest.mock('pubnub', () => {
   };
 });
 
+
+// date-fns provides functions such as `distanceInWordsToNow` which will change as the time changes
+// it is necessary to ensure the date will remain the same no matter when these tests are run
+global.Date.now = jest.fn(() => 1562082624100);
+
 const sdkMock = {
   parameters: {
     instance: {},
@@ -164,7 +169,7 @@ describe('NetlifyExtension', () => {
       })
     );
 
-    const { getByTestId, container } = render(
+    const { container } = render(
       <NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />
     );
 
@@ -206,7 +211,7 @@ describe('NetlifyExtension', () => {
       })
     );
 
-    const { getByTestId, container } = render(
+    const { container } = render(
       <NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />
     );
 
