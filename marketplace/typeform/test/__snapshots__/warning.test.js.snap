@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Warning renders correctly 1`] = `
+<div
+  className="typography"
+>
+  <div
+    className="paragraph"
+  >
+    <div
+      className="f36-margin-right--xs"
+      color="warning"
+      icon="Warning"
+    />
+    A warning
+  </div>
+</div>
+`;
+
+exports[`Warning renders correctly with different color 1`] = `
+<div
+  className="typography"
+>
+  <div
+    className="paragraph"
+  >
+    <div
+      className="f36-margin-right--xs"
+      color="negative"
+      icon="Warning"
+    />
+    A more severe warning
+  </div>
+</div>
+`;
