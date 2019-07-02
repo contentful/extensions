@@ -1,14 +1,11 @@
-// import React from 'react';
-// import PropTypes from 'prop-types';
-// import ReactDOM from 'react-dom';
-// import { TextInput } from '@contentful/forma-36-react-components';
 import { init } from 'contentful-ui-extensions-sdk';
 import debounce from 'lodash/debounce';
 import find from 'lodash/find';
 import axios from 'axios';
+import Vue from 'vue/dist/vue.esm.js';
 import './index.css';
 import 'contentful-ui-extensions-sdk/dist/cf-extension.css';
-import 'bulma/css/bulma.css'
+import 'bulma/css/bulma.css';
 
 init(function(extension) {
   extension.window.startAutoResizer();
@@ -57,7 +54,7 @@ init(function(extension) {
     }
   });
 
-  const app = new Vue({
+  new Vue({
     el: '#app',
     data: {
       accessToken: null,
