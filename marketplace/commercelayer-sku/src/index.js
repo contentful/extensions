@@ -3,8 +3,12 @@
 // import ReactDOM from 'react-dom';
 // import { TextInput } from '@contentful/forma-36-react-components';
 import { init } from 'contentful-ui-extensions-sdk';
+import debounce from 'lodash/debounce';
+import find from 'lodash/find';
 import axios from 'axios';
 import './index.css';
+import 'contentful-ui-extensions-sdk/dist/cf-extension.css';
+import 'bulma/css/bulma.css'
 
 init(function(extension) {
   extension.window.startAutoResizer();
@@ -66,7 +70,7 @@ init(function(extension) {
     },
     computed: {
       selectedSku() {
-        return _.find(this.skus, sku => {
+        return find(this.skus, sku => {
           return sku.id === this.selectedSkuId;
         });
       }
@@ -76,7 +80,7 @@ init(function(extension) {
       this.endpoint = extension.parameters.instance.endpoint;
 
       // Assign the debounced function
-      this.debouncedGetSkus = _.debounce(this.getSkus, 500);
+      this.debouncedGetSkus = debounce(this.getSkus, 500);
 
       // Get an access token (valid for 2 hours)
       // Get the selected SKU or the list of all SKUs
@@ -158,7 +162,7 @@ init(function(extension) {
       }
     },
     watch: {
-      query: function(newQuery, oldQuery) {
+      query: function() {
         this.debouncedGetSkus();
       }
     }
