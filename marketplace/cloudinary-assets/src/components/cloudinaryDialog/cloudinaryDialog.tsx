@@ -15,7 +15,7 @@ export default class CloudinaryDialog extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      config: props.sdk.parameters.invocation as any
+      config: props.sdk.parameters.invocation as any,
     };
   }
 
@@ -34,17 +34,17 @@ export default class CloudinaryDialog extends React.Component<Props, State> {
       max_files: this.state.config.maxFiles,
       multiple: this.state.config.maxFiles > 1,
       inline_container: '#root',
-      remove_header: true
+      remove_header: true,
     };
 
     return cloudinary.createMediaLibrary(options, {
-      insertHandler: data => {
+      insertHandler: (data: any) => {
         this.props.sdk.close(data);
-      }
+      },
     });
   }
 
   render() {
-    return <span></span>;
+    return <span />;
   }
 }

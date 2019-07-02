@@ -15,7 +15,14 @@ import Player from './player';
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 interface AppProps {
-  sdk: FieldExtensionSDK;
+  sdk: FieldExtensionSDK & {
+    parameters: {
+      installation: {
+        muxAccessTokenId: string;
+        muxAccessTokenSecret: string;
+      };
+    };
+  };
 }
 
 interface MuxContentfulObject {
@@ -32,6 +39,8 @@ interface AppState {
   error: string | false;
 }
 
+interface InstallationParams {}
+
 export class App extends React.Component<AppProps, AppState> {
   muxBaseReqOptions: {
     mode: 'cors' | 'no-cors';
@@ -41,11 +50,10 @@ export class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
 
-    const { muxAccessTokenId, muxAccessTokenSecret } = this.props.sdk.parameters
-      .installation as {
-      muxAccessTokenId: string;
-      muxAccessTokenSecret: string;
-    };
+    const {
+      muxAccessTokenId,
+      muxAccessTokenSecret,
+    } = this.props.sdk.parameters.installation;
 
     this.muxBaseReqOptions = {
       mode: 'cors',

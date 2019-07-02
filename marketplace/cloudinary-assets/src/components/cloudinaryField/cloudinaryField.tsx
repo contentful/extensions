@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { Button } from '@contentful/forma-36-react-components';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
-import { ExtensionParameters, CloudinaryResponse, CloudinaryResource } from '../../interface';
+import {
+  ExtensionParameters,
+  CloudinaryResponse,
+  CloudinaryResource,
+} from '../../interface';
 import { SortableComponent } from '../sortable/sortable';
 
 interface Props {
@@ -18,7 +22,7 @@ export class CloudinaryField extends React.Component<Props, State> {
     super(props);
     this.state = {
       value: props.sdk.field.getValue() || [],
-      config: props.sdk.parameters.instance as any
+      config: props.sdk.parameters.instance as any,
     };
   }
 
@@ -28,7 +32,9 @@ export class CloudinaryField extends React.Component<Props, State> {
     this.props.sdk.window.startAutoResizer();
 
     // Handler for external field value changes (e.g. when multiple authors are working on the same entry).
-    this.detachExternalChangeHandler = this.props.sdk.field.onValueChanged(this.onExternalChange);
+    this.detachExternalChangeHandler = this.props.sdk.field.onValueChanged(
+      this.onExternalChange
+    );
   }
 
   componentWillUnmount() {
@@ -60,7 +66,7 @@ export class CloudinaryField extends React.Component<Props, State> {
         shouldCloseOnOverlayClick: true,
         shouldCloseOnEscapePress: true,
         parameters: { ...this.state.config, maxFiles: maxSelectableFiles },
-        width: 1100
+        width: 1100,
       })
       .then(this.handleCloudinaryData);
   };
@@ -88,7 +94,11 @@ export class CloudinaryField extends React.Component<Props, State> {
             buttonType="muted"
             size="small"
             onClick={this.onCloudinaryDialogOpen}
-            disabled={this.state.value && this.state.value.length >= this.state.config.maxFiles}>
+            disabled={
+              this.state.value &&
+              this.state.value.length >= this.state.config.maxFiles
+            }
+          >
             {this.state.config.btnTxt}
           </Button>
         </div>

@@ -9,6 +9,7 @@
     "@contentful/eslint-config-extension": "0.0.2-alpha.61",
     "eslint-plugin-node": "9.1.0",
     "husky": "^3.0.0",
+    "fs-extra": "8.1.0",
     "lerna": "^3.15.0",
     "lint-staged": "^9.0.1",
     "log-symbols": "^2.2.0",
@@ -21,11 +22,11 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "bootstrap": "lerna bootstrap",
-    "prettier": "prettier marketplace/**/*.js scripts/**/*.js --write --ignore-path .gitignore",
-    "prettier-check": "prettier marketplace/**/*.js scripts/**/*.js --check --ignore-path .gitignore",
+    "prettier": "prettier marketplace/**/*.{js,jsx,ts,tsx} scripts/**/*.js --write --ignore-path .gitignore",
+    "prettier-check": "prettier marketplace/**/*.{js,jsx,ts,tsx} scripts/**/*.js --check --ignore-path .gitignore",
     "build": "lerna run build --concurrency 2 -- -- --no-inline && node ./scripts/build.js",
     "deploy": "node ./scripts/deploy.js",
-    "lint": "eslint marketplace/**/*.js scripts/**/*.js --ignore-path .gitignore",
+    "lint": "eslint marketplace scripts --ext .js,.ts,.tsx --ignore-path .gitignore",
     "test:coverage": "lerna run test:coverage"
   },
   "engines": {

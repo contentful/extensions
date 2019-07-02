@@ -1,6 +1,6 @@
 'use strict';
 
-const { readdir, stat } = require('fs').promises;
+const { readdir, stat } = require('fs-extra');
 const path = require('path');
 
 async function dirs(directory) {

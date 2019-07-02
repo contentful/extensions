@@ -1,24 +1,23 @@
 import * as React from 'react';
-import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
-import arrayMove from 'array-move';
 import {
-  IconButton,
-  Card,
-  DisplayText,
-  Typography,
-  Paragraph
-} from '@contentful/forma-36-react-components';
+  SortableContainer,
+  SortableElement,
+  SortableHandle,
+} from 'react-sortable-hoc';
+import arrayMove from 'array-move';
+import { IconButton, Card } from '@contentful/forma-36-react-components';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import {
   SortableElementProperties,
   SortableElementState,
   SortableElementData,
-  AssetData,
-  SortableContainerData
+  SortableContainerData,
 } from './interfaces';
-import CloudinaryThumbnail from '../cloudinaryThumbnail/cloudinaryThumbnail';
+import CloudinaryThumbnail, {
+  CloudinaryThumbnailProps,
+} from '../cloudinaryThumbnail/cloudinaryThumbnail';
 
-const DragHandle = SortableHandle<AssetData>(props => (
+const DragHandle = SortableHandle<CloudinaryThumbnailProps>(props => (
   <div className="order">
     <CloudinaryThumbnail config={props.config} resource={props.resource} />
   </div>
@@ -61,19 +60,25 @@ export class SortableComponent extends React.Component<
     super(props);
 
     this.state = {
-      resources: props.resources
+      resources: props.resources,
     };
   }
 
   componentWillReceiveProps(props: SortableElementProperties) {
     this.setState({
-      resources: props.resources
+      resources: props.resources,
     });
   }
 
-  onSortEnd = ({ oldIndex, newIndex }) => {
+  onSortEnd = ({
+    oldIndex,
+    newIndex,
+  }: {
+    oldIndex: number;
+    newIndex: number;
+  }) => {
     this.setState(({ resources }) => ({
-      resources: arrayMove(resources, oldIndex, newIndex)
+      resources: arrayMove(resources, oldIndex, newIndex),
     }));
 
     if (this.props.onChange) {
@@ -81,7 +86,7 @@ export class SortableComponent extends React.Component<
     }
   };
 
-  deleteItem = index => {
+  deleteItem = (index: number) => {
     const state = this.state.resources;
     state.splice(index, 1);
     this.setState({ resources: state });
