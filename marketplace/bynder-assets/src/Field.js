@@ -25,7 +25,12 @@ function Field({ sdk }) {
   }, []);
 
   useEffect(() => {
-    sdk.field.setValue(assets);
+    if (assets.length) {
+      sdk.field.setValue(assets);
+    }
+    else {
+      sdk.field.setValue('');
+    }
   }, [assets]);
 
   const onBynderDialogOpen = async () => {
