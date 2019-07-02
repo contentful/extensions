@@ -6,7 +6,7 @@ const BYNDER_SDK_URL =
 
 export default class Dialog extends React.Component {
   static propTypes = {
-    sdk: PropTypes.object.isRequired
+    sdk: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -16,7 +16,7 @@ export default class Dialog extends React.Component {
       const results = Array.isArray(e.detail) ? e.detail : [];
       const assets = results.map(asset => ({
         id: asset.id,
-        src: asset.thumbnails['webimage']
+        src: asset.thumbnails['webimage'],
       }));
       this.props.sdk.close(assets);
     });

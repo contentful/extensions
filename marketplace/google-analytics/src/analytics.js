@@ -10,7 +10,7 @@ const TODAY = new Date();
 const TIMELINE_DIMENSIONS = [
   { label: 'Day', value: 'date' },
   { label: 'Week', value: 'week' },
-  { label: 'Month', value: 'month' }
+  { label: 'Month', value: 'month' },
 ];
 
 class Analytics extends React.Component {
@@ -19,9 +19,9 @@ class Analytics extends React.Component {
     this.state = {
       range: {
         start: new Date(TODAY - DAY_IN_MS * 14),
-        end: TODAY
+        end: TODAY,
       },
-      dimension: 'date'
+      dimension: 'date',
     };
   }
 
@@ -29,13 +29,13 @@ class Analytics extends React.Component {
     const { range } = this.state;
     range[target.name] = target.valueAsDate;
     this.setState({
-      range
+      range,
     });
   }
 
   handleDimensionChange({ target }) {
     this.setState({
-      dimension: target.value
+      dimension: target.value,
     });
   }
 
@@ -70,7 +70,10 @@ class Analytics extends React.Component {
           {TIMELINE_DIMENSIONS.map(dimension => {
             const isActive = dimension.value === this.state.dimension;
             return (
-              <label key={dimension.value} className={isActive ? 'is-active' : ''}>
+              <label
+                key={dimension.value}
+                className={isActive ? 'is-active' : ''}
+              >
                 {dimension.label}
                 <input
                   type="radio"
@@ -83,7 +86,12 @@ class Analytics extends React.Component {
             );
           })}
         </div>
-        <Timeline pagePath={pagePath} range={range} dimension={dimension} viewId={viewId} />
+        <Timeline
+          pagePath={pagePath}
+          range={range}
+          dimension={dimension}
+          viewId={viewId}
+        />
         <div className="info">
           <Icon icon="InfoCircle" /> {pagePath}
         </div>
@@ -94,7 +102,7 @@ class Analytics extends React.Component {
 
 Analytics.propTypes = {
   pagePath: PropTypes.string.isRequired,
-  viewId: PropTypes.string.isRequired
+  viewId: PropTypes.string.isRequired,
 };
 
 export { Analytics };

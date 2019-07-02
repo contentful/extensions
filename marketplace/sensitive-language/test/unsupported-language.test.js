@@ -9,7 +9,7 @@ jest.mock('@contentful/forma-36-react-components', () => ({
   Icon: mockComponent('icon'),
   Typography: mockComponent('typography'),
   Subheading: mockComponent('subheading'),
-  Paragraph: mockComponent('paragraph')
+  Paragraph: mockComponent('paragraph'),
 }));
 
 const { UnsupportedLanguage } = require('../src/unsupported-language.js');

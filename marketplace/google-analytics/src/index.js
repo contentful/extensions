@@ -14,7 +14,11 @@ init(({ entry, parameters, window }) => {
 
   gapi.analytics.ready(() => {
     ReactDOM.render(
-      <App auth={gapi.analytics.auth} entry={entry} parameters={parameters.instance} />,
+      <App
+        auth={gapi.analytics.auth}
+        entry={entry}
+        parameters={parameters.instance}
+      />,
       document.getElementById('root')
     );
   });

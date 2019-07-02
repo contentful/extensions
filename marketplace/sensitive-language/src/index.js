@@ -10,5 +10,8 @@ import { App } from './app.js';
 init(extension => {
   extension.window.startAutoResizer();
 
-  ReactDOM.render(<App extension={extension} />, document.getElementById('root'));
+  ReactDOM.render(
+    <App extension={extension} />,
+    document.getElementById('root')
+  );
 });

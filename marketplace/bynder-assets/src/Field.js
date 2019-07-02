@@ -22,7 +22,7 @@ function Field({ sdk }) {
     return () => {
       sdk.window.stopAutoResizer();
     };
-  }, []);
+  }, [sdk.window]);
 
   useEffect(() => {
     if (assets.length) {
@@ -30,14 +30,14 @@ function Field({ sdk }) {
     } else {
       sdk.field.removeValue();
     }
-  }, [assets]);
+  }, [assets, sdk.field]);
 
   const onBynderDialogOpen = async () => {
     const assets = await sdk.dialogs.openExtension({
       width: 900,
       title: 'Select images from Bynder',
       shouldCloseOnEscapePress: true,
-      parameters: sdk.parameters.instance
+      parameters: sdk.parameters.instance,
     });
     if (assets) {
       dispatch({ type: 'add-all-assets', payload: assets });
@@ -62,7 +62,12 @@ function Field({ sdk }) {
       )}
       <div className="actions">
         <div className="logo" />
-        <Button icon="Asset" buttonType="muted" size="small" onClick={onBynderDialogOpen}>
+        <Button
+          icon="Asset"
+          buttonType="muted"
+          size="small"
+          onClick={onBynderDialogOpen}
+        >
           Select images in Bynder
         </Button>
       </div>
@@ -71,7 +76,7 @@ function Field({ sdk }) {
 }
 
 Field.propTypes = {
-  sdk: PropTypes.object.isRequired
+  sdk: PropTypes.object.isRequired,
 };
 
 export default Field;

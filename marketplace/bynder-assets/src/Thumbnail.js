@@ -6,7 +6,7 @@ import IconButton from '@contentful/forma-36-react-components/dist/components/Ic
 export default function Thumbnail({ src, onDeleteClick }) {
   return (
     <Card className="thumbnail">
-      <img width="150" height="150" src={src} />
+      <img width="150" alt="thumbnail" height="150" src={src} />
       <IconButton
         label="Close"
         onClick={onDeleteClick}
@@ -20,5 +20,5 @@ export default function Thumbnail({ src, onDeleteClick }) {
 
 Thumbnail.propTypes = {
   src: PropTypes.string.isRequired,
-  onDeleteClick: PropTypes.func.isRequired
+  onDeleteClick: PropTypes.func.isRequired,
 };

@@ -9,7 +9,10 @@ export function Message({ message }) {
     <li className="warning-list__item">
       <Icon icon="Close" color="negative" className="f36-margin-right--2xs" />
       <Paragraph
-        title={`Flagged by rule ID "${message.ruleId}". ${message.note ? message.note : ''}`}>
+        title={`Flagged by rule ID "${message.ruleId}". ${
+          message.note ? message.note : ''
+        }`}
+      >
         {message.message}
       </Paragraph>
     </li>
@@ -20,6 +23,6 @@ Message.propTypes = {
   message: PropTypes.shape({
     ruleId: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
-    note: PropTypes.string
-  }).isRequired
+    note: PropTypes.string,
+  }).isRequired,
 };

@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name, react/prop-types */
+
 'use strict';
 
 const React = require('react');
@@ -17,7 +19,7 @@ function mockComponent(componentClassName) {
 }
 
 function flushPromises() {
-  return new Promise(resolve => setImmediate(resolve));
+  return new Promise(resolve => window.setImmediate(resolve));
 }
 
 module.exports = { mockComponent, flushPromises };

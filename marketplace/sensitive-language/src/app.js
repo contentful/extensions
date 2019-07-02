@@ -14,7 +14,7 @@ function extractParameters({ instance, installation }) {
     .filter(id => id.length > 0);
   const ignoredRules = [
     ...installation.ignoredRules.split(','),
-    ...instance.ignoredRules.split(',')
+    ...instance.ignoredRules.split(','),
   ]
     .map(id => id.trim())
     .filter(id => id.length > 0);
@@ -37,14 +37,19 @@ export function App({ extension }) {
 
   const { ignoredFields, alexConfig } = extractParameters(extension.parameters);
   const textFields = extension.contentType.fields.filter(
-    ({ id, type }) => textFieldTypes.includes(type) && !ignoredFields.includes(id)
+    ({ id, type }) =>
+      textFieldTypes.includes(type) && !ignoredFields.includes(id)
   );
 
   return (
-    <LanguageChecker entry={extension.entry} fieldsToCheck={textFields} alexConfig={alexConfig} />
+    <LanguageChecker
+      entry={extension.entry}
+      fieldsToCheck={textFields}
+      alexConfig={alexConfig}
+    />
   );
 }
 
 App.propTypes = {
-  extension: PropTypes.object.isRequired
+  extension: PropTypes.object.isRequired,
 };

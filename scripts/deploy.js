@@ -31,8 +31,8 @@ function createOrUpdate(extensionName) {
             body: {
               name: siteName,
               custom_domain: customDomain,
-              ssl: true
-            }
+              ssl: true,
+            },
           });
         } else {
           return Promise.reject(err);
@@ -41,7 +41,7 @@ function createOrUpdate(extensionName) {
     )
     .then(site => {
       return client.deploy(site.id, path.join(BUILD_DIR, extensionName), {
-        statusCb: deployProgressCb()
+        statusCb: deployProgressCb(),
       });
     });
 }
@@ -61,7 +61,7 @@ function deployProgressCb() {
         const spinner = 'earth';
         events[ev.type] = ora({
           text: ev.msg,
-          spinner
+          spinner,
         }).start();
         return;
       }
