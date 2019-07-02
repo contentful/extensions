@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { init } from 'contentful-ui-extensions-sdk';
-import { Select, Option } from '@contentful/forma-36-react-components';
+import { Select, Option, Button, Icon } from '@contentful/forma-36-react-components';
 import NeflifySideBarBuildButton from './NetlifySideBarBuildButton';
+
+import styles from './styles';
 
 const readCsvParam = csv =>
   (csv || '')
@@ -54,6 +56,10 @@ export default class NetlifyExtension extends React.Component {
     this.setState({ selectedSiteIndex: parseInt(e.target.value, 10) });
   };
 
+  openPreview = () => {
+    window.open(this.state.sites[this.state.selectedSiteIndex].url);
+  };
+
   render() {
     return (
       <>
@@ -64,6 +70,14 @@ export default class NetlifyExtension extends React.Component {
           publishKey={this.props.sdk.parameters.installation.publishKey}
           subscribeKey={this.props.sdk.parameters.installation.subscribeKey}
         />
+        <Button
+          onClick={this.openPreview}
+          buttonType="muted"
+          isFullWidth
+          className={styles.previewButton}>
+          <Icon icon="ExternalLink" color="muted" className={styles.previewIcon} />
+          Open preview
+        </Button>
         <Select onChange={this.selectSite}>
           {this.state.sites.map((site, index) => (
             <Option key={site.netlifySiteId} value={`${index}`}>

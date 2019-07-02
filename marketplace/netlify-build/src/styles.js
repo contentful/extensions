@@ -11,6 +11,16 @@ export default {
   button: css({
     marginBottom: tokens.spacingS
   }),
+  previewButton: css({
+    margin: `${tokens.spacingS} 0`,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }),
+  previewIcon: css({
+    marginTop: 0,
+    marginRight: '5px'
+  }),
   header: css({
     display: 'flex',
     marginBottom: tokens.spacingS
