@@ -8,7 +8,7 @@
     "@babel/plugin-transform-runtime": "7.3.4",
     "@babel/preset-env": "7.3.4",
     "@babel/preset-react": "7.0.0",
-    "@contentful/contentful-extension-scripts": "0.11.0",
+    "@contentful/contentful-extension-scripts": "0.12.0",
     "@testing-library/react": "^8.0.4",
     "babel-eslint": "^10.0.2",
     "babel-jest": "^24.8.0",
@@ -51,7 +51,8 @@
     "help": "contentful-extension-scripts help",
     "lint": "eslint src/**/*.js --ignore-path .gitignore",
     "prettier": "prettier --config .prettierrc --write src/**/*.js",
-    "test": "TZ=UTC jest --config ./jest.config.js ./test/*.spec.js --watch"
+    "test": "contentful-extension-scripts test --env=jsdom --watch",
+    "test:coverage": "contentful-extension-scripts test --env=jsdom --coverage"
   },
   "browserslist": [
     "last 5 Chrome version",
