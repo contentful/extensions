@@ -3,6 +3,25 @@ import { render, cleanup } from '@testing-library/react';
 import NetlifyExtension from '../src/index.js';
 import { createPubSub } from '../src/pubnub-client';
 
+jest.mock('pubnub', () => {
+  const addListener = jest.fn();
+  const subscribe = jest.fn();
+  const publish = jest.fn();
+  const history = jest.fn(() => Promise.resolve({}));
+
+  return {
+    __esModule: true,
+    default: jest.fn(() => ({
+      addListener,
+      subscribe,
+      publish,
+      history,
+      removeListener: jest.fn(),
+      unsubscribe: jest.fn()
+    }))
+  };
+});
+
 describe('NetlifyExtension', () => {
   afterEach(cleanup);
 
@@ -51,22 +70,6 @@ describe('NetlifyExtension', () => {
         }
       }
     };
-
-    jest.mock('pubnub', () => {
-      const addListener = jest.fn();
-      const subscribe = jest.fn();
-      const publish = jest.fn();
-      const history = jest.fn();
-
-      return jest.fn(() => ({
-        addListener,
-        subscribe,
-        publish,
-        history,
-        removeListener: jest.fn(),
-        unsubscribe: jest.fn()
-      }));
-    });
 
     const { container } = render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
 
