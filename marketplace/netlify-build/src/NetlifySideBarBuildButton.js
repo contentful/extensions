@@ -14,9 +14,7 @@ export default class NeflifySideBarBuildButton extends React.Component {
   static propTypes = {
     site: PropTypes.object.isRequired,
     users: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
-    userId: PropTypes.string.isRequired,
-    publishKey: PropTypes.string.isRequired,
-    subscribeKey: PropTypes.string.isRequired
+    userId: PropTypes.string.isRequired
   };
 
   state = { history: [] };
@@ -42,9 +40,7 @@ export default class NeflifySideBarBuildButton extends React.Component {
 
     this.pubsub = createPubSub(
       site.channel,
-      normalizeMessage.bind(null, site.netlifySiteId, this.props.users),
-      this.props.publishKey,
-      this.props.subscribeKey
+      normalizeMessage.bind(null, site.netlifySiteId, this.props.users)
     );
 
     this.pubsub.addListener(msg => {

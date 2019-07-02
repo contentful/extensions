@@ -15,3 +15,6 @@ export const NETLIFY_STATE_TO_EVENT = {
   ready: EVENT_BUILD_READY,
   error: EVENT_BUILD_FAILED
 };
+
+export const PUBLISH_KEY = 'pub-c-a99421b9-4f21-467b-ac0c-d0292824e8e1';
+export const SUBSCRIBE_KEY = 'sub-c-3992b1ae-f7c9-11e8-adf7-5a5b31762c0f';

@@ -1,31 +1,10 @@
 {
   "id": "netlify-button",
-  "name": "Netlify Build",
+  "name": "Netlify Build and Preview",
   "src": "http://localhost:1234",
   "sidebar": true,
   "parameters": {
     "installation": [
-      {
-        "id": "publishKey",
-        "type": "Symbol",
-        "name": "PubNub publish key",
-        "description": "A public PubNub publish key to emit update events",
-        "required": true
-      },
-      {
-        "id": "subscribeKey",
-        "type": "Symbol",
-        "name": "PubNub subscribe key",
-        "description": "A public PubNub subscribe key to listen for update events",
-        "required": true
-      },
-      {
-        "id": "channels",
-        "type": "Symbol",
-        "name": "Comma seperated Netlify channel list (max 3)",
-        "description": "Example: my-app-abc,my-second-app-def,my-third-app-ghi",
-        "required": true
-      },
       {
         "id": "netlifySiteIds",
         "type": "Symbol",

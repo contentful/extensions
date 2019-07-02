@@ -15,7 +15,6 @@ const readCsvParam = csv =>
 
 function createSiteStructure(parameters = {}) {
   const buildHooks = readCsvParam(parameters.buildHookUrls);
-  const channels = readCsvParam(parameters.channels);
   const siteIds = readCsvParam(parameters.netlifySiteIds);
   const names = readCsvParam(parameters.names);
   const urls = readCsvParam(parameters.netlifySiteUrls);
@@ -25,7 +24,7 @@ function createSiteStructure(parameters = {}) {
       acc.concat([
         {
           buildHookUrl: buildHooks[i],
-          channel: channels[i],
+          channel: buildHooks[i].split('/').pop(),
           netlifySiteId: siteIds[i],
           name: names[i],
           url: urls[i]
@@ -67,8 +66,6 @@ export default class NetlifyExtension extends React.Component {
           users={this.state.users}
           userId={this.props.sdk.user.sys.id}
           site={this.state.sites[this.state.selectedSiteIndex]}
-          publishKey={this.props.sdk.parameters.installation.publishKey}
-          subscribeKey={this.props.sdk.parameters.installation.subscribeKey}
         />
         <Button
           onClick={this.openPreview}

@@ -1,4 +1,5 @@
 import PubNub from 'pubnub';
+import { PUBLISH_KEY, SUBSCRIBE_KEY } from './contstants';
 
 const isObject = val => typeof val === 'object' && !Array.isArray(val);
 
@@ -25,7 +26,7 @@ function normalize(message, timetoken, normalizeFn) {
   }
 }
 
-export function createPubSub(channel, normalizeFn, publishKey, subscribeKey) {
+export function createPubSub(channel, normalizeFn) {
   const channels = [channel];
   const state = { listeners: [] };
 
@@ -39,8 +40,8 @@ export function createPubSub(channel, normalizeFn, publishKey, subscribeKey) {
 
   async function start() {
     state.instance = new PubNub({
-      publishKey: publishKey,
-      subscribeKey: subscribeKey
+      publishKey: PUBLISH_KEY,
+      subscribeKey: SUBSCRIBE_KEY
     });
 
     state.mainListener = {
@@ -57,7 +58,7 @@ export function createPubSub(channel, normalizeFn, publishKey, subscribeKey) {
   }
 
   async function publish(message) {
-    return state.instance.publish({
+    return await state.instance.publish({
       message,
       channel,
       storeInHistory: true
@@ -65,7 +66,7 @@ export function createPubSub(channel, normalizeFn, publishKey, subscribeKey) {
   }
 
   async function getHistory(count = 25) {
-    return state.instance.history({ channel, count, stringifiedTimeToken: true }).then(res =>
+    return await state.instance.history({ channel, count, stringifiedTimeToken: true }).then(res =>
       (res.messages || [])
         .map(({ timetoken, entry }) => normalize(entry, timetoken, normalizeFn))
         .filter(isObject)
