@@ -170,8 +170,6 @@ describe('NetlifyExtension', () => {
 
     await wait();
     expect(container).toMatchSnapshot();
-
-    getByTestId('build-button').click();
   });
 
   it('should should show a clickable build button when build is ready', async () => {
@@ -214,7 +212,5 @@ describe('NetlifyExtension', () => {
 
     await wait();
     expect(container).toMatchSnapshot();
-
-    getByTestId('build-button').click();
   });
 });
