@@ -35,13 +35,13 @@ exports[`NetlifyExtension should render the NetlifySideBarBuildButton and be int
         data-test-id="cf-ui-select-option"
         value="0"
       >
-        upbeat (Netlify app)
+        upbeat
       </option>
       <option
         data-test-id="cf-ui-select-option"
         value="1"
       >
-        friendly (Netlify app)
+        friendly
       </option>
     </select>
     <svg

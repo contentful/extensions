@@ -44,7 +44,7 @@
         "id": "names",
         "type": "Symbol",
         "name": "Comma seperated Website name list (max 3)",
-        "description": "Example: My Site",
+        "description": "Example: My Site,My Other Site",
         "required": true
       },
       {

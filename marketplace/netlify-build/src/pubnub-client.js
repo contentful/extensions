@@ -1,9 +1,6 @@
 import PubNub from 'pubnub';
 
-function isObject(value) {
-  var type = typeof value;
-  return value != null && (type == 'object' || type == 'function');
-}
+const isObject = val => typeof val === 'object' && !Array.isArray(val);
 
 function timetokenToDate(timetoken) {
   // timetokens arrive as strings
@@ -59,7 +56,7 @@ export function createPubSub(channel, normalizeFn, publishKey, subscribeKey) {
     state.instance.subscribe({ channels });
   }
 
-  function publish(message) {
+  async function publish(message) {
     return state.instance.publish({
       message,
       channel,
@@ -67,7 +64,7 @@ export function createPubSub(channel, normalizeFn, publishKey, subscribeKey) {
     });
   }
 
-  function getHistory(count = 25) {
+  async function getHistory(count = 25) {
     return state.instance.history({ channel, count, stringifiedTimeToken: true }).then(res =>
       (res.messages || [])
         .map(({ timetoken, entry }) => normalize(entry, timetoken, normalizeFn))

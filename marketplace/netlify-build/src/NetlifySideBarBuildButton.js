@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import 'whatwg-fetch';
 import { Button, ValidationMessage } from '@contentful/forma-36-react-components';
 import { normalizeMessage, isOutOfOrder, isDuplicate, messageToState } from './message-processor';
+import { createPubSub } from './pubnub-client';
 
 import '@contentful/forma-36-react-components/dist/styles.css';
 import styles from './styles';
@@ -12,7 +13,6 @@ import { EVENT_TRIGGERED, EVENT_TRIGGER_FAILED } from './contstants';
 export default class NeflifySideBarBuildButton extends React.Component {
   static propTypes = {
     site: PropTypes.object.isRequired,
-    createPubSub: PropTypes.func.isRequired,
     users: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     userId: PropTypes.string.isRequired,
     publishKey: PropTypes.string.isRequired,
@@ -40,7 +40,7 @@ export default class NeflifySideBarBuildButton extends React.Component {
       return;
     }
 
-    this.pubsub = this.props.createPubSub(
+    this.pubsub = createPubSub(
       site.channel,
       normalizeMessage.bind(null, site.netlifySiteId, this.props.users),
       this.props.publishKey,

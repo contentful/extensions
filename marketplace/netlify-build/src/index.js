@@ -2,16 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { init } from 'contentful-ui-extensions-sdk';
-import { createPubSub } from './pubnub-client';
 import { Select, Option } from '@contentful/forma-36-react-components';
 import NeflifySideBarBuildButton from './NetlifySideBarBuildButton';
 
+const readCsvParam = csv =>
+  (csv || '')
+    .split(',')
+    .map(val => val.trim())
+    .filter(val => val.length > 0);
+
 function createSiteStructure(parameters = {}) {
-  const buildHooks = (parameters.buildHookUrls || '').split(',');
-  const channels = (parameters.channels || '').split(',');
-  const siteIds = (parameters.netlifySiteIds || '').split(',');
-  const names = (parameters.names || '').split(',');
-  const urls = (parameters.netlifySiteUrls || '').split(',');
+  const buildHooks = readCsvParam(parameters.buildHookUrls);
+  const channels = readCsvParam(parameters.channels);
+  const siteIds = readCsvParam(parameters.netlifySiteIds);
+  const names = readCsvParam(parameters.names);
+  const urls = readCsvParam(parameters.netlifySiteUrls);
 
   return buildHooks.reduce(
     (acc, _, i) =>
@@ -30,8 +35,7 @@ function createSiteStructure(parameters = {}) {
 
 export default class NetlifyExtension extends React.Component {
   static propTypes = {
-    sdk: PropTypes.object.isRequired,
-    createPubSub: PropTypes.func.isRequired
+    sdk: PropTypes.object.isRequired
   };
 
   state = {
@@ -47,7 +51,7 @@ export default class NetlifyExtension extends React.Component {
   }
 
   selectSite = e => {
-    this.setState({ selectedSiteIndex: Number(e.target.value) });
+    this.setState({ selectedSiteIndex: parseInt(e.target.value, 10) });
   };
 
   render() {
@@ -55,7 +59,6 @@ export default class NetlifyExtension extends React.Component {
       <>
         <NeflifySideBarBuildButton
           users={this.state.users}
-          createPubSub={this.props.createPubSub}
           userId={this.props.sdk.user.sys.id}
           site={this.state.sites[this.state.selectedSiteIndex]}
           publishKey={this.props.sdk.parameters.installation.publishKey}
@@ -63,8 +66,8 @@ export default class NetlifyExtension extends React.Component {
         />
         <Select onChange={this.selectSite}>
           {this.state.sites.map((site, index) => (
-            <Option key={site.netlifySiteId} value={String(index)}>
-              {site.name} (Netlify app)
+            <Option key={site.netlifySiteId} value={`${index}`}>
+              {site.name}
             </Option>
           ))}
         </Select>
@@ -74,8 +77,5 @@ export default class NetlifyExtension extends React.Component {
 }
 
 init(sdk => {
-  ReactDOM.render(
-    <NetlifyExtension sdk={sdk} createPubSub={createPubSub} />,
-    document.getElementById('root')
-  );
+  ReactDOM.render(<NetlifyExtension sdk={sdk} />, document.getElementById('root'));
 });
