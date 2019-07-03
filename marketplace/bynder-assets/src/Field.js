@@ -22,7 +22,7 @@ function Field({ sdk }) {
     return () => {
       sdk.window.stopAutoResizer();
     };
-  }, []);
+  }, [sdk.window]);
 
   useEffect(() => {
     if (assets.length) {
@@ -30,7 +30,7 @@ function Field({ sdk }) {
     } else {
       sdk.field.removeValue();
     }
-  }, [assets]);
+  }, [assets, sdk.field]);
 
   const onBynderDialogOpen = async () => {
     const assets = await sdk.dialogs.openExtension({

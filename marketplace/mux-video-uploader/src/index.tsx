@@ -14,6 +14,11 @@ import Player from './player';
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
+interface InstallationParams {
+  muxAccessTokenId: string;
+  muxAccessTokenSecret: string;
+}
+
 interface AppProps {
   sdk: FieldExtensionSDK;
 }
@@ -42,10 +47,7 @@ export class App extends React.Component<AppProps, AppState> {
     super(props);
 
     const { muxAccessTokenId, muxAccessTokenSecret } = this.props.sdk.parameters
-      .installation as {
-      muxAccessTokenId: string;
-      muxAccessTokenSecret: string;
-    };
+      .installation as InstallationParams;
 
     this.muxBaseReqOptions = {
       mode: 'cors',
@@ -62,7 +64,7 @@ export class App extends React.Component<AppProps, AppState> {
 
   detachExternalChangeHandler: Function | null = null;
 
-  componentDidMount() {
+  async componentDidMount() {
     this.props.sdk.window.startAutoResizer();
 
     // Handler for external field value changes (e.g. when multiple authors are working on the same entry).
@@ -76,7 +78,7 @@ export class App extends React.Component<AppProps, AppState> {
       if (this.state.value.ready) return;
 
       if (this.state.value.uploadId && !this.state.value.ready) {
-        this.pollForUploadDetails();
+        await this.pollForUploadDetails();
       }
     }
   }
@@ -162,9 +164,9 @@ export class App extends React.Component<AppProps, AppState> {
     this.setState({ uploadProgress: progress.detail });
   };
 
-  onUploadSuccess = (progress: CustomEvent) => {
+  onUploadSuccess = async () => {
     this.setState({ uploadProgress: 100 });
-    this.pollForUploadDetails();
+    await this.pollForUploadDetails();
   };
 
   pollForUploadDetails = async () => {
@@ -188,10 +190,10 @@ export class App extends React.Component<AppProps, AppState> {
         uploadId: muxUpload.id,
         assetId: muxUpload['asset_id'],
       });
-      this.pollForAssetDetails();
+      await this.pollForAssetDetails();
     } else {
       await delay(350);
-      this.pollForUploadDetails();
+      await this.pollForUploadDetails();
     }
   };
 
@@ -221,7 +223,7 @@ export class App extends React.Component<AppProps, AppState> {
 
     if (asset.status !== 'ready') {
       await delay(500);
-      this.pollForAssetDetails();
+      await this.pollForAssetDetails();
     }
   };
 

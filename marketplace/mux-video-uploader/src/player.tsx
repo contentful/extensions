@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/media-has-caption */
+
 import * as React from 'react';
-import Hls = require('hls.js');
+import Hls from 'hls.js';
 import './player.css';
 
 interface PlayerProps {
@@ -59,7 +61,7 @@ class Player extends React.Component<PlayerProps, {}> {
     console.log(this.playerRef.current.offsetWidth);
 
     return this.playerRef.current.offsetWidth * this.convertRatio();
-  }
+  };
 
   render() {
     return (

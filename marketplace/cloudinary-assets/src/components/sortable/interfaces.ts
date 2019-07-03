@@ -17,9 +17,7 @@ export interface SortableElementState {
   readonly resources: CloudinaryResource[];
 }
 
-export interface SortableElementData extends AssetData {
+export interface SortableElementData extends CloudinaryThumbnailProps {
   readonly index: number;
   deleteFnc: (index: number) => void;
 }
-
-export interface AssetData extends CloudinaryThumbnailProps {}

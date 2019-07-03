@@ -25,7 +25,7 @@
         "description": "Max number of media assets that can be added during a single session.",
         "type": "Number",
         "required": false,
-        "default": 1
+        "default": 10
       },
       {
         "id": "btnTxt",

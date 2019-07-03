@@ -13,6 +13,8 @@ export function CloudinaryThumbnail(props: CloudinaryThumbnailProps) {
     api_key: props.config.apiKey
   });
 
+  const resourceName = props.resource.public_id + props.resource.tags.join(', ');
+
   if (
     props.resource.resource_type === 'image' &&
     ['svg', 'jpg', 'png', 'gif', 'jpeg'].includes(props.resource.format)
@@ -24,6 +26,7 @@ export function CloudinaryThumbnail(props: CloudinaryThumbnailProps) {
           width: 300,
           crop: 'fill'
         })}
+        alt={resourceName}
         className="CloudinaryImage"
       />
     );
@@ -35,12 +38,13 @@ export function CloudinaryThumbnail(props: CloudinaryThumbnailProps) {
           width: 300,
           crop: 'fill'
         })}
+        alt={resourceName}
         className="CloudinaryImage"
       />
     );
   }
 
-  return <div className={'unknownFiletype'}></div>;
+  return <div className="unknownFiletype" />;
 }
 
 export default CloudinaryThumbnail;

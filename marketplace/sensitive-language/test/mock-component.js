@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name, react/prop-types */
+
 'use strict';
 
 const React = require('react');

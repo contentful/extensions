@@ -1,6 +1,6 @@
 'use strict';
 
-const { readFile, writeFile, rename } = require('fs').promises;
+const { readFile, writeFile, rename } = require('fs-extra');
 const path = require('path');
 const makeDir = require('make-dir');
 const cpy = require('cpy');
