@@ -1,6 +1,6 @@
 {
-  "id": "typeform",
-  "name": "Typeform",
+  "id": "typeform-form",
+  "name": "Typeform Form",
   "fieldTypes": ["Symbol"],
   "parameters": {
     "installation": [

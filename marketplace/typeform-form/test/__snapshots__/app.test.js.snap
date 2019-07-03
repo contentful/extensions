@@ -4,6 +4,7 @@ exports[`App renders error state 1`] = `
 Array [
   <div
     className="text-input"
+    disabled={false}
     onChange={[Function]}
     required={false}
   />,
@@ -20,9 +21,10 @@ exports[`App renders error state with previous value 1`] = `
 Array [
   <div
     className="text-input"
+    disabled={false}
     onChange={[Function]}
     required={false}
-    value="ABCDEF"
+    value="https://cf-exts.typeform.com/to/ABCDEF"
   />,
   <div
     className="warning"
@@ -37,6 +39,7 @@ exports[`App renders error state with the field being required 1`] = `
 Array [
   <div
     className="text-input"
+    disabled={false}
     onChange={[Function]}
     required={true}
   />,
@@ -54,6 +57,7 @@ exports[`App renders loading state 1`] = `null`;
 exports[`App renders with forms 1`] = `
 <div
   className="select"
+  disabled={false}
   onChange={[Function]}
   required={false}
 >
@@ -65,19 +69,19 @@ exports[`App renders with forms 1`] = `
   </div>
   <div
     className="option"
-    value="123"
+    value="https://cf-exts.typeform.com/to/123"
   >
     First form
   </div>
   <div
     className="option"
-    value="345"
+    value="https://cf-exts.typeform.com/to/345"
   >
     Second form
   </div>
   <div
     className="option"
-    value="678"
+    value="https://cf-exts.typeform.com/to/678"
   >
     Third form
   </div>
@@ -87,6 +91,7 @@ exports[`App renders with forms 1`] = `
 exports[`App renders with forms and being required 1`] = `
 <div
   className="select"
+  disabled={false}
   onChange={[Function]}
   required={true}
 >
@@ -98,19 +103,19 @@ exports[`App renders with forms and being required 1`] = `
   </div>
   <div
     className="option"
-    value="123"
+    value="https://cf-exts.typeform.com/to/123"
   >
     First form
   </div>
   <div
     className="option"
-    value="345"
+    value="https://cf-exts.typeform.com/to/345"
   >
     Second form
   </div>
   <div
     className="option"
-    value="678"
+    value="https://cf-exts.typeform.com/to/678"
   >
     Third form
   </div>
@@ -126,9 +131,10 @@ Array [
   </div>,
   <div
     className="select"
+    disabled={false}
     onChange={[Function]}
     required={true}
-    value="234"
+    value="https://cf-exts.typeform.com/to/234"
   >
     <div
       className="option"
@@ -138,25 +144,25 @@ Array [
     </div>
     <div
       className="option"
-      value="234"
+      value="https://cf-exts.typeform.com/to/234"
     >
       Previous value (no longer exists in Typeform)
     </div>
     <div
       className="option"
-      value="123"
+      value="https://cf-exts.typeform.com/to/123"
     >
       First form
     </div>
     <div
       className="option"
-      value="345"
+      value="https://cf-exts.typeform.com/to/345"
     >
       Second form
     </div>
     <div
       className="option"
-      value="678"
+      value="https://cf-exts.typeform.com/to/678"
     >
       Third form
     </div>
@@ -167,9 +173,10 @@ Array [
 exports[`App renders with forms and previous value 1`] = `
 <div
   className="select"
+  disabled={false}
   onChange={[Function]}
   required={true}
-  value="123"
+  value="https://cf-exts.typeform.com/to/123"
 >
   <div
     className="option"
@@ -179,19 +186,19 @@ exports[`App renders with forms and previous value 1`] = `
   </div>
   <div
     className="option"
-    value="123"
+    value="https://cf-exts.typeform.com/to/123"
   >
     First form
   </div>
   <div
     className="option"
-    value="345"
+    value="https://cf-exts.typeform.com/to/345"
   >
     Second form
   </div>
   <div
     className="option"
-    value="678"
+    value="https://cf-exts.typeform.com/to/678"
   >
     Third form
   </div>

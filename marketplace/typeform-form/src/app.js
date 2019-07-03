@@ -13,26 +13,41 @@ export class App extends React.Component {
       value: props.sdk.field.getValue(),
       previousValueFormIsMissing: false,
       forms: undefined,
-      error: undefined
+      error: undefined,
+      isDisabled: false
     };
 
     this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
-    const { accessToken, workspaceId } = this.props.parameters;
+    const { sdk, parameters } = this.props;
+    const { accessToken, workspaceId } = parameters;
     const { value } = this.state;
+
+    // Handle external changes (e.g. when multiple authors are working on the same entry).
+    sdk.field.onValueChanged(value => {
+      this.setState({ value: value });
+    });
+
+    // Disable editing (e.g. when field is not editable due to R&P).
+    sdk.field.onIsDisabledChanged(isDisabled => {
+      this.setState({ isDisabled });
+    });
 
     fetchForms(workspaceId, accessToken)
       .then(forms => {
         const valueIndex = forms.findIndex(function(form) {
-          return form.id === value;
+          return form._links.display === value;
         });
-        const previousValueFormIsMissing = valueIndex === -1 && value !== undefined;
 
+        const previousValueFormIsMissing = valueIndex === -1 && value !== undefined;
         if (previousValueFormIsMissing) {
           forms.unshift({
-            id: value,
+            id: 'previous--value-form-is-missing',
+            _links: {
+              display: value
+            },
             title: 'Previous value (no longer exists in Typeform)'
           });
         }
@@ -61,7 +76,7 @@ export class App extends React.Component {
   }
 
   render() {
-    const { value, forms, error, previousValueFormIsMissing } = this.state;
+    const { value, forms, error, previousValueFormIsMissing, isDisabled } = this.state;
     const { isRequired } = this.props;
 
     // No error and no forms means we're still loading data. Let's not render anything.
@@ -72,7 +87,12 @@ export class App extends React.Component {
     if (error) {
       return (
         <React.Fragment>
-          <TextInput onChange={this.onChange} value={value} required={isRequired} />
+          <TextInput
+            onChange={this.onChange}
+            value={value}
+            required={isRequired}
+            disabled={isDisabled}
+          />
           <Warning iconColor="negative">
             {`Could not fetch forms from Typeform. Received the following error: ${error.message}`}
           </Warning>
@@ -85,17 +105,15 @@ export class App extends React.Component {
         {previousValueFormIsMissing && (
           <Warning>The form you have selected in Contentful no longer exists in Typeform.</Warning>
         )}
-        <Select onChange={this.onChange} value={value} required={isRequired}>
+        <Select onChange={this.onChange} value={value} required={isRequired} disabled={isDisabled}>
           <Option key="" value="">
             Choose a typeform
           </Option>
-          {this.state.forms.map(form => {
-            return (
-              <Option key={form.id} value={form.id}>
-                {form.title}
-              </Option>
-            );
-          })}
+          {this.state.forms.map(form => (
+            <Option key={form.id} value={form._links.display}>
+              {form.title}
+            </Option>
+          ))}
         </Select>
       </React.Fragment>
     );

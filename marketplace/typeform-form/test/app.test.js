@@ -31,7 +31,9 @@ describe('App', function() {
       field: {
         getValue() {
           return undefined;
-        }
+        },
+        onValueChanged() {},
+        onIsDisabledChanged() {}
       }
     };
 
@@ -49,7 +51,9 @@ describe('App', function() {
       field: {
         getValue() {
           return undefined;
-        }
+        },
+        onValueChanged() {},
+        onIsDisabledChanged() {}
       }
     };
 
@@ -66,7 +70,9 @@ describe('App', function() {
       field: {
         getValue() {
           return undefined;
-        }
+        },
+        onValueChanged() {},
+        onIsDisabledChanged() {}
       }
     };
 
@@ -82,8 +88,10 @@ describe('App', function() {
     const sdk = {
       field: {
         getValue() {
-          return 'ABCDEF';
-        }
+          return 'https://cf-exts.typeform.com/to/ABCDEF';
+        },
+        onValueChanged() {},
+        onIsDisabledChanged() {}
       }
     };
 
@@ -95,9 +103,21 @@ describe('App', function() {
   test('renders with forms', function() {
     mockFetchForms = () =>
       Promise.resolve([
-        { id: '123', title: 'First form' },
-        { id: '345', title: 'Second form' },
-        { id: '678', title: 'Third form' }
+        {
+          id: '123',
+          title: 'First form',
+          _links: { display: 'https://cf-exts.typeform.com/to/123' }
+        },
+        {
+          id: '345',
+          title: 'Second form',
+          _links: { display: 'https://cf-exts.typeform.com/to/345' }
+        },
+        {
+          id: '678',
+          title: 'Third form',
+          _links: { display: 'https://cf-exts.typeform.com/to/678' }
+        }
       ]);
     const isRequired = false;
     const parameters = { accessToken: 'abc', workspaceId: '123' };
@@ -105,7 +125,9 @@ describe('App', function() {
       field: {
         getValue() {
           return undefined;
-        }
+        },
+        onValueChanged() {},
+        onIsDisabledChanged() {}
       }
     };
 
@@ -117,9 +139,21 @@ describe('App', function() {
   test('renders with forms and being required', function() {
     mockFetchForms = () =>
       Promise.resolve([
-        { id: '123', title: 'First form' },
-        { id: '345', title: 'Second form' },
-        { id: '678', title: 'Third form' }
+        {
+          id: '123',
+          title: 'First form',
+          _links: { display: 'https://cf-exts.typeform.com/to/123' }
+        },
+        {
+          id: '345',
+          title: 'Second form',
+          _links: { display: 'https://cf-exts.typeform.com/to/345' }
+        },
+        {
+          id: '678',
+          title: 'Third form',
+          _links: { display: 'https://cf-exts.typeform.com/to/678' }
+        }
       ]);
     const isRequired = true;
     const parameters = { accessToken: 'abc', workspaceId: '123' };
@@ -127,7 +161,9 @@ describe('App', function() {
       field: {
         getValue() {
           return undefined;
-        }
+        },
+        onValueChanged() {},
+        onIsDisabledChanged() {}
       }
     };
 
@@ -139,17 +175,31 @@ describe('App', function() {
   test('renders with forms and previous value', function() {
     mockFetchForms = () =>
       Promise.resolve([
-        { id: '123', title: 'First form' },
-        { id: '345', title: 'Second form' },
-        { id: '678', title: 'Third form' }
+        {
+          id: '123',
+          title: 'First form',
+          _links: { display: 'https://cf-exts.typeform.com/to/123' }
+        },
+        {
+          id: '345',
+          title: 'Second form',
+          _links: { display: 'https://cf-exts.typeform.com/to/345' }
+        },
+        {
+          id: '678',
+          title: 'Third form',
+          _links: { display: 'https://cf-exts.typeform.com/to/678' }
+        }
       ]);
     const isRequired = true;
     const parameters = { accessToken: 'abc', workspaceId: '123' };
     const sdk = {
       field: {
         getValue() {
-          return '123';
-        }
+          return 'https://cf-exts.typeform.com/to/123';
+        },
+        onValueChanged() {},
+        onIsDisabledChanged() {}
       }
     };
 
@@ -161,17 +211,31 @@ describe('App', function() {
   test('renders with forms and no longer existing previous value', function() {
     mockFetchForms = () =>
       Promise.resolve([
-        { id: '123', title: 'First form' },
-        { id: '345', title: 'Second form' },
-        { id: '678', title: 'Third form' }
+        {
+          id: '123',
+          title: 'First form',
+          _links: { display: 'https://cf-exts.typeform.com/to/123' }
+        },
+        {
+          id: '345',
+          title: 'Second form',
+          _links: { display: 'https://cf-exts.typeform.com/to/345' }
+        },
+        {
+          id: '678',
+          title: 'Third form',
+          _links: { display: 'https://cf-exts.typeform.com/to/678' }
+        }
       ]);
     const isRequired = true;
     const parameters = { accessToken: 'abc', workspaceId: '123' };
     const sdk = {
       field: {
         getValue() {
-          return '234';
-        }
+          return 'https://cf-exts.typeform.com/to/234';
+        },
+        onValueChanged() {},
+        onIsDisabledChanged() {}
       }
     };
 
