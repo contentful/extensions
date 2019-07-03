@@ -3,11 +3,7 @@ import { DialogExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { ExtensionParameters } from '../../interface';
 
 interface Props {
-  sdk: DialogExtensionSDK & {
-    parameters: {
-      invocation: ExtensionParameters;
-    };
-  };
+  sdk: DialogExtensionSDK;
 }
 
 export default class CloudinaryDialog extends React.Component<Props> {
@@ -20,7 +16,7 @@ export default class CloudinaryDialog extends React.Component<Props> {
   loadCloudinaryScript() {
     // eslint-disable-next-line
     const cloudinary = (window as any).cloudinary;
-    const config = this.props.sdk.parameters.invocation;
+    const config = this.props.sdk.parameters.invocation as ExtensionParameters;
 
     const options = {
       cloud_name: config.cloudName,
