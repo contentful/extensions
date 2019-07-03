@@ -2,9 +2,7 @@
 
 exports[`NetlifyExtension should render the NetlifySideBarBuildButton 1`] = `
 <div>
-  <div
-    class="css-a9p51s"
-  >
+  <div>
     <button
       class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--disabled___1E20M Button__Button--full-width___3Fmpo"
       data-test-id="cf-ui-button"
@@ -110,9 +108,7 @@ exports[`NetlifyExtension should render the NetlifySideBarBuildButton 1`] = `
 
 exports[`NetlifyExtension should should show a building message when a build is building 1`] = `
 <div>
-  <div
-    class="css-a9p51s"
-  >
+  <div>
     <button
       class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--disabled___1E20M Button__Button--full-width___3Fmpo"
       data-test-id="cf-ui-button"
@@ -127,7 +123,7 @@ exports[`NetlifyExtension should should show a building message when a build is 
         <span
           class="Button__Button__label___3tcOj"
         >
-          Building...
+          Triggering...
         </span>
         <svg
           class="Spinner__Spinner___32lpa Button__Button__spinner___3j8Aj Spinner__Spinner--small___2hyo0 Spinner__Spinner--white___3Hsq3 Button__Button--spinner--enter___1qgg7 Button__Button--spinner-active___EEKjQ"
@@ -148,6 +144,11 @@ exports[`NetlifyExtension should should show a building message when a build is 
         </svg>
       </span>
     </button>
+    <div
+      class="css-fvpxna"
+    >
+      Triggered about 4 hours ago at 2:04:59 PM.
+    </div>
   </div>
   <a
     class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-1f4d741 Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
@@ -235,9 +236,7 @@ exports[`NetlifyExtension should should show a building message when a build is 
 
 exports[`NetlifyExtension should should show a clickable build button when build is ready 1`] = `
 <div>
-  <div
-    class="css-a9p51s"
-  >
+  <div>
     <button
       class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--disabled___1E20M Button__Button--full-width___3Fmpo"
       data-test-id="cf-ui-button"
@@ -252,7 +251,7 @@ exports[`NetlifyExtension should should show a clickable build button when build
         <span
           class="Button__Button__label___3tcOj"
         >
-          Building...
+          Triggering...
         </span>
         <svg
           class="Spinner__Spinner___32lpa Button__Button__spinner___3j8Aj Spinner__Spinner--small___2hyo0 Spinner__Spinner--white___3Hsq3 Button__Button--spinner--enter___1qgg7 Button__Button--spinner-active___EEKjQ"
@@ -273,6 +272,11 @@ exports[`NetlifyExtension should should show a clickable build button when build
         </svg>
       </span>
     </button>
+    <div
+      class="css-fvpxna"
+    >
+      Triggered about 4 hours ago at 2:04:59 PM.
+    </div>
   </div>
   <a
     class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-1f4d741 Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
@@ -360,9 +364,7 @@ exports[`NetlifyExtension should should show a clickable build button when build
 
 exports[`NetlifyExtension should show a triggering button and build message without username if not loaded yet 1`] = `
 <div>
-  <div
-    class="css-a9p51s"
-  >
+  <div>
     <button
       class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--disabled___1E20M Button__Button--full-width___3Fmpo"
       data-test-id="cf-ui-button"
@@ -490,9 +492,7 @@ exports[`NetlifyExtension should show a triggering button and build message with
 
 exports[`NetlifyExtension should show a triggering message when a build is triggered with username 1`] = `
 <div>
-  <div
-    class="css-a9p51s"
-  >
+  <div>
     <button
       class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--disabled___1E20M Button__Button--full-width___3Fmpo"
       data-test-id="cf-ui-button"
