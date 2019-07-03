@@ -36,7 +36,7 @@ export default class NeflifySideBarBuildButton extends React.Component {
   createPubSub = async () => {
     const { site } = this.props;
 
-    if (!site.channel || !site.netlifySiteId || !site.buildHookUrl) {
+    if (!site.name || !site.channel || !site.netlifySiteId || !site.buildHookUrl) {
       this.setState({ misconfigured: true });
       return;
     }

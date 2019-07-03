@@ -58,15 +58,18 @@ export default class NetlifyExtension extends React.Component {
   };
 
   render() {
+    const { sites, selectedSiteIndex } = this.state;
+    const selectedSite = sites[selectedSiteIndex];
+
     return (
       <>
         <NeflifySideBarBuildButton
           users={this.state.users}
           userId={this.props.sdk.user.sys.id}
-          site={this.state.sites[this.state.selectedSiteIndex]}
+          site={selectedSite}
         />
         <Button
-          href={this.state.sites[this.state.selectedSiteIndex].url}
+          href={selectedSite.url}
           target="_blank"
           rel="noopener noreferrer"
           buttonType="muted"

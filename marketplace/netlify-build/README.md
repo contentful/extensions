@@ -1,6 +1,7 @@
 # Netlify Build and Preview
 
-This sidebar extension allows you to build and preview up to 3 Netlify sites.
+This sidebar extension allows you to build and preview up to 3 Netlify sites from within
+the entry editor. The preview button will open your site in a new window.
 
 This is an alternative approach to using a webhook to trigger a build. The advantage
 is that the editor gets control on when a build is executed instead of responding
@@ -15,7 +16,14 @@ to automatic events such as `Entry.publish`.
 ## Installation
 
 Navigate to the Extensions page to install the extension and provide the
-correct credentials into the required fields then click "Save".
+correct configuration: 
++ Netlify site ID
++ Build hook URL
++ Name (for display purposes in the UI)
++ Preview URL of the site
+
+You can have up to 3 sites. To provide multiple configurations, seperate the values
+by using commas.
 
 ![Netlify Installation Config](./assets/setup.png)
 

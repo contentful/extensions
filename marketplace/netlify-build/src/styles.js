@@ -39,8 +39,5 @@ export default {
     lineHeight: '0.65rem',
     borderRadius: '3px',
     textTransform: 'uppercase'
-  }),
-  body: css({
-    fontFamily: 'Avenir Next W01'
   })
 };

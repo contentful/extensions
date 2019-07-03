@@ -1,7 +1,7 @@
 import PubNub from 'pubnub';
 import { PUBLISH_KEY, SUBSCRIBE_KEY } from './contstants';
 
-const isObject = val => typeof val === 'object' && !Array.isArray(val);
+const isObject = val => val != null && typeof val === 'object' && !Array.isArray(val);
 
 function timetokenToDate(timetoken) {
   // timetokens arrive as strings
@@ -68,9 +68,9 @@ export function createPubSub(channel, normalizeFn) {
   async function getHistory(count = 25) {
     const res = await state.instance.history({ channel, count, stringifiedTimeToken: true });
     return (res.messages || [])
-        .map(({ timetoken, entry }) => normalize(entry, timetoken, normalizeFn))
-        .filter(isObject)
-        .reverse();
+      .map(({ timetoken, entry }) => normalize(entry, timetoken, normalizeFn))
+      .filter(isObject)
+      .reverse();
   }
 
   function stop() {

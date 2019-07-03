@@ -1,5 +1,5 @@
 {
-  "id": "netlify-button",
+  "id": "netlify-build-and-preview",
   "name": "Netlify Build and Preview",
   "src": "http://localhost:1234",
   "sidebar": true,
@@ -8,15 +8,15 @@
       {
         "id": "netlifySiteIds",
         "type": "Symbol",
-        "name": "Comma seperated Netlify Site Id list (max 3)",
-        "description": "Example: 14234e3,143248,35233",
+        "name": "Comma seperated Netlify Site ID list (max 3)",
+        "description": "Example: 52833133ac93-7ac0-463b-96d0-bc797e7fcb07,219463a8-f2b3-4c71-8z3c-f403b5966e80",
         "required": true
       },
       {
         "id": "buildHookUrls",
         "type": "Symbol",
         "name": "Comma seperated Netlify build hook URLs (max 3)",
-        "description": "Example: https://api.netlify.com/build_hooks/xyz,https://api.netlify.com/build_hooks/abc",
+        "description": "Example: https://api.netlify.com/build_hooks/kd12c2c1b359do07e3a189af,https://api.netlify.com/build_hooks/9d19clcqb359da2f7da18391",
         "required": true
       },
       {
@@ -30,7 +30,7 @@
         "id": "netlifySiteUrls",
         "type": "Symbol",
         "name": "Comma seperated Netlify site URLs (max 3)",
-        "description": "Example: https://firefly-12345.netlify.com",
+        "description": "Example: https://firefly-12345.netlify.com,https://aardvark-5324-netlify.com",
         "required": true
       }
     ]
