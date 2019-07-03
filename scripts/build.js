@@ -20,9 +20,7 @@ async function writeExtensionManifest(extensionDir, manifest) {
   const outPutDir = path.join(BUILD_DIR, extensionDir);
   const filePath = path.join(outPutDir, 'extension.json');
 
-  return makeDir(outPutDir).then(() =>
-    writeFile(filePath, JSON.stringify(manifest), 'utf8')
-  );
+  return makeDir(outPutDir).then(() => writeFile(filePath, JSON.stringify(manifest), 'utf8'));
 }
 
 async function writeExtensionHeaders(extensionDir) {
@@ -44,20 +42,14 @@ dirs(`${__dirname}/../marketplace`)
     return Promise.all(
       extensions.map(async extension => {
         const entryFile = path.join(BASE_DIR, extension, 'src', 'index.html');
-        const manifest = await readExtensionJsonFile(
-          extension,
-          'extension.json'
-        );
-        const packageJson = await readExtensionJsonFile(
-          extension,
-          'package.json'
-        );
+        const manifest = await readExtensionJsonFile(extension, 'extension.json');
+        const packageJson = await readExtensionJsonFile(extension, 'package.json');
 
         return {
           entryFile,
           name: extension,
           manifest,
-          packageJson,
+          packageJson
         };
       })
     );
@@ -78,10 +70,7 @@ dirs(`${__dirname}/../marketplace`)
 
         newManifest.src = `https://${extensionDir}.contentfulexts.com/extension.html`;
 
-        return cpy(
-          path.join(BASE_DIR, extension.name, 'build'),
-          path.join(BUILD_DIR, extensionDir)
-        )
+        return cpy(path.join(BASE_DIR, extension.name, 'build'), path.join(BUILD_DIR, extensionDir))
           .then(() => writeExtensionManifest(extensionDir, newManifest))
           .then(() => writeExtensionHeaders(extensionDir))
           .then(() =>

@@ -16,7 +16,7 @@ export class CloudinaryField extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      value: props.sdk.field.getValue() || [],
+      value: props.sdk.field.getValue() || []
     };
   }
 
@@ -26,9 +26,7 @@ export class CloudinaryField extends React.Component<Props, State> {
     this.props.sdk.window.startAutoResizer();
 
     // Handler for external field value changes (e.g. when multiple authors are working on the same entry).
-    this.detachExternalChangeHandler = this.props.sdk.field.onValueChanged(
-      this.onExternalChange
-    );
+    this.detachExternalChangeHandler = this.props.sdk.field.onValueChanged(this.onExternalChange);
   }
 
   componentWillUnmount() {
@@ -70,9 +68,9 @@ export class CloudinaryField extends React.Component<Props, State> {
       shouldCloseOnEscapePress: true,
       parameters: {
         ...config,
-        maxFiles: maxSelectableFiles,
+        maxFiles: maxSelectableFiles
       },
-      width: 1400,
+      width: 1400
     });
 
     const newValue = [...(this.state.value || []), ...data.assets];
@@ -103,8 +101,7 @@ export class CloudinaryField extends React.Component<Props, State> {
             buttonType="muted"
             size="small"
             onClick={this.onCloudinaryDialogOpen}
-            disabled={isDisabled}
-          >
+            disabled={isDisabled}>
             {btnTxt}
           </Button>
         </div>

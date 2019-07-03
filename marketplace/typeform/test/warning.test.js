@@ -8,7 +8,7 @@ const { mockComponent } = require('./helpers.js');
 jest.mock('@contentful/forma-36-react-components', () => ({
   Icon: mockComponent('icon'),
   Typography: mockComponent('typography'),
-  Paragraph: mockComponent('paragraph'),
+  Paragraph: mockComponent('paragraph')
 }));
 
 const { Warning } = require('../src/warning.js');

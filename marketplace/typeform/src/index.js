@@ -17,7 +17,7 @@ init(sdk => {
 
   const parameters = {
     accessToken: installation.accessToken,
-    workspaceId: instance.workspaceId || installation.workspaceId,
+    workspaceId: instance.workspaceId || installation.workspaceId
   };
 
   ReactDOM.render(

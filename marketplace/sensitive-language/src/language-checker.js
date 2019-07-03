@@ -7,7 +7,7 @@ import {
   Typography,
   Subheading,
   SectionHeading,
-  Paragraph,
+  Paragraph
 } from '@contentful/forma-36-react-components';
 import { documentToPlainTextString } from '@contentful/rich-text-plain-text-renderer';
 import alex from 'alex';
@@ -71,16 +71,10 @@ export class LanguageChecker extends React.Component {
       <React.Fragment>
         <Typography>
           <Subheading className="align-center">
-            <Icon
-              icon="Warning"
-              color="warning"
-              className="f36-margin-right--xs"
-            />
+            <Icon icon="Warning" color="warning" className="f36-margin-right--xs" />
             Issues found
           </Subheading>
-          <Paragraph>
-            There are some issues with the content in the following fields:
-          </Paragraph>
+          <Paragraph>There are some issues with the content in the following fields:</Paragraph>
         </Typography>
         {messageEntries.map(([fieldId, messages]) => {
           if (messages.length === 0) {
@@ -114,13 +108,13 @@ LanguageChecker.propTypes = {
   alexConfig: PropTypes.shape({
     noBinary: PropTypes.bool,
     profanitySureness: PropTypes.oneOf([0, 1, 2]),
-    allow: PropTypes.arrayOf(PropTypes.string),
-  }),
+    allow: PropTypes.arrayOf(PropTypes.string)
+  })
 };
 
 LanguageChecker.defaultProps = {
   alexConfig: {
     profanitySureness: 0,
-    allow: [],
-  },
+    allow: []
+  }
 };

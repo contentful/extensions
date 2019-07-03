@@ -9,7 +9,7 @@ class Timeline extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      timeline: null,
+      timeline: null
     };
   }
   componentDidMount() {
@@ -22,10 +22,10 @@ class Timeline extends React.Component {
           container: this.timeline,
           options: {
             width: '100%',
-            backgroundColor: '#f7f9fa',
-          },
-        },
-      }),
+            backgroundColor: '#f7f9fa'
+          }
+        }
+      })
     });
   }
   render() {
@@ -38,11 +38,11 @@ class Timeline extends React.Component {
               ids: viewId,
               dimensions: `ga:${dimension}`,
               metrics: 'ga:sessions',
-              filters: `ga:pagePath==${pagePath}`,
+              filters: `ga:pagePath==${pagePath}`
             },
             'start-date': formatDate(range.start),
-            'end-date': formatDate(range.end),
-          },
+            'end-date': formatDate(range.end)
+          }
         })
         .execute();
     }
@@ -57,8 +57,8 @@ Timeline.propTypes = {
   pagePath: PropTypes.string.isRequired,
   range: PropTypes.shape({
     start: PropTypes.instanceOf(Date).isRequired,
-    end: PropTypes.instanceOf(Date).isRequired,
-  }).isRequired,
+    end: PropTypes.instanceOf(Date).isRequired
+  }).isRequired
 };
 
 export { Timeline };

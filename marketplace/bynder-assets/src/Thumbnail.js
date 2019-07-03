@@ -20,5 +20,5 @@ export default function Thumbnail({ src, onDeleteClick }) {
 
 Thumbnail.propTypes = {
   src: PropTypes.string.isRequired,
-  onDeleteClick: PropTypes.func.isRequired,
+  onDeleteClick: PropTypes.func.isRequired
 };

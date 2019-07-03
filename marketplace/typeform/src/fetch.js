@@ -20,8 +20,8 @@ export function fetchForms(workspaceId, accessToken) {
     }`,
     {
       headers: {
-        Authorization: 'Bearer ' + accessToken,
-      },
+        Authorization: 'Bearer ' + accessToken
+      }
     }
   )
     .then(rejectFetchOnHttpError)

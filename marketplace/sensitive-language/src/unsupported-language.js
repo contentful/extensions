@@ -1,21 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Icon,
-  Typography,
-  Subheading,
-  Paragraph,
-} from '@contentful/forma-36-react-components';
+import { Icon, Typography, Subheading, Paragraph } from '@contentful/forma-36-react-components';
 
 export function UnsupportedLanguage({ localeCode, localeName }) {
   return (
     <Typography>
       <Subheading className="align-center">
-        <Icon
-          icon="Warning"
-          color="negative"
-          className="f36-margin-right--xs"
-        />
+        <Icon icon="Warning" color="negative" className="f36-margin-right--xs" />
         Unsupported language
       </Subheading>
       <Paragraph className="bottom-margin-none">
@@ -27,5 +18,5 @@ export function UnsupportedLanguage({ localeCode, localeName }) {
 
 UnsupportedLanguage.propTypes = {
   localeCode: PropTypes.string.isRequired,
-  localeName: PropTypes.string.isRequired,
+  localeName: PropTypes.string.isRequired
 };

@@ -10,11 +10,10 @@ export interface CloudinaryThumbnailProps {
 export function CloudinaryThumbnail(props: CloudinaryThumbnailProps) {
   const cloudinary = new cloudinaryCore({
     cloud_name: props.config.cloudName,
-    api_key: props.config.apiKey,
+    api_key: props.config.apiKey
   });
 
-  const resourceName =
-    props.resource.public_id + props.resource.tags.join(', ');
+  const resourceName = props.resource.public_id + props.resource.tags.join(', ');
 
   if (
     props.resource.resource_type === 'image' &&
@@ -25,7 +24,7 @@ export function CloudinaryThumbnail(props: CloudinaryThumbnailProps) {
         src={cloudinary.url(props.resource.public_id, {
           height: 300,
           width: 300,
-          crop: 'fill',
+          crop: 'fill'
         })}
         alt={resourceName}
         className="CloudinaryImage"
@@ -37,7 +36,7 @@ export function CloudinaryThumbnail(props: CloudinaryThumbnailProps) {
         src={cloudinary.video_thumbnail_url(props.resource.public_id, {
           height: 300,
           width: 300,
-          crop: 'fill',
+          crop: 'fill'
         })}
         alt={resourceName}
         className="CloudinaryImage"

@@ -6,10 +6,10 @@ const renderer = require('react-test-renderer');
 const { mockComponent } = require('./mock-component.js');
 
 jest.mock('../src/unsupported-language.js', () => ({
-  UnsupportedLanguage: mockComponent('unsupported-language'),
+  UnsupportedLanguage: mockComponent('unsupported-language')
 }));
 jest.mock('../src/language-checker.js', () => ({
-  LanguageChecker: mockComponent('language-checker'),
+  LanguageChecker: mockComponent('language-checker')
 }));
 
 const { App } = require('../src/app.js');
@@ -20,9 +20,9 @@ describe('App', function() {
       locales: {
         default: 'de-DE',
         names: {
-          'de-DE': 'German',
-        },
-      },
+          'de-DE': 'German'
+        }
+      }
     };
 
     const tree = renderer.create(<App extension={extension} />).toJSON();
@@ -34,32 +34,32 @@ describe('App', function() {
       locales: {
         default: 'en-US',
         names: {
-          'en-US': 'English',
-        },
+          'en-US': 'English'
+        }
       },
       contentType: {
         fields: [
           {
             id: '123',
-            type: 'Symbol',
-          },
-        ],
+            type: 'Symbol'
+          }
+        ]
       },
       entry: {
         sys: {
-          id: 'ABC',
-        },
+          id: 'ABC'
+        }
       },
       parameters: {
         instance: {
           ignoredFields: '',
-          ignoredRules: '',
+          ignoredRules: ''
         },
         installation: {
           profanitySureness: '0',
-          ignoredRules: '',
-        },
-      },
+          ignoredRules: ''
+        }
+      }
     };
 
     const tree = renderer.create(<App extension={extension} />).toJSON();
@@ -71,32 +71,32 @@ describe('App', function() {
       locales: {
         default: 'en-US',
         names: {
-          'en-US': 'English',
-        },
+          'en-US': 'English'
+        }
       },
       contentType: {
         fields: [
           {
             id: '123',
-            type: 'Symbol',
-          },
-        ],
+            type: 'Symbol'
+          }
+        ]
       },
       entry: {
         sys: {
-          id: 'ABC',
-        },
+          id: 'ABC'
+        }
       },
       parameters: {
         instance: {
           ignoredFields: '',
-          ignoredRules: 'he-she,master-slave',
+          ignoredRules: 'he-she,master-slave'
         },
         installation: {
           profanitySureness: '2',
-          ignoredRules: 'slave, boogeyman-boogeywoman',
-        },
-      },
+          ignoredRules: 'slave, boogeyman-boogeywoman'
+        }
+      }
     };
 
     const tree = renderer.create(<App extension={extension} />).toJSON();
@@ -108,51 +108,51 @@ describe('App', function() {
       locales: {
         default: 'en-US',
         names: {
-          'en-US': 'English',
-        },
+          'en-US': 'English'
+        }
       },
       window: {
-        startAutoResizer() {},
+        startAutoResizer() {}
       },
       contentType: {
         fields: [
           {
             id: '123',
-            type: 'Symbol',
+            type: 'Symbol'
           },
           {
             id: '456',
-            type: 'Number',
+            type: 'Number'
           },
           {
             id: '789',
-            type: 'Text',
+            type: 'Text'
           },
           {
             id: '012',
-            type: 'RichText',
+            type: 'RichText'
           },
           {
             id: '345',
-            type: 'Boolean',
-          },
-        ],
+            type: 'Boolean'
+          }
+        ]
       },
       entry: {
         sys: {
-          id: 'ABC',
-        },
+          id: 'ABC'
+        }
       },
       parameters: {
         instance: {
           ignoredFields: '',
-          ignoredRules: '',
+          ignoredRules: ''
         },
         installation: {
           profanitySureness: '0',
-          ignoredRules: '',
-        },
-      },
+          ignoredRules: ''
+        }
+      }
     };
 
     const tree = renderer.create(<App extension={extension} />).toJSON();
@@ -164,48 +164,48 @@ describe('App', function() {
       locales: {
         default: 'en-US',
         names: {
-          'en-US': 'English',
-        },
+          'en-US': 'English'
+        }
       },
       contentType: {
         fields: [
           {
             id: '123',
-            type: 'Symbol',
+            type: 'Symbol'
           },
           {
             id: '456',
-            type: 'Number',
+            type: 'Number'
           },
           {
             id: '789',
-            type: 'Text',
+            type: 'Text'
           },
           {
             id: '012',
-            type: 'RichText',
+            type: 'RichText'
           },
           {
             id: '345',
-            type: 'Boolean',
-          },
-        ],
+            type: 'Boolean'
+          }
+        ]
       },
       entry: {
         sys: {
-          id: 'ABC',
-        },
+          id: 'ABC'
+        }
       },
       parameters: {
         instance: {
           ignoredFields: '789',
-          ignoredRules: '',
+          ignoredRules: ''
         },
         installation: {
           profanitySureness: '0',
-          ignoredRules: '',
-        },
-      },
+          ignoredRules: ''
+        }
+      }
     };
 
     const tree = renderer.create(<App extension={extension} />).toJSON();

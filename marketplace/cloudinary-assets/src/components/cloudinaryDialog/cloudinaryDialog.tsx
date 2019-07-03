@@ -24,14 +24,14 @@ export default class CloudinaryDialog extends React.Component<Props> {
       max_files: config.maxFiles,
       multiple: config.maxFiles > 1,
       inline_container: '#root',
-      remove_header: true,
+      remove_header: true
     };
 
     return cloudinary.createMediaLibrary(options, {
       // eslint-disable-next-line
       insertHandler: (data: any) => {
         this.props.sdk.close(data);
-      },
+      }
     });
   }
 

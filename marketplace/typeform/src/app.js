@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  TextInput,
-  Select,
-  Option,
-} from '@contentful/forma-36-react-components';
+import { TextInput, Select, Option } from '@contentful/forma-36-react-components';
 import { Warning } from './warning.js';
 
 import { fetchForms } from './fetch.js';
@@ -17,7 +13,7 @@ export class App extends React.Component {
       value: props.sdk.field.getValue(),
       previousValueFormIsMissing: false,
       forms: undefined,
-      error: undefined,
+      error: undefined
     };
 
     this.onChange = this.onChange.bind(this);
@@ -32,13 +28,12 @@ export class App extends React.Component {
         const valueIndex = forms.findIndex(function(form) {
           return form.id === value;
         });
-        const previousValueFormIsMissing =
-          valueIndex === -1 && value !== undefined;
+        const previousValueFormIsMissing = valueIndex === -1 && value !== undefined;
 
         if (previousValueFormIsMissing) {
           forms.unshift({
             id: value,
-            title: 'Previous value (no longer exists in Typeform)',
+            title: 'Previous value (no longer exists in Typeform)'
           });
         }
 
@@ -77,11 +72,7 @@ export class App extends React.Component {
     if (error) {
       return (
         <React.Fragment>
-          <TextInput
-            onChange={this.onChange}
-            value={value}
-            required={isRequired}
-          />
+          <TextInput onChange={this.onChange} value={value} required={isRequired} />
           <Warning iconColor="negative">
             {`Could not fetch forms from Typeform. Received the following error: ${error.message}`}
           </Warning>
@@ -92,10 +83,7 @@ export class App extends React.Component {
     return (
       <React.Fragment>
         {previousValueFormIsMissing && (
-          <Warning>
-            The form you have selected in Contentful no longer exists in
-            Typeform.
-          </Warning>
+          <Warning>The form you have selected in Contentful no longer exists in Typeform.</Warning>
         )}
         <Select onChange={this.onChange} value={value} required={isRequired}>
           <Option key="" value="">
@@ -118,7 +106,7 @@ App.propTypes = {
   sdk: PropTypes.object.isRequired,
   parameters: PropTypes.shape({
     accessToken: PropTypes.string.isRequired,
-    workspaceId: PropTypes.string,
+    workspaceId: PropTypes.string
   }).isRequired,
-  isRequired: PropTypes.bool.isRequired,
+  isRequired: PropTypes.bool.isRequired
 };

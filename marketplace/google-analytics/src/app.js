@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Analytics } from './analytics.js';
 
-const CLIENT_ID =
-  '318721834234-s3td95ohvub1bkksn3aicimnltvmtts8.apps.googleusercontent.com';
+const CLIENT_ID = '318721834234-s3td95ohvub1bkksn3aicimnltvmtts8.apps.googleusercontent.com';
 
 class App extends React.Component {
   constructor(props) {
@@ -19,7 +18,7 @@ class App extends React.Component {
     this.state = {
       isAuthorized: false,
       hasSlug,
-      pagePath,
+      pagePath
     };
   }
 
@@ -29,7 +28,7 @@ class App extends React.Component {
     auth.on('signOut', () => this.setState({ isAuthorized: false }));
     auth.authorize({
       container: 'auth-button',
-      clientid: CLIENT_ID,
+      clientid: CLIENT_ID
     });
   }
 
@@ -64,7 +63,7 @@ class App extends React.Component {
 App.propTypes = {
   auth: PropTypes.object.isRequired,
   parameters: PropTypes.object.isRequired,
-  entry: PropTypes.object.isRequired,
+  entry: PropTypes.object.isRequired
 };
 
 export { App };

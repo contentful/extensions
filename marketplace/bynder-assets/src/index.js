@@ -8,10 +8,7 @@ import Field from './Field';
 
 init(sdk => {
   if (sdk.location.is(locations.LOCATION_DIALOG)) {
-    ReactDOM.render(
-      <BynderDialog sdk={sdk} />,
-      document.getElementById('root')
-    );
+    ReactDOM.render(<BynderDialog sdk={sdk} />, document.getElementById('root'));
   } else {
     ReactDOM.render(<Field sdk={sdk} />, document.getElementById('root'));
   }

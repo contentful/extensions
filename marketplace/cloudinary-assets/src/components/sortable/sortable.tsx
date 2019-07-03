@@ -1,9 +1,5 @@
 import * as React from 'react';
-import {
-  SortableContainer,
-  SortableElement,
-  SortableHandle,
-} from 'react-sortable-hoc';
+import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { IconButton, Card } from '@contentful/forma-36-react-components';
 import '@contentful/forma-36-react-components/dist/styles.css';
@@ -11,52 +7,46 @@ import {
   SortableElementProperties,
   SortableElementState,
   SortableElementData,
-  SortableContainerData,
+  SortableContainerData
 } from './interfaces';
 import CloudinaryThumbnail, {
-  CloudinaryThumbnailProps,
+  CloudinaryThumbnailProps
 } from '../cloudinaryThumbnail/cloudinaryThumbnail';
 
-const DragHandle = SortableHandle<CloudinaryThumbnailProps>(
-  (props: CloudinaryThumbnailProps) => (
-    <div className="order">
-      <CloudinaryThumbnail config={props.config} resource={props.resource} />
+const DragHandle = SortableHandle<CloudinaryThumbnailProps>((props: CloudinaryThumbnailProps) => (
+  <div className="order">
+    <CloudinaryThumbnail config={props.config} resource={props.resource} />
+  </div>
+));
+
+const SortableItem = SortableElement<SortableElementData>((props: SortableElementData) => (
+  <Card className="thumbnail">
+    <DragHandle resource={props.resource} config={props.config} />
+    <IconButton
+      label="Close"
+      onClick={() => props.deleteFnc(props.index)}
+      className="thumbnail-remove"
+      iconProps={{ icon: 'Close' }}
+      buttonType="muted"
+    />
+  </Card>
+));
+
+const SortableList = SortableContainer<SortableContainerData>((props: SortableContainerData) => {
+  return (
+    <div className="thumbnail-list">
+      {props.resources.map((resource, index) => (
+        <SortableItem
+          key={`item-${index}`}
+          index={index}
+          config={props.config}
+          resource={resource}
+          deleteFnc={props.deleteFnc}
+        />
+      ))}
     </div>
-  )
-);
-
-const SortableItem = SortableElement<SortableElementData>(
-  (props: SortableElementData) => (
-    <Card className="thumbnail">
-      <DragHandle resource={props.resource} config={props.config} />
-      <IconButton
-        label="Close"
-        onClick={() => props.deleteFnc(props.index)}
-        className="thumbnail-remove"
-        iconProps={{ icon: 'Close' }}
-        buttonType="muted"
-      />
-    </Card>
-  )
-);
-
-const SortableList = SortableContainer<SortableContainerData>(
-  (props: SortableContainerData) => {
-    return (
-      <div className="thumbnail-list">
-        {props.resources.map((resource, index) => (
-          <SortableItem
-            key={`item-${index}`}
-            index={index}
-            config={props.config}
-            resource={resource}
-            deleteFnc={props.deleteFnc}
-          />
-        ))}
-      </div>
-    );
-  }
-);
+  );
+});
 
 export class SortableComponent extends React.Component<
   SortableElementProperties,
@@ -66,25 +56,19 @@ export class SortableComponent extends React.Component<
     super(props);
 
     this.state = {
-      resources: props.resources,
+      resources: props.resources
     };
   }
 
   componentWillReceiveProps(props: SortableElementProperties) {
     this.setState({
-      resources: props.resources,
+      resources: props.resources
     });
   }
 
-  onSortEnd = ({
-    oldIndex,
-    newIndex,
-  }: {
-    oldIndex: number;
-    newIndex: number;
-  }) => {
+  onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
     this.setState(({ resources }) => ({
-      resources: arrayMove(resources, oldIndex, newIndex),
+      resources: arrayMove(resources, oldIndex, newIndex)
     }));
 
     if (this.props.onChange) {

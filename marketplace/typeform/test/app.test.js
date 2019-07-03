@@ -8,18 +8,17 @@ const { mockComponent, flushPromises } = require('./helpers.js');
 jest.mock('@contentful/forma-36-react-components', () => ({
   TextInput: mockComponent('text-input'),
   Select: mockComponent('select'),
-  Option: mockComponent('option'),
+  Option: mockComponent('option')
 }));
 
 jest.mock('../src/warning.js', () => ({
-  Warning: mockComponent('warning'),
+  Warning: mockComponent('warning')
 }));
 
 let mockFetchForms = () => Promise.resolve([]);
 
 jest.mock('../src/fetch.js', () => ({
-  fetchForms: (workspaceId, accessToken) =>
-    mockFetchForms(workspaceId, accessToken),
+  fetchForms: (workspaceId, accessToken) => mockFetchForms(workspaceId, accessToken)
 }));
 
 const { App } = require('../src/app.js');
@@ -32,8 +31,8 @@ describe('App', function() {
       field: {
         getValue() {
           return undefined;
-        },
-      },
+        }
+      }
     };
 
     const tree = renderer
@@ -50,13 +49,11 @@ describe('App', function() {
       field: {
         getValue() {
           return undefined;
-        },
-      },
+        }
+      }
     };
 
-    const tree = renderer.create(
-      <App isRequired={isRequired} parameters={parameters} sdk={sdk} />
-    );
+    const tree = renderer.create(<App isRequired={isRequired} parameters={parameters} sdk={sdk} />);
 
     return flushPromises().then(() => expect(tree.toJSON()).toMatchSnapshot());
   });
@@ -69,13 +66,11 @@ describe('App', function() {
       field: {
         getValue() {
           return undefined;
-        },
-      },
+        }
+      }
     };
 
-    const tree = renderer.create(
-      <App isRequired={isRequired} parameters={parameters} sdk={sdk} />
-    );
+    const tree = renderer.create(<App isRequired={isRequired} parameters={parameters} sdk={sdk} />);
 
     return flushPromises().then(() => expect(tree.toJSON()).toMatchSnapshot());
   });
@@ -88,13 +83,11 @@ describe('App', function() {
       field: {
         getValue() {
           return 'ABCDEF';
-        },
-      },
+        }
+      }
     };
 
-    const tree = renderer.create(
-      <App isRequired={isRequired} parameters={parameters} sdk={sdk} />
-    );
+    const tree = renderer.create(<App isRequired={isRequired} parameters={parameters} sdk={sdk} />);
 
     return flushPromises().then(() => expect(tree.toJSON()).toMatchSnapshot());
   });
@@ -104,7 +97,7 @@ describe('App', function() {
       Promise.resolve([
         { id: '123', title: 'First form' },
         { id: '345', title: 'Second form' },
-        { id: '678', title: 'Third form' },
+        { id: '678', title: 'Third form' }
       ]);
     const isRequired = false;
     const parameters = { accessToken: 'abc', workspaceId: '123' };
@@ -112,13 +105,11 @@ describe('App', function() {
       field: {
         getValue() {
           return undefined;
-        },
-      },
+        }
+      }
     };
 
-    const tree = renderer.create(
-      <App isRequired={isRequired} parameters={parameters} sdk={sdk} />
-    );
+    const tree = renderer.create(<App isRequired={isRequired} parameters={parameters} sdk={sdk} />);
 
     return flushPromises().then(() => expect(tree.toJSON()).toMatchSnapshot());
   });
@@ -128,7 +119,7 @@ describe('App', function() {
       Promise.resolve([
         { id: '123', title: 'First form' },
         { id: '345', title: 'Second form' },
-        { id: '678', title: 'Third form' },
+        { id: '678', title: 'Third form' }
       ]);
     const isRequired = true;
     const parameters = { accessToken: 'abc', workspaceId: '123' };
@@ -136,13 +127,11 @@ describe('App', function() {
       field: {
         getValue() {
           return undefined;
-        },
-      },
+        }
+      }
     };
 
-    const tree = renderer.create(
-      <App isRequired={isRequired} parameters={parameters} sdk={sdk} />
-    );
+    const tree = renderer.create(<App isRequired={isRequired} parameters={parameters} sdk={sdk} />);
 
     return flushPromises().then(() => expect(tree.toJSON()).toMatchSnapshot());
   });
@@ -152,7 +141,7 @@ describe('App', function() {
       Promise.resolve([
         { id: '123', title: 'First form' },
         { id: '345', title: 'Second form' },
-        { id: '678', title: 'Third form' },
+        { id: '678', title: 'Third form' }
       ]);
     const isRequired = true;
     const parameters = { accessToken: 'abc', workspaceId: '123' };
@@ -160,13 +149,11 @@ describe('App', function() {
       field: {
         getValue() {
           return '123';
-        },
-      },
+        }
+      }
     };
 
-    const tree = renderer.create(
-      <App isRequired={isRequired} parameters={parameters} sdk={sdk} />
-    );
+    const tree = renderer.create(<App isRequired={isRequired} parameters={parameters} sdk={sdk} />);
 
     return flushPromises().then(() => expect(tree.toJSON()).toMatchSnapshot());
   });
@@ -176,7 +163,7 @@ describe('App', function() {
       Promise.resolve([
         { id: '123', title: 'First form' },
         { id: '345', title: 'Second form' },
-        { id: '678', title: 'Third form' },
+        { id: '678', title: 'Third form' }
       ]);
     const isRequired = true;
     const parameters = { accessToken: 'abc', workspaceId: '123' };
@@ -184,13 +171,11 @@ describe('App', function() {
       field: {
         getValue() {
           return '234';
-        },
-      },
+        }
+      }
     };
 
-    const tree = renderer.create(
-      <App isRequired={isRequired} parameters={parameters} sdk={sdk} />
-    );
+    const tree = renderer.create(<App isRequired={isRequired} parameters={parameters} sdk={sdk} />);
 
     return flushPromises().then(() => expect(tree.toJSON()).toMatchSnapshot());
   });
