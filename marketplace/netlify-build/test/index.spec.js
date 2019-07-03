@@ -68,7 +68,7 @@ const sdkMock = {
           {
             sys: {
               type: 'User',
-              id: 'test-id'
+              id: '2jvc3kU4n7OIABiFMTaGyB'
             },
             firstName: 'John',
             lastName: 'Smith',
@@ -81,7 +81,7 @@ const sdkMock = {
   },
   user: {
     sys: {
-      id: 'test-id'
+      id: '2jvc3kU4n7OIABiFMTaGyB'
     }
   }
 };
@@ -132,15 +132,26 @@ describe('NetlifyExtension', () => {
     });
   });
 
-  it('should should show a triggering message when a build is triggered', async () => {
-    const { getByTestId, container } = render(
+  it('should show a triggering message when a build is triggered with username', async () => {
+    const { container } = render(
       <NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />
     );
 
     await wait();
-    expect(container).toMatchSnapshot();
 
-    getByTestId('build-button').click();
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should show a triggering button and build message without username if not loaded yet', async () => {
+    sdkMock.space.getUsers.mockResolvedValue(Promise.resolve({ items: [] }));
+
+    const { container } = render(
+      <NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />
+    );
+
+    await wait();
+
+    expect(container).toMatchSnapshot();
   });
 
   it('should should show a building message when a build is building', async () => {

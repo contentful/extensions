@@ -66,12 +66,11 @@ export function createPubSub(channel, normalizeFn) {
   }
 
   async function getHistory(count = 25) {
-    return await state.instance.history({ channel, count, stringifiedTimeToken: true }).then(res =>
-      (res.messages || [])
+    const res = await state.instance.history({ channel, count, stringifiedTimeToken: true });
+    return (res.messages || [])
         .map(({ timetoken, entry }) => normalize(entry, timetoken, normalizeFn))
         .filter(isObject)
-        .reverse()
-    );
+        .reverse();
   }
 
   function stop() {

@@ -24,6 +24,8 @@ function createSiteStructure(parameters = {}) {
       acc.concat([
         {
           buildHookUrl: buildHooks[i],
+          // we are taking the last part of the url which is a generated ID made by netlify
+          // they will be unique and unguessable, suitable for using as a channel
           channel: buildHooks[i].split('/').pop(),
           netlifySiteId: siteIds[i],
           name: names[i],
