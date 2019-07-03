@@ -27,13 +27,14 @@
     "build": "lerna run build --concurrency 2 -- -- --no-inline && node ./scripts/build.js",
     "deploy": "node ./scripts/deploy.js",
     "lint": "eslint marketplace scripts --ext .js,.ts,.tsx --ignore-path .gitignore",
+    "tsc": "lerna run tsc --stream",
     "test:coverage": "lerna run test:coverage"
   },
   "engines": {
     "node": ">=10.15.0"
   },
   "lint-staged": {
-    "marketplace/**/*.js": [
+    "*.{js,jsx,ts,tsx}": [
       "prettier --write --ignore-path .gitignore",
       "eslint --fix --ignore-path .gitignore",
       "git add"

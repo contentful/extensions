@@ -32,6 +32,9 @@ jobs:
           name: Linting code
           command: npm run lint
       - run:
+          name: Typechecking code
+          command: npm run tsc
+      - run:
           name: Running unit tests
           command: npm run test:coverage
       - run:

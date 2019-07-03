@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/media-has-caption */
+
 import * as React from 'react';
-import * as Hls from 'hls.js';
+import Hls from 'hls.js';
 import './player.css';
 
 interface PlayerProps {

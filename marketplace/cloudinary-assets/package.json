@@ -40,6 +40,7 @@
     "start": "contentful-extension-scripts start",
     "build": "contentful-extension-scripts build",
     "deploy": "npm run build && contentful extension update --force",
+    "tsc": "tsc -p ./ --noEmit",
     "test": "contentful-extension-scripts test --env=jsdom --watch",
     "test:coverage": "contentful-extension-scripts test --env=jsdom --coverage --passWithNoTests",
     "configure": "contentful space use && contentful space environment use",
