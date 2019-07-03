@@ -27,9 +27,8 @@ function Field({ sdk }) {
   useEffect(() => {
     if (assets.length) {
       sdk.field.setValue(assets);
-    }
-    else {
-      sdk.field.setValue('');
+    } else {
+      sdk.field.removeValue();
     }
   }, [assets]);
 
