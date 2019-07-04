@@ -147,7 +147,7 @@ exports[`NetlifyExtension should should show a building message when a build is 
     <div
       class="css-fvpxna"
     >
-      Triggered about 4 hours ago at 2:04:59 PM.
+      Triggered about 4 hours ago at 12:04:59 PM.
     </div>
   </div>
   <a
@@ -275,7 +275,7 @@ exports[`NetlifyExtension should should show a clickable build button when build
     <div
       class="css-fvpxna"
     >
-      Triggered about 4 hours ago at 2:04:59 PM.
+      Triggered about 4 hours ago at 12:04:59 PM.
     </div>
   </div>
   <a
@@ -403,7 +403,7 @@ exports[`NetlifyExtension should show a triggering button and build message with
     <div
       class="css-fvpxna"
     >
-      Triggered about 4 hours ago at 2:04:59 PM.
+      Triggered about 4 hours ago at 12:04:59 PM.
     </div>
   </div>
   <a
@@ -531,7 +531,7 @@ exports[`NetlifyExtension should show a triggering message when a build is trigg
     <div
       class="css-fvpxna"
     >
-      Triggered by John Smith about 4 hours ago at 2:04:59 PM.
+      Triggered by John Smith about 4 hours ago at 12:04:59 PM.
     </div>
   </div>
   <a
