@@ -1,3 +1,4 @@
+/* global global */
 import React from 'react';
 import { render, cleanup, wait, fireEvent } from '@testing-library/react';
 import NetlifyExtension from '../src/index.js';
@@ -36,7 +37,6 @@ jest.mock('pubnub', () => {
     }))
   };
 });
-
 
 // date-fns provides functions such as `distanceInWordsToNow` which will change as the time changes
 // it is necessary to ensure the date will remain the same no matter when these tests are run
@@ -133,9 +133,7 @@ describe('NetlifyExtension', () => {
   });
 
   it('should show a triggering message when a build is triggered with username', async () => {
-    const { container } = render(
-      <NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />
-    );
+    const { container } = render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
 
     await wait();
 
@@ -145,9 +143,7 @@ describe('NetlifyExtension', () => {
   it('should show a triggering button and build message without username if not loaded yet', async () => {
     sdkMock.space.getUsers.mockResolvedValue(Promise.resolve({ items: [] }));
 
-    const { container } = render(
-      <NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />
-    );
+    const { container } = render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
 
     await wait();
 
@@ -180,9 +176,7 @@ describe('NetlifyExtension', () => {
       })
     );
 
-    const { container } = render(
-      <NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />
-    );
+    const { container } = render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
 
     await wait();
     expect(container).toMatchSnapshot();
@@ -222,9 +216,7 @@ describe('NetlifyExtension', () => {
       })
     );
 
-    const { container } = render(
-      <NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />
-    );
+    const { container } = render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
 
     await wait();
     expect(container).toMatchSnapshot();

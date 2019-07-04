@@ -10,21 +10,9 @@
     "@babel/preset-react": "7.0.0",
     "@contentful/contentful-extension-scripts": "0.12.0",
     "@testing-library/react": "^8.0.4",
-    "babel-eslint": "^10.0.2",
-    "babel-jest": "^24.8.0",
     "contentful-cli": "0.28.0",
     "cssnano": "4.1.10",
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.1.0",
-    "eslint-plugin-babel": "^5.3.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jest": "^22.4.1",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.1.1",
-    "eslint-plugin-react": "^7.12.4",
-    "identity-obj-proxy": "^3.0.0",
-    "jest": "^24.8.0",
-    "prettier": "^1.16.4"
+    "identity-obj-proxy": "^3.0.0"
   },
   "dependencies": {
     "@contentful/forma-36-fcss": "0.0.20",
@@ -47,8 +35,6 @@
     "login": "contentful login",
     "logout": "contentful logout",
     "help": "contentful-extension-scripts help",
-    "lint": "eslint src/**/*.js --ignore-path .gitignore",
-    "prettier": "prettier --config .prettierrc --write src/**/*.js",
     "test": "contentful-extension-scripts test --env=jsdom --watch",
     "test:coverage": "contentful-extension-scripts test --env=jsdom --coverage"
   },

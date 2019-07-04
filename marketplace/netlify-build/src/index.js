@@ -50,6 +50,8 @@ export default class NetlifyExtension extends React.Component {
   async componentDidMount() {
     this.props.sdk.window.startAutoResizer();
     const { items } = await this.props.sdk.space.getUsers();
+
+    // eslint-disable-next-line
     this.setState({ users: items });
   }
 

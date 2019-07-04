@@ -6,7 +6,7 @@
     "commander": "^2.20.0",
     "cpy": "^7.2.0",
     "eslint": "6.0.1",
-    "@contentful/eslint-config-extension": "0.1.0",
+    "@contentful/eslint-config-extension": "0.2.0",
     "eslint-plugin-node": "9.1.0",
     "husky": "^3.0.0",
     "fs-extra": "8.1.0",
