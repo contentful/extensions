@@ -2,7 +2,6 @@
 import React from 'react';
 import { render, cleanup, wait, fireEvent } from '@testing-library/react';
 import NetlifyExtension from '../src/index.js';
-import { createPubSub } from '../src/pubnub-client';
 
 const mockaddListener = jest.fn();
 const mocksubscribe = jest.fn();
@@ -96,13 +95,13 @@ describe('NetlifyExtension', () => {
   });
 
   it('should render the NetlifySideBarBuildButton', async () => {
-    const { container } = render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
+    const { container } = render(<NetlifyExtension sdk={sdkMock} />);
 
     expect(container).toMatchSnapshot();
   });
 
   it('should open the preview window with correct URL', async () => {
-    const { getByTestId } = render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
+    const { getByTestId } = render(<NetlifyExtension sdk={sdkMock} />);
 
     expect(getByTestId('preview-button').href).toEqual('https://upbeat-kare-a02208.netlify.com/');
 
@@ -121,7 +120,7 @@ describe('NetlifyExtension', () => {
   });
 
   it('should subscribe to the correct channels', async () => {
-    render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
+    render(<NetlifyExtension sdk={sdkMock} />);
 
     await wait();
     expect(mocksubscribe).toHaveBeenCalledWith({ channels: ['5d19c2c1b359da07eca189af'] });
@@ -133,7 +132,7 @@ describe('NetlifyExtension', () => {
   });
 
   it('should show a triggering message when a build is triggered with username', async () => {
-    const { container } = render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
+    const { container } = render(<NetlifyExtension sdk={sdkMock} />);
 
     await wait();
 
@@ -143,7 +142,7 @@ describe('NetlifyExtension', () => {
   it('should show a triggering button and build message without username if not loaded yet', async () => {
     sdkMock.space.getUsers.mockResolvedValue(Promise.resolve({ items: [] }));
 
-    const { container } = render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
+    const { container } = render(<NetlifyExtension sdk={sdkMock} />);
 
     await wait();
 
@@ -176,7 +175,7 @@ describe('NetlifyExtension', () => {
       })
     );
 
-    const { container } = render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
+    const { container } = render(<NetlifyExtension sdk={sdkMock} />);
 
     await wait();
     expect(container).toMatchSnapshot();
@@ -216,7 +215,7 @@ describe('NetlifyExtension', () => {
       })
     );
 
-    const { container } = render(<NetlifyExtension sdk={sdkMock} createPubSub={createPubSub} />);
+    const { container } = render(<NetlifyExtension sdk={sdkMock} />);
 
     await wait();
     expect(container).toMatchSnapshot();
