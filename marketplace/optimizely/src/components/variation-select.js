@@ -28,13 +28,6 @@ export default function VariationSelect(props) {
 
   return (
     <div className={styles.container}>
-      {/* {props.duplicate && (
-        <div className={styles.item}>
-          <TextLink icon="Copy" disabled onClick={props.onDuplicateClick}>
-            Duplicate {props.duplicate}
-          </TextLink>
-        </div>
-      )} */}
       <div className={styles.item}>
         <Dropdown
           isOpen={isDropdownShown}
@@ -75,8 +68,6 @@ export default function VariationSelect(props) {
 }
 
 VariationSelect.propTypes = {
-  duplicate: PropTypes.string,
   onLinkExistingClick: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired,
-  onDuplicateClick: PropTypes.func.isRequired
+  onCreate: PropTypes.func.isRequired
 };

@@ -96,7 +96,7 @@ ExperimentSection.propTypes = {
   loaded: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
   experiment: ExperimentType,
-  experiments: PropTypes.arrayOf(ExperimentType.isRequired).isRequired,
+  experiments: PropTypes.arrayOf(ExperimentType.isRequired),
   onChangeExperiment: PropTypes.func.isRequired,
   onClearVariations: PropTypes.func.isRequired
 };
