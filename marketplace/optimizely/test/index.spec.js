@@ -3,6 +3,7 @@ import React from 'react';
 import OptimizelyClient from '../src/optimizely-client';
 import { render } from 'react-dom';
 import App from '../src/app';
+import AppSidebar from '../src/app-sidebar';
 import { IncorrectContentType, MissingProjectId } from '../src/components/errors-messages';
 
 let LOCATION = '';
@@ -17,110 +18,116 @@ function loadEntryPoint() {
     require('../src/index');
   });
 }
+
 function mockSdk() {
+  return {
+    parameters: {
+      installation: {
+        optimizelyProjectId: PROJECT_ID
+      }
+    },
+    location: {
+      is: jest.fn(l => {
+        return l === LOCATION;
+      })
+    },
+    ids: {},
+    space: {},
+    locales: {},
+    contentType: {
+      sys: {
+        space: {
+          sys: {
+            type: 'Link',
+            linkType: 'Space',
+            id: 'cyu19ucaypb9'
+          }
+        },
+        id: 'variationContainer',
+        type: 'ContentType',
+        createdAt: '2019-05-24T07:45:48.863Z',
+        updatedAt: '2019-05-30T04:28:43.488Z',
+        environment: {
+          sys: {
+            id: 'master',
+            type: 'Link',
+            linkType: 'Environment'
+          }
+        },
+        revision: 3
+      },
+      name: 'Variation Container',
+      description: null,
+      displayField: 'experimentTitle',
+      fields: [
+        {
+          id: 'experimentTitle',
+          name: 'Experiment title',
+          type: 'Symbol',
+          localized: false,
+          required: false,
+          validations: [],
+          disabled: false,
+          omitted: false
+        },
+        {
+          id: 'experimentId',
+          name: 'Experiment ID',
+          type: 'Symbol',
+          localized: false,
+          required: false,
+          validations: [],
+          disabled: false,
+          omitted: false
+        },
+        {
+          id: 'meta',
+          name: 'Meta',
+          type: 'Object',
+          localized: false,
+          required: false,
+          validations: [],
+          disabled: false,
+          omitted: false
+        },
+        {
+          id: 'variations',
+          name: 'Variations',
+          type: 'Array',
+          localized: false,
+          required: false,
+          validations: [],
+          disabled: false,
+          omitted: false,
+          items: {
+            type: 'Link',
+            validations: [],
+            linkType: 'Entry'
+          }
+        }
+      ].concat(
+        VALID_FIELDS
+          ? {
+              id: 'experimentKey',
+              name: 'Experiment key',
+              type: 'Symbol',
+              localized: false,
+              required: false,
+              validations: [],
+              disabled: false,
+              omitted: false
+            }
+          : []
+      )
+    }
+  };
+}
+
+function makeSdk() {
   jest.doMock('../src/sdk', () => {
     return {
       __esModule: true,
-      init: jest.fn(fn =>
-        fn({
-          parameters: {
-            installation: {
-              optimizelyProjectId: PROJECT_ID
-            }
-          },
-          location: {
-            is: jest.fn(l => {
-              return l === LOCATION;
-            })
-          },
-          contentType: {
-            sys: {
-              space: {
-                sys: {
-                  type: 'Link',
-                  linkType: 'Space',
-                  id: 'cyu19ucaypb9'
-                }
-              },
-              id: 'variationContainer',
-              type: 'ContentType',
-              createdAt: '2019-05-24T07:45:48.863Z',
-              updatedAt: '2019-05-30T04:28:43.488Z',
-              environment: {
-                sys: {
-                  id: 'master',
-                  type: 'Link',
-                  linkType: 'Environment'
-                }
-              },
-              revision: 3
-            },
-            name: 'Variation Container',
-            description: null,
-            displayField: 'experimentTitle',
-            fields: [
-              {
-                id: 'experimentTitle',
-                name: 'Experiment title',
-                type: 'Symbol',
-                localized: false,
-                required: false,
-                validations: [],
-                disabled: false,
-                omitted: false
-              },
-              {
-                id: 'experimentId',
-                name: 'Experiment ID',
-                type: 'Symbol',
-                localized: false,
-                required: false,
-                validations: [],
-                disabled: false,
-                omitted: false
-              },
-              {
-                id: 'meta',
-                name: 'Meta',
-                type: 'Object',
-                localized: false,
-                required: false,
-                validations: [],
-                disabled: false,
-                omitted: false
-              },
-              {
-                id: 'variations',
-                name: 'Variations',
-                type: 'Array',
-                localized: false,
-                required: false,
-                validations: [],
-                disabled: false,
-                omitted: false,
-                items: {
-                  type: 'Link',
-                  validations: [],
-                  linkType: 'Entry'
-                }
-              }
-            ].concat(
-              VALID_FIELDS
-                ? {
-                    id: 'experimentKey',
-                    name: 'Experiment key',
-                    type: 'Symbol',
-                    localized: false,
-                    required: false,
-                    validations: [],
-                    disabled: false,
-                    omitted: false
-                  }
-                : []
-            )
-          }
-        })
-      ),
+      init: jest.fn(fn => fn(mockSdk())),
       locations: {
         LOCATION_ENTRY_FIELD: 'entry-field',
         LOCATION_ENTRY_FIELD_SIDEBAR: 'entry-field-sidebar',
@@ -138,9 +145,9 @@ jest.mock('../src/optimizely-client');
 
 jest.mock('react-dom');
 
-describe('Optimizely UIE entry', () => {
+describe('Optimizely UIE entry point', () => {
   beforeEach(() => {
-    mockSdk();
+    makeSdk();
   });
 
   afterEach(() => {
@@ -153,8 +160,11 @@ describe('Optimizely UIE entry', () => {
   });
 
   it('should instantiate the optimizely client on init', () => {
+    PROJECT_ID = '123';
     loadEntryPoint();
-    expect(OptimizelyClient).toHaveBeenCalledTimes(1);
+    const [{ sdk, project }] = OptimizelyClient.mock.calls[0];
+    expect(project).toEqual(PROJECT_ID);
+    expect(JSON.stringify(sdk)).toEqual(JSON.stringify(mockSdk()));
   });
   it('should render MissingProjectId screen if no projectId exists', () => {
     LOCATION = 'entry-editor';
@@ -182,5 +192,12 @@ describe('Optimizely UIE entry', () => {
       'root'
     );
   });
-  it('should render AppSidebar if in sidebar location', () => {});
+  it('should render AppSidebar if in sidebar location', () => {
+    LOCATION = 'entry-sidebar';
+    PROJECT_ID = '123';
+    loadEntryPoint();
+    const [component] = render.mock.calls[0];
+    const { sdk, client } = component.props;
+    expect(render).toHaveBeenCalledWith(<AppSidebar sdk={sdk} client={client} />, 'root');
+  });
 });
