@@ -1441,12 +1441,13 @@ parcelRequire = (function(e, r, t, n) {
           f = require('./navigator'),
           s = require('./locations'),
           d = [p, T, b, I, y],
-          O = (n((e = {}), s.LOCATION_ENTRY_FIELD, d),
-          n(e, s.LOCATION_ENTRY_FIELD_SIDEBAR, d),
-          n(e, s.LOCATION_ENTRY_SIDEBAR, [p, T, I, y]),
-          n(e, s.LOCATION_ENTRY_EDITOR, [p, T, I]),
-          n(e, s.LOCATION_DIALOG, [p, g, y]),
-          e);
+          O =
+            (n((e = {}), s.LOCATION_ENTRY_FIELD, d),
+            n(e, s.LOCATION_ENTRY_FIELD_SIDEBAR, d),
+            n(e, s.LOCATION_ENTRY_SIDEBAR, [p, T, I, y]),
+            n(e, s.LOCATION_ENTRY_EDITOR, [p, T, I]),
+            n(e, s.LOCATION_DIALOG, [p, g, y]),
+            e);
         function p(e, r) {
           var n = r.user,
             t = r.parameters,
