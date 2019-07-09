@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppSidebar should match snapshot for disabled 1`] = `
+<div>
+  <div>
+    <a
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--disabled___1E20M Button__Button--full-width___3Fmpo"
+      data-test-id="cf-ui-button"
+      disabled=""
+      target="_blank"
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <span
+          class="Button__Button__label___3tcOj"
+        >
+          View in Optimizely
+        </span>
+      </span>
+    </a>
+    <a
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
+      data-test-id="cf-ui-button"
+      href="all-experiment-url"
+      target="_blank"
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <span
+          class="Button__Button__label___3tcOj"
+        >
+          View all experiments
+        </span>
+      </span>
+    </a>
+  </div>
+</div>
+`;
+
+exports[`AppSidebar should match snapshot for enabled 1`] = `
+<div>
+  <div>
+    <a
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--full-width___3Fmpo"
+      data-test-id="cf-ui-button"
+      href="experiment-url-test-experiment"
+      target="_blank"
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <span
+          class="Button__Button__label___3tcOj"
+        >
+          View in Optimizely
+        </span>
+      </span>
+    </a>
+    <a
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
+      data-test-id="cf-ui-button"
+      href="all-experiment-url"
+      target="_blank"
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <span
+          class="Button__Button__label___3tcOj"
+        >
+          View all experiments
+        </span>
+      </span>
+    </a>
+  </div>
+</div>
+`;
