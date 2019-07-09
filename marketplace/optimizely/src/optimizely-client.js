@@ -56,15 +56,11 @@ export default class OptimizelyClient {
   };
 
   getResultsUrl = (campainId, experimentId) => {
-    return `https://app.optimizely.com/v2/projects/${
-      this.project
-    }/results/${campainId}/experiments/${experimentId}`;
+    return `https://app.optimizely.com/v2/projects/${this.project}/results/${campainId}/experiments/${experimentId}`;
   };
 
   getExperimentUrl = experimentId => {
-    return `https://app.optimizely.com/v2/projects/${
-      this.project
-    }/experiments/${experimentId}/variations`;
+    return `https://app.optimizely.com/v2/projects/${this.project}/experiments/${experimentId}/variations`;
   };
 
   getAllExperimentsUrl = () => {
