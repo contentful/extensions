@@ -4,7 +4,6 @@ import find from 'lodash/find';
 import axios from 'axios';
 import Vue from 'vue/dist/vue.esm.js';
 import './index.css';
-import 'contentful-ui-extensions-sdk/dist/cf-extension.css';
 import 'bulma/css/bulma.css';
 
 init(function(extension) {
