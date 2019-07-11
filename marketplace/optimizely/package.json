@@ -10,8 +10,7 @@
     "@babel/preset-react": "^7.0.0",
     "@contentful/contentful-extension-scripts": "^0.13.0",
     "contentful-cli": "0.27.0",
-    "cssnano": "4.1.10",
-    "identity-obj-proxy": "^3.0.0"
+    "cssnano": "4.1.10"
   },
   "dependencies": {
     "@contentful/forma-36-fcss": "0.0.20",
@@ -42,10 +41,5 @@
     "last 5 Chrome version",
     "> 1%",
     "not ie <= 11"
-  ],
-  "jest": {
-    "moduleNameMapper": {
-      "\\.(css|less)$": "identity-obj-proxy"
-    }
-  }
+  ]
 }
