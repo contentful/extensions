@@ -1,16 +1,21 @@
 'use strict';
 
-const { readdir, stat } = require('fs-extra');
-const path = require('path');
+const { readdir, readdirSync } = require('fs-extra');
 
 async function dirs(directory) {
-  let dirs = [];
-  for (const file of await readdir(directory)) {
-    if ((await stat(path.join(directory, file))).isDirectory()) {
-      dirs.push(file);
+  const dirs = [];
+  for (const file of await readdir(directory, { withFileTypes: true })) {
+    if (file.isDirectory()) {
+      dirs.push(file.name);
     }
   }
   return dirs;
 }
 
-module.exports = { dirs };
+function dirsSync(directory) {
+  const files = readdirSync(directory, { withFileTypes: true });
+
+  return files.filter(file => file.isDirectory()).map(file => file.name);
+}
+
+module.exports = { dirs, dirsSync };

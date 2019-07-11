@@ -39,10 +39,9 @@ async function writeExtensionHeaders(extensionDir) {
 
 console.log('BUILDING.....');
 
-dirs(`${__dirname}/../marketplace`)
+dirs(BASE_DIR)
   .then(dirs => {
     const extensions = dirs.filter(dir => !dir.startsWith('shared-'));
-
     return Promise.all(
       extensions.map(async extension => {
         const entryFile = path.join(BASE_DIR, extension, 'src', 'index.html');
