@@ -1,12 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { init } from 'contentful-ui-extensions-sdk';
-import { ExtensionUI } from "@gatsby-cloud-pkg/gatsby-cms-extension-base"
+import { ExtensionUI } from '@gatsby-cloud-pkg/gatsby-cms-extension-base';
 
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
 
 class App extends React.Component {
+  static propTypes = {
+    sdk: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
   }
@@ -25,7 +30,6 @@ class App extends React.Component {
   };
 
   onError = error => {
-    this.setState({ working: false });
     this.props.sdk.notifier.error(error.message);
   };
 
@@ -71,7 +75,11 @@ class App extends React.Component {
     return (
       <div className="extension">
         <div className="flexcontainer">
-          <ExtensionUI contentSlug={contentSlug && contentSlug.getValue()} previewInstanceUrl={previewUrl} authToken={authToken} />
+          <ExtensionUI
+            contentSlug={contentSlug && contentSlug.getValue()}
+            previewInstanceUrl={previewUrl}
+            authToken={authToken}
+          />
         </div>
       </div>
     );
