@@ -6,7 +6,7 @@ This extension lets you visually associate an SKU to any model on Contentful. Th
 
 ## Installation
 
-Install the extension on Contentful by adding the [extension.js](https://github.com/commercelayer/contentful-extension/blob/master/extension.json) URL on the installation dialog box:
+Install the extension on Contentful by adding the [extension.json](marketplace/commercelayer-sku/extension.json) URL on the installation dialog box:
 
 ![Contentful extension](contentful_extension.png?raw=true 'Contentful extension')
 

@@ -7,21 +7,21 @@
     "instance": [
       {
         "id": "clientID",
-        "name": "Client ID",
+        "name": "Commerce Layer Client ID",
         "type": "Symbol",
-        "description": "The Client ID of your application on Commerce Layer"
+        "description": "The Client ID of your Contentful application on Commerce Layer."
       },
       {
         "id": "clientSecret",
-        "name": "Client secret",
+        "name": "Commerce Layer Client secret",
         "type": "Symbol",
-        "description": "The Client secret of your application on Commerce Layer"
+        "description": "The Client secret of your Contentful application on Commerce Layer."
       },
       {
         "id": "endpoint",
-        "name": "Endpoint",
+        "name": "Commerce Layer Endpoint",
         "type": "Symbol",
-        "description": "The Endpoint of your organization on Commerce Layer"
+        "description": "The Endpoint of your organization on Commerce Layer."
       }
     ]
   }
