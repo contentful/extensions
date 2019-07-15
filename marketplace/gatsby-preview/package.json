@@ -8,28 +8,29 @@
     "@babel/plugin-transform-runtime": "7.3.4",
     "@babel/preset-env": "7.3.4",
     "@babel/preset-react": "7.0.0",
-    "@contentful/contentful-extension-scripts": "0.7.2",
-    "contentful-cli": "0.26.2"
+    "@contentful/contentful-extension-scripts": "0.12.0",
+    "contentful-cli": "0.28.0"
   },
   "dependencies": {
-    "@contentful/forma-36-fcss": "0.0.17",
-    "@contentful/forma-36-react-components": "3.0.0",
+    "@contentful/forma-36-fcss": "0.0.20",
+    "@contentful/forma-36-react-components": "3.11.2",
     "@contentful/forma-36-tokens": "0.3.0",
     "@gatsby-cloud-pkg/gatsby-cms-extension-base": "^0.0.16",
-    "contentful-ui-extensions-sdk": "3.7.2",
+    "contentful-ui-extensions-sdk": "3.9.0",
     "prop-types": "15.7.2",
     "react": "16.8.6",
     "react-dom": "16.8.6"
   },
   "scripts": {
-    "prestart": "contentful extension update --src http://localhost:1234 --force",
     "start": "contentful-extension-scripts start",
     "build": "contentful-extension-scripts build",
     "deploy": "npm run build && contentful extension update --force",
     "login": "contentful login",
     "configure": "contentful space use && contentful space environment use",
     "logout": "contentful logout",
-    "help": "contentful-extension-scripts help"
+    "help": "contentful-extension-scripts help",
+    "test": "TZ=UTC contentful-extension-scripts test --env=jsdom --watch",
+    "test:coverage": "TZ=UTC contentful-extension-scripts test --env=jsdom --coverage"
   },
   "browserslist": [
     "last 5 Chrome version",
