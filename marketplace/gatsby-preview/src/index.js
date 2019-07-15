@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import PropTypes from 'prop-types';
 import { init } from 'contentful-ui-extensions-sdk';
 import { ExtensionUI } from '@gatsby-cloud-pkg/gatsby-cms-extension-base';
@@ -7,7 +7,7 @@ import { ExtensionUI } from '@gatsby-cloud-pkg/gatsby-cms-extension-base';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
 
-class App extends React.Component {
+export default class App extends React.Component {
   static propTypes = {
     sdk: PropTypes.object.isRequired
   };
@@ -16,17 +16,19 @@ class App extends React.Component {
     super(props);
   }
 
-  componentDidMount = () => {
-    this.detachFn = this.props.sdk.entry.onSysChanged(this.onSysChanged);
-
+  componentDidMount() {
     this.props.sdk.window.startAutoResizer();
-  };
+  }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     this.detachFn();
     if (this.debounceInterval) {
       clearInterval(this.debounceInterval);
     }
+  }
+
+  detachFn = () => {
+    return this.props.sdk.entry.onSysChanged(this.onSysChanged);
   };
 
   onError = error => {
@@ -87,5 +89,5 @@ class App extends React.Component {
 }
 
 init(sdk => {
-  ReactDOM.render(<App sdk={sdk} />, document.getElementById('root'));
+  render(<App sdk={sdk} />, document.getElementById('root'));
 });
