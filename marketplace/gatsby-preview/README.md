@@ -4,7 +4,7 @@ Gatsby is an open-source, modern website framework based on React to create and 
 
 **Note:** Gatsby Preview is still in beta, please be mindful when using this extension.
 
-![Demo of the extension](demo.gif)
+![Demo of the extension](./assets/demo.gif)
 
 ## Overview
 
@@ -22,7 +22,7 @@ The extension has the following spec:
   - set an optional `slug` fragment for each content type
   - toggle auto-update when typing
 
-![Screenshot of the extension](screenshot.png)
+![Screenshot of the extension](./assets/screenshot.png)
 
 ## Requirements
 
