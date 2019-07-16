@@ -165,7 +165,7 @@ select.cf-form-input {
   padding-right: 1.5em;
   padding-left: 0.5em;
   height: 36px;
-  background-image: url("https://static.contentful.com/app/svg/dd-arrow-down.svg");
+  background-image: url("assets/dotted-border.svg");
   background-position: center right 5px;
   background-repeat: no-repeat;
   -webkit-background-size: 0.7em;
