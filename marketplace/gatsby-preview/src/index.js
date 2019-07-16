@@ -14,6 +14,7 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
+    this.detachFn = props.sdk.entry.onSysChanged(this.onSysChanged);
   }
 
   componentDidMount() {
@@ -26,10 +27,6 @@ export default class App extends React.Component {
       clearInterval(this.debounceInterval);
     }
   }
-
-  detachFn = () => {
-    return this.props.sdk.entry.onSysChanged(this.onSysChanged);
-  };
 
   onError = error => {
     this.props.sdk.notifier.error(error.message);
