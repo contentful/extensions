@@ -1,6 +1,6 @@
 # Publish Confirmation UI Extension
 
-This is a sidebar UI extension which shows the entry status and a publish button. It also has a like to unpublish the entry and shows when the entry was last saved.
+This is a sidebar UI extension which shows the entry status and a publish button. It also has a link to unpublish the entry and shows when the entry was last saved.
 
 ![image](./publish_button_with_confirmation_screenshot1.png)
 
