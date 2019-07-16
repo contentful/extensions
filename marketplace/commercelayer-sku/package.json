@@ -1,6 +1,6 @@
 {
   "name": "commercelayer-sku",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "devDependencies": {
     "@babel/core": "7.3.4",
@@ -9,7 +9,6 @@
     "@babel/preset-env": "7.3.4",
     "@babel/preset-react": "7.0.0",
     "@contentful/contentful-extension-scripts": "0.12.0",
-    "cssnano": "4.1.10",
     "contentful-cli": "0.28.0"
   },
   "dependencies": {
