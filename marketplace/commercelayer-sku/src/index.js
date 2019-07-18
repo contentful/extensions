@@ -1,6 +1,5 @@
 import { init } from 'contentful-ui-extensions-sdk';
 import debounce from 'lodash/debounce';
-import find from 'lodash/find';
 import axios from 'axios';
 import Vue from 'vue/dist/vue.esm.js';
 import './index.css';
@@ -66,7 +65,7 @@ init(function(extension) {
     },
     computed: {
       selectedSku() {
-        return find(this.skus, sku => {
+        return this.skus.find(sku => {
           return sku.id === this.selectedSkuId;
         });
       }
