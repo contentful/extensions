@@ -10,8 +10,17 @@ const styles = {
   })
 };
 
+const getExperimentUrl = (projectId, experimentId) => {
+  return `https://app.optimizely.com/v2/projects/${projectId}/experiments/${experimentId}/variations`;
+};
+
+const getAllExperimentsUrl = (projectId) => {
+  return `https://app.optimizely.com/v2/projects/${projectId}/experiments`;
+};
+
 export default function AppSidebar(props) {
   const [experimentId, setExperimentId] = useState(props.sdk.entry.fields.experimentId.getValue());
+  const {parameters} = props.sdk;
 
   useEffect(() => {
     props.sdk.window.startAutoResizer();
@@ -29,6 +38,8 @@ export default function AppSidebar(props) {
     };
   }, []);
 
+  const projectId = parameters.installation.optimizelyProjectId;
+
   return (
     <div>
       <Button
@@ -36,7 +47,7 @@ export default function AppSidebar(props) {
         isFullWidth
         className={styles.button}
         disabled={!experimentId}
-        href={props.client.getExperimentUrl(experimentId)}
+        href={getExperimentUrl(projectId, experimentId)}
         target="_blank">
         View in Optimizely
       </Button>
@@ -45,7 +56,7 @@ export default function AppSidebar(props) {
         isFullWidth
         className={styles.button}
         target="_blank"
-        href={props.client.getAllExperimentsUrl()}>
+        href={getAllExperimentsUrl(projectId)}>
         View all experiments
       </Button>
     </div>
@@ -61,5 +72,4 @@ AppSidebar.propTypes = {
     }),
     window: PropTypes.object.isRequired
   }).isRequired,
-  client: PropTypes.object.isRequired
 };
