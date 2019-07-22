@@ -11,26 +11,28 @@ const url = `https://app.optimizely.com/oauth2/authorize
 &scopes=all`;
 
 function getAccessTokenFromHash(hash) {
-  return hash
-  .slice(1)
-  .split('&')[0].split('=')[1] || null;
+  return (
+    hash
+      .slice(1)
+      .split('&')[0]
+      .split('=')[1] || null
+  );
 }
 
 export default class AppPage extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      accessToken: false
+      accessToken: '',
     };
 
     this.authWindow = () => {};
 
     this.listener = window.addEventListener(
       'message',
-      (event) => {
-        const {data, origin} = event;
+      event => {
+        const { data, origin } = event;
 
         if (origin !== 'http://localhost:1234' || !data.hash) {
           return;
@@ -42,25 +44,21 @@ export default class AppPage extends React.Component {
           return;
         }
 
-        this.props.setAccessToken(accessToken);
+        this.setState({accessToken});
       },
       false
-    )
+    );
   }
 
   openAuth = () => {
     window.open(url, '', WINDOW_OPTS);
-
-  }
+  };
 
   render() {
-    const { authorized } = this.state;
-    if (!authorized) {
-      return (
-        <button onClick={this.openAuth}>
-          {connectButton}
-        </button>
-      );
+    const { accessToken } = this.state;
+
+    if (!accessToken) {
+      return <button onClick={this.openAuth}>{connectButton}</button>;
     }
 
     return <div>App Page</div>;
