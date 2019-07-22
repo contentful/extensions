@@ -1,8 +1,9 @@
 export default class OptimizelyClient {
-  constructor({ project, accessToken }) {
+  constructor({ project, accessToken, onReauth }) {
     this.accessToken = accessToken;
     this.project = project;
     this.baseURL = 'https://api.optimizely.com/v2';
+    this.onReauth = onReauth;
   }
 
   makeRequest = async url => {
@@ -11,21 +12,19 @@ export default class OptimizelyClient {
         Authorization: `Bearer ${this.accessToken}`
       }
     });
-    // const response = await this.sdk.alpha('proxyGetRequest', {
-    //   appId: 'optimizely',
-    //   url: `${this.baseURL}${url}`,
-    //   headers: {
-    //     Authorization: `Bearer {pat}`
-    //   }
-    // });
-    if (response.status === 200) {
-      try {
-        return await response.json();
-      } catch (e) {
-        throw Error('Failed optimizely response');
+
+    switch (response.status) {
+      case 200: {
+        try {
+          return await response.json();
+        } catch (e) {
+          // reauth
+        }
       }
-    } else {
-      throw Error('Failed optimizely request: ' + response.status);
+      case 403:
+      default: {
+        this.onReauth();
+      }
     }
   };
 
@@ -64,15 +63,7 @@ export default class OptimizelyClient {
     return this.makeRequest(`/experiments/${experimentId}/results`);
   };
 
-  getResultsUrl = (campainId, experimentId) => {
-    return `https://app.optimizely.com/v2/projects/${this.project}/results/${campainId}/experiments/${experimentId}`;
-  };
-
-  getExperimentUrl = experimentId => {
-    return `https://app.optimizely.com/v2/projects/${this.project}/experiments/${experimentId}/variations`;
-  };
-
-  getAllExperimentsUrl = () => {
-    return `https://app.optimizely.com/v2/projects/${this.project}/experiments`;
+  getResultsUrl = (campaignUrl, experimentId) => {
+    return `https://app.optimizely.com/v2/projects/${this.project}/results/${campaignUrl}/experiments/${experimentId}`;
   };
 }
