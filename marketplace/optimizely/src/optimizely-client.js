@@ -13,19 +13,12 @@ export default class OptimizelyClient {
       }
     });
 
-    switch (response.status) {
-      case 200: {
-        try {
-          return await response.json();
-        } catch (e) {
-          // reauth
-        }
-      }
-      case 403:
-      default: {
-        this.onReauth();
-      }
+    if (response.status === 200) {
+      return await response.json();
     }
+
+    // reauthing should hopefully fix the issue
+    this.onReauth();
   };
 
   getExperiment = experimentId => {
