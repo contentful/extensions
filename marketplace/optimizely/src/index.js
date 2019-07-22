@@ -74,19 +74,6 @@ export default class AppPage extends React.Component {
     );
   }
 
-  componentDidMount() {
-    if (!this.client) {
-      const checkForToken = setInterval(() => {
-        const token = window.localStorage.getItem(TOKEN_KEY);
-
-        if (token) {
-          this.setState({client: this.makeClient(token)});
-          clearInterval(checkForToken);
-        }
-      }, 1000);
-    }
-  }
-
   makeClient = (token) => {
     return new OptimizelyClient({
       accessToken: token,

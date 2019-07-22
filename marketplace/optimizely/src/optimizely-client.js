@@ -1,5 +1,9 @@
 export default class OptimizelyClient {
   constructor({ project, accessToken, onReauth }) {
+    if (typeof accessToken !== 'string' || !accessToken) {
+      throw new Error('You must provide a valid access token!');
+    }
+
     this.accessToken = accessToken;
     this.project = project;
     this.baseURL = 'https://api.optimizely.com/v2';
