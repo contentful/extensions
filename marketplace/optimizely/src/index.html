@@ -5,6 +5,12 @@
   </head>
   <body>
     <div id="root"></div>
+      <script>
+        if (location.hash) {
+          window.opener.postMessage({hash: location.hash});
+          window.close();
+        }
+      </script>
     <script type="text/javascript" src="./index.js"></script>
   </body>
 </html>
