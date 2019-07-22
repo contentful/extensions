@@ -1,20 +1,29 @@
 export default class OptimizelyClient {
-  constructor({ sdk, project }) {
-    this.sdk = sdk;
+  constructor({ project, accessToken }) {
+    this.accessToken = accessToken;
     this.project = project;
     this.baseURL = 'https://api.optimizely.com/v2';
   }
 
   makeRequest = async url => {
-    const response = await this.sdk.alpha('proxyGetRequest', {
-      appId: 'optimizely',
-      url: `${this.baseURL}${url}`,
+    const response = await fetch(`${this.baseURL}${url}`, {
       headers: {
-        Authorization: `Bearer {pat}`
+        Authorization: `Bearer ${this.accessToken}`
       }
     });
+    // const response = await this.sdk.alpha('proxyGetRequest', {
+    //   appId: 'optimizely',
+    //   url: `${this.baseURL}${url}`,
+    //   headers: {
+    //     Authorization: `Bearer {pat}`
+    //   }
+    // });
     if (response.status === 200) {
-      return JSON.parse(response.body);
+      try {
+        return await response.json();
+      } catch (e) {
+        throw Error('Failed optimizely response');
+      }
     } else {
       throw Error('Failed optimizely request: ' + response.status);
     }
