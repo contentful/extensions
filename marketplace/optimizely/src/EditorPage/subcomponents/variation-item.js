@@ -12,10 +12,10 @@ import {
   TextLink
 } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
-import { SDKContext, GlobalStateContext } from '../all-context';
+import { SDKContext, GlobalStateContext } from './all-context';
 import VariationSelect from './variation-select';
 import VariationStats from './variations-stats';
-import { getAdditionalEntryInformation } from '../utils';
+import { getAdditionalEntryInformation } from './utils';
 
 const styles = {
   variationContainer: css({
