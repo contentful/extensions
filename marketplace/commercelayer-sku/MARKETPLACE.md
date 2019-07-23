@@ -1,5 +1,3 @@
-# Contentful UI Extension
-
 [Commerce Layer](https://commercelayer.io/) is an API-first commerce platform that lets you easily add enterprise-grade e-commerce to any website. Take a look at this [example](https://github.com/commercelayer/contentful-commerce) to see an example Static e-commerce site built with Commerce Layer, Jekyll and Contentful.
 
 This extension lets you visually associate an SKU on Commerce Layer to any model on Contentful. The association brings the SKU `code` into the content model, so that you can make it shoppable on the front-end by leveraging the Commerce Layer API.
