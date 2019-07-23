@@ -29,15 +29,7 @@ export default {
     display: 'flex',
     marginBottom: tokens.spacingS
   }),
-  alphaLabel: css({
-    display: 'block',
-    marginRight: tokens.spacingS,
-    background: tokens.colorBlueDark,
-    color: tokens.colorWhite,
-    padding: tokens.spacing2Xs,
-    fontSize: '0.65rem',
-    lineHeight: '0.65rem',
-    borderRadius: '3px',
-    textTransform: 'uppercase'
+  section: css({
+    marginBottom: tokens.spacingXl
   })
 };

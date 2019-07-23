@@ -9,7 +9,7 @@ import {
   EVENT_BUILD_FAILED,
   NETLIFY_EVENTS,
   NETLIFY_STATE_TO_EVENT
-} from './contstants';
+} from './constants';
 
 function isValidNetlifyMessage(msg, siteId) {
   return msg.site_id === siteId && NETLIFY_STATE_TO_EVENT[msg.state];

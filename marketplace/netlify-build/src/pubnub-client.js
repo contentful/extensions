@@ -1,7 +1,11 @@
 import PubNub from 'pubnub';
-import { PUBLISH_KEY, SUBSCRIBE_KEY } from './contstants';
+import { PUBNUB_PUBLISH_KEY, PUBNUB_SUBSCRIBE_KEY } from './constants';
 
-const isObject = val => val != null && typeof val === 'object' && !Array.isArray(val);
+export function getPostPublishUrl(channel) {
+  return `https://ps.pndsn.com/publish/${PUBNUB_PUBLISH_KEY}/${PUBNUB_SUBSCRIBE_KEY}/0/${channel}/0?store=1`;
+}
+
+const isObject = val => typeof val === 'object' && val !== null && !Array.isArray(val);
 
 function timetokenToDate(timetoken) {
   // timetokens arrive as strings
@@ -40,8 +44,8 @@ export function createPubSub(channel, normalizeFn) {
 
   async function start() {
     state.instance = new PubNub({
-      publishKey: PUBLISH_KEY,
-      subscribeKey: SUBSCRIBE_KEY
+      publishKey: PUBNUB_PUBLISH_KEY,
+      subscribeKey: PUBNUB_SUBSCRIBE_KEY
     });
 
     state.mainListener = {
