@@ -3,8 +3,8 @@ import { css } from 'emotion';
 import PropTypes from 'prop-types';
 import { Icon } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
-import { Status } from '../constants';
-import { getEntryStatus } from '../utils';
+import { Status } from './constants';
+import { getEntryStatus } from './utils';
 
 const styles = {
   note: css({

@@ -8,7 +8,7 @@ import {
 } from '@contentful/forma-36-react-components';
 import { css } from 'emotion';
 import tokens from '@contentful/forma-36-tokens';
-import { GlobalStateContext } from '../all-context';
+import { GlobalStateContext } from './all-context';
 
 const styles = {
   container: css({

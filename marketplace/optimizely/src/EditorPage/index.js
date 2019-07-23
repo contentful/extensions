@@ -4,15 +4,15 @@ import { css } from 'emotion';
 import useMethods from 'use-methods';
 import tokens from '@contentful/forma-36-tokens';
 import { Note } from '@contentful/forma-36-react-components';
-import StatusBar from './components/status-bar';
-import ReferencesSection from './components/references-section';
-import ExperimentSection from './components/experiment-section';
-import VariationsSection from './components/variations-section';
-import SectionSplitter from './components/section-splitter';
+import StatusBar from './subcomponents/status-bar';
+import ReferencesSection from './subcomponents/references-section';
+import ExperimentSection from './subcomponents/experiment-section';
+import VariationsSection from './subcomponents/variations-section';
+import SectionSplitter from './subcomponents/section-splitter';
+import { SDKContext, GlobalStateContext } from './subcomponents/all-context';
 import prepareReferenceInfo, { COMBINED_LINK_VALIDATION_CONFLICT } from './reference-info';
 import useInterval from '@use-it/interval';
 
-import { SDKContext, GlobalStateContext } from './all-context';
 
 const styles = {
   root: css({

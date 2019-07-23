@@ -1,19 +1,17 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { css } from 'emotion';
-import { init, locations } from 'contentful-ui-extensions-sdk';
-import { Button } from '@contentful/forma-36-react-components';
+import { init, locations } from '../../../../ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
-import App from './app';
-import AppSidebar from './app-sidebar';
+import App from './EditorPage';
+import AppSidebar from './Sidebar';
 import {
   IncorrectContentType,
   isValidContentType,
   MissingProjectId
-} from './components/errors-messages';
-import ConnectButton from './ConnectButton';
+} from './errors-messages';
 import OptimizelyClient from './optimizely-client';
+import ConfigPage from './AppPage';
 
 function getAccessTokenFromHash(hash) {
   return (
@@ -32,20 +30,15 @@ if (location.hash) {
   window.close();
 }
 
+const HOST = 'http://localhost:1234';
+
 const url = `https://app.optimizely.com/oauth2/authorize
 ?client_id=15687650042
-&redirect_uri=${encodeURIComponent('http://localhost:1234')}
+&redirect_uri=${encodeURIComponent(HOST)}
 &response_type=token
 &scopes=all`;
 
 const TOKEN_KEY = 'optToken';
-
-const styles = {
-  connect: css({
-    display: 'flex',
-    alignItems: 'center',
-  }),
-};
 
 export default class AppPage extends React.Component {
   constructor(props) {
@@ -62,7 +55,7 @@ export default class AppPage extends React.Component {
       event => {
         const { data, origin } = event;
 
-        if (origin !== 'http://localhost:1234' || !data.token) {
+        if (origin !== HOST|| !data.token) {
           return;
         }
 
@@ -94,6 +87,10 @@ export default class AppPage extends React.Component {
     const {sdk} = props;
     const {client} = state; 
     const { location, parameters } = sdk;
+
+      if (location.is(locations.LOCATION_APP)) {
+          return (<ConfigPage />);
+      }
 
     if (location.is(locations.LOCATION_ENTRY_SIDEBAR)) {
       if (!parameters.installation.optimizelyProjectId) {
