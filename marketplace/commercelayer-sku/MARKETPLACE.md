@@ -1,5 +1,3 @@
-# Contentful UI Extension
-
 [Commerce Layer](https://commercelayer.io/) is an API-first commerce platform that lets you easily add enterprise-grade e-commerce to any website. Take a look at this [example](https://github.com/commercelayer/contentful-commerce) to see an example Static e-commerce site built with Commerce Layer, Jekyll and Contentful.
 
 This extension lets you visually associate an SKU on Commerce Layer to any model on Contentful. The association brings the SKU `code` into the content model, so that you can make it shoppable on the front-end by leveraging the Commerce Layer API.
@@ -10,9 +8,7 @@ This extension lets you visually associate an SKU on Commerce Layer to any model
 
 To use this extension you'll need an account with CommerceLayer and will need to create a Contentful Application from the settings section of your CommerceLayer store. Once this is complete CommerceLayer will provide you a `Client Secret`, `Client ID` and `Store URL` that can be used to configure this extension.
 
-Install the extension on Contentful by adding the [extension.json](extension.json) URL on the installation dialog box:
-
-![Contentful extension](contentful_extension.png?raw=true 'Contentful extension')
+Install the extension on Contentful by clicking Install on this page.
 
 Create a `contentful` application on Commerce Layer and get the client ID, client secret, and base endpoint:
 
