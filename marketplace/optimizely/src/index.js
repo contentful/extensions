@@ -48,6 +48,7 @@ export default class App extends React.Component {
 
     this.state = {
       client: token ? this.makeClient(token) : null,
+      accessToken: token,
     }
 
     this.listener = window.addEventListener(
@@ -89,7 +90,7 @@ export default class App extends React.Component {
     const { location, parameters } = sdk;
 
       if (location.is(locations.LOCATION_APP)) {
-          return (<AppPage openAuth={this.openAuth} />);
+          return (<AppPage openAuth={this.openAuth} accessToken={this.state.accessToken} />);
       }
 
     if (location.is(locations.LOCATION_ENTRY_SIDEBAR)) {
