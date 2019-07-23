@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { init, locations } from '../../../../ui-extensions-sdk';
-import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
-import App from './EditorPage';
-import AppSidebar from './Sidebar';
+import EditorPage from './EditorPage';
+import Sidebar from './Sidebar';
 import {
   IncorrectContentType,
   isValidContentType,
   MissingProjectId
 } from './errors-messages';
 import OptimizelyClient from './optimizely-client';
-import ConfigPage from './AppPage';
+import AppPage from './AppPage';
+import '@contentful/forma-36-react-components/dist/styles.css';
 
 function getAccessTokenFromHash(hash) {
   return (
@@ -40,7 +40,7 @@ const url = `https://app.optimizely.com/oauth2/authorize
 
 const TOKEN_KEY = 'optToken';
 
-export default class AppPage extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -89,7 +89,7 @@ export default class AppPage extends React.Component {
     const { location, parameters } = sdk;
 
       if (location.is(locations.LOCATION_APP)) {
-          return (<ConfigPage />);
+          return (<AppPage openAuth={this.openAuth} />);
       }
 
     if (location.is(locations.LOCATION_ENTRY_SIDEBAR)) {
@@ -97,19 +97,7 @@ export default class AppPage extends React.Component {
         return (<MissingProjectId />);
       }
 
-      return (<AppSidebar sdk={sdk} />);
-    }
-
-    if (!client) {
-      return (
-        <Button onClick={this.openAuth} isFullWidth>
-          <div className={styles.connect}>
-            <ConnectButton />&nbsp;
-            Connect with Optimizely
-          </div>
-        </Button>
-
-      );
+      return (<Sidebar sdk={sdk} />);
     }
 
     if (location.is(locations.LOCATION_ENTRY_EDITOR)) {
@@ -119,13 +107,13 @@ export default class AppPage extends React.Component {
         return (<IncorrectContentType sdk={sdk} missingFields={missingFields} />);
       }
 
-      return (<App sdk={sdk} client={client} />);
+      return (<EditorPage sdk={sdk} client={client} />);
     }
   }
 }
 
 init(sdk => {
-  render(<AppPage sdk={sdk}/>, document.getElementById('root'));
+  render(<App sdk={sdk}/>, document.getElementById('root'));
 });
 
 // if (module.hot) {

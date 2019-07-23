@@ -92,7 +92,7 @@ const fetchInitialData = async (sdk, client) => {
   };
 };
 
-export default function App(props) {
+export default function EditorPage(props) {
   const globalState = useMethods(methods, getInitialValue(props.sdk));
   const [state, actions] = globalState;
 
@@ -324,7 +324,7 @@ export default function App(props) {
   );
 }
 
-const AppTypes = {
+EditorPage.propTypes = {
   client: PropTypes.any.isRequired,
   sdk: PropTypes.shape({
     space: PropTypes.object.isRequired,
@@ -354,5 +354,3 @@ const AppTypes = {
     }).isRequired
   }).isRequired
 };
-
-App.propTypes = AppTypes;

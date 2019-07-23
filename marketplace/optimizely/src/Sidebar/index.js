@@ -18,7 +18,7 @@ const getAllExperimentsUrl = (projectId) => {
   return `https://app.optimizely.com/v2/projects/${projectId}/experiments`;
 };
 
-export default function AppSidebar(props) {
+export default function Sidebar(props) {
   const [experimentId, setExperimentId] = useState(props.sdk.entry.fields.experimentId.getValue());
   const {parameters} = props.sdk;
 
@@ -63,7 +63,7 @@ export default function AppSidebar(props) {
   );
 }
 
-AppSidebar.propTypes = {
+Sidebar.propTypes = {
   sdk: PropTypes.shape({
     entry: PropTypes.shape({
       fields: PropTypes.shape({
