@@ -40,9 +40,9 @@ export default class AppPage extends React.Component {
                 </div>
 
                 <div className={styles.section}>
-                    {this.props.accessToken
+                    {!this.props.accessToken
                         ? <Connect openAuth={this.props.openAuth} />
-                        :<Config />
+                        : <Config />
                     }
                 </div>
             </div>
