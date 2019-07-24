@@ -6,10 +6,15 @@
   "parameters": {
     "installation": [
       {
-        "id": "optimizelyProjectId",
+        "id": "projectId",
         "type": "Symbol",
         "name": "Optimizely Project ID",
         "required": true
+      },
+      {
+        "id": "contentTypeIds",
+        "type": "Symbol",
+        "name": "Comma seperated Content Types to use with Optimizely"
       }
     ]
   }

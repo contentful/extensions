@@ -22,6 +22,27 @@ const styles = {
   })
 };
 
+function stringifyContentTypeIds(ids) {
+  if (!Array.isArray(ids)) {
+    return '';
+  }
+
+  return ids.filter(x => x).join(',');
+}
+
+function parseContentTypeIds(idString) {
+  return idString.trim().split(',');
+}
+
+function configValid({ projectId, contentTypeIds }) {
+  return (
+    typeof projectId === 'string' &&
+    projectId &&
+    Array.isArray(contentTypeIds) &&
+    contentTypeIds.every(id => typeof id === 'string')
+  );
+}
+
 export default class AppPage extends React.Component {
   static propTypes = {
     openAuth: PropTypes.func.isRequired,
@@ -33,7 +54,10 @@ export default class AppPage extends React.Component {
     super(props);
 
     this.state = {
-      config: null
+      config: {
+        projectId: '',
+        contentTypeIds: []
+      }
     };
   }
 
@@ -43,21 +67,48 @@ export default class AppPage extends React.Component {
     const currentParameters = await app.getParameters();
     const method = currentParameters ? 'update' : 'install';
 
-    this.setState({ config: currentParameters });
+    // eslint-disable-next-line
+    if (currentParameters) {
+      this.setState({
+        config: {
+          projectId: currentParameters.projectId,
+          contentTypeIds: parseContentTypeIds(currentParameters.contentTypeIds)
+        }
+      });
+    }
 
     app.onConfigure(async () => {
       if (!this.props.accessToken) {
-        this.notifyError(`You must be connected to Netlify to ${method} the app.`);
+        this.notifyError(`You must be connected to Optimizely to ${method} the app.`);
+        return false;
+      }
+
+      const { config } = this.state;
+
+      if (!configValid(config)) {
+        this.notifyError(
+          'The configuration is invalid. Please check that a project ID and content types are chosen.'
+        );
         return false;
       }
 
       return {
         parameters: {
-          optimizelyProjectId: '14632250064'
+          projectId: config.projectId,
+          contentTypeIds: stringifyContentTypeIds(config.contentTypeIds)
         }
       };
     });
   }
+
+  updateConfig = (projectId, contentTypeIds) => {
+    this.setState({
+      config: {
+        projectId,
+        contentTypeIds
+      }
+    });
+  };
 
   notifyError = (err, fallbackMessage) => {
     let message = fallbackMessage || 'Operation failed.';
@@ -78,7 +129,11 @@ export default class AppPage extends React.Component {
         </div>
 
         <div className={styles.section}>
-          {!this.props.accessToken ? <Connect openAuth={this.props.openAuth} /> : <div />}
+          {!this.props.accessToken ? (
+            <Connect openAuth={this.props.openAuth} />
+          ) : (
+            <div config={this.state.config} updateConfig={this.updateConfig} />
+          )}
         </div>
       </div>
     );
