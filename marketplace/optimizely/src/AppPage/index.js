@@ -57,7 +57,6 @@ export default class AppPage extends React.Component {
         return {
           parameters: {
             optimizelyProjectId: this.state.config,
-            somethingElse: 'test'
           }
         };
       } catch (err) {

@@ -100,7 +100,13 @@ export default class App extends React.Component {
     const { location, parameters } = sdk;
 
     if (location.is(locations.LOCATION_APP)) {
-      return <AppPage openAuth={this.openAuth} accessToken={this.state.accessToken} />;
+      return (
+        <AppPage
+          openAuth={this.openAuth}
+          accessToken={this.state.accessToken}
+          sdk={this.props.sdk}
+        />
+      );
     }
 
     if (location.is(locations.LOCATION_ENTRY_SIDEBAR)) {
