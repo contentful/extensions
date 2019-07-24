@@ -12,6 +12,7 @@ import SectionSplitter from './subcomponents/section-splitter';
 import { SDKContext, GlobalStateContext } from './subcomponents/all-context';
 import prepareReferenceInfo, { COMBINED_LINK_VALIDATION_CONFLICT } from './reference-info';
 import useInterval from '@use-it/interval';
+import ConnectButton from '../ConnectButton';
 
 const styles = {
   root: css({
@@ -290,6 +291,7 @@ export default function EditorPage(props) {
             entries={state.entries}
           />
           <SectionSplitter />
+          <ConnectButton openAuth={props.openAuth}/>
           <ReferencesSection
             loaded={state.loaded}
             references={state.loaded ? state.referenceInfo.references : []}
@@ -324,6 +326,7 @@ export default function EditorPage(props) {
 }
 
 EditorPage.propTypes = {
+  openAuth: PropTypes.func.isRequired,
   client: PropTypes.any.isRequired,
   sdk: PropTypes.shape({
     space: PropTypes.object.isRequired,

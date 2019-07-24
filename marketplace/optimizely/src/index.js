@@ -124,7 +124,9 @@ export default class App extends React.Component {
         return <IncorrectContentType sdk={sdk} missingFields={missingFields} />;
       }
 
-      return <EditorPage sdk={sdk} client={client} />;
+      return (
+        <EditorPage key={this.state.client} sdk={sdk} client={client} openAuth={this.openAuth} />
+      );
     }
   }
 }
