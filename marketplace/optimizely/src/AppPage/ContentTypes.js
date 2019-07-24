@@ -11,10 +11,8 @@ import {
   TableCell,
   TextLink
 } from '@contentful/forma-36-react-components';
-import ContentTypeSelectionModal, {
-  getContentTypesNotAddedYet
-} from './ContentTypeSelectionModal.es6';
-import { hasFieldLinkValidations } from './ReferenceField.es6';
+import ContentTypeSelectionModal, { getContentTypesNotAddedYet } from './ContentTypeSelectionModal';
+import { hasFieldLinkValidations } from './ReferenceField';
 
 const styles = {
   table: css({

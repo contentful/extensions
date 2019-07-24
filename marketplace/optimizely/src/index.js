@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'props-types';
+import PropTypes from 'prop-types';
 import { render } from 'react-dom';
 import { init, locations } from '../../../../ui-extensions-sdk';
 import './index.css';
