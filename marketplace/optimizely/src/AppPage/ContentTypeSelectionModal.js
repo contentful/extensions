@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReferenceForm, { hasReferenceFieldsLinkingToEntry } from './ReferenceForm.es6';
+import ReferenceForm, { hasReferenceFieldsLinkingToEntry } from './ReferenceForm';
 import constants from './constants.es6';
-import { every } from 'lodash';
-import { hasFieldLinkValidations, findFieldById } from './ReferenceField.es6';
+import { hasFieldLinkValidations, findFieldById } from './ReferenceField';
 import {
   Modal,
   Button,
@@ -45,8 +44,7 @@ export default function ContentTypeSelectionModal({
   }
 
   const editingMode = addedContentTypes.includes(selectedContentType);
-  const allReferencesUnchecked = every(
-    allReferenceFields[selectedContentType],
+  const allReferencesUnchecked = allReferenceFields[selectedContentType].every(
     (checked, fieldId) =>
       !checked &&
       hasFieldLinkValidations(
@@ -72,7 +70,7 @@ export default function ContentTypeSelectionModal({
             {editingMode ? null : (
               <Paragraph className="f36-margin-top--m f36-margin-bottom--m">
                 Select the content type and the reference fields you want to enable for
-                experimentation. You{"'"}ll be able to change this later.
+                experimentation. You&rsquo;ll be able to change this later.
               </Paragraph>
             )}
             <SelectField

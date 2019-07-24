@@ -56,11 +56,12 @@ export default class AppPage extends React.Component {
 
         return {
           parameters: {
-            optimizelyProjectId: this.state.config,
+            optimizelyProjectId: this.state.config
           }
         };
       } catch (err) {
         this.notifyError(err, 'There is a problem with the configuration, please try agian.');
+        return false;
       }
     });
   }
