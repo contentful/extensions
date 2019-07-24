@@ -13,7 +13,6 @@ import { SDKContext, GlobalStateContext } from './subcomponents/all-context';
 import prepareReferenceInfo, { COMBINED_LINK_VALIDATION_CONFLICT } from './reference-info';
 import useInterval from '@use-it/interval';
 
-
 const styles = {
   root: css({
     margin: tokens.spacingXl

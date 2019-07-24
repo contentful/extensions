@@ -14,13 +14,13 @@ const getExperimentUrl = (projectId, experimentId) => {
   return `https://app.optimizely.com/v2/projects/${projectId}/experiments/${experimentId}/variations`;
 };
 
-const getAllExperimentsUrl = (projectId) => {
+const getAllExperimentsUrl = projectId => {
   return `https://app.optimizely.com/v2/projects/${projectId}/experiments`;
 };
 
 export default function Sidebar(props) {
   const [experimentId, setExperimentId] = useState(props.sdk.entry.fields.experimentId.getValue());
-  const {parameters} = props.sdk;
+  const { parameters } = props.sdk;
 
   useEffect(() => {
     props.sdk.window.startAutoResizer();
@@ -71,5 +71,5 @@ Sidebar.propTypes = {
       }).isRequired
     }),
     window: PropTypes.object.isRequired
-  }).isRequired,
+  }).isRequired
 };
