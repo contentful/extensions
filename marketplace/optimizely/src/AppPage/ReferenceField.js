@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { CheckboxField, Tooltip, Icon } from '@contentful/forma-36-react-components';
-import constants from './constants.es6';
+import constants from './constants';
 import { css } from 'emotion';
 
 const styles = {

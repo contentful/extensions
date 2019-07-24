@@ -41,28 +41,21 @@ export default class AppPage extends React.Component {
     const { app } = this.props.sdk.platformAlpha;
 
     const currentParameters = await app.getParameters();
+    const method = currentParameters ? 'update' : 'install';
 
     this.setState({ config: currentParameters });
 
-    app.onConfig(async () => {
-      if (this.state.accessToken) {
-        this.notifyError('You must be connected to Netlify to configure the app.');
+    app.onConfigure(async () => {
+      if (!this.props.accessToken) {
+        this.notifyError(`You must be connected to Netlify to ${method} the app.`);
         return false;
       }
 
-      try {
-        const currentParameters = await app.getParameters();
-        const method = currentParameters ? 'update' : 'install';
-
-        return {
-          parameters: {
-            optimizelyProjectId: this.state.config
-          }
-        };
-      } catch (err) {
-        this.notifyError(err, 'There is a problem with the configuration, please try agian.');
-        return false;
-      }
+      return {
+        parameters: {
+          optimizelyProjectId: '14632250064'
+        }
+      };
     });
   }
 
@@ -85,7 +78,7 @@ export default class AppPage extends React.Component {
         </div>
 
         <div className={styles.section}>
-          {!this.props.accessToken ? <Connect openAuth={this.props.openAuth} /> : <Config />}
+          {!this.props.accessToken ? <Connect openAuth={this.props.openAuth} /> : <div />}
         </div>
       </div>
     );
