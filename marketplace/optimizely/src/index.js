@@ -1,14 +1,11 @@
 import * as React from 'react';
+import PropTypes from 'props-types';
 import { render } from 'react-dom';
 import { init, locations } from '../../../../ui-extensions-sdk';
 import './index.css';
 import EditorPage from './EditorPage';
 import Sidebar from './Sidebar';
-import {
-  IncorrectContentType,
-  isValidContentType,
-  MissingProjectId
-} from './errors-messages';
+import { IncorrectContentType, isValidContentType, MissingProjectId } from './errors-messages';
 import OptimizelyClient from './optimizely-client';
 import AppPage from './AppPage';
 import '@contentful/forma-36-react-components/dist/styles.css';
@@ -26,7 +23,7 @@ function getAccessTokenFromHash(hash) {
 // if there is a hash with an access token, we will report it and close the page
 if (location.hash) {
   const token = getAccessTokenFromHash(location.hash);
-  window.opener.postMessage({token});
+  window.opener.postMessage({ token });
   window.close();
 }
 
@@ -41,6 +38,20 @@ const url = `https://app.optimizely.com/oauth2/authorize
 const TOKEN_KEY = 'optToken';
 
 export default class App extends React.Component {
+  static propTypes = {
+    sdk: PropTypes.shape({
+      contentType: PropTypes.object.isRequired,
+      location: PropTypes.shape({
+        is: PropTypes.func.isRequired
+      }),
+      parameters: PropTypes.shape({
+        installation: PropTypes.shape({
+          optimizelyProjectId: PropTypes.string.isRequired
+        }).isRequired
+      }).isRequired
+    }).isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -48,35 +59,34 @@ export default class App extends React.Component {
 
     this.state = {
       client: token ? this.makeClient(token) : null,
-      accessToken: token,
-    }
+      accessToken: token
+    };
 
     this.listener = window.addEventListener(
       'message',
       event => {
         const { data, origin } = event;
 
-        if (origin !== HOST|| !data.token) {
+        if (origin !== HOST || !data.token) {
           return;
         }
 
-
         window.localStorage.setItem(TOKEN_KEY, data.token);
-        this.setState({client: this.makeClient(data.token)});
+        this.setState({ client: this.makeClient(data.token), accessToken: data.token });
       },
       false
     );
   }
 
-  makeClient = (token) => {
+  makeClient = token => {
     return new OptimizelyClient({
       accessToken: token,
       project: this.props.sdk.parameters.installation.optimizelyProjectId,
       onReauth: () => {
-        this.setState({client: null});
+        this.setState({ client: null });
       }
     });
-  }
+  };
 
   openAuth = () => {
     const WINDOW_OPTS = 'left=150,top=150,width=700,height=700';
@@ -84,37 +94,37 @@ export default class App extends React.Component {
   };
 
   render() {
-    const {state, props} = this;
-    const {sdk} = props;
-    const {client} = state; 
+    const { state, props } = this;
+    const { sdk } = props;
+    const { client } = state;
     const { location, parameters } = sdk;
 
-      if (location.is(locations.LOCATION_APP)) {
-          return (<AppPage openAuth={this.openAuth} accessToken={this.state.accessToken} />);
-      }
+    if (location.is(locations.LOCATION_APP)) {
+      return <AppPage openAuth={this.openAuth} accessToken={this.state.accessToken} />;
+    }
 
     if (location.is(locations.LOCATION_ENTRY_SIDEBAR)) {
       if (!parameters.installation.optimizelyProjectId) {
-        return (<MissingProjectId />);
+        return <MissingProjectId />;
       }
 
-      return (<Sidebar sdk={sdk} />);
+      return <Sidebar sdk={sdk} />;
     }
 
     if (location.is(locations.LOCATION_ENTRY_EDITOR)) {
       const [valid, missingFields] = isValidContentType(sdk.contentType);
 
       if (!valid) {
-        return (<IncorrectContentType sdk={sdk} missingFields={missingFields} />);
+        return <IncorrectContentType sdk={sdk} missingFields={missingFields} />;
       }
 
-      return (<EditorPage sdk={sdk} client={client} />);
+      return <EditorPage sdk={sdk} client={client} />;
     }
   }
 }
 
 init(sdk => {
-  render(<App sdk={sdk}/>, document.getElementById('root'));
+  render(<App sdk={sdk} />, document.getElementById('root'));
 });
 
 // if (module.hot) {
