@@ -1,11 +1,11 @@
 'use strict';
 
-const { readFile, writeFile, rename } = require('fs-extra');
+const { writeFile, rename } = require('fs-extra');
 const path = require('path');
 const makeDir = require('make-dir');
 const cpy = require('cpy');
 
-const { dirs } = require('./utils.js');
+const { dirs, readJsonFile, writeJsonFile } = require('./utils.js');
 
 const BASE_DIR = path.join(__dirname, '..', 'marketplace');
 const BUILD_DIR = path.join(__dirname, '..', 'dist');
@@ -13,14 +13,14 @@ const BUILD_DIR = path.join(__dirname, '..', 'dist');
 async function readExtensionJsonFile(extension, file) {
   const filePath = path.join(BASE_DIR, extension, file);
 
-  return JSON.parse(await readFile(filePath, 'utf8'));
+  return await readJsonFile(filePath);
 }
 
 async function writeExtensionManifest(extensionDir, manifest) {
   const outPutDir = path.join(BUILD_DIR, extensionDir);
   const filePath = path.join(outPutDir, 'extension.json');
 
-  return makeDir(outPutDir).then(() => writeFile(filePath, JSON.stringify(manifest), 'utf8'));
+  return makeDir(outPutDir).then(() => writeJsonFile(filePath, manifest));
 }
 
 async function writeExtensionHeaders(extensionDir) {

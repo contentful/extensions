@@ -1,6 +1,6 @@
 'use strict';
 
-const { readdir, readdirSync } = require('fs-extra');
+const { readdir, readdirSync, readFile, writeFile } = require('fs-extra');
 
 async function dirs(directory) {
   const dirs = [];
@@ -18,4 +18,12 @@ function dirsSync(directory) {
   return files.filter(file => file.isDirectory()).map(file => file.name);
 }
 
-module.exports = { dirs, dirsSync };
+async function readJsonFile(filePath) {
+  return JSON.parse(await readFile(filePath, 'utf8'));
+}
+
+async function writeJsonFile(filePath, data) {
+  return await writeFile(filePath, JSON.stringify(data), 'utf8');
+}
+
+module.exports = { dirs, dirsSync, readJsonFile, writeJsonFile };
