@@ -95,6 +95,9 @@ init(function(extension) {
           } else {
             this.getSkus();
           }
+        }).catch(function (error) {
+          console.log(error);
+           document.getElementById("commerce-layer-hint").innerHTML = "Error connecting to Commerce Layer. Please double check your configuration.";
         });
     },
     methods: {
