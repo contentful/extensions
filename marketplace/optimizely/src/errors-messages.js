@@ -49,7 +49,7 @@ export function MissingProjectId() {
 export function IncorrectContentType(props) {
   const title = `Extension "${props.sdk.ids.extension}" cannot be assigned to this content type`;
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="incorrect-type">
       <Note noteType="negative" title={title}>
         <div>
           <strong>Required:</strong>{' '}
