@@ -30,10 +30,10 @@ function stringifyContentTypeIds(ids) {
   return ids.filter(x => x).join(',');
 }
 
-function configValid({ projectId, contentTypes }) {
+function configValid({ optimizelyProjectId, contentTypes }) {
   return (
-    typeof projectId === 'string' &&
-    projectId &&
+    typeof optimizelyProjectId === 'string' &&
+    optimizelyProjectId &&
     Object.keys(contentTypes).length > 0
   );
 }
@@ -51,7 +51,7 @@ export default class AppPage extends React.Component {
 
     this.state = {
       config: {
-        projectId: '',
+        optimizelyProjectId: '',
         contentTypes: {}
       },
       allContentTypes: []
@@ -69,7 +69,7 @@ export default class AppPage extends React.Component {
     if (currentParameters) {
       this.setState({
         config: {
-          projectId: currentParameters.projectId,
+          optimizelyProjectId: currentParameters.optimizelyProjectId,
           contentTypes: JSON.parse(currentParameters.contentTypes)
         }
       });
@@ -96,7 +96,7 @@ export default class AppPage extends React.Component {
 
       return {
         parameters: {
-          projectId: config.projectId,
+          optimizelyProjectId: config.optimizelyProjectId,
           contentTypes: JSON.stringify(config.contentTypes)
         }
       };
