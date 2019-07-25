@@ -4,7 +4,7 @@ import {
   NETLIFY_AUTHORIZE_ENDPOINT,
   NETLIFY_AUTH_WINDOW_OPTS,
   NETLIFY_AUTH_POLL_INTERVAL
-} from './constants';
+} from '../constants';
 
 async function request(method, url, accessToken, body) {
   const headers = method === 'POST' ? { 'Content-Type': 'application/json' } : {};

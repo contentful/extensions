@@ -1,12 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { css } from 'emotion';
 
+import tokens from '@contentful/forma-36-tokens';
 import { Select, Option, Button, Icon } from '@contentful/forma-36-react-components';
 
-import { parametersToConfig } from './config';
-import NeflifySidebarBuildButton from './netlify-sidebar-build-button';
+import NeflifySidebarBuildButton from './build-button';
 
-import styles from './styles';
+import { parametersToConfig } from '../config';
+
+const styles = {
+  previewButton: css({
+    margin: `${tokens.spacingS} 0`,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }),
+  previewContent: css({
+    display: 'flex',
+    alignContent: 'center'
+  }),
+  previewIcon: css({
+    marginRight: tokens.spacing2Xs,
+    marginTop: '1px'
+  })
+}
 
 export default class NetlifySidebar extends React.Component {
   static propTypes = {
@@ -66,9 +84,8 @@ export default class NetlifySidebar extends React.Component {
           </div>
         </Button>
         <Select onChange={this.selectSite} data-testid="site-selector">
-          {' '}
-          {this.state.sites.map((site, index) => (
-            <Option key={site.buildHookId} value={`${index}`} data-testid={`option-${index}`}>
+          {this.state.sites.map((site, idx) => (
+            <Option key={site.buildHookId} value={`${idx}`} data-testid={`option-${idx}`}>
               {site.name}
             </Option>
           ))}

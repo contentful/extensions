@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import { Typography, Heading, Paragraph, Button } from '@contentful/forma-36-react-components';
 
-import styles from './styles';
-
 export default class NetlifyConnection extends React.Component {
   static propTypes = {
     connected: PropTypes.bool.isRequired,
@@ -18,7 +16,7 @@ export default class NetlifyConnection extends React.Component {
 
   render() {
     return (
-      <Typography className={styles.section}>
+      <Typography>
         <Heading>Netlify account</Heading>
         {this.props.connected ? this.renderConnectionInfo() : this.renderConnectButton()}
       </Typography>

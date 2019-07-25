@@ -1,14 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { css } from 'emotion';
 
+import tokens from '@contentful/forma-36-tokens';
 import { Button, ValidationMessage } from '@contentful/forma-36-react-components';
 
 import { normalizeMessage, isOutOfOrder, isDuplicate, messageToState } from './message-processor';
 import { createPubSub } from './pubnub-client';
 
-import styles from './styles';
+import { EVENT_TRIGGERED, EVENT_TRIGGER_FAILED } from '../constants';
 
-import { EVENT_TRIGGERED, EVENT_TRIGGER_FAILED } from './constants';
+const styles = {
+  info: css({
+    color: tokens.colorTextLight,
+    marginBottom: tokens.spacingM,
+    fontSize: tokens.fontSizeS,
+    fontWeight: tokens.fontWeightNormal
+  }),
+  button: css({
+    marginBottom: tokens.spacingS
+  }),
+  header: css({
+    display: 'flex',
+    marginBottom: tokens.spacingS
+  })
+};
 
 export default class NeflifySidebarBuildButton extends React.Component {
   static propTypes = {

@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import uniqBy from 'lodash.uniqby';
 
-import { Spinner } from '@contentful/forma-36-react-components';
+import { Paragraph, Spinner } from '@contentful/forma-36-react-components';
 import { Workbench } from '@contentful/forma-36-react-components/dist/alpha';
 
-import { parametersToConfig, configToParameters } from './config';
 import {
   currentStateToEnabledContentTypes,
   enabledContentTypesToTargetState
@@ -16,6 +15,8 @@ import NetlifyConfigEditor from './netlify-config-editor';
 import NetlifyContentTypes from './netlify-content-types';
 import * as NetlifyClient from './netlify-client';
 import * as NetlifyIntegration from './netlify-integration';
+
+import { parametersToConfig, configToParameters } from '../config';
 
 export default class NetlifyAppConfig extends React.Component {
   static propTypes = {
@@ -169,9 +170,9 @@ export default class NetlifyAppConfig extends React.Component {
 
   renderLoader() {
     return (
-      <div>
+      <Paragraph>
         Loading <Spinner />
-      </div>
+      </Paragraph>
     );
   }
 

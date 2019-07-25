@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { css } from 'emotion';
 
+import tokens from '@contentful/forma-36-tokens';
 import {
   Typography,
   Heading,
@@ -12,11 +14,25 @@ import {
   TextLink
 } from '@contentful/forma-36-react-components';
 
-import { MAX_CONFIGS } from './constants';
-
-import styles from './styles';
+import { MAX_CONFIGS } from '../constants';
 
 const PICK_OPTION_VALUE = '__pick__';
+
+const styles = {
+  container: css({
+    margin: `${tokens.spacingXl} 0`
+  }),
+  row: css({
+    display: 'flex',
+    margin: `${tokens.spacingXl} 0`
+  }),
+  item: css({
+    marginRight: tokens.spacingXl
+  }),
+  removeBtn: css({
+    marginTop: tokens.spacingL
+  })
+}
 
 export default class NetlifyConfigEditor extends React.Component {
   static propTypes = {
@@ -70,7 +86,7 @@ export default class NetlifyConfigEditor extends React.Component {
     const { disabled, siteConfigs, netlifySites } = this.props;
 
     return (
-      <Typography className={styles.section}>
+      <Typography className={styles.container}>
         <Heading>Build Netlify sites</Heading>
         <Paragraph>
           Pick the Netlify site(s) you want to enable a build for.

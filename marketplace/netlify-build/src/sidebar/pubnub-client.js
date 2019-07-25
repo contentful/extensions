@@ -1,9 +1,6 @@
 import PubNub from 'pubnub';
-import { PUBNUB_PUBLISH_KEY, PUBNUB_SUBSCRIBE_KEY } from './constants';
 
-export function getPostPublishUrl(channel) {
-  return `https://ps.pndsn.com/publish/${PUBNUB_PUBLISH_KEY}/${PUBNUB_SUBSCRIBE_KEY}/0/${channel}/0?store=1`;
-}
+import { PUBNUB_PUBLISH_KEY, PUBNUB_SUBSCRIBE_KEY } from '../constants';
 
 const isObject = val => typeof val === 'object' && val !== null && !Array.isArray(val);
 

@@ -1,9 +1,14 @@
 import uniqBy from 'lodash.uniqby';
 
 import * as NetlifyClient from './netlify-client';
-import { getPostPublishUrl } from './pubnub-client';
+
+import { PUBNUB_PUBLISH_KEY, PUBNUB_SUBSCRIBE_KEY } from '../constants';
 
 const NETLIFY_HOOK_EVENTS = ['deploy_building', 'deploy_created', 'deploy_failed'];
+
+function getPostPublishUrl(channel) {
+  return `https://ps.pndsn.com/publish/${PUBNUB_PUBLISH_KEY}/${PUBNUB_SUBSCRIBE_KEY}/0/${channel}/0?store=1`;
+}
 
 export async function install({ config, accessToken }) {
   config = prepareConfig(config);
