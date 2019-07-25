@@ -35,7 +35,7 @@ export default class NeflifySidebarBuildButton extends React.Component {
 
   state = { history: [] };
 
-  async componentDidMount() {
+  componentDidMount() {
     this.createPubSub();
   }
 
@@ -118,7 +118,6 @@ export default class NeflifySidebarBuildButton extends React.Component {
           loading={busy}
           isFullWidth
           onClick={this.build}
-          data-testid="build-button"
           className={styles.button}>
           {busy && status ? status : 'Build'}
         </Button>

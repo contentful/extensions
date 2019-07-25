@@ -24,7 +24,7 @@ const styles = {
     marginRight: tokens.spacing2Xs,
     marginTop: '1px'
   })
-}
+};
 
 export default class NetlifySidebar extends React.Component {
   static propTypes = {
@@ -76,16 +76,15 @@ export default class NetlifySidebar extends React.Component {
           rel="noopener noreferrer"
           buttonType="muted"
           isFullWidth
-          data-testid="preview-button"
           className={styles.previewButton}>
           <div className={styles.previewContent}>
             <Icon icon="ExternalLink" color="muted" className={styles.previewIcon} />
             Open preview
           </div>
         </Button>
-        <Select onChange={this.selectSite} data-testid="site-selector">
+        <Select onChange={this.selectSite}>
           {this.state.sites.map((site, idx) => (
-            <Option key={site.buildHookId} value={`${idx}`} data-testid={`option-${idx}`}>
+            <Option key={site.buildHookId} value={`${idx}`}>
               {site.name}
             </Option>
           ))}
