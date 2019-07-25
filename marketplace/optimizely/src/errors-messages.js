@@ -38,7 +38,7 @@ export function isValidContentType(contentType) {
 
 export function MissingProjectId() {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="missing-project">
       <Note noteType="negative">
         Please, set <strong>Optimizely Project ID</strong> in Extension settings.
       </Note>
