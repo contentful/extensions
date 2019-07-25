@@ -33,7 +33,7 @@ export default class NetlifyAppConfig extends React.Component {
     this.init();
   }
 
-  componenWillUnmount() {
+  componentWillUnmount() {
     this.stopPolling();
   }
 
@@ -198,8 +198,8 @@ export default class NetlifyAppConfig extends React.Component {
               <div className={styles.section}>
                 <h3>Build Netlify sites</h3>
                 <p>
-                  Pick the Netlify sites you want to enable build for.
-                  {!this.state.token && ' Requires Netlify account.'}
+                  Pick the Netlify site(s) you want to enable a build for.
+                  {!this.state.token && ' Requires a Netlify account.'}
                 </p>
                 <NetlifyConfigEditor
                   disabled={!this.state.token}
@@ -209,7 +209,7 @@ export default class NetlifyAppConfig extends React.Component {
                 />
               </div>
               <div className={styles.section}>
-                <h3>Enable for content types</h3>
+                <h3>Enable Netlify builds for content types</h3>
                 <p>
                   Select content types of which entries will have Netlify App in their sidebars.
                 </p>

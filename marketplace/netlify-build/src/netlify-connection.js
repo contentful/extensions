@@ -25,7 +25,7 @@ export default class NetlifyConnection extends Component {
       <div className={styles.section}>
         <h3>Netlify account</h3>
         <p>
-          Connect your Netlify account so you can trigger builds and view status in the Contentful
+          Connect your Netlify account so you can trigger builds and view statuses in the Contentful
           Web App.
         </p>
         <Button buttonType="primary" onClick={this.props.onConnectClick}>
@@ -48,16 +48,16 @@ export default class NetlifyConnection extends Component {
           <p>
             {unavailable} sites we can’t build (no Continuous Deployment configuration).{' '}
             <a href="https://app.netlify.com/" target="_blank" rel="noopener noreferrer">
-              View more in Netlify App
+              View more on Netlify
             </a>
           </p>
         )}
-        {buildable > 0 && <p>{buildable} sites we can build</p>}
+        {buildable > 0 && <p>{buildable} sites can be built</p>}
         {buildable < 1 && (
           <p>
             There are no sites we can build. Navigate to the{' '}
             <a href="https://app.netlify.com/" target="_blank" rel="noopener noreferrer">
-              Netlify App
+              Netlify
             </a>{' '}
             to create one!
           </p>
