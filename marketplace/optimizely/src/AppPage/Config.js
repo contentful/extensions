@@ -87,13 +87,13 @@ export default class Config extends React.Component {
     }, {});
   };
 
-  onSelectReferenceField = ({ id, checked }) => {
+  onSelectReferenceField = ({ contentTypeId, fieldId, checked }) => {
     this.setState(state => ({
       referenceFields: {
         ...state.referenceFields,
-        [state.selectedContentType]: {
-          ...state.referenceFields[this.state.selectedContentType],
-          [id]: checked
+        [contentTypeId]: {
+          ...state.referenceFields[contentTypeId],
+          [fieldId]: checked
         }
       }
     }))
