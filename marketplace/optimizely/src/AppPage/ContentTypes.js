@@ -16,6 +16,7 @@ import {
   Option
 } from '@contentful/forma-36-react-components';
 import { getContentTypesNotAddedYet } from './ContentTypeHelpers';
+import ReferenceField from './ReferenceField';
 
 const styles = {
   table: css({
@@ -25,7 +26,6 @@ const styles = {
     marginRight: tokens.spacingS
   }),
   contentTypeRow: css({
-    display: 'grid',
     gridTemplateColumns: 'auto 6rem'
   })
 };
@@ -93,13 +93,14 @@ export default function ContentTypes({
       </SelectField>
       <Button
         buttonType="muted"
-        className="f36-margin-top--s"
+        className="f36-margin-top--m"
         onClick={onAddContentType}
         disabled={allContentTypesAdded || !selectedContentType}>
-        Add content type
+        Add
       </Button>
       {addedContentTypes.length > 0 ? (
         <Table className={styles.table}>
+          
           <tbody>
             {addedContentTypes.map(id => (
               <ContentTypeRow
@@ -112,8 +113,7 @@ export default function ContentTypes({
               />
             ))}
           </tbody>
-        </Table>
-      ) : null}
+        </Table> ) : null}
     </div>
   );
 }
@@ -134,31 +134,32 @@ function ContentTypeRow({
   onClickDelete
 }) {
   const contentType = allContentTypes.find(ct => ct.sys.id === contentTypeId);
+  const referenceFields = allReferenceFields[contentTypeId]
+  const referenceFieldIds = Object.keys(referenceFields);
 
   return (
     <TableRow>
       <TableCell className={styles.contentTypeRow}>
-        <section>
           <strong>{contentType.name}</strong>
-        </section>
-
-        <section>
-        <ReferenceForm
-              allContentTypes={allContentTypes}
-              selectedContentType={contentTypeId}
-              fields={allReferenceFields[contentTypeId]}
-              onSelect={onSelectReferenceField}
-            />
-        </section>
-
-        <section>
+      </TableCell>
+      <TableCell className={styles.contentTypeRow}>
+        { referenceFieldIds.map(fieldId => (
+          <ReferenceField
+            key={fieldId}
+            contentType={contentType}
+            id={fieldId}
+            checked={referenceFields[fieldId]}
+            onSelect={onSelectReferenceField}
+          />
+        ))}
+        </TableCell>
+        <TableCell className={styles.contentTypeRow}>
           <TextLink
             onClick={() => onClickDelete(contentTypeId)}
             className={styles.link}
             linkType="negative">
             Delete
           </TextLink>
-        </section>
       </TableCell>
     </TableRow>
   );

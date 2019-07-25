@@ -36,7 +36,7 @@ export default function ReferenceField({ id, checked, contentType, onSelect }) {
         id={`reference-field-${id}`}
         checked={checked || disabled}
         disabled={disabled}
-        onChange={e => onSelect({ id, checked: e.target.checked })}
+        onChange={e => onSelect({ contentTypeId: contentType.sys.id, fieldId: id, checked: e.target.checked })}
         labelText={field.name}
         labelIsLight={true}
       />
