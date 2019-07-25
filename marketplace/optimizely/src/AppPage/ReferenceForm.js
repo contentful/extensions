@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 
-import { FormLabel } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import ReferenceField from './ReferenceField';
 
@@ -31,7 +30,6 @@ export default function ReferenceForm({ allContentTypes, selectedContentType, fi
 
   return (
     <section className={styles.referenceForm}>
-      <FormLabel htmlFor="">Reference Fields</FormLabel>
       <section className={styles.referenceGrid}>
         <div className={styles.referenceColumn}>
           {ids

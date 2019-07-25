@@ -4,6 +4,9 @@ import PropTypes from 'prop-types'
 import Projects from './Projects'
 import ContentTypes from './ContentTypes'
 
+import { hasVariationContainerInFieldLinkValidations } from './ReferenceField'
+import { getReferenceFieldsLinkingToEntry } from './ReferenceForm'
+
 function isActiveFullStackProject(project) {
   return project.status === 'active' && project.platform === 'custom'
 }
@@ -11,6 +14,7 @@ function isActiveFullStackProject(project) {
 export default class Config extends React.Component {
   static propTypes = {
     client: PropTypes.object.isRequired,
+    sdk: PropTypes.object.isRequired,
     allContentTypes: PropTypes.array.isRequired
   }
 
@@ -18,7 +22,6 @@ export default class Config extends React.Component {
     super(props)
 
     this.state = {
-      loadingContentTypes: true,
       loadingProjects: true,
       addedContentTypes: [],
       allProjects: null,
@@ -30,14 +33,21 @@ export default class Config extends React.Component {
     }
   }
 
+  initializeSelectedContentType() {
+    this.setState({
+      selectedContentType: ''
+    })
+  }
+
   async componentDidMount() {
     const allProjects = await this.props.client.getProjects()
-    
+
     this.setState({ 
       allProjects,
-      loadingContentTypes: false,
       loadingProjects: false
     })
+
+    this.initializeSelectedContentType()
   }
 
   onProjectChange = event => {
@@ -46,7 +56,9 @@ export default class Config extends React.Component {
     })
   }
 
-  onSelectContentType = contentType => {
+  onSelectContentType = contentTypeId => {
+    const contentType = this.props.allContentTypes.find(ct => ct.sys.id === contentTypeId)
+
     // In case null / undefined gets passed, just set the value and return.
     if (!contentType) {
       this.setState({ selectedContentType: contentType })
@@ -63,6 +75,17 @@ export default class Config extends React.Component {
       }
     }))
   }
+
+  createReferenceFieldMap = contentTypeId => {
+    return getReferenceFieldsLinkingToEntry(
+      this.props.allContentTypes.find(ct => ct.sys.id === contentTypeId)
+    ).reduce((map, field) => {
+      return {
+        ...map,
+        [field.id]: hasVariationContainerInFieldLinkValidations(field)
+      };
+    }, {});
+  };
 
   onSelectReferenceField = ({ id, checked }) => {
     this.setState(state => ({
@@ -82,7 +105,7 @@ export default class Config extends React.Component {
     }))
   }
 
-  saveContentTypeDialog = () => {
+  onAddContentType = () => {
     this.setState(state => {
       if (state.addedContentTypes.includes(state.selectedContentType)) {
         return
@@ -93,17 +116,11 @@ export default class Config extends React.Component {
       }
     })
 
-    this.setContentTypeDialogAsOpen(false)
-  }
-
-  setContentTypeDialogAsOpen = open => {
-    this.setState({
-      isContentTypeDialogOpen: open
-    })
+    this.initializeSelectedContentType()
   }
 
   render() {
-    if (this.state.loadingContentTypes || this.state.loadingProjects) {
+    if (this.state.loadingProjects) {
       return (<div>Loading ...</div>)
     }
 
@@ -118,11 +135,8 @@ export default class Config extends React.Component {
           addedContentTypes={this.state.addedContentTypes}
           allContentTypes={this.props.allContentTypes}
           allReferenceFields={this.state.referenceFields}
-          isContentTypeDialogOpen={this.state.isContentTypeDialogOpen}
-          openContentTypeDialog={() => this.setContentTypeDialogAsOpen(true)}
-          closeContentTypeDialog={() => this.setContentTypeDialogAsOpen(false)}
           selectedContentType={this.state.selectedContentType}
-          saveContentTypeDialog={this.saveContentTypeDialog}
+          onAddContentType={this.onAddContentType}
           onSelectContentType={this.onSelectContentType}
           onDeleteContentType={this.onDeleteContentType}
           onSelectReferenceField={this.onSelectReferenceField}

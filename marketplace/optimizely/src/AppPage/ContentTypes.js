@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import tokens from '@contentful/forma-36-tokens';
+import constants from './constants'
+import ReferenceForm, { hasReferenceFieldsLinkingToEntry } from './ReferenceForm';
 import { css } from 'emotion';
 import {
   Heading,
@@ -9,10 +11,11 @@ import {
   Table,
   TableRow,
   TableCell,
-  TextLink
+  TextLink,
+  SelectField,
+  Option
 } from '@contentful/forma-36-react-components';
-import ContentTypeSelectionModal, { getContentTypesNotAddedYet } from './ContentTypeSelectionModal';
-import { hasFieldLinkValidations } from './ReferenceField';
+import { getContentTypesNotAddedYet } from './ContentTypeHelpers';
 
 const styles = {
   table: css({
@@ -31,24 +34,30 @@ ContentTypes.propTypes = {
   addedContentTypes: PropTypes.array.isRequired,
   allContentTypes: PropTypes.array.isRequired,
   allReferenceFields: PropTypes.object.isRequired,
-  isContentTypeDialogOpen: PropTypes.bool.isRequired,
   selectedContentType: PropTypes.string.isRequired,
-  openContentTypeDialog: PropTypes.func.isRequired,
-  closeContentTypeDialog: PropTypes.func.isRequired,
-  saveContentTypeDialog: PropTypes.func.isRequired,
+  onAddContentType: PropTypes.func.isRequired,
   onSelectContentType: PropTypes.func.isRequired,
   onSelectReferenceField: PropTypes.func.isRequired,
   onDeleteContentType: PropTypes.func.isRequired
 };
 
+export function isContentTypeValidSelection(contentType, addedContentTypes) {
+  return (
+    contentType.sys.id !== constants.VARIATION_CONTAINER_CT_ID &&
+    !isContentTypeAlreadyAdded(contentType, addedContentTypes) &&
+    hasReferenceFieldsLinkingToEntry(contentType)
+  );
+}
+
+export function isContentTypeAlreadyAdded(contentType, addedContentTypes) {
+  return addedContentTypes.includes(contentType.sys.id);
+}
+
 export default function ContentTypes({
   addedContentTypes,
   allContentTypes,
   allReferenceFields,
-  isContentTypeDialogOpen,
-  openContentTypeDialog,
-  closeContentTypeDialog,
-  saveContentTypeDialog,
+  onAddContentType,
   onSelectContentType,
   onSelectReferenceField,
   onDeleteContentType,
@@ -63,11 +72,30 @@ export default function ContentTypes({
       <Paragraph className="f36-margin-top--m">
         Select the content types for which you want to enable A/B testing.
       </Paragraph>
+      <SelectField
+        id="content-types"
+        name="content-types"
+        labelText="Content Type"
+        selectProps={{ width: 'medium', isDisabled: allContentTypesAdded }}
+        onChange={e => onSelectContentType(e.target.value)}
+        value={selectedContentType || ''}
+        required>
+        <Option key="default" value={''}>
+          Select a content type
+        </Option>
+        {allContentTypes
+          .filter(ct => isContentTypeValidSelection(ct, addedContentTypes))
+          .map(ct => (
+            <Option key={ct.sys.id} value={ct.sys.id}>
+              {ct.name}
+            </Option>
+          ))}
+      </SelectField>
       <Button
         buttonType="muted"
         className="f36-margin-top--s"
-        onClick={onClickAdd}
-        disabled={allContentTypesAdded}>
+        onClick={onAddContentType}
+        disabled={allContentTypesAdded || !selectedContentType}>
         Add content type
       </Button>
       {addedContentTypes.length > 0 ? (
@@ -79,72 +107,51 @@ export default function ContentTypes({
                 contentTypeId={id}
                 allContentTypes={allContentTypes}
                 allReferenceFields={allReferenceFields}
-                onClickEdit={onClickEdit}
                 onClickDelete={onDeleteContentType}
+                onSelectReferenceField={onSelectReferenceField}
               />
             ))}
           </tbody>
         </Table>
       ) : null}
-      {/* <ContentTypeSelectionModal
-        allContentTypes={allContentTypes}
-        allReferenceFields={allReferenceFields}
-        addedContentTypes={addedContentTypes}
-        isShown={isContentTypeDialogOpen}
-        selectedContentType={selectedContentType}
-        onSelectContentType={onSelectContentType}
-        onSelectReferenceField={onSelectReferenceField}
-        onSave={saveContentTypeDialog}
-        onCancel={closeContentTypeDialog}
-      /> */}
     </div>
   );
-
-  function onClickAdd() {
-    onSelectContentType(null);
-    openContentTypeDialog();
-  }
-
-  function onClickEdit(contentTypeId) {
-    onSelectContentType(allContentTypes.find(ct => ct.sys.id === contentTypeId));
-    openContentTypeDialog();
-  }
 }
 
 ContentTypeRow.propTypes = {
   contentTypeId: PropTypes.string.isRequired,
   allContentTypes: PropTypes.array.isRequired,
   allReferenceFields: PropTypes.object.isRequired,
-  onClickEdit: PropTypes.func.isRequired,
-  onClickDelete: PropTypes.func.isRequired
+  onClickDelete: PropTypes.func.isRequired,
+  onSelectReferenceField: PropTypes.func.isRequired
 };
 
 function ContentTypeRow({
   contentTypeId,
   allContentTypes,
   allReferenceFields,
-  onClickEdit,
+  onSelectReferenceField,
   onClickDelete
 }) {
   const contentType = allContentTypes.find(ct => ct.sys.id === contentTypeId);
-
-  const referenceFields = Object.keys(allReferenceFields[contentTypeId])
-    .map(fieldId => contentType.fields.find(field => field.id === fieldId))
-    .filter(field => isReferenceFieldEnabled(field, allReferenceFields[contentTypeId]))
-    .map(field => field.name);
 
   return (
     <TableRow>
       <TableCell className={styles.contentTypeRow}>
         <section>
           <strong>{contentType.name}</strong>
-          <Paragraph>{referenceFields.join(' • ')}</Paragraph>
         </section>
 
         <section>
-          <TextLink onClick={() => onClickEdit(contentTypeId)} className={styles.link}>
-            Edit
-          </TextLink>
+        <ReferenceForm
+              allContentTypes={allContentTypes}
+              selectedContentType={contentTypeId}
+              fields={allReferenceFields[contentTypeId]}
+              onSelect={onSelectReferenceField}
+            />
+        </section>
+
+        <section>
           <TextLink
             onClick={() => onClickDelete(contentTypeId)}
             className={styles.link}
@@ -155,8 +162,4 @@ function ContentTypeRow({
       </TableCell>
     </TableRow>
   );
-}
-
-function isReferenceFieldEnabled(referenceField, referenceFieldsMap) {
-  return !!referenceFieldsMap[referenceField.id] || !hasFieldLinkValidations(referenceField);
 }
