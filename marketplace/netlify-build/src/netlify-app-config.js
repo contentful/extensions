@@ -1,14 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { uniq, uniqBy } from 'lodash-es';
+import { uniqBy } from 'lodash-es';
 
-import {
-  Notification,
-  Spinner,
-  FieldGroup,
-  CheckboxField,
-  TextLink
-} from '@contentful/forma-36-react-components';
+import { Notification, Spinner } from '@contentful/forma-36-react-components';
 import { Workbench } from '@contentful/forma-36-react-components/dist/alpha';
 
 import { parametersToConfig, configToParameters } from './config';
@@ -19,6 +13,7 @@ import {
 
 import NetlifyConnection from './netlify-connection';
 import NetlifyConfigEditor from './netlify-config-editor';
+import NetlifyContentTypes from './netlify-content-types';
 import * as NetlifyClient from './netlify-client';
 import * as NetlifyIntegration from './netlify-integration';
 
@@ -29,15 +24,15 @@ export default class NetlifyAppConfig extends React.Component {
     sdk: PropTypes.object.isRequired
   };
 
-  async componentDidMount() {
+  state = { ready: false };
+
+  componentDidMount() {
     this.init();
   }
 
   componentWillUnmount() {
     this.stopPolling();
   }
-
-  state = { ready: false };
 
   init = async () => {
     const { sdk } = this.props;
@@ -160,18 +155,8 @@ export default class NetlifyAppConfig extends React.Component {
     }));
   };
 
-  enableContentType = id => {
-    this.setState(state => ({
-      ...state,
-      enabledContentTypes: uniq(state.enabledContentTypes.concat([id]))
-    }));
-  };
-
-  disableContentType = id => {
-    this.setState(state => ({
-      ...state,
-      enabledContentTypes: state.enabledContentTypes.filter(cur => cur !== id)
-    }));
+  onEnabledContentTypesChange = enabledContentTypes => {
+    this.setState({ enabledContentTypes });
   };
 
   render() {
@@ -179,59 +164,7 @@ export default class NetlifyAppConfig extends React.Component {
       <Workbench>
         <Workbench.Content>
           {this.state.ready ? (
-            <>
-              <NetlifyConnection
-                connected={!!this.state.token}
-                email={this.state.email}
-                netlifyCounts={this.state.netlifyCounts}
-                onConnectClick={this.onConnectClick}
-              />
-
-              <div className={styles.section}>
-                <h3>Build Netlify sites</h3>
-                <p>
-                  Pick the Netlify site(s) you want to enable a build for.
-                  {!this.state.token && ' Requires a Netlify account.'}
-                </p>
-                <NetlifyConfigEditor
-                  disabled={!this.state.token}
-                  siteConfigs={this.state.config.sites}
-                  netlifySites={this.state.netlifySites}
-                  onSiteConfigsChange={this.onSiteConfigsChange}
-                />
-              </div>
-              <div className={styles.section}>
-                <h3>Enable Netlify builds for content types</h3>
-                <p>Select the content types that can use the Netlify App in the sidebar.</p>
-                <p>
-                  <TextLink
-                    disabled={!this.state.token}
-                    onClick={() => {
-                      this.state.contentTypes.forEach(([id]) => this.enableContentType(id));
-                    }}>
-                    Select all
-                  </TextLink>
-                </p>
-                <FieldGroup>
-                  {this.state.contentTypes.map(([name, id]) => (
-                    <CheckboxField
-                      key={id}
-                      id={`ct-box-${id}`}
-                      labelText={name}
-                      onChange={e => {
-                        if (e.target.checked) {
-                          this.enableContentType(id);
-                        } else {
-                          this.disableContentType(id);
-                        }
-                      }}
-                      disabled={!this.state.token}
-                      checked={this.state.enabledContentTypes.includes(id)}
-                    />
-                  ))}
-                </FieldGroup>
-              </div>
-            </>
+            this.renderApp()
           ) : (
             <div>
               Loading <Spinner />
@@ -239,6 +172,43 @@ export default class NetlifyAppConfig extends React.Component {
           )}
         </Workbench.Content>
       </Workbench>
+    );
+  }
+
+  renderApp() {
+    return (
+      <>
+        <NetlifyConnection
+          connected={!!this.state.token}
+          email={this.state.email}
+          netlifyCounts={this.state.netlifyCounts}
+          onConnectClick={this.onConnectClick}
+        />
+
+        <div className={styles.section}>
+          <h3>Build Netlify sites</h3>
+          <p>
+            Pick the Netlify site(s) you want to enable a build for.
+            {!this.state.token && ' Requires a Netlify account.'}
+          </p>
+          <NetlifyConfigEditor
+            disabled={!this.state.token}
+            siteConfigs={this.state.config.sites}
+            netlifySites={this.state.netlifySites}
+            onSiteConfigsChange={this.onSiteConfigsChange}
+          />
+        </div>
+        <div className={styles.section}>
+          <h3>Enable Netlify builds for content types</h3>
+          <p>Select the content types that can use the Netlify App in the sidebar.</p>
+          <NetlifyContentTypes
+            disabled={!this.state.token}
+            contentTypes={this.state.contentTypes}
+            enabledContentTypes={this.state.enabledContentTypes}
+            onEnabledContentTypesChange={this.onEnabledContentTypesChange}
+          />
+        </div>
+      </>
     );
   }
 }
