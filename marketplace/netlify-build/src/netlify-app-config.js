@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { uniqBy } from 'lodash-es';
+import uniqBy from 'lodash.uniqby';
 
 import { Spinner } from '@contentful/forma-36-react-components';
 import { Workbench } from '@contentful/forma-36-react-components/dist/alpha';

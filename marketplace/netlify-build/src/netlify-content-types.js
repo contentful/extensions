@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { uniq } from 'lodash-es';
 
 import {
   Typography,
@@ -26,7 +25,7 @@ export default class NetlifyContentTypes extends React.Component {
   onChange = (checked, id) => {
     const enabled = this.props.enabledContentTypes;
     this.props.onEnabledContentTypesChange(
-      checked ? uniq(enabled.concat([id])) : enabled.filter(cur => cur !== id)
+      checked ? enabled.concat([id]) : enabled.filter(cur => cur !== id)
     );
   };
 

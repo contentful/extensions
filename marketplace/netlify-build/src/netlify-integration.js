@@ -1,4 +1,4 @@
-import { uniqBy, omit } from 'lodash-es';
+import uniqBy from 'lodash.uniqby';
 
 import * as NetlifyClient from './netlify-client';
 import { getPostPublishUrl } from './pubnub-client';
@@ -55,7 +55,9 @@ export async function update({ config, accessToken }) {
 
   // Remove references to removed hooks from configuration.
   const updatedConfig = {
-    sites: config.sites.map(siteConfig => omit(siteConfig, ['buildHookId']))
+    sites: config.sites.map(siteConfig => {
+      return { ...siteConfig, buildHookId: undefined };
+    })
   };
 
   // Proceed as in the installation step.

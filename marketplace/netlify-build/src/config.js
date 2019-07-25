@@ -1,5 +1,3 @@
-import { mapValues } from 'lodash-es';
-
 const readCsvParam = csv =>
   (csv || '')
     .split(',')
@@ -20,7 +18,9 @@ export function configToParameters(config) {
     }, {})
   };
 
-  return mapValues(flat, arr => arr.join(','));
+  return Object.keys(flat).reduce((acc, key) => {
+    return { ...acc, [key]: flat[key].join(',') };
+  }, {});
 }
 
 export function parametersToConfig(parameters) {

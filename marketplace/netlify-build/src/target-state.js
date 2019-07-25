@@ -1,4 +1,4 @@
-import { get } from 'lodash-es';
+import get from 'lodash.get';
 
 export function currentStateToEnabledContentTypes(currentState) {
   const eiState = get(currentState, ['EditorInterface'], {});
