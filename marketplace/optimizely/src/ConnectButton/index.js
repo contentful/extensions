@@ -14,7 +14,7 @@ const styles = {
 
 export default function ConnectButton({ openAuth }) {
   return (
-    <Button onClick={openAuth}>
+    <Button onClick={openAuth} data-testid="connect-button">
       <div className={styles.connect}>
         <OptimizelyLogo />
         &nbsp; Connect with Optimizely
