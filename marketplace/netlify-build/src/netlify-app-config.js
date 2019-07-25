@@ -17,8 +17,6 @@ import NetlifyContentTypes from './netlify-content-types';
 import * as NetlifyClient from './netlify-client';
 import * as NetlifyIntegration from './netlify-integration';
 
-import styles from './styles';
-
 export default class NetlifyAppConfig extends React.Component {
   static propTypes = {
     sdk: PropTypes.object.isRequired
@@ -163,51 +161,43 @@ export default class NetlifyAppConfig extends React.Component {
     return (
       <Workbench>
         <Workbench.Content>
-          {this.state.ready ? (
-            this.renderApp()
-          ) : (
-            <div>
-              Loading <Spinner />
-            </div>
-          )}
+          {this.state.ready ? this.renderApp() : this.renderLoader()}
         </Workbench.Content>
       </Workbench>
     );
   }
 
+  renderLoader() {
+    return (
+      <div>
+        Loading <Spinner />
+      </div>
+    );
+  }
+
   renderApp() {
+    const disabled = !this.state.token;
+
     return (
       <>
         <NetlifyConnection
-          connected={!!this.state.token}
+          connected={!disabled}
           email={this.state.email}
           netlifyCounts={this.state.netlifyCounts}
           onConnectClick={this.onConnectClick}
         />
-
-        <div className={styles.section}>
-          <h3>Build Netlify sites</h3>
-          <p>
-            Pick the Netlify site(s) you want to enable a build for.
-            {!this.state.token && ' Requires a Netlify account.'}
-          </p>
-          <NetlifyConfigEditor
-            disabled={!this.state.token}
-            siteConfigs={this.state.config.sites}
-            netlifySites={this.state.netlifySites}
-            onSiteConfigsChange={this.onSiteConfigsChange}
-          />
-        </div>
-        <div className={styles.section}>
-          <h3>Enable Netlify builds for content types</h3>
-          <p>Select the content types that can use the Netlify App in the sidebar.</p>
-          <NetlifyContentTypes
-            disabled={!this.state.token}
-            contentTypes={this.state.contentTypes}
-            enabledContentTypes={this.state.enabledContentTypes}
-            onEnabledContentTypesChange={this.onEnabledContentTypesChange}
-          />
-        </div>
+        <NetlifyConfigEditor
+          disabled={disabled}
+          siteConfigs={this.state.config.sites}
+          netlifySites={this.state.netlifySites}
+          onSiteConfigsChange={this.onSiteConfigsChange}
+        />
+        <NetlifyContentTypes
+          disabled={disabled}
+          contentTypes={this.state.contentTypes}
+          enabledContentTypes={this.state.enabledContentTypes}
+          onEnabledContentTypesChange={this.onEnabledContentTypesChange}
+        />
       </>
     );
   }

@@ -4,6 +4,8 @@ import { uniq } from 'lodash-es';
 
 import { FieldGroup, CheckboxField, TextLink } from '@contentful/forma-36-react-components';
 
+import styles from './styles.js';
+
 export default class NetlifyContentTypes extends Component {
   static propTypes = {
     disabled: PropTypes.bool.isRequired,
@@ -27,10 +29,14 @@ export default class NetlifyContentTypes extends Component {
     const { disabled, contentTypes, enabledContentTypes } = this.props;
 
     return (
-      <>
-        <TextLink disabled={disabled} onClick={this.onSelectAll}>
-          Select all
-        </TextLink>
+      <div className={styles.section}>
+        <h3>Enable Netlify builds for content types</h3>
+        <p>Select the content types that can use the Netlify App in the sidebar.</p>
+        <p>
+          <TextLink disabled={disabled} onClick={this.onSelectAll}>
+            Select all
+          </TextLink>
+        </p>
         <FieldGroup>
           {contentTypes.map(([id, name]) => (
             <CheckboxField
@@ -43,7 +49,7 @@ export default class NetlifyContentTypes extends Component {
             />
           ))}
         </FieldGroup>
-      </>
+      </div>
     );
   }
 }

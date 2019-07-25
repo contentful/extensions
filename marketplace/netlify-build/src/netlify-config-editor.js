@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { css } from 'emotion';
 import PropTypes from 'prop-types';
-import tokens from '@contentful/forma-36-tokens';
+
 import {
   Button,
   SelectField,
@@ -12,20 +11,9 @@ import {
 
 import { MAX_CONFIGS } from './constants';
 
-const PICK_OPTION_VALUE = '__pick__';
+import styles from './styles';
 
-const styles = {
-  row: css({
-    display: 'flex',
-    margin: `${tokens.spacingXl} 0`
-  }),
-  item: css({
-    marginRight: tokens.spacingXl
-  }),
-  removeBtn: css({
-    marginTop: tokens.spacingL
-  })
-};
+const PICK_OPTION_VALUE = '__pick__';
 
 export default class NetlifyConfigEditor extends Component {
   static propTypes = {
@@ -79,7 +67,12 @@ export default class NetlifyConfigEditor extends Component {
     const { disabled, siteConfigs, netlifySites } = this.props;
 
     return (
-      <>
+      <div className={styles.section}>
+        <h3>Build Netlify sites</h3>
+        <p>
+          Pick the Netlify site(s) you want to enable a build for.
+          {disabled && ' Requires a Netlify account.'}
+        </p>
         {siteConfigs.map((siteConfig, configIndex) => {
           const selectId = `site-select-${configIndex}`;
           const inputId = `site-input-${configIndex}`;
@@ -126,7 +119,7 @@ export default class NetlifyConfigEditor extends Component {
           onClick={this.onAdd}>
           Add another site (max {MAX_CONFIGS})
         </Button>
-      </>
+      </div>
     );
   }
 }

@@ -31,5 +31,15 @@ export default {
   }),
   section: css({
     marginBottom: tokens.spacingXl
+  }),
+  row: css({
+    display: 'flex',
+    margin: `${tokens.spacingXl} 0`
+  }),
+  item: css({
+    marginRight: tokens.spacingXl
+  }),
+  removeBtn: css({
+    marginTop: tokens.spacingL
   })
 };
