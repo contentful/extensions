@@ -30,16 +30,11 @@ function stringifyContentTypeIds(ids) {
   return ids.filter(x => x).join(',');
 }
 
-function parseContentTypeIds(idString) {
-  return idString.trim().split(',');
-}
-
-function configValid({ projectId, contentTypeIds }) {
+function configValid({ projectId, contentTypes }) {
   return (
     typeof projectId === 'string' &&
     projectId &&
-    Array.isArray(contentTypeIds) &&
-    contentTypeIds.every(id => typeof id === 'string')
+    Object.keys(contentTypes).length > 0
   );
 }
 
@@ -57,7 +52,7 @@ export default class AppPage extends React.Component {
     this.state = {
       config: {
         projectId: '',
-        contentTypeIds: []
+        contentTypes: {}
       },
       allContentTypes: []
     };
@@ -67,6 +62,7 @@ export default class AppPage extends React.Component {
     const { app } = this.props.sdk.platformAlpha;
 
     const currentParameters = await app.getParameters();
+    const allContentTypes = await this.props.sdk.space.getContentTypes()
     const method = currentParameters ? 'update' : 'install';
 
     // eslint-disable-next-line
@@ -74,12 +70,11 @@ export default class AppPage extends React.Component {
       this.setState({
         config: {
           projectId: currentParameters.projectId,
-          contentTypeIds: parseContentTypeIds(currentParameters.contentTypeIds || '')
+          contentTypes: JSON.parse(currentParameters.contentTypes)
         }
       });
     }
 
-    const allContentTypes = await this.props.sdk.space.getContentTypes()
     this.setState({
       allContentTypes: allContentTypes.items || []
     })
@@ -102,20 +97,20 @@ export default class AppPage extends React.Component {
       return {
         parameters: {
           projectId: config.projectId,
-          contentTypeIds: stringifyContentTypeIds(config.contentTypeIds)
+          contentTypes: JSON.stringify(config.contentTypes)
         }
       };
     });
   }
 
-  updateConfig = (projectId, contentTypeIds) => {
-    this.setState({
+  updateConfig = (config) => {
+    this.setState(state => ({
       config: {
-        projectId,
-        contentTypeIds
+        ...this.state.config,
+        ...config
       }
-    });
-  };
+    }))
+  }
 
   notifyError = (err, fallbackMessage) => {
     let message = fallbackMessage || 'Operation failed.';

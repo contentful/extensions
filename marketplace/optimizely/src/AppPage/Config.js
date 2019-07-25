@@ -15,7 +15,8 @@ export default class Config extends React.Component {
   static propTypes = {
     client: PropTypes.object.isRequired,
     sdk: PropTypes.object.isRequired,
-    allContentTypes: PropTypes.array.isRequired
+    allContentTypes: PropTypes.array.isRequired,
+    config: PropTypes.object.isRequired
   }
 
   constructor(props) {
@@ -23,13 +24,11 @@ export default class Config extends React.Component {
 
     this.state = {
       loadingProjects: true,
-      addedContentTypes: [],
       allProjects: null,
       isContentTypeDialogOpen: false,
       isVariationContainerInstalled: false,
       selectedContentType: '',
-      selectedProject: null,
-      referenceFields: {}
+      selectedProject: null
     }
   }
 
@@ -51,34 +50,18 @@ export default class Config extends React.Component {
   }
 
   onProjectChange = event => {
-    this.setState({
-      selectedProject: event.target.value
+    this.props.updateConfig({
+      projectId: event.target.value
     })
   }
 
   onSelectContentType = contentTypeId => {
-    const contentType = this.props.allContentTypes.find(ct => ct.sys.id === contentTypeId)
-
-    // In case null / undefined gets passed, just set the value and return.
-    if (!contentType) {
-      this.setState({ selectedContentType: contentType })
-      return
-    }
-
-    this.setState(state => ({
-      selectedContentType: contentType.sys.id,
-      referenceFields: {
-        ...state.referenceFields,
-        [contentType.sys.id]:
-          state.referenceFields[contentType.sys.id] ||
-          this.createReferenceFieldMap(contentType.sys.id)
-      }
-    }))
+    this.setState({ selectedContentType: contentTypeId })
   }
 
-  createReferenceFieldMap = contentTypeId => {
+  createReferenceFieldMap = contentType => {
     return getReferenceFieldsLinkingToEntry(
-      this.props.allContentTypes.find(ct => ct.sys.id === contentTypeId)
+      contentType
     ).reduce((map, field) => {
       return {
         ...map,
@@ -88,31 +71,43 @@ export default class Config extends React.Component {
   };
 
   onSelectReferenceField = ({ contentTypeId, fieldId, checked }) => {
-    this.setState(state => ({
-      referenceFields: {
-        ...state.referenceFields,
+    this.props.updateConfig({
+      contentTypes: {
+        ...this.props.config.contentTypes,
         [contentTypeId]: {
-          ...state.referenceFields[contentTypeId],
+          ...this.props.config.contentTypes[contentTypeId],
           [fieldId]: checked
         }
       }
-    }))
+    })
   }
 
-  onDeleteContentType = async contentTypeId => {
-    this.setState(state => ({
-      addedContentTypes: state.addedContentTypes.filter(id => id !== contentTypeId)
-    }))
+  onDeleteContentType = contentTypeId => {
+    const { contentTypes } = this.props.config
+
+    const newContentTypes = {
+      ...contentTypes
+    }
+
+    delete newContentTypes[contentTypeId]
+
+    this.props.updateConfig({
+      contentTypes: newContentTypes
+    })
   }
 
   onAddContentType = () => {
-    this.setState(state => {
-      if (state.addedContentTypes.includes(state.selectedContentType)) {
-        return
-      }
+    const { contentTypes } = this.props.config
+    const { selectedContentType } = this.state
 
-      return {
-        addedContentTypes: [...state.addedContentTypes, state.selectedContentType]
+    const contentType = this.props.allContentTypes.find(ct => ct.sys.id === selectedContentType)
+
+    this.props.updateConfig({
+      contentTypes: {
+        ...contentTypes,
+        [contentType.sys.id]: this.createReferenceFieldMap(
+          contentType
+        )
       }
     })
 
@@ -124,17 +119,20 @@ export default class Config extends React.Component {
       return (<div>Loading ...</div>)
     }
 
+    const { contentTypes } = this.props.config
+    const addedContentTypes = Object.keys(contentTypes)
+
     return (
       <>
         <Projects
           allProjects={this.state.allProjects}
           onProjectChange={this.onProjectChange}
-          selectedProject={this.state.selectedProject}
+          selectedProject={this.props.config.projectId}
         />
         <ContentTypes 
-          addedContentTypes={this.state.addedContentTypes}
+          addedContentTypes={addedContentTypes}
           allContentTypes={this.props.allContentTypes}
-          allReferenceFields={this.state.referenceFields}
+          allReferenceFields={contentTypes}
           selectedContentType={this.state.selectedContentType}
           onAddContentType={this.onAddContentType}
           onSelectContentType={this.onSelectContentType}
