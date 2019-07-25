@@ -118,20 +118,13 @@ async function removeExistingHooks({ config, accessToken }) {
   });
 
   // ...remove Netlify hooks for it.
-  let netlifyHookRemovalPromises = Promise.resolve();
+  const netlifyHookRemovalPromises = netlifyHookIds
+    .filter(id => typeof id === 'string' && id.length > 0)
+    .map(id => NetlifyClient.deleteNotificationHook(id, accessToken));
 
-  if (Array.isArray(netlifyHookIds)) {
-    const validNetlifyHookIds = netlifyHookIds.filter(id => {
-      return typeof id === 'string' && id.length > 0;
-    });
-
-    netlifyHookRemovalPromises = Promise.all(
-      validNetlifyHookIds.map(id => NetlifyClient.deleteNotificationHook(id, accessToken))
-    );
-  }
+  const removalPromises = buildHookRemovalPromises.concat(netlifyHookRemovalPromises);
 
   try {
-    const removalPromises = buildHookRemovalPromises.concat(netlifyHookRemovalPromises);
     await Promise.all(removalPromises);
   } catch (err) {
     // Failed removing some hooks. We can live with that.

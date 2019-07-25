@@ -134,9 +134,9 @@ export default class NetlifyAppConfig extends React.Component {
     this.cancelTicketPolling = NetlifyClient.getAccessTokenWithTicket(
       this.state.ticketId,
       (err, token) => {
-        if (err) {
+        if (err || !token) {
           this.notifyError(err, 'Failed to connect with Netlify. Try again!');
-        } else if (token) {
+        } else {
           this.initNetlifyConnection(token);
         }
       }
@@ -178,14 +178,6 @@ export default class NetlifyAppConfig extends React.Component {
     return (
       <Workbench>
         <Workbench.Content>
-          <div className={styles.section}>
-            <h3>About</h3>
-            <p>
-              With this app developers can do a very quick set up, authors can control when the
-              static pages are created and see the current status of the build process.
-            </p>
-          </div>
-
           {this.state.ready ? (
             <>
               <NetlifyConnection
@@ -210,9 +202,7 @@ export default class NetlifyAppConfig extends React.Component {
               </div>
               <div className={styles.section}>
                 <h3>Enable Netlify builds for content types</h3>
-                <p>
-                  Select content types of which entries will have Netlify App in their sidebars.
-                </p>
+                <p>Select the content types that can use the Netlify App in the sidebar.</p>
                 <p>
                   <TextLink
                     disabled={!this.state.token}

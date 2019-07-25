@@ -7,7 +7,7 @@
       {
         "id": "notificationHookIds",
         "type": "Symbol",
-        "name": "Comma separated Netlifynotification hook IDs",
+        "name": "Comma separated Netlify notification hook IDs",
         "description": "Example: 5d385c6715f9a2ec85625922,5d385c67e3475356615cea11,5d385c675d0f91ba977bd4f2",
         "required": true
       },

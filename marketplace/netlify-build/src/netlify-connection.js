@@ -46,7 +46,8 @@ export default class NetlifyConnection extends Component {
         </p>
         {unavailable > 0 && (
           <p>
-            {unavailable} sites we can’t build (no Continuous Deployment configuration).{' '}
+            There are {unavailable} sites we can’t build because they are not configured to use
+            continuous deployment.{' '}
             <a href="https://app.netlify.com/" target="_blank" rel="noopener noreferrer">
               View more on Netlify
             </a>
@@ -55,7 +56,7 @@ export default class NetlifyConnection extends Component {
         {buildable > 0 && <p>{buildable} sites can be built</p>}
         {buildable < 1 && (
           <p>
-            There are no sites we can build. Navigate to the{' '}
+            There are no sites that can be built. Navigate to{' '}
             <a href="https://app.netlify.com/" target="_blank" rel="noopener noreferrer">
               Netlify
             </a>{' '}
