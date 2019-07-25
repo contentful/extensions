@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { uniqBy } from 'lodash-es';
 
-import { Notification, Spinner } from '@contentful/forma-36-react-components';
+import { Spinner } from '@contentful/forma-36-react-components';
 import { Workbench } from '@contentful/forma-36-react-components/dist/alpha';
 
 import { parametersToConfig, configToParameters } from './config';
@@ -141,7 +141,7 @@ export default class NetlifyAppConfig extends React.Component {
   initNetlifyConnection = async ({ token, email }) => {
     try {
       const { sites, counts } = await NetlifyClient.listSites(token);
-      Notification.success('Netlify account connected successfully.');
+      this.props.sdk.notifier.success('Netlify account connected successfully.');
       this.setState({ token, email, netlifySites: sites, netlifyCounts: counts });
     } catch (err) {
       this.notifyError(err, 'Failed to connect with Netlify. Try again!');
