@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { css } from 'emotion';
 import { Button } from '@contentful/forma-36-react-components';
 
@@ -21,3 +22,8 @@ export default function ConnectButton({ openAuth }) {
     </Button>
   );
 }
+
+ConnectButton.propTypes = {
+  openAuth: PropTypes.func.isRequired
+};
+

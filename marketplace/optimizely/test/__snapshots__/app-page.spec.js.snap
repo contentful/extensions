@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Optimizely App should render the missing project on the sidebar 1`] = `
+<div
+  class="css-hvj582"
+  data-testid="missing-project"
+>
+  <div
+    class="Note__Note___2eSKN Note__Note--negative___3fkwL"
+    data-test-id="cf-ui-note"
+  >
+    <div
+      class="Note__Note__icon___20RqC"
+    >
+      <svg
+        class="Icon__Icon___38Epv Icon__Icon--small___1yGZK Icon__Icon--negative___1dled"
+        data-test-id="cf-ui-icon"
+        height="18"
+        viewBox="0 0 24 24"
+        width="18"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 0h24v24H0z"
+          fill="none"
+        />
+        <path
+          d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"
+        />
+      </svg>
+    </div>
+    <div>
+      <div>
+        Please, set 
+        <strong>
+          Optimizely Project ID
+        </strong>
+         in Extension settings.
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Optimizely App should render the sidebar 1`] = `
+<div
+  data-testid="sidebar"
+>
+  <a
+    class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--full-width___3Fmpo"
+    data-test-id="cf-ui-button"
+    href="https://app.optimizely.com/v2/projects/123/experiments/exp123/variations"
+    target="_blank"
+    type="button"
+  >
+    <span
+      class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+      tabindex="-1"
+    >
+      <span
+        class="Button__Button__label___3tcOj"
+      >
+        View in Optimizely
+      </span>
+    </span>
+  </a>
+  <a
+    class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
+    data-test-id="cf-ui-button"
+    href="https://app.optimizely.com/v2/projects/123/experiments"
+    target="_blank"
+    type="button"
+  >
+    <span
+      class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+      tabindex="-1"
+    >
+      <span
+        class="Button__Button__label___3tcOj"
+      >
+        View all experiments
+      </span>
+    </span>
+  </a>
+</div>
+`;

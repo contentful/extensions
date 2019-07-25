@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { render } from 'react-dom';
 import { init, locations } from 'contentful-ui-extensions-sdk';
@@ -21,7 +21,7 @@ function getAccessTokenFromHash(hash) {
 
 // we can use this for the oauth endpoint,
 // if there is a hash with an access token, we will report it and close the page
-if (location.hash) {
+if (window.location.hash) {
   const token = getAccessTokenFromHash(location.hash);
   window.opener.postMessage({ token });
   window.close();
@@ -31,7 +31,7 @@ const HOST = 'http://localhost:1234';
 
 const url = `https://app.optimizely.com/oauth2/authorize
 ?client_id=15687650042
-&redirect_uri=${encodeURIComponent(HOST)}
+&redirect_uri=${window.encodeURIComponent(HOST)}
 &response_type=token
 &scopes=all`;
 

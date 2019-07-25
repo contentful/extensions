@@ -41,7 +41,7 @@ export default function Sidebar(props) {
   const projectId = parameters.installation.optimizelyProjectId;
 
   return (
-    <div>
+    <div data-testid="sidebar">
       <Button
         buttonType="primary"
         isFullWidth
