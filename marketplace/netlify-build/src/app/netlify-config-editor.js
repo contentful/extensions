@@ -32,7 +32,7 @@ const styles = {
   removeBtn: css({
     marginTop: tokens.spacingL
   })
-}
+};
 
 export default class NetlifyConfigEditor extends React.Component {
   static propTypes = {
