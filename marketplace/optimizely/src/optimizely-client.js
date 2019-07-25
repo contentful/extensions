@@ -25,6 +25,10 @@ export default class OptimizelyClient {
     this.onReauth();
   };
 
+  getProjects() {
+    return this.makeRequest('/projects')
+  }
+
   getExperiment = experimentId => {
     return this.makeRequest(`/experiments/${experimentId}`);
   };

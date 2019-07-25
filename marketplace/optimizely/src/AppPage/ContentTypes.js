@@ -86,7 +86,7 @@ export default function ContentTypes({
           </tbody>
         </Table>
       ) : null}
-      <ContentTypeSelectionModal
+      {/* <ContentTypeSelectionModal
         allContentTypes={allContentTypes}
         allReferenceFields={allReferenceFields}
         addedContentTypes={addedContentTypes}
@@ -96,7 +96,7 @@ export default function ContentTypes({
         onSelectReferenceField={onSelectReferenceField}
         onSave={saveContentTypeDialog}
         onCancel={closeContentTypeDialog}
-      />
+      /> */}
     </div>
   );
 
