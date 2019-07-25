@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { render } from 'react-dom';
-import { init, locations } from '../../../../ui-extensions-sdk';
+import { init, locations } from 'contentful-ui-extensions-sdk';
 import './index.css';
 import EditorPage from './EditorPage';
 import Sidebar from './Sidebar';
@@ -40,7 +40,7 @@ const TOKEN_KEY = 'optToken';
 export default class App extends React.Component {
   static propTypes = {
     sdk: PropTypes.shape({
-      contentType: PropTypes.object.isRequired,
+      contentType: PropTypes.object,
       location: PropTypes.shape({
         is: PropTypes.func.isRequired
       }),
@@ -105,6 +105,7 @@ export default class App extends React.Component {
           openAuth={this.openAuth}
           accessToken={this.state.accessToken}
           sdk={this.props.sdk}
+          client={this.state.client}
         />
       );
     }

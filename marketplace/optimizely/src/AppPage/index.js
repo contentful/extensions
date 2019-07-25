@@ -47,6 +47,7 @@ export default class AppPage extends React.Component {
   static propTypes = {
     openAuth: PropTypes.func.isRequired,
     accessToken: PropTypes.string,
+    client: PropTypes.object,
     sdk: PropTypes.object.isRequired
   };
 
@@ -57,7 +58,8 @@ export default class AppPage extends React.Component {
       config: {
         projectId: '',
         contentTypeIds: []
-      }
+      },
+      allContentTypes: []
     };
   }
 
@@ -72,10 +74,15 @@ export default class AppPage extends React.Component {
       this.setState({
         config: {
           projectId: currentParameters.projectId,
-          contentTypeIds: parseContentTypeIds(currentParameters.contentTypeIds)
+          contentTypeIds: parseContentTypeIds(currentParameters.contentTypeIds || '')
         }
       });
     }
+
+    const allContentTypes = await this.props.sdk.space.getContentTypes()
+    this.setState({
+      allContentTypes: allContentTypes.items || []
+    })
 
     app.onConfigure(async () => {
       if (!this.props.accessToken) {
@@ -129,11 +136,14 @@ export default class AppPage extends React.Component {
         </div>
 
         <div className={styles.section}>
-          {!this.props.accessToken ? (
-            <Connect openAuth={this.props.openAuth} />
-          ) : (
-            <div config={this.state.config} updateConfig={this.updateConfig} />
-          )}
+          {!this.props.client ? 
+            <Connect openAuth={this.props.openAuth} /> :
+            <Config 
+              client={this.props.client}  
+              config={this.state.config} 
+              updateConfig={this.updateConfig}
+              allContentTypes={this.state.allContentTypes}
+            />}
         </div>
       </div>
     );
