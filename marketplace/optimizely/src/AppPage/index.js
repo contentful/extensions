@@ -143,6 +143,7 @@ export default class AppPage extends React.Component {
               config={this.state.config} 
               updateConfig={this.updateConfig}
               allContentTypes={this.state.allContentTypes}
+              sdk={this.props.sdk}
             />}
         </div>
       </div>
