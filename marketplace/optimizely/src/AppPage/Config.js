@@ -51,7 +51,7 @@ export default class Config extends React.Component {
 
   onProjectChange = event => {
     this.props.updateConfig({
-      projectId: event.target.value
+      optimizelyProjectId: event.target.value
     })
   }
 
