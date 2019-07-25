@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button } from '@contentful/forma-36-react-components';
+import { Typography, Heading, Paragraph, Button } from '@contentful/forma-36-react-components';
 
 import styles from './styles';
 
-export default class NetlifyConnection extends Component {
+export default class NetlifyConnection extends React.Component {
   static propTypes = {
     connected: PropTypes.bool.isRequired,
     email: PropTypes.string,
@@ -17,21 +17,27 @@ export default class NetlifyConnection extends Component {
   };
 
   render() {
-    return this.props.connected ? this.renderConnectionInfo() : this.renderConnectButton();
+    return (
+      <Typography className={styles.section}>
+        <Heading>Netlify account</Heading>
+        {this.props.connected ? this.renderConnectionInfo() : this.renderConnectButton()}
+      </Typography>
+    );
   }
 
   renderConnectButton() {
     return (
-      <div className={styles.section}>
-        <h3>Netlify account</h3>
-        <p>
+      <>
+        <Paragraph>
           Connect your Netlify account so you can trigger builds and view statuses in the Contentful
           Web App.
-        </p>
-        <Button buttonType="primary" onClick={this.props.onConnectClick}>
-          Connect account
-        </Button>
-      </div>
+        </Paragraph>
+        <Paragraph>
+          <Button buttonType="primary" onClick={this.props.onConnectClick}>
+            Connect account
+          </Button>
+        </Paragraph>
+      </>
     );
   }
 
@@ -39,31 +45,31 @@ export default class NetlifyConnection extends Component {
     const { unavailable, buildable } = this.props.netlifyCounts;
 
     return (
-      <div className={styles.section}>
-        <h3>Netlify account</h3>
-        <p>
+      <>
+        <Paragraph>
           Netlify account: <code>{this.props.email}</code>.
-        </p>
+        </Paragraph>
         {unavailable > 0 && (
-          <p>
+          <Paragraph>
             There are {unavailable} sites we can’t build because they are not configured to use
             continuous deployment.{' '}
             <a href="https://app.netlify.com/" target="_blank" rel="noopener noreferrer">
               View more on Netlify
             </a>
-          </p>
+            .
+          </Paragraph>
         )}
-        {buildable > 0 && <p>{buildable} sites can be built</p>}
+        {buildable > 0 && <Paragraph>{buildable} sites can be built.</Paragraph>}
         {buildable < 1 && (
-          <p>
+          <Paragraph>
             There are no sites that can be built. Navigate to{' '}
             <a href="https://app.netlify.com/" target="_blank" rel="noopener noreferrer">
               Netlify
             </a>{' '}
             to create one!
-          </p>
+          </Paragraph>
         )}
-      </div>
+      </>
     );
   }
 }

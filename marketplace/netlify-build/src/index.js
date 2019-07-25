@@ -9,6 +9,7 @@ import NeflifySidebar from './netlify-sidebar';
 import NetlifyAppConfig from './netlify-app-config';
 
 import '@contentful/forma-36-react-components/dist/styles.css';
+import '@contentful/forma-36-fcss/dist/styles.css';
 
 init(sdk => {
   const root = document.getElementById('root');

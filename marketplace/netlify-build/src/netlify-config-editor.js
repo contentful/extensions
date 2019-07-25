@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  Typography,
+  Heading,
+  Paragraph,
   Button,
   SelectField,
   Option,
@@ -15,7 +18,7 @@ import styles from './styles';
 
 const PICK_OPTION_VALUE = '__pick__';
 
-export default class NetlifyConfigEditor extends Component {
+export default class NetlifyConfigEditor extends React.Component {
   static propTypes = {
     disabled: PropTypes.bool.isRequired,
     siteConfigs: PropTypes.array.isRequired,
@@ -67,12 +70,12 @@ export default class NetlifyConfigEditor extends Component {
     const { disabled, siteConfigs, netlifySites } = this.props;
 
     return (
-      <div className={styles.section}>
-        <h3>Build Netlify sites</h3>
-        <p>
+      <Typography className={styles.section}>
+        <Heading>Build Netlify sites</Heading>
+        <Paragraph>
           Pick the Netlify site(s) you want to enable a build for.
           {disabled && ' Requires a Netlify account.'}
-        </p>
+        </Paragraph>
         {siteConfigs.map((siteConfig, configIndex) => {
           const selectId = `site-select-${configIndex}`;
           const inputId = `site-input-${configIndex}`;
@@ -119,7 +122,7 @@ export default class NetlifyConfigEditor extends Component {
           onClick={this.onAdd}>
           Add another site (max {MAX_CONFIGS})
         </Button>
-      </div>
+      </Typography>
     );
   }
 }
