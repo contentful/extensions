@@ -155,6 +155,7 @@ exports[`Optimizely App should render the editor page 1`] = `
   <button
     class="Button__Button___1ZfFj a11y__focus-border--default___60AXp Button__Button--primary___JImeO"
     data-test-id="cf-ui-button"
+    data-testid="connect-button"
     type="button"
   >
     <span
@@ -559,6 +560,7 @@ exports[`Optimizely App should render the sidebar 1`] = `
   <a
     class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--full-width___3Fmpo"
     data-test-id="cf-ui-button"
+    data-testid="view-experiment"
     href="https://app.optimizely.com/v2/projects/123/experiments/exp123/variations"
     target="_blank"
     type="button"
@@ -577,6 +579,7 @@ exports[`Optimizely App should render the sidebar 1`] = `
   <a
     class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
     data-test-id="cf-ui-button"
+    data-testid="view-all"
     href="https://app.optimizely.com/v2/projects/123/experiments"
     target="_blank"
     type="button"

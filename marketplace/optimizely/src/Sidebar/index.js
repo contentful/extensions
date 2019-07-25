@@ -48,7 +48,8 @@ export default function Sidebar(props) {
         className={styles.button}
         disabled={!experimentId}
         href={getExperimentUrl(projectId, experimentId)}
-        target="_blank">
+        target="_blank"
+        data-testid="view-experiment">
         View in Optimizely
       </Button>
       <Button
@@ -56,7 +57,8 @@ export default function Sidebar(props) {
         isFullWidth
         className={styles.button}
         target="_blank"
-        href={getAllExperimentsUrl(projectId)}>
+        href={getAllExperimentsUrl(projectId)}
+        data-testid="view-all">
         View all experiments
       </Button>
     </div>
