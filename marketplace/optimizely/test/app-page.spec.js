@@ -50,7 +50,15 @@ function mockSdk() {
         experimentId: {
           getValue: jest.fn(() => 'exp123'),
           onValueChanged: jest.fn(() => jest.fn())
-        }
+        },
+        meta: {
+          getValue: jest.fn(),
+          onValueChanged: jest.fn(() => jest.fn())
+        },
+        variations: {
+          getValue: jest.fn(),
+          onValueChanged: jest.fn(() => jest.fn())
+        },
       }
     },
     contentType: {
@@ -166,5 +174,24 @@ describe('Optimizely App', () => {
     const { getByTestId } = render(<App sdk={sdk} />);
 
     expect(getByTestId('sidebar')).toMatchSnapshot();
+  });
+
+  it('should render the incorrect type message', () => {
+    LOCATION = LOCATIONS.LOCATION_ENTRY_EDITOR;
+    PROJECT_ID = '123';
+    const sdk = mockSdk();
+
+    const { getByTestId } = render(<App sdk={sdk} />);
+    expect(getByTestId('incorrect-type')).toMatchSnapshot();
+  });
+
+  it('should render the editor page', () => {
+    LOCATION = LOCATIONS.LOCATION_ENTRY_EDITOR;
+    PROJECT_ID = '123';
+    VALID_FIELDS = true;
+    const sdk = mockSdk();
+
+    const { getByTestId } = render(<App sdk={sdk} />);
+    expect(getByTestId('editor-page')).toMatchSnapshot();
   });
 });

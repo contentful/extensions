@@ -283,7 +283,7 @@ export default function EditorPage(props) {
   return (
     <SDKContext.Provider value={props.sdk}>
       <GlobalStateContext.Provider value={globalState}>
-        <div className={styles.root}>
+        <div className={styles.root} data-testid="editor-page">
           <StatusBar
             loaded={state.loaded}
             experiment={experiment}
