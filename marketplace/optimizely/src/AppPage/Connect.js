@@ -1,11 +1,8 @@
 import React from 'react';
-import {
-  Heading,
-  Paragraph,
-  List,
-  ListItem,
-  TextLink
-} from '@contentful/forma-36-react-components';
+import PropTypes from 'prop-types';
+
+import { Heading, Paragraph } from '@contentful/forma-36-react-components';
+
 import ConnectButton from '../ConnectButton';
 
 export default function Connect({ openAuth }) {
@@ -21,3 +18,7 @@ export default function Connect({ openAuth }) {
     </>
   );
 }
+
+Connect.propTypes = {
+  openAuth: PropTypes.func.isRequired
+};

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import tokens from '@contentful/forma-36-tokens';
-import constants from './constants'
-import ReferenceForm, { hasReferenceFieldsLinkingToEntry } from './ReferenceForm';
+import constants from './constants';
+import { hasReferenceFieldsLinkingToEntry } from './ReferenceForm';
 import { css } from 'emotion';
 import {
   Heading,
@@ -80,7 +80,7 @@ export default function ContentTypes({
         onChange={e => onSelectContentType(e.target.value)}
         value={selectedContentType || ''}
         required>
-        <Option key="default" value={''}>
+        <Option key="default" value="">
           Select a content type
         </Option>
         {allContentTypes
@@ -100,7 +100,6 @@ export default function ContentTypes({
       </Button>
       {addedContentTypes.length > 0 ? (
         <Table className={styles.table}>
-          
           <tbody>
             {addedContentTypes.map(id => (
               <ContentTypeRow
@@ -113,7 +112,8 @@ export default function ContentTypes({
               />
             ))}
           </tbody>
-        </Table> ) : null}
+        </Table>
+      ) : null}
     </div>
   );
 }
@@ -134,16 +134,16 @@ function ContentTypeRow({
   onClickDelete
 }) {
   const contentType = allContentTypes.find(ct => ct.sys.id === contentTypeId);
-  const referenceFields = allReferenceFields[contentTypeId]
+  const referenceFields = allReferenceFields[contentTypeId];
   const referenceFieldIds = Object.keys(referenceFields);
 
   return (
     <TableRow>
       <TableCell className={styles.contentTypeRow}>
-          <strong>{contentType.name}</strong>
+        <strong>{contentType.name}</strong>
       </TableCell>
       <TableCell className={styles.contentTypeRow}>
-        { referenceFieldIds.map(fieldId => (
+        {referenceFieldIds.map(fieldId => (
           <ReferenceField
             key={fieldId}
             contentType={contentType}
@@ -152,14 +152,14 @@ function ContentTypeRow({
             onSelect={onSelectReferenceField}
           />
         ))}
-        </TableCell>
-        <TableCell className={styles.contentTypeRow}>
-          <TextLink
-            onClick={() => onClickDelete(contentTypeId)}
-            className={styles.link}
-            linkType="negative">
-            Delete
-          </TextLink>
+      </TableCell>
+      <TableCell className={styles.contentTypeRow}>
+        <TextLink
+          onClick={() => onClickDelete(contentTypeId)}
+          className={styles.link}
+          linkType="negative">
+          Delete
+        </TextLink>
       </TableCell>
     </TableRow>
   );

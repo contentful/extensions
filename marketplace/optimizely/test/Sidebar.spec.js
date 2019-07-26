@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, render, fireEvent } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 
 import Sidebar from '../src/Sidebar';
 
@@ -134,6 +134,8 @@ function mockSdk() {
 }
 
 describe('Sidebar', () => {
+  afterEach(cleanup);
+
   it('should run all lifecycle methods', () => {
     const sdk = mockSdk();
 
@@ -143,7 +145,9 @@ describe('Sidebar', () => {
 
     expect(sdk.entry.fields.experimentId.getValue).toHaveBeenCalledTimes(1);
     expect(sdk.entry.fields.experimentId.onValueChanged).toHaveBeenCalledTimes(1);
-    expect(typeof sdk.entry.fields.experimentId.onValueChanged.mock.calls[0][0]).toEqual('function');
+    expect(typeof sdk.entry.fields.experimentId.onValueChanged.mock.calls[0][0]).toEqual(
+      'function'
+    );
 
     unmount();
 
@@ -155,8 +159,12 @@ describe('Sidebar', () => {
     const sdk = mockSdk();
     const { getByTestId } = render(<Sidebar sdk={sdk} />);
 
-    expect(getByTestId('view-experiment').href).toBe('https://app.optimizely.com/v2/projects/123/experiments/exp123/variations');
+    expect(getByTestId('view-experiment').href).toBe(
+      'https://app.optimizely.com/v2/projects/123/experiments/exp123/variations'
+    );
 
-    expect(getByTestId('view-all').href).toBe('https://app.optimizely.com/v2/projects/123/experiments');
+    expect(getByTestId('view-all').href).toBe(
+      'https://app.optimizely.com/v2/projects/123/experiments'
+    );
   });
 });

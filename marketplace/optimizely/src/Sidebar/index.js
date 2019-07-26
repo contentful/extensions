@@ -27,7 +27,7 @@ export default function Sidebar(props) {
     return () => {
       props.sdk.window.stopAutoResizer();
     };
-  }, []);
+  }, [props.sdk.window]);
 
   useEffect(() => {
     const unsubscribe = props.sdk.entry.fields.experimentId.onValueChanged(value => {
@@ -36,7 +36,7 @@ export default function Sidebar(props) {
     return () => {
       return unsubscribe();
     };
-  }, []);
+  }, [props.sdk.entry.fields.experimentId]);
 
   const projectId = parameters.installation.optimizelyProjectId;
 
@@ -72,6 +72,11 @@ Sidebar.propTypes = {
         experimentId: PropTypes.object.isRequired
       }).isRequired
     }),
-    window: PropTypes.object.isRequired
+    window: PropTypes.object.isRequired,
+    parameters: PropTypes.shape({
+      installation: PropTypes.shape({
+        optimizelyProjectId: PropTypes.string.isRequired
+      })
+    })
   }).isRequired
 };
