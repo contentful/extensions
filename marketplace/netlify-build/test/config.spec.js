@@ -1,4 +1,4 @@
-import { configToParameters, parametersToConfig } from '../src/config.js';
+import { configToParameters, parametersToConfig } from '../src/config';
 
 const config = {
   netlifyHookIds: ['hook1', 'hook2'],
