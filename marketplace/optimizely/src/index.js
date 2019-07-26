@@ -126,7 +126,7 @@ export default class App extends React.Component {
       }
 
       return (
-        <EditorPage key={this.state.client} sdk={sdk} client={client} openAuth={this.openAuth} />
+        <EditorPage sdk={sdk} client={client} openAuth={this.openAuth} />
       );
     }
   }
