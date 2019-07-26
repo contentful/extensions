@@ -22,14 +22,6 @@ const styles = {
   })
 };
 
-function stringifyContentTypeIds(ids) {
-  if (!Array.isArray(ids)) {
-    return '';
-  }
-
-  return ids.filter(x => x).join(',');
-}
-
 function configValid({ optimizelyProjectId, contentTypes }) {
   return (
     typeof optimizelyProjectId === 'string' &&
@@ -62,11 +54,11 @@ export default class AppPage extends React.Component {
     const { app } = this.props.sdk.platformAlpha;
 
     const currentParameters = await app.getParameters();
-    const allContentTypes = await this.props.sdk.space.getContentTypes()
+    const allContentTypes = await this.props.sdk.space.getContentTypes();
     const method = currentParameters ? 'update' : 'install';
 
-    // eslint-disable-next-line
     if (currentParameters) {
+      // eslint-disable-next-line
       this.setState({
         config: {
           optimizelyProjectId: currentParameters.optimizelyProjectId,
@@ -75,9 +67,10 @@ export default class AppPage extends React.Component {
       });
     }
 
+    // eslint-disable-next-line
     this.setState({
       allContentTypes: allContentTypes.items || []
-    })
+    });
 
     app.onConfigure(async () => {
       if (!this.props.accessToken) {
@@ -103,14 +96,14 @@ export default class AppPage extends React.Component {
     });
   }
 
-  updateConfig = (config) => {
+  updateConfig = config => {
     this.setState(state => ({
       config: {
-        ...this.state.config,
+        ...state.config,
         ...config
       }
-    }))
-  }
+    }));
+  };
 
   notifyError = (err, fallbackMessage) => {
     let message = fallbackMessage || 'Operation failed.';
@@ -131,15 +124,17 @@ export default class AppPage extends React.Component {
         </div>
 
         <div className={styles.section}>
-          {!this.props.client ? 
-            <Connect openAuth={this.props.openAuth} /> :
-            <Config 
-              client={this.props.client}  
-              config={this.state.config} 
+          {!this.props.client ? (
+            <Connect openAuth={this.props.openAuth} />
+          ) : (
+            <Config
+              client={this.props.client}
+              config={this.state.config}
               updateConfig={this.updateConfig}
               allContentTypes={this.state.allContentTypes}
               sdk={this.props.sdk}
-            />}
+            />
+          )}
         </div>
       </div>
     );

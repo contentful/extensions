@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import get from 'lodash.get';
 import { CheckboxField, Tooltip, Icon } from '@contentful/forma-36-react-components';
 import constants from './constants';
 import { css } from 'emotion';
@@ -36,7 +36,9 @@ export default function ReferenceField({ id, checked, contentType, onSelect }) {
         id={`reference-field-${id}`}
         checked={checked || disabled}
         disabled={disabled}
-        onChange={e => onSelect({ contentTypeId: contentType.sys.id, fieldId: id, checked: e.target.checked })}
+        onChange={e =>
+          onSelect({ contentTypeId: contentType.sys.id, fieldId: id, checked: e.target.checked })
+        }
         labelText={field.name}
         labelIsLight={true}
       />
