@@ -112,7 +112,7 @@ export default function EditorPage(props) {
       .catch(() => {
         actions.setError('Unable to load initial data');
       });
-  }, []);
+  }, [props.client]);
 
   /**
    * Pulling current experiment every 5s to get new status and variations
