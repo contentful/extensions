@@ -2,14 +2,13 @@
   "id": "netlify-build-and-preview",
   "name": "Netlify Build and Preview",
   "src": "http://localhost:1234",
-  "sidebar": true,
   "parameters": {
     "installation": [
       {
-        "id": "netlifySiteIds",
+        "id": "notificationHookIds",
         "type": "Symbol",
-        "name": "Comma seperated Netlify Site ID list (max 3)",
-        "description": "Example: 52833133ac93-7ac0-463b-96d0-bc797e7fcb07,219463a8-f2b3-4c71-8z3c-f403b5966e80",
+        "name": "Comma separated Netlify notification hook IDs",
+        "description": "Example: 5d385c6715f9a2ec85625922,5d385c67e3475356615cea11,5d385c675d0f91ba977bd4f2",
         "required": true
       },
       {
@@ -27,10 +26,24 @@
         "required": true
       },
       {
+        "id": "netlifySiteIds",
+        "type": "Symbol",
+        "name": "Comma seperated Netlify Site ID list (max 3)",
+        "description": "Example: 52833133ac93-7ac0-463b-96d0-bc797e7fcb07,219463a8-f2b3-4c71-8z3c-f403b5966e80",
+        "required": true
+      },
+      {
+        "id": "netlifySiteNames",
+        "type": "Symbol",
+        "name": "Comma seperated Netlify site names (max 3)",
+        "description": "Example: firefly-12345,aardvark-5324",
+        "required": true
+      },
+      {
         "id": "netlifySiteUrls",
         "type": "Symbol",
         "name": "Comma seperated Netlify site URLs (max 3)",
-        "description": "Example: https://firefly-12345.netlify.com,https://aardvark-5324-netlify.com",
+        "description": "Example: https://firefly-12345.netlify.com,https://aardvark-5324.netlify.com",
         "required": true
       }
     ]

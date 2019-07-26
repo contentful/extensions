@@ -1,16 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import 'whatwg-fetch';
+import { css } from 'emotion';
+
+import tokens from '@contentful/forma-36-tokens';
 import { Button, ValidationMessage } from '@contentful/forma-36-react-components';
+
 import { normalizeMessage, isOutOfOrder, isDuplicate, messageToState } from './message-processor';
 import { createPubSub } from './pubnub-client';
 
-import '@contentful/forma-36-react-components/dist/styles.css';
-import styles from './styles';
+import { EVENT_TRIGGERED, EVENT_TRIGGER_FAILED } from '../constants';
 
-import { EVENT_TRIGGERED, EVENT_TRIGGER_FAILED } from './contstants';
+const styles = {
+  info: css({
+    color: tokens.colorTextLight,
+    marginBottom: tokens.spacingM,
+    fontSize: tokens.fontSizeS,
+    fontWeight: tokens.fontWeightNormal
+  }),
+  button: css({
+    marginBottom: tokens.spacingS
+  }),
+  header: css({
+    display: 'flex',
+    marginBottom: tokens.spacingS
+  })
+};
 
-export default class NeflifySideBarBuildButton extends React.Component {
+export default class NeflifySidebarBuildButton extends React.Component {
   static propTypes = {
     site: PropTypes.object.isRequired,
     users: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
@@ -19,30 +35,20 @@ export default class NeflifySideBarBuildButton extends React.Component {
 
   state = { history: [] };
 
-  async componentDidMount() {
+  componentDidMount() {
     this.createPubSub();
-  }
-
-  componentDidUpdate(prevProps) {
-    // on initial render we may not get a user array
-    const hasNewUsers = !prevProps.users.length && this.props.users.length;
-
-    if (hasNewUsers || (this.props.site !== prevProps.site && this.pubsub)) {
-      this.pubsub.stop();
-      this.createPubSub();
-    }
   }
 
   createPubSub = async () => {
     const { site } = this.props;
 
-    if (!site.name || !site.channel || !site.netlifySiteId || !site.buildHookUrl) {
+    if (!site.name || !site.netlifySiteId || !site.buildHookId) {
       this.setState({ misconfigured: true });
       return;
     }
 
     this.pubsub = createPubSub(
-      site.channel,
+      site.netlifySiteId + site.buildHookId,
       normalizeMessage.bind(null, site.netlifySiteId, this.props.users)
     );
 
@@ -90,7 +96,9 @@ export default class NeflifySideBarBuildButton extends React.Component {
       userId: this.props.userId
     });
 
-    const res = await fetch(this.props.site.buildHookUrl, { method: 'POST' });
+    const { buildHookId } = this.props.site;
+    const buildHookUrl = `https://api.netlify.com/build_hooks/${buildHookId}`;
+    const res = await fetch(buildHookUrl, { method: 'POST' });
 
     if (!res.ok) {
       this.pubsub.publish({
@@ -110,7 +118,6 @@ export default class NeflifySideBarBuildButton extends React.Component {
           loading={busy}
           isFullWidth
           onClick={this.build}
-          data-testid="build-button"
           className={styles.button}>
           {busy && status ? status : 'Build'}
         </Button>
