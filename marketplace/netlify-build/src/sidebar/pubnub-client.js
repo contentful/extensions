@@ -39,7 +39,7 @@ export function createPubSub(channel, normalizeFn) {
     stop
   };
 
-  async function start() {
+  function start() {
     state.instance = new PubNub({
       publishKey: PUBNUB_PUBLISH_KEY,
       subscribeKey: PUBNUB_SUBSCRIBE_KEY
@@ -58,8 +58,8 @@ export function createPubSub(channel, normalizeFn) {
     state.instance.subscribe({ channels });
   }
 
-  async function publish(message) {
-    return await state.instance.publish({
+  function publish(message) {
+    return state.instance.publish({
       message,
       channel,
       storeInHistory: true
@@ -68,6 +68,7 @@ export function createPubSub(channel, normalizeFn) {
 
   async function getHistory(count = 25) {
     const res = await state.instance.history({ channel, count, stringifiedTimeToken: true });
+
     return (res.messages || [])
       .map(({ timetoken, entry }) => normalize(entry, timetoken, normalizeFn))
       .filter(isObject)
