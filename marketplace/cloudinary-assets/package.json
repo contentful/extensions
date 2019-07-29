@@ -29,6 +29,7 @@
     "cloudinary-core": "2.6.3",
     "contentful-ui-extensions-sdk": "^3.9.1",
     "core-js": "3.1.4",
+    "es6-promise": "^4.2.8",
     "lodash": "^4.17.15",
     "prop-types": "15.7.2",
     "react": "16.8.6",

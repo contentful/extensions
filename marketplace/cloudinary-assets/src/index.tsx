@@ -1,5 +1,8 @@
+import 'es6-promise/auto';
+
 import * as React from 'react';
 import { render } from 'react-dom';
+
 import {
   init,
   locations,
@@ -7,6 +10,7 @@ import {
   DialogExtensionSDK,
   AppExtensionSDK
 } from 'contentful-ui-extensions-sdk';
+
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
 
