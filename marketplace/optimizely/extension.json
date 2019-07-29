@@ -6,7 +6,7 @@
   "parameters": {
     "installation": [
       {
-        "id": "projectId",
+        "id": "optimizelyProjectId",
         "type": "Symbol",
         "name": "Optimizely Project ID",
         "required": true

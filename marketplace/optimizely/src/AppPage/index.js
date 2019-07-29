@@ -74,14 +74,14 @@ export default class AppPage extends React.Component {
 
     app.onConfigure(async () => {
       if (!this.props.accessToken) {
-        this.notifyError(`You must be connected to Optimizely to ${method} the app.`);
+        this.props.sdk.notifier.error(`You must be connected to Optimizely to ${method} the app.`);
         return false;
       }
 
       const { config } = this.state;
 
       if (!configValid(config)) {
-        this.notifyError(
+        this.props.sdk.notifier.error(
           'The configuration is invalid. Please check that a project ID and content types are chosen.'
         );
         return false;
@@ -103,17 +103,6 @@ export default class AppPage extends React.Component {
         ...config
       }
     }));
-  };
-
-  notifyError = (err, fallbackMessage) => {
-    let message = fallbackMessage || 'Operation failed.';
-    if (typeof err === 'string') {
-      message = err;
-    } else if (err.useMessage && err.message) {
-      message = err.message;
-    }
-
-    this.props.sdk.notifier.error(message);
   };
 
   render() {
