@@ -86,7 +86,7 @@ export default class CloudinaryField extends React.Component<Props, State> {
     const isDisabled = this.state.value.length >= maxFiles;
 
     return (
-      <React.Fragment>
+      <>
         {hasItems && (
           <SortableComponent
             resources={this.state.value}
@@ -105,7 +105,7 @@ export default class CloudinaryField extends React.Component<Props, State> {
             Select or Upload file on Cloudinary
           </Button>
         </div>
-      </React.Fragment>
+      </>
     );
   };
 }
