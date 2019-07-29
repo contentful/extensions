@@ -20,9 +20,9 @@ interface Props {
 }
 
 interface InputParameters {
-  cloudName?: string;
-  apiKey?: string;
-  maxFiles?: string;
+  cloudName: string;
+  apiKey: string;
+  maxFiles: string;
 }
 
 interface State {
@@ -38,6 +38,25 @@ function toInputParameters(parameters: Record<string, any> | null): InputParamet
     apiKey: get(parameters, ['apiKey'], ''),
     maxFiles: `${get(parameters, ['maxFiles'], MAX_FILES_DEFAULT)}`
   };
+}
+
+function validateParamters(parameters: InputParameters): string | null {
+  if (parameters.cloudName.length < 1) {
+    return 'Provide your Cloudinary Cloud name.';
+  }
+
+  if (parameters.apiKey.length < 1) {
+    return 'Provide your Cloudinary API key.';
+  }
+
+  const validFormat = /^[1-9][0-9]*$/.test(parameters.maxFiles);
+  const int = parseInt(parameters.maxFiles, 10);
+  const valid = validFormat && int > 0 && int <= MAX_FILES_UPPER_LIMIT;
+  if (!valid) {
+    return `Max files should be an integer between 1 and ${MAX_FILES_UPPER_LIMIT}.`;
+  }
+
+  return null;
 }
 
 export default class CloudinaryAppConfig extends React.Component<Props, State> {
@@ -72,7 +91,20 @@ export default class CloudinaryAppConfig extends React.Component<Props, State> {
   };
 
   onAppConfigure = () => {
-    return false;
+    const { parameters } = this.state;
+    const error = validateParamters(parameters);
+
+    if (error) {
+      this.props.sdk.notifier.error(error);
+      return false;
+    }
+
+    return {
+      parameters: {
+        ...parameters,
+        maxFiles: parseInt(parameters.maxFiles, 10)
+      }
+    };
   };
 
   render() {
@@ -115,7 +147,7 @@ export default class CloudinaryAppConfig extends React.Component<Props, State> {
               required={true}
               id="cloud-name-input"
               name="cloud-name-input"
-              labelText="Cloud Name"
+              labelText="Cloud name"
               textInputProps={{
                 width: 'large',
                 maxLength: 50

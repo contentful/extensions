@@ -7,7 +7,7 @@
     "installation": [
       {
         "id": "cloudName",
-        "name": "Cloud Name",
+        "name": "Cloud name",
         "description": "The cloud_name of the account to access.",
         "type": "Symbol",
         "required": true
