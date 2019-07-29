@@ -26,13 +26,6 @@
         "type": "Number",
         "required": false,
         "default": 10
-      },
-      {
-        "id": "btnTxt",
-        "name": "Text on button",
-        "description": "Sets the text that is displayed on the button",
-        "type": "Symbol",
-        "default": "Select or Upload file on Cloudinary"
       }
     ],
     "installation": []

@@ -4,7 +4,6 @@ export interface ExtensionParameters {
   readonly apiKeySecret?: string;
   readonly username?: string;
   readonly maxFiles: number;
-  readonly btnTxt: string;
 }
 
 export interface CloudinaryResponse {
