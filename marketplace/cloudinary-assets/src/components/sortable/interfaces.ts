@@ -1,4 +1,4 @@
-import { CloudinaryResource } from '../../interfaces';
+import { CloudinaryResource } from '../../cloudinaryInterfaces';
 import { CloudinaryThumbnailProps } from '../cloudinaryThumbnail/cloudinaryThumbnail';
 import { ExtensionParameters } from '../cloudinaryAppConfig/parameters';
 

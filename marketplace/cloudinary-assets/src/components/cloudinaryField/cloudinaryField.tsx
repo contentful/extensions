@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button } from '@contentful/forma-36-react-components';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
-import { CloudinaryResource } from '../../interfaces';
+import { CloudinaryResource } from '../../cloudinaryInterfaces';
 import { SortableComponent } from '../sortable/sortable';
 import { ExtensionParameters } from '../cloudinaryAppConfig/parameters';
 
