@@ -103,7 +103,7 @@ export default class CloudinaryField extends React.Component<Props, State> {
             size="small"
             onClick={this.onCloudinaryDialogOpen}
             disabled={isDisabled}>
-            Select or Upload file on Cloudinary
+            Select or upload a file on Cloudinary
           </Button>
         </div>
       </>
