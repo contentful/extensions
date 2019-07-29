@@ -14,15 +14,15 @@
       },
       {
         "id": "apiKey",
-        "name": "Api Key",
-        "description": "The account API secret.",
+        "name": "API key",
+        "description": "The account API key.",
         "type": "Symbol",
         "required": true
       },
       {
         "id": "maxFiles",
-        "name": "Max files to select",
-        "description": "Max number of media assets that can be added during a single session.",
+        "name": "Max number of files",
+        "description": "Max number of files that can be added to a single field.",
         "type": "Number",
         "required": false,
         "default": 10

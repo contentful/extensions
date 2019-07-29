@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button } from '@contentful/forma-36-react-components';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
-import { ExtensionParameters, CloudinaryResource } from '../../interface';
+import { Config, CloudinaryResource } from '../../interfaces';
 import { SortableComponent } from '../sortable/sortable';
 
 interface Props {
@@ -53,7 +53,7 @@ export default class CloudinaryField extends React.Component<Props, State> {
   };
 
   onCloudinaryDialogOpen = async () => {
-    const config = this.props.sdk.parameters.installation as ExtensionParameters;
+    const config = this.props.sdk.parameters.installation as Config;
 
     let maxSelectableFiles = config.maxFiles;
 
@@ -79,7 +79,7 @@ export default class CloudinaryField extends React.Component<Props, State> {
   };
 
   render = () => {
-    const config = this.props.sdk.parameters.installation as ExtensionParameters;
+    const config = this.props.sdk.parameters.installation as Config;
     const { maxFiles } = config;
 
     const hasItems = this.state.value.length > 0;

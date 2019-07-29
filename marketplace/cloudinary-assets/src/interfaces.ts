@@ -1,8 +1,6 @@
-export interface ExtensionParameters {
+export interface Config {
   readonly cloudName: string;
   readonly apiKey: string;
-  readonly apiKeySecret?: string;
-  readonly username?: string;
   readonly maxFiles: number;
 }
 
