@@ -12,7 +12,7 @@ interface State {
   value: CloudinaryResource[];
 }
 
-export class CloudinaryField extends React.Component<Props, State> {
+export default class CloudinaryField extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
