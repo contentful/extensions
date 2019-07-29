@@ -117,7 +117,7 @@ export default class Config extends React.Component {
         <Projects
           allProjects={this.state.allProjects}
           onProjectChange={this.onProjectChange}
-          selectedProject={this.props.config.projectId}
+          selectedProject={this.props.config.optimizelyProjectId}
         />
         <ContentTypes
           addedContentTypes={addedContentTypes}

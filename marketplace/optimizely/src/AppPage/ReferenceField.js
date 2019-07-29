@@ -13,9 +13,9 @@ const styles = {
     'z-index': '99999'
   }),
   tooltipContainer: css({
-    display: 'inline',
-    position: 'absolute',
-    top: '0.15rem'
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    marginLeft: '3px'
   })
 };
 
@@ -46,7 +46,7 @@ export default function ReferenceField({ id, checked, contentType, onSelect }) {
         <div className={styles.tooltipContainer}>
           <Tooltip
             className={styles.tooltip}
-            content="This field has no validations. All content types are implicitly accepted."
+            content="This field can have a variation container assigned to it by default because it has no explicit validations."
             place="right">
             <Icon color="muted" icon="HelpCircle" />
           </Tooltip>

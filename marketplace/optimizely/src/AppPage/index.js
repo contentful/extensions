@@ -22,14 +22,6 @@ const styles = {
   })
 };
 
-function configValid({ optimizelyProjectId, contentTypes }) {
-  return (
-    typeof optimizelyProjectId === 'string' &&
-    optimizelyProjectId &&
-    Object.keys(contentTypes).length > 0
-  );
-}
-
 export default class AppPage extends React.Component {
   static propTypes = {
     openAuth: PropTypes.func.isRequired,
@@ -54,7 +46,7 @@ export default class AppPage extends React.Component {
     const { app } = this.props.sdk.platformAlpha;
 
     const currentParameters = await app.getParameters();
-    const allContentTypes = await this.props.sdk.space.getContentTypes();
+    const { items: allContentTypes = [] } = await this.props.sdk.space.getContentTypes();
     const method = currentParameters ? 'update' : 'install';
 
     if (currentParameters) {
@@ -62,15 +54,13 @@ export default class AppPage extends React.Component {
       this.setState({
         config: {
           optimizelyProjectId: currentParameters.optimizelyProjectId,
-          contentTypes: JSON.parse(currentParameters.contentTypes)
+          contentTypes: this.findEnabledContentTypes(allContentTypes)
         }
       });
     }
 
     // eslint-disable-next-line
-    this.setState({
-      allContentTypes: allContentTypes.items || []
-    });
+    this.setState({ allContentTypes });
 
     app.onConfigure(async () => {
       if (!this.props.accessToken) {
@@ -80,21 +70,49 @@ export default class AppPage extends React.Component {
 
       const { config } = this.state;
 
-      if (!configValid(config)) {
+      if (!config.optimizelyProjectId) {
         this.props.sdk.notifier.error(
-          'The configuration is invalid. Please check that a project ID and content types are chosen.'
+          'You must provide an optimizely project id in order to run experiments!'
         );
         return false;
       }
 
       return {
         parameters: {
-          optimizelyProjectId: config.optimizelyProjectId,
-          contentTypes: JSON.stringify(config.contentTypes)
+          optimizelyProjectId: config.optimizelyProjectId
         }
       };
     });
   }
+
+  findEnabledContentTypes = (allContentTypes = []) => {
+    return allContentTypes.reduce((acc, ct) => {
+      const output = {};
+
+      for (const field of ct.fields) {
+        if (field.type === 'Array' && field.items.linkType === 'Entry') {
+          output[field.id] = field.items.validations.some(val =>
+            val.linkContentType.includes('variationContainer')
+          );
+          continue;
+        }
+
+        if (field.type === 'Link' && field.linkType === 'Entry') {
+          output[field.id] =
+            field.validations.length === 0 ||
+            field.validations.some(val => val.linkContentType.includes('variationContainer'));
+        }
+      }
+
+      const keys = Object.keys(output);
+
+      if (keys.some(key => output[key])) {
+        return { ...acc, [ct.sys.id]: output };
+      }
+
+      return acc;
+    }, {});
+  };
 
   updateConfig = config => {
     this.setState(state => ({
