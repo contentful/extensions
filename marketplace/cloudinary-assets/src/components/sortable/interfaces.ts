@@ -1,14 +1,15 @@
-import { CloudinaryResource, Config } from '../../interfaces';
+import { CloudinaryResource } from '../../interfaces';
 import { CloudinaryThumbnailProps } from '../cloudinaryThumbnail/cloudinaryThumbnail';
+import { ExtensionParameters } from '../cloudinaryAppConfig/parameters';
 
 export interface SortableElementProperties {
   onChange?: (data: CloudinaryResource[]) => void;
-  config: Config;
+  config: ExtensionParameters;
   resources: CloudinaryResource[];
 }
 
 export interface SortableContainerData {
-  config: Config;
+  config: ExtensionParameters;
   resources: CloudinaryResource[];
   deleteFnc: (index: number) => void;
 }

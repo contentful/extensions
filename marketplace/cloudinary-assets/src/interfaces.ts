@@ -1,9 +1,3 @@
-export interface Config {
-  readonly cloudName: string;
-  readonly apiKey: string;
-  readonly maxFiles: number;
-}
-
 export interface CloudinaryResponse {
   readonly assets: CloudinaryResource[];
   readonly mlId: string;

@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { CloudinaryResource, Config } from '../../interfaces';
 import { Cloudinary as cloudinaryCore } from 'cloudinary-core';
 
+import { CloudinaryResource } from '../../interfaces';
+import { ExtensionParameters } from '../cloudinaryAppConfig/parameters';
+
 export interface CloudinaryThumbnailProps {
-  config: Config;
+  config: ExtensionParameters;
   resource: CloudinaryResource;
 }
 

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import get from 'lodash.get';
 
 import { AppExtensionSDK } from 'contentful-ui-extensions-sdk';
 import {
@@ -12,17 +11,16 @@ import {
 } from '@contentful/forma-36-react-components';
 import { Workbench } from '@contentful/forma-36-react-components/dist/alpha';
 
-const MAX_FILES_UPPER_LIMIT = 25;
-const MAX_FILES_DEFAULT = 10;
+import {
+  toExtensionParameters,
+  InputParameters,
+  toInputParameters,
+  validateParamters,
+  MAX_FILES_UPPER_LIMIT
+} from './parameters';
 
 interface Props {
   sdk: AppExtensionSDK;
-}
-
-interface InputParameters {
-  cloudName: string;
-  apiKey: string;
-  maxFiles: string;
 }
 
 interface State {
@@ -30,33 +28,6 @@ interface State {
   contentTypes: Record<string, any>[];
   currentState: Record<string, any> | null;
   parameters: InputParameters;
-}
-
-function toInputParameters(parameters: Record<string, any> | null): InputParameters {
-  return {
-    cloudName: get(parameters, ['cloudName'], ''),
-    apiKey: get(parameters, ['apiKey'], ''),
-    maxFiles: `${get(parameters, ['maxFiles'], MAX_FILES_DEFAULT)}`
-  };
-}
-
-function validateParamters(parameters: InputParameters): string | null {
-  if (parameters.cloudName.length < 1) {
-    return 'Provide your Cloudinary Cloud name.';
-  }
-
-  if (parameters.apiKey.length < 1) {
-    return 'Provide your Cloudinary API key.';
-  }
-
-  const validFormat = /^[1-9][0-9]*$/.test(parameters.maxFiles);
-  const int = parseInt(parameters.maxFiles, 10);
-  const valid = validFormat && int > 0 && int <= MAX_FILES_UPPER_LIMIT;
-  if (!valid) {
-    return `Max files should be an integer between 1 and ${MAX_FILES_UPPER_LIMIT}.`;
-  }
-
-  return null;
 }
 
 export default class CloudinaryAppConfig extends React.Component<Props, State> {
@@ -100,10 +71,7 @@ export default class CloudinaryAppConfig extends React.Component<Props, State> {
     }
 
     return {
-      parameters: {
-        ...parameters,
-        maxFiles: parseInt(parameters.maxFiles, 10)
-      }
+      parameters: toExtensionParameters(parameters)
     };
   };
 
