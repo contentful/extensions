@@ -53,7 +53,7 @@ export default class CloudinaryField extends React.Component<Props, State> {
   };
 
   onCloudinaryDialogOpen = async () => {
-    const config = this.props.sdk.parameters.instance as ExtensionParameters;
+    const config = this.props.sdk.parameters.installation as ExtensionParameters;
 
     let maxSelectableFiles = config.maxFiles;
 
@@ -79,7 +79,7 @@ export default class CloudinaryField extends React.Component<Props, State> {
   };
 
   render = () => {
-    const config = this.props.sdk.parameters.instance as ExtensionParameters;
+    const config = this.props.sdk.parameters.installation as ExtensionParameters;
     const { maxFiles } = config;
 
     const hasItems = this.state.value.length > 0;
