@@ -15,10 +15,14 @@ export interface ExtensionParameters {
   readonly maxFiles: number;
 }
 
-export function toInputParameters(parameters: Record<string, any> | null): InputParameters {
+export type ParameterValue = string | boolean | number;
+
+export function toInputParameters(
+  parameters: Record<string, ParameterValue> | null
+): InputParameters {
   return {
-    cloudName: get(parameters, ['cloudName'], ''),
-    apiKey: get(parameters, ['apiKey'], ''),
+    cloudName: `${get(parameters, ['cloudName'], '')}`,
+    apiKey: `${get(parameters, ['apiKey'], '')}`,
     maxFiles: `${get(parameters, ['maxFiles'], MAX_FILES_DEFAULT)}`
   };
 }

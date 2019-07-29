@@ -7,7 +7,9 @@ import {
   Spinner,
   Typography,
   TextField,
-  Form
+  Form,
+  Subheading,
+  CheckboxField
 } from '@contentful/forma-36-react-components';
 import { Workbench } from '@contentful/forma-36-react-components/dist/alpha';
 
@@ -16,8 +18,11 @@ import {
   InputParameters,
   toInputParameters,
   validateParamters,
-  MAX_FILES_UPPER_LIMIT
+  MAX_FILES_UPPER_LIMIT,
+  ParameterValue
 } from './parameters';
+
+import { ContentType, getCompatibleFields, CompatibleFields } from './fields';
 
 interface Props {
   sdk: AppExtensionSDK;
@@ -25,7 +30,8 @@ interface Props {
 
 interface State {
   ready: boolean;
-  contentTypes: Record<string, any>[];
+  contentTypes: ContentType[];
+  compatibleFields: CompatibleFields;
   currentState: Record<string, any> | null;
   parameters: InputParameters;
 }
@@ -33,7 +39,8 @@ interface State {
 export default class CloudinaryAppConfig extends React.Component<Props, State> {
   state = {
     ready: false,
-    contentTypes: [],
+    contentTypes: [] as ContentType[],
+    compatibleFields: ({} as any) as CompatibleFields,
     currentState: null,
     parameters: toInputParameters(null)
   };
@@ -53,11 +60,19 @@ export default class CloudinaryAppConfig extends React.Component<Props, State> {
       platformAlpha.app.getParameters()
     ]);
 
+    const contentTypes = contentTypesResponse.items as ContentType[];
+    const compatibleFields = getCompatibleFields(contentTypes);
+    const filteredContentTypes = contentTypes.filter(ct => {
+      const fields = compatibleFields[ct.sys.id];
+      return fields && fields.length > 0;
+    });
+
     this.setState({
       ready: true,
-      contentTypes: contentTypesResponse.items,
+      contentTypes: filteredContentTypes,
+      compatibleFields,
       currentState,
-      parameters: toInputParameters(parameters)
+      parameters: toInputParameters((parameters || {}) as Record<string, ParameterValue>)
     });
   };
 
@@ -103,7 +118,7 @@ export default class CloudinaryAppConfig extends React.Component<Props, State> {
   };
 
   renderApp() {
-    const { parameters } = this.state;
+    const { contentTypes, compatibleFields, parameters } = this.state;
 
     return (
       <>
@@ -156,7 +171,43 @@ export default class CloudinaryAppConfig extends React.Component<Props, State> {
               onChange={this.onParameterChange.bind(this, 'maxFiles')}
             />
           </Form>
-          <pre>{JSON.stringify(parameters, null, 2)}</pre>
+
+          <Heading>Field assignment</Heading>
+          <Paragraph>
+            This app can be used with <code>Object</code> fields.
+          </Paragraph>
+          {contentTypes.length > 0 ? (
+            <Paragraph>
+              The list below enumerates all Content Types with at least one <code>Object</code>{' '}
+              field. Tick the box next to a field name to enable Cloudinary for it.
+            </Paragraph>
+          ) : (
+            <Paragraph>
+              There is no content type with an <code>Object</code> field. Come back to this page
+              once you create one.
+            </Paragraph>
+          )}
+          {contentTypes.map(ct => {
+            const fields = compatibleFields[ct.sys.id];
+            return (
+              <div key={ct.sys.id}>
+                <Subheading>
+                  {ct.name} ({fields.length})
+                </Subheading>
+                <Form>
+                  {fields.map(field => (
+                    <CheckboxField
+                      key={field.id}
+                      id={`field-box-${ct.sys.id}-${field.id}`}
+                      labelText={field.name}
+                      helpText={`Field ID: ${field.id}`}
+                      checked={false}
+                    />
+                  ))}
+                </Form>
+              </div>
+            );
+          })}
         </Typography>
       </>
     );
