@@ -16,7 +16,7 @@ import { Workbench } from '@contentful/forma-36-react-components/dist/alpha';
 import {
   toExtensionParameters,
   toInputParameters,
-  validateParamters,
+  validateParameters,
   ParameterValue,
   InputParameters,
   MAX_FILES_UPPER_LIMIT
@@ -85,7 +85,7 @@ export default class CloudinaryAppConfig extends React.Component<Props, State> {
 
   onAppConfigure = () => {
     const { parameters, contentTypes, selectedFields } = this.state;
-    const error = validateParamters(parameters);
+    const error = validateParameters(parameters);
 
     if (error) {
       this.props.sdk.notifier.error(error);

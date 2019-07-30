@@ -27,7 +27,7 @@ export function toInputParameters(
   };
 }
 
-export function validateParamters(parameters: InputParameters): string | null {
+export function validateParameters(parameters: InputParameters): string | null {
   if (parameters.cloudName.length < 1) {
     return 'Provide your Cloudinary Cloud name.';
   }
