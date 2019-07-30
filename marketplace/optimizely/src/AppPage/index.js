@@ -22,6 +22,8 @@ const styles = {
   })
 };
 
+const VARIATION_CONTAINER_ID = 'variationContainer';
+
 export default class AppPage extends React.Component {
   static propTypes = {
     openAuth: PropTypes.func.isRequired,
@@ -79,6 +81,14 @@ export default class AppPage extends React.Component {
       return false;
     }
 
+    const needsVariationContainerInSpace = !this.state.allContentTypes.find(
+      ct => ct.sys.id === VARIATION_CONTAINER_ID
+    );
+
+    if (needsVariationContainerInSpace) {
+      await this.createVariationContainerContentType();
+    }
+
     const res = await this.saveEnabledContentTypes(
       this.state.config.contentTypes,
       this.state.allContentTypes
@@ -96,8 +106,57 @@ export default class AppPage extends React.Component {
     return {
       parameters: {
         optimizelyProjectId: config.optimizelyProjectId
+      },
+      targetState: {
+        EditorInterface: {
+          [VARIATION_CONTAINER_ID]: { editor: true }
+        }
       }
     };
+  };
+
+  createVariationContainerContentType = async () => {
+    const variationContainer = await this.props.sdk.space.createContentType({
+      sys: {
+        id: VARIATION_CONTAINER_ID
+      },
+      name: 'Variation Container',
+      displayField: 'experimentTitle',
+      fields: [
+        {
+          id: 'experimentTitle',
+          name: 'Experiment title',
+          type: 'Symbol'
+        },
+        {
+          id: 'experimentId',
+          name: 'Experiment ID',
+          type: 'Symbol'
+        },
+        {
+          id: 'meta',
+          name: 'Meta',
+          type: 'Object'
+        },
+        {
+          id: 'variations',
+          name: 'Variations',
+          type: 'Array',
+          items: {
+            type: 'Link',
+            validations: [],
+            linkType: 'Entry'
+          }
+        },
+        {
+          id: 'experimentKey',
+          name: 'Experiment Key',
+          type: 'Symbol'
+        }
+      ]
+    });
+
+    await this.props.sdk.space.updateContentType(variationContainer);
   };
 
   saveEnabledContentTypes = async (contentTypes, allContentTypes) => {
@@ -115,13 +174,13 @@ export default class AppPage extends React.Component {
         if (index > -1) {
           const linkValidations = validations[index];
           const indexOfVariationContainer = linkValidations.linkContentType.indexOf(
-            'variationContainer'
+            VARIATION_CONTAINER_ID
           );
 
           const fieldsToEnable = contentTypes[ct.sys.id] || {};
 
           if (indexOfVariationContainer === -1 && fieldsToEnable[contentField.id]) {
-            linkValidations.linkContentType.push('variationContainer');
+            linkValidations.linkContentType.push(VARIATION_CONTAINER_ID);
             hasChanges = true;
           }
 
@@ -130,7 +189,7 @@ export default class AppPage extends React.Component {
             (!Object.keys(contentTypes).includes(ct.sys.id) || !fieldsToEnable[contentField.id])
           ) {
             linkValidations.linkContentType = linkValidations.linkContentType.filter(
-              lct => lct !== 'variationContainer'
+              lct => lct !== VARIATION_CONTAINER_ID
             );
             hasChanges = true;
           }
@@ -165,7 +224,7 @@ export default class AppPage extends React.Component {
       for (const field of ct.fields) {
         if (field.type === 'Array' && field.items.linkType === 'Entry') {
           output[field.id] = field.items.validations.some(val =>
-            val.linkContentType.includes('variationContainer')
+            val.linkContentType.includes(VARIATION_CONTAINER_ID)
           );
           continue;
         }
@@ -173,7 +232,7 @@ export default class AppPage extends React.Component {
         if (field.type === 'Link' && field.linkType === 'Entry') {
           output[field.id] =
             field.validations.length === 0 ||
-            field.validations.some(val => val.linkContentType.includes('variationContainer'));
+            field.validations.some(val => val.linkContentType.includes(VARIATION_CONTAINER_ID));
         }
       }
 
