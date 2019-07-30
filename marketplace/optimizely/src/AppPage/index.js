@@ -47,7 +47,6 @@ export default class AppPage extends React.Component {
 
     const currentParameters = await app.getParameters();
     const { items: allContentTypes = [] } = await this.props.sdk.space.getContentTypes();
-    const method = currentParameters ? 'update' : 'install';
 
     const enabledContentTypes = this.findEnabledContentTypes(allContentTypes);
 
@@ -62,41 +61,44 @@ export default class AppPage extends React.Component {
       }
     }));
 
-    app.onConfigure(async () => {
-      if (!this.props.accessToken) {
-        this.props.sdk.notifier.error(`You must be connected to Optimizely to ${method} the app.`);
-        return false;
-      }
-
-      const { config } = this.state;
-
-      if (!config.optimizelyProjectId) {
-        this.props.sdk.notifier.error(
-          'You must provide an Optimizely project id in order to run experiments!'
-        );
-        return false;
-      }
-
-      const res = await this.saveEnabledContentTypes(
-        this.state.config.contentTypes,
-        allContentTypes
-      );
-      this.props.sdk.space
-        .getContentTypes()
-        .then(data => this.setState({ allContentTypes: data.items }));
-
-      if (!res) {
-        this.props.sdk.notifier.error('Something went wrong, please try again.');
-        return false;
-      }
-
-      return {
-        parameters: {
-          optimizelyProjectId: config.optimizelyProjectId
-        }
-      };
-    });
+    app.onConfigure(this.configureApp);
   }
+
+  configureApp = async () => {
+    if (!this.props.accessToken) {
+      this.props.sdk.notifier.error(`You must be connected to Optimizely to configure the app.`);
+      return false;
+    }
+
+    const { config } = this.state;
+
+    if (!config.optimizelyProjectId) {
+      this.props.sdk.notifier.error(
+        'You must provide an Optimizely project id in order to run experiments!'
+      );
+      return false;
+    }
+
+    const res = await this.saveEnabledContentTypes(
+      this.state.config.contentTypes,
+      this.state.allContentTypes
+    );
+
+    this.props.sdk.space
+      .getContentTypes()
+      .then(data => this.setState({ allContentTypes: data.items }));
+
+    if (!res) {
+      this.props.sdk.notifier.error('Something went wrong, please try again.');
+      return false;
+    }
+
+    return {
+      parameters: {
+        optimizelyProjectId: config.optimizelyProjectId
+      }
+    };
+  };
 
   saveEnabledContentTypes = async (contentTypes, allContentTypes) => {
     const copyAllCts = JSON.parse(JSON.stringify(allContentTypes));
@@ -132,11 +134,11 @@ export default class AppPage extends React.Component {
             );
             hasChanges = true;
           }
-
-          if (hasChanges) {
-            output.push(ct);
-          }
         }
+      }
+
+      if (hasChanges) {
+        output.push(ct);
       }
     }
 
@@ -145,10 +147,7 @@ export default class AppPage extends React.Component {
     }
 
     const updates = output.map(ct => {
-      return this.props.sdk.space.updateContentType({
-        ...ct,
-        sys: { id: ct.sys.id, version: ct.sys.version }
-      });
+      return this.props.sdk.space.updateContentType(ct);
     });
 
     try {
