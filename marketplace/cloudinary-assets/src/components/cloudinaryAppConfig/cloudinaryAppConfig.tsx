@@ -15,14 +15,21 @@ import { Workbench } from '@contentful/forma-36-react-components/dist/alpha';
 
 import {
   toExtensionParameters,
-  InputParameters,
   toInputParameters,
   validateParamters,
-  MAX_FILES_UPPER_LIMIT,
-  ParameterValue
+  ParameterValue,
+  InputParameters,
+  MAX_FILES_UPPER_LIMIT
 } from './parameters';
 
-import { ContentType, getCompatibleFields, CompatibleFields } from './fields';
+import {
+  getCompatibleFields,
+  currentStateToSelectedFields,
+  selectedFieldsToTargetState,
+  ContentType,
+  CompatibleFields,
+  SelectedFields
+} from './fields';
 
 interface Props {
   sdk: AppExtensionSDK;
@@ -32,7 +39,7 @@ interface State {
   ready: boolean;
   contentTypes: ContentType[];
   compatibleFields: CompatibleFields;
-  currentState: Record<string, any> | null;
+  selectedFields: SelectedFields;
   parameters: InputParameters;
 }
 
@@ -41,7 +48,7 @@ export default class CloudinaryAppConfig extends React.Component<Props, State> {
     ready: false,
     contentTypes: [] as ContentType[],
     compatibleFields: ({} as any) as CompatibleFields,
-    currentState: null,
+    selectedFields: ({} as any) as SelectedFields,
     parameters: toInputParameters(null)
   };
 
@@ -71,13 +78,13 @@ export default class CloudinaryAppConfig extends React.Component<Props, State> {
       ready: true,
       contentTypes: filteredContentTypes,
       compatibleFields,
-      currentState,
+      selectedFields: currentStateToSelectedFields(currentState || {}),
       parameters: toInputParameters((parameters || {}) as Record<string, ParameterValue>)
     });
   };
 
   onAppConfigure = () => {
-    const { parameters } = this.state;
+    const { parameters, contentTypes, selectedFields } = this.state;
     const error = validateParamters(parameters);
 
     if (error) {
@@ -86,7 +93,8 @@ export default class CloudinaryAppConfig extends React.Component<Props, State> {
     }
 
     return {
-      parameters: toExtensionParameters(parameters)
+      parameters: toExtensionParameters(parameters),
+      targetState: selectedFieldsToTargetState(contentTypes, selectedFields)
     };
   };
 
@@ -117,8 +125,28 @@ export default class CloudinaryAppConfig extends React.Component<Props, State> {
     }));
   };
 
+  onSelectedFieldChange = (
+    ctId: string,
+    fieldId: string,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { checked } = e.currentTarget;
+
+    this.setState(state => {
+      const updated = { ...state.selectedFields };
+
+      if (checked) {
+        updated[ctId] = (updated[ctId] || []).concat([fieldId]);
+      } else {
+        updated[ctId] = (updated[ctId] || []).filter(cur => cur !== fieldId);
+      }
+
+      return { ...state, selectedFields: updated };
+    });
+  };
+
   renderApp() {
-    const { contentTypes, compatibleFields, parameters } = this.state;
+    const { contentTypes, compatibleFields, selectedFields, parameters } = this.state;
 
     return (
       <>
@@ -201,7 +229,8 @@ export default class CloudinaryAppConfig extends React.Component<Props, State> {
                       id={`field-box-${ct.sys.id}-${field.id}`}
                       labelText={field.name}
                       helpText={`Field ID: ${field.id}`}
-                      checked={false}
+                      checked={(selectedFields[ct.sys.id] || []).includes(field.id)}
+                      onChange={this.onSelectedFieldChange.bind(this, ct.sys.id, field.id)}
                     />
                   ))}
                 </Form>
