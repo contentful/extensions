@@ -49,18 +49,18 @@ export default class AppPage extends React.Component {
     const { items: allContentTypes = [] } = await this.props.sdk.space.getContentTypes();
     const method = currentParameters ? 'update' : 'install';
 
-    if (currentParameters) {
-      // eslint-disable-next-line
-      this.setState({
-        config: {
-          optimizelyProjectId: currentParameters.optimizelyProjectId,
-          contentTypes: this.findEnabledContentTypes(allContentTypes)
-        }
-      });
-    }
+    const enabledContentTypes = this.findEnabledContentTypes(allContentTypes);
 
     // eslint-disable-next-line
-    this.setState({ allContentTypes });
+    this.setState(prevState => ({
+      allContentTypes,
+      config: {
+        contentTypes: enabledContentTypes,
+        optimizelyProjectId: currentParameters
+          ? currentParameters.optimizelyProjectId
+          : prevState.optimizelyProjectId
+      }
+    }));
 
     app.onConfigure(async () => {
       if (!this.props.accessToken) {
@@ -72,8 +72,21 @@ export default class AppPage extends React.Component {
 
       if (!config.optimizelyProjectId) {
         this.props.sdk.notifier.error(
-          'You must provide an optimizely project id in order to run experiments!'
+          'You must provide an Optimizely project id in order to run experiments!'
         );
+        return false;
+      }
+
+      const res = await this.saveEnabledContentTypes(
+        this.state.config.contentTypes,
+        allContentTypes
+      );
+      this.props.sdk.space
+        .getContentTypes()
+        .then(data => this.setState({ allContentTypes: data.items }));
+
+      if (!res) {
+        this.props.sdk.notifier.error('Something went wrong, please try again.');
         return false;
       }
 
@@ -84,6 +97,67 @@ export default class AppPage extends React.Component {
       };
     });
   }
+
+  saveEnabledContentTypes = async (contentTypes, allContentTypes) => {
+    const copyAllCts = JSON.parse(JSON.stringify(allContentTypes));
+    const output = [];
+
+    for (const ct of copyAllCts) {
+      let hasChanges = false;
+
+      for (const contentField of ct.fields) {
+        const validations =
+          contentField.type === 'Array' ? contentField.items.validations : contentField.validations;
+        const index = validations.findIndex(v => v.linkContentType);
+
+        if (index > -1) {
+          const linkValidations = validations[index];
+          const indexOfVariationContainer = linkValidations.linkContentType.indexOf(
+            'variationContainer'
+          );
+
+          const fieldsToEnable = contentTypes[ct.sys.id] || {};
+
+          if (indexOfVariationContainer === -1 && fieldsToEnable[contentField.id]) {
+            linkValidations.linkContentType.push('variationContainer');
+            hasChanges = true;
+          }
+
+          if (
+            indexOfVariationContainer > -1 &&
+            (!Object.keys(contentTypes).includes(ct.sys.id) || !fieldsToEnable[contentField.id])
+          ) {
+            linkValidations.linkContentType = linkValidations.linkContentType.filter(
+              lct => lct !== 'variationContainer'
+            );
+            hasChanges = true;
+          }
+
+          if (hasChanges) {
+            output.push(ct);
+          }
+        }
+      }
+    }
+
+    if (!output.length) {
+      return true;
+    }
+
+    const updates = output.map(ct => {
+      return this.props.sdk.space.updateContentType({
+        ...ct,
+        sys: { id: ct.sys.id, version: ct.sys.version }
+      });
+    });
+
+    try {
+      await Promise.all(updates);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
 
   findEnabledContentTypes = (allContentTypes = []) => {
     return allContentTypes.reduce((acc, ct) => {
