@@ -2,7 +2,6 @@ import * as React from 'react';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { IconButton, Card } from '@contentful/forma-36-react-components';
-import '@contentful/forma-36-react-components/dist/styles.css';
 import {
   SortableElementProperties,
   SortableElementState,
@@ -95,8 +94,7 @@ export class SortableComponent extends React.Component<
     return (
       <SortableList
         onSortEnd={this.onSortEnd}
-        axis="x"
-        pressDelay={0}
+        axis="xy"
         resources={this.state.resources}
         config={this.props.config}
         deleteFnc={this.deleteItem}

@@ -35,13 +35,22 @@ iframe {
   padding: 0;
 }
 
+.order {
+  cursor: pointer;
+}
+
 .thumbnail {
   margin: 10px;
   position: relative;
 }
 
 .thumbnail img {
+  display: block;
   width: 150px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .thumbnail-remove {

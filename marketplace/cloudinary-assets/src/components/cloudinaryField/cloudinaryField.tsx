@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Button } from '@contentful/forma-36-react-components';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
-import { ExtensionParameters, CloudinaryResource } from '../../interface';
+import { CloudinaryResource } from '../../cloudinaryInterfaces';
 import { SortableComponent } from '../sortable/sortable';
+import { ExtensionParameters } from '../cloudinaryAppConfig/parameters';
 
 interface Props {
   sdk: FieldExtensionSDK;
@@ -12,11 +13,12 @@ interface State {
   value: CloudinaryResource[];
 }
 
-export class CloudinaryField extends React.Component<Props, State> {
+export default class CloudinaryField extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
+    const value = props.sdk.field.getValue();
     this.state = {
-      value: props.sdk.field.getValue() || []
+      value: Array.isArray(value) ? value : []
     };
   }
 
@@ -36,11 +38,7 @@ export class CloudinaryField extends React.Component<Props, State> {
   }
 
   onExternalChange = (value?: CloudinaryResource[]) => {
-    if (value) {
-      this.setState({ value });
-    } else {
-      this.setState({ value: [] });
-    }
+    this.setState({ value: Array.isArray(value) ? value : [] });
   };
 
   updateStateValue = async (value: CloudinaryResource[]) => {
@@ -53,23 +51,15 @@ export class CloudinaryField extends React.Component<Props, State> {
   };
 
   onCloudinaryDialogOpen = async () => {
-    const config = this.props.sdk.parameters.instance as ExtensionParameters;
-
-    let maxSelectableFiles = config.maxFiles;
-
-    if (Array.isArray(this.state.value)) {
-      maxSelectableFiles -= this.state.value.length;
-    }
+    const config = this.props.sdk.parameters.installation as ExtensionParameters;
+    const maxFiles = config.maxFiles - this.state.value.length;
 
     const data = await this.props.sdk.dialogs.openExtension({
       position: 'center',
       title: 'Select or Upload Media',
       shouldCloseOnOverlayClick: true,
       shouldCloseOnEscapePress: true,
-      parameters: {
-        ...config,
-        maxFiles: maxSelectableFiles
-      },
+      parameters: { ...config, maxFiles },
       width: 1400
     });
 
@@ -79,14 +69,12 @@ export class CloudinaryField extends React.Component<Props, State> {
   };
 
   render = () => {
-    const config = this.props.sdk.parameters.instance as ExtensionParameters;
-    const { maxFiles, btnTxt } = config;
-
+    const config = this.props.sdk.parameters.installation as ExtensionParameters;
     const hasItems = this.state.value.length > 0;
-    const isDisabled = this.state.value.length >= maxFiles;
+    const isDisabled = this.state.value.length >= config.maxFiles;
 
     return (
-      <React.Fragment>
+      <>
         {hasItems && (
           <SortableComponent
             resources={this.state.value}
@@ -102,10 +90,10 @@ export class CloudinaryField extends React.Component<Props, State> {
             size="small"
             onClick={this.onCloudinaryDialogOpen}
             disabled={isDisabled}>
-            {btnTxt}
+            Select or upload a file on Cloudinary
           </Button>
         </div>
-      </React.Fragment>
+      </>
     );
   };
 }

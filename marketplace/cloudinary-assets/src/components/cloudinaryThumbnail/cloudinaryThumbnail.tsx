@@ -1,13 +1,15 @@
 import * as React from 'react';
-import { CloudinaryResource, ExtensionParameters } from '../../interface';
 import { Cloudinary as cloudinaryCore } from 'cloudinary-core';
+
+import { CloudinaryResource } from '../../cloudinaryInterfaces';
+import { ExtensionParameters } from '../cloudinaryAppConfig/parameters';
 
 export interface CloudinaryThumbnailProps {
   config: ExtensionParameters;
   resource: CloudinaryResource;
 }
 
-export function CloudinaryThumbnail(props: CloudinaryThumbnailProps) {
+export default function CloudinaryThumbnail(props: CloudinaryThumbnailProps) {
   const cloudinary = new cloudinaryCore({
     cloud_name: props.config.cloudName,
     api_key: props.config.apiKey
@@ -46,5 +48,3 @@ export function CloudinaryThumbnail(props: CloudinaryThumbnailProps) {
 
   return <div className="unknownFiletype" />;
 }
-
-export default CloudinaryThumbnail;

@@ -1,12 +1,3 @@
-export interface ExtensionParameters {
-  readonly cloudName: string;
-  readonly apiKey: string;
-  readonly apiKeySecret?: string;
-  readonly username?: string;
-  readonly maxFiles: number;
-  readonly btnTxt: string;
-}
-
 export interface CloudinaryResponse {
   readonly assets: CloudinaryResource[];
   readonly mlId: string;
