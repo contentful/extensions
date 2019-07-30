@@ -57,7 +57,7 @@ describe('parameters', () => {
         maxFiles: '-123.6'
       });
 
-      expect(err).toMatch(/should be an integer/);
+      expect(err).toMatch(/should be a number between/);
     });
 
     it('validates maxFiles bounds', () => {

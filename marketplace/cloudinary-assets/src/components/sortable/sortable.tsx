@@ -98,7 +98,7 @@ export class SortableComponent extends React.Component<
         resources={this.state.resources}
         config={this.props.config}
         deleteFnc={this.deleteItem}
-        useDragHandle={true}
+        useDragHandle
       />
     );
   }

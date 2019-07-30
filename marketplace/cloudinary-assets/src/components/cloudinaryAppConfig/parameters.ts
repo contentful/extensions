@@ -40,7 +40,7 @@ export function validateParameters(parameters: InputParameters): string | null {
   const int = parseInt(parameters.maxFiles, 10);
   const valid = validFormat && int > 0 && int <= MAX_FILES_UPPER_LIMIT;
   if (!valid) {
-    return `Max files should be an integer between 1 and ${MAX_FILES_UPPER_LIMIT}.`;
+    return `Max files should be a number between 1 and ${MAX_FILES_UPPER_LIMIT}.`;
   }
 
   return null;
