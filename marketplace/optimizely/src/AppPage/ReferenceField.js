@@ -1,21 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash.get';
-import { CheckboxField, Tooltip, Icon } from '@contentful/forma-36-react-components';
+import { CheckboxField } from '@contentful/forma-36-react-components';
 import { VARIATION_CONTAINER_ID } from './constants';
 import { css } from 'emotion';
+import RefToolTip from './RefToolTip';
 
 const styles = {
   container: css({
     position: 'relative'
-  }),
-  tooltip: css({
-    'z-index': '99999'
-  }),
-  tooltipContainer: css({
-    display: 'inline-block',
-    verticalAlign: 'middle',
-    marginLeft: '3px'
   })
 };
 
@@ -40,16 +33,7 @@ export default function ReferenceField({ id, checked, contentType, onSelect }) {
         labelText={field.name}
         labelIsLight={true}
       />
-      {disabled ? (
-        <div className={styles.tooltipContainer}>
-          <Tooltip
-            className={styles.tooltip}
-            content="This field can have a variation container assigned to it by default because it has no explicit validations."
-            place="right">
-            <Icon color="muted" icon="HelpCircle" />
-          </Tooltip>
-        </div>
-      ) : null}
+      {disabled ? <RefToolTip /> : null}
     </div>
   );
 }

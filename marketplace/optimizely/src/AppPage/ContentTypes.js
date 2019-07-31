@@ -17,7 +17,8 @@ import {
   Modal
 } from '@contentful/forma-36-react-components';
 import { getContentTypesNotAddedYet } from './ContentTypeHelpers';
-import ReferenceField from './ReferenceField';
+import ReferenceField, { hasFieldLinkValidations } from './ReferenceField';
+import RefToolTip from './RefToolTip';
 
 const styles = {
   table: css({
@@ -96,15 +97,18 @@ export default function ContentTypes({
     }, {});
   }
 
+  const closeModal = () => {
+    // reset state
+    onSelectReferenceField({});
+    onSelectContentType('');
+    toggleModal(false);
+  };
+
   const addContentTypeCloseModal = () => {
     const update = { ...allReferenceFields[selectedContentType], ...selectedReferenceFields };
 
     onAddContentType({ [selectedContentType]: update });
-
-    // do some resetting
-    onSelectReferenceField({});
-    onSelectContentType('');
-    toggleModal(false);
+    closeModal();
   };
 
   const onEdit = ctId => {
@@ -125,7 +129,7 @@ export default function ContentTypes({
         disabled={allContentTypesAdded}>
         Add content type
       </Button>
-      <Modal title="Add content type" isShown={modalOpen} onClose={() => toggleModal(false)}>
+      <Modal title="Add content type" isShown={modalOpen} onClose={closeModal}>
         {({ title, onClose }) => (
           <React.Fragment>
             <Modal.Header title={title} onClose={onClose} />
@@ -210,6 +214,11 @@ function ContentTypeRow({
   const contentType = allContentTypes.find(ct => ct.sys.id === contentTypeId);
   const referenceFields = allReferenceFields[contentTypeId];
   const referenceFieldIds = Object.keys(referenceFields);
+  const referencesToShow = referenceFieldIds.filter(id => referenceFields[id]);
+
+  if (!referencesToShow.length) {
+    return null;
+  }
 
   return (
     <TableRow>
@@ -217,11 +226,16 @@ function ContentTypeRow({
         <strong>{contentType.name}</strong>
       </TableCell>
       <TableCell className={styles.contentTypeRow}>
-        {referenceFieldIds
-          .filter(fieldId => referenceFields[fieldId])
-          .map(fieldId => (
-            <div key={fieldId}>{fieldId}</div>
-          ))}
+        {referencesToShow.map(id => {
+          const field = contentType.fields.find(f => f.id === id) || {};
+          const disabled = !hasFieldLinkValidations(field);
+
+          return (
+            <div key={id}>
+              {field.name} {disabled && <RefToolTip />}
+            </div>
+          );
+        })}
       </TableCell>
       <TableCell className={styles.contentTypeRow}>
         <TextLink onClick={() => onEdit(contentTypeId)} className={styles.link}>
