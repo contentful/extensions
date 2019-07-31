@@ -8,7 +8,8 @@ import RefToolTip from './RefToolTip';
 
 const styles = {
   container: css({
-    position: 'relative'
+    position: 'relative',
+    marginRight: '0.5rem'
   })
 };
 

@@ -28,10 +28,14 @@ const styles = {
     marginRight: tokens.spacingS
   }),
   description: css({
-    marginBottom: '1rem'
+    margin: '1rem 0'
   }),
   contentTypeRow: css({
     gridTemplateColumns: 'auto 6rem'
+  }),
+  refList: css({
+    display: 'flex',
+    flexDirection: 'row'
   })
 };
 
@@ -159,15 +163,20 @@ export default function ContentTypes({
                   </Option>
                 ))}
               </SelectField>
-              {referenceFields.map(field => (
-                <ReferenceField
-                  key={field}
-                  contentType={contentType}
-                  id={field}
-                  checked={checkedFields[field] || selectedReferenceFields[field]}
-                  onSelect={checked => onSelectReferenceField({ [field]: checked })}
-                />
-              ))}
+              {!!referenceFields.length && (
+                <Paragraph className={styles.description}>Reference Fields</Paragraph>
+              )}
+              <div className={styles.refList}>
+                {referenceFields.map(field => (
+                  <ReferenceField
+                    key={field}
+                    contentType={contentType}
+                    id={field}
+                    checked={checkedFields[field] || selectedReferenceFields[field]}
+                    onSelect={checked => onSelectReferenceField({ [field]: checked })}
+                  />
+                ))}
+              </div>
             </Modal.Content>
             <Modal.Controls>
               <Button onClick={addContentTypeCloseModal} buttonType="positive">
