@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 import Projects from './Projects';
 import ContentTypes from './ContentTypes';
 
-import { hasVariationContainerInFieldLinkValidations } from './ReferenceField';
-import { getReferenceFieldsLinkingToEntry } from './ReferenceForm';
-
 export default class Config extends React.Component {
   static propTypes = {
     client: PropTypes.object.isRequired,
@@ -20,15 +17,8 @@ export default class Config extends React.Component {
 
     this.state = {
       loadingProjects: true,
-      allProjects: null,
-      selectedContentType: ''
+      allProjects: null
     };
-  }
-
-  initializeSelectedContentType() {
-    this.setState({
-      selectedContentType: ''
-    });
   }
 
   async componentDidMount() {
@@ -49,31 +39,6 @@ export default class Config extends React.Component {
     });
   };
 
-  onSelectContentType = contentTypeId => {
-    this.setState({ selectedContentType: contentTypeId });
-  };
-
-  createReferenceFieldMap = contentType => {
-    return getReferenceFieldsLinkingToEntry(contentType).reduce((map, field) => {
-      return {
-        ...map,
-        [field.id]: hasVariationContainerInFieldLinkValidations(field)
-      };
-    }, {});
-  };
-
-  onSelectReferenceField = ({ contentTypeId, fieldId, checked }) => {
-    this.props.updateConfig({
-      contentTypes: {
-        ...this.props.config.contentTypes,
-        [contentTypeId]: {
-          ...this.props.config.contentTypes[contentTypeId],
-          [fieldId]: checked
-        }
-      }
-    });
-  };
-
   onDeleteContentType = contentTypeId => {
     const { contentTypes } = this.props.config;
 
@@ -88,20 +53,15 @@ export default class Config extends React.Component {
     });
   };
 
-  onAddContentType = () => {
+  onAddContentType = contentConfig => {
     const { contentTypes } = this.props.config;
-    const { selectedContentType } = this.state;
-
-    const contentType = this.props.allContentTypes.find(ct => ct.sys.id === selectedContentType);
 
     this.props.updateConfig({
       contentTypes: {
         ...contentTypes,
-        [contentType.sys.id]: this.createReferenceFieldMap(contentType)
+        ...contentConfig
       }
     });
-
-    this.initializeSelectedContentType();
   };
 
   render() {
@@ -123,11 +83,8 @@ export default class Config extends React.Component {
           addedContentTypes={addedContentTypes}
           allContentTypes={this.props.allContentTypes}
           allReferenceFields={contentTypes}
-          selectedContentType={this.state.selectedContentType}
           onAddContentType={this.onAddContentType}
-          onSelectContentType={this.onSelectContentType}
           onDeleteContentType={this.onDeleteContentType}
-          onSelectReferenceField={this.onSelectReferenceField}
         />
       </>
     );
