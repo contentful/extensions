@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import tokens from '@contentful/forma-36-tokens';
-import constants from './constants';
+import { VARIATION_CONTAINER_ID } from './constants';
 import { hasReferenceFieldsLinkingToEntry } from './ReferenceForm';
 import { css } from 'emotion';
 import {
@@ -44,8 +44,7 @@ ContentTypes.propTypes = {
 
 export function isContentTypeValidSelection(contentType) {
   return (
-    contentType.sys.id !== constants.VARIATION_CONTAINER_CT_ID &&
-    hasReferenceFieldsLinkingToEntry(contentType)
+    contentType.sys.id !== VARIATION_CONTAINER_ID && hasReferenceFieldsLinkingToEntry(contentType)
   );
 }
 

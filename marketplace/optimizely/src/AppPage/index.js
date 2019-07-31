@@ -6,6 +6,7 @@ import { css } from 'emotion';
 import Features from './Features';
 import Connect from './Connect';
 import Config from './Config';
+import { VARIATION_CONTAINER_ID } from './constants';
 
 const styles = {
   body: css({
@@ -21,8 +22,6 @@ const styles = {
     marginLeft: tokens.spacingM
   })
 };
-
-const VARIATION_CONTAINER_ID = 'variationContainer';
 
 export default class AppPage extends React.Component {
   static propTypes = {

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash.get';
 import { CheckboxField, Tooltip, Icon } from '@contentful/forma-36-react-components';
-import constants from './constants';
+import { VARIATION_CONTAINER_ID } from './constants';
 import { css } from 'emotion';
 
 const styles = {
@@ -82,5 +82,5 @@ export function hasVariationContainerInFieldLinkValidations(field) {
     linkContentTypeValidations = [];
   }
 
-  return linkContentTypeValidations.includes(constants.VARIATION_CONTAINER_CT_ID);
+  return linkContentTypeValidations.includes(VARIATION_CONTAINER_ID);
 }
