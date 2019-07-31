@@ -84,7 +84,10 @@ export default function ContentTypes({
       .map(ref => ref.id);
 
     checkedFields = referenceFields.reduce((acc, id) => {
-      const checkedReferences = allReferenceFields[selectedContentType];
+      const checkedReferences = {
+        ...allReferenceFields[selectedContentType],
+        ...selectedReferenceFields
+      };
 
       if (checkedReferences) {
         return { ...acc, [id]: checkedReferences[id] || false };
@@ -95,7 +98,9 @@ export default function ContentTypes({
   }
 
   const addContentTypeCloseModal = () => {
-    onAddContentType({ [selectedContentType]: selectedReferenceFields });
+    const update = { ...allReferenceFields[selectedContentType], ...selectedReferenceFields };
+
+    onAddContentType({ [selectedContentType]: update });
 
     // do some resetting
     onSelectReferenceField({});
@@ -138,7 +143,9 @@ export default function ContentTypes({
                 onChange={e => onSelectContentType(e.target.value)}
                 value={selectedContentType || ''}
                 required>
-                <Option value="">Select content type</Option>
+                <Option value="" disabled>
+                  Select content type
+                </Option>
                 {addableContentTypes.map(ct => (
                   <Option key={ct.sys.id} value={ct.sys.id}>
                     {ct.name}
@@ -151,9 +158,7 @@ export default function ContentTypes({
                   contentType={contentType}
                   id={field}
                   checked={checkedFields[field] || selectedReferenceFields[field]}
-                  onSelect={checked =>
-                    onSelectReferenceField({ ...selectedReferenceFields, [field]: checked })
-                  }
+                  onSelect={checked => onSelectReferenceField({ [field]: checked })}
                 />
               ))}
             </Modal.Content>
