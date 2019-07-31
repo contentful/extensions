@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import tokens from '@contentful/forma-36-tokens';
 import { css } from 'emotion';
+import { Heading, Typography, Paragraph } from '@contentful/forma-36-react-components';
 
 import Features from './Features';
 import Connect from './Connect';
@@ -12,10 +13,10 @@ const styles = {
   body: css({
     margin: '0 auto',
     padding: '0 40px',
-    width: '70%'
+    maxWidth: '786px'
   }),
   section: css({
-    margin: '10px 0'
+    margin: `${tokens.spacingXl} 0`
   }),
   featuresListItem: css({
     listStyleType: 'disc',
@@ -260,11 +261,25 @@ export default class AppPage extends React.Component {
         <div className={styles.section}>
           <Features />
         </div>
-
         <div className={styles.section}>
-          {!this.props.client ? (
-            <Connect openAuth={this.props.openAuth} />
-          ) : (
+          <Typography>
+            <Heading>Connect Optimizely</Heading>
+            {!this.props.client ? (
+              <div className={styles.section}>
+                <Connect openAuth={this.props.openAuth} />
+              </div>
+            ) : (
+              <>
+                <Paragraph>You&rsquo;re currently connected to Optimizely.</Paragraph>
+                <Paragraph>
+                  Please note that an access token is valid for 2 hours then you must reauthorize.
+                </Paragraph>
+              </>
+            )}
+          </Typography>
+        </div>
+        {!!this.props.client && (
+          <div className={styles.section}>
             <Config
               client={this.props.client}
               config={this.state.config}
@@ -272,8 +287,8 @@ export default class AppPage extends React.Component {
               allContentTypes={this.state.allContentTypes}
               sdk={this.props.sdk}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     );
   }

@@ -16,7 +16,6 @@ import {
   Option,
   Modal
 } from '@contentful/forma-36-react-components';
-import { getContentTypesNotAddedYet } from './ContentTypeHelpers';
 import ReferenceField, { hasFieldLinkValidations } from './ReferenceField';
 import RefToolTip from './RefToolTip';
 
@@ -68,12 +67,9 @@ export default function ContentTypes({
     isContentTypeValidSelection(ct, addedContentTypes)
   );
 
-  const [selectedContentType, onSelectContentType] = useState('');
+  const [selectedContentType, selectContentType] = useState('');
   const [selectedReferenceFields, selectRef] = useState({});
   const [modalOpen, toggleModal] = useState(false);
-
-  const allContentTypesAdded =
-    getContentTypesNotAddedYet(allContentTypes, addedContentTypes).length === 0;
 
   const contentType = allContentTypes.find(ct => ct.sys.id === selectedContentType);
   let referenceFields = [];
@@ -105,6 +101,11 @@ export default function ContentTypes({
     selectRef({ ...selectedReferenceFields, ...fields });
   };
 
+  const onSelectContentType = ctId => {
+    selectRef({});
+    selectContentType(ctId);
+  };
+
   const closeModal = () => {
     // reset state
     onSelectReferenceField({});
@@ -114,6 +115,11 @@ export default function ContentTypes({
 
   const addContentTypeCloseModal = () => {
     const update = { ...allReferenceFields[selectedContentType], ...selectedReferenceFields };
+
+    if (!Object.keys(update).length) {
+      closeModal();
+      return;
+    }
 
     onAddContentType({ [selectedContentType]: update });
     closeModal();
@@ -130,11 +136,7 @@ export default function ContentTypes({
       <Paragraph className="f36-margin-top--m">
         Select the content types for which you want to enable A/B testing.
       </Paragraph>
-      <Button
-        buttonType="muted"
-        className="f36-margin-top--m"
-        onClick={() => toggleModal(true)}
-        disabled={allContentTypesAdded}>
+      <Button buttonType="muted" className="f36-margin-top--m" onClick={() => toggleModal(true)}>
         Add content type
       </Button>
       <Modal title="Add content type" isShown={modalOpen} onClose={closeModal}>
@@ -150,7 +152,7 @@ export default function ContentTypes({
                 id="content-types"
                 name="content-types"
                 labelText="Content Type"
-                selectProps={{ width: 'medium', isDisabled: allContentTypesAdded }}
+                selectProps={{ width: 'medium' }}
                 onChange={e => onSelectContentType(e.target.value)}
                 value={selectedContentType || ''}
                 required>
@@ -179,7 +181,10 @@ export default function ContentTypes({
               </div>
             </Modal.Content>
             <Modal.Controls>
-              <Button onClick={addContentTypeCloseModal} buttonType="positive">
+              <Button
+                disabled={!selectedContentType}
+                onClick={addContentTypeCloseModal}
+                buttonType="positive">
                 Save
               </Button>
               <Button onClick={onClose} buttonType="muted">
