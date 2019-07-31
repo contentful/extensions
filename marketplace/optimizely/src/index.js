@@ -9,6 +9,7 @@ import { IncorrectContentType, isValidContentType, MissingProjectId } from './er
 import OptimizelyClient from './optimizely-client';
 import AppPage from './AppPage';
 import '@contentful/forma-36-react-components/dist/styles.css';
+import 'whatwg-fetch';
 
 function getAccessTokenFromHash(hash) {
   return (
@@ -27,7 +28,7 @@ if (window.location.hash) {
   window.close();
 }
 
-const HOST = 'http://localhost:1234';
+const HOST = `${window.location.protocol}//${window.location.host}`;
 
 const url = `https://app.optimizely.com/oauth2/authorize
 ?client_id=15687650042
@@ -125,9 +126,7 @@ export default class App extends React.Component {
         return <IncorrectContentType sdk={sdk} missingFields={missingFields} />;
       }
 
-      return (
-        <EditorPage sdk={sdk} client={client} openAuth={this.openAuth} />
-      );
+      return <EditorPage sdk={sdk} client={client} openAuth={this.openAuth} />;
     }
   }
 }
@@ -135,7 +134,3 @@ export default class App extends React.Component {
 init(sdk => {
   render(<App sdk={sdk} />, document.getElementById('root'));
 });
-
-// if (module.hot) {
-//   module.hot.accept();
-// }

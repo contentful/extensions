@@ -1,7 +1,6 @@
 {
   "id": "optimizely",
   "name": "Optimizely Experiment",
-  "sidebar": true,
   "srcdoc": "./build/index.html",
   "parameters": {
     "installation": [
@@ -10,11 +9,6 @@
         "type": "Symbol",
         "name": "Optimizely Project ID",
         "required": true
-      },
-      {
-        "id": "contentTypeIds",
-        "type": "Symbol",
-        "name": "Comma seperated Content Types to use with Optimizely"
       }
     ]
   }

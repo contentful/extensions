@@ -47,12 +47,14 @@ export default class AppPage extends React.Component {
   async componentDidMount() {
     const { app } = this.props.sdk.platformAlpha;
 
-    const currentParameters = await app.getParameters();
-    const { items: allContentTypes = [] } = await this.props.sdk.space.getContentTypes();
+    const [currentParameters, { items: allContentTypes = [] }] = await Promise.all([
+      app.getParameters(),
+      this.props.sdk.space.getContentTypes()
+    ]);
 
     const enabledContentTypes = this.findEnabledContentTypes(allContentTypes);
 
-    // eslint-disable-next-line
+    // eslint-disable-next-line react/no-did-mount-set-state
     this.setState(prevState => ({
       allContentTypes,
       config: {
@@ -169,23 +171,23 @@ export default class AppPage extends React.Component {
       for (const contentField of ct.fields) {
         const validations =
           contentField.type === 'Array' ? contentField.items.validations : contentField.validations;
-        const index = validations.findIndex(v => v.linkContentType);
+        const index = (validations || []).findIndex(v => v.linkContentType);
 
         if (index > -1) {
           const linkValidations = validations[index];
-          const indexOfVariationContainer = linkValidations.linkContentType.indexOf(
+          const includesVariationContainer = linkValidations.linkContentType.includes(
             VARIATION_CONTAINER_ID
           );
 
           const fieldsToEnable = contentTypes[ct.sys.id] || {};
 
-          if (indexOfVariationContainer === -1 && fieldsToEnable[contentField.id]) {
+          if (!includesVariationContainer && fieldsToEnable[contentField.id]) {
             linkValidations.linkContentType.push(VARIATION_CONTAINER_ID);
             hasChanges = true;
           }
 
           if (
-            indexOfVariationContainer > -1 &&
+            includesVariationContainer &&
             (!Object.keys(contentTypes).includes(ct.sys.id) || !fieldsToEnable[contentField.id])
           ) {
             linkValidations.linkContentType = linkValidations.linkContentType.filter(

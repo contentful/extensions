@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import tokens from '@contentful/forma-36-tokens';
 import { css } from 'emotion';
+import { Spinner } from '@contentful/forma-36-react-components';
 
 import Projects from './Projects';
 import ContentTypes from './ContentTypes';
@@ -37,8 +38,6 @@ export default class Config extends React.Component {
       allProjects,
       loadingProjects: false
     });
-
-    this.initializeSelectedContentType();
   }
 
   onProjectChange = event => {
@@ -61,20 +60,24 @@ export default class Config extends React.Component {
     });
   };
 
-  onAddContentType = contentConfig => {
+  onAddContentType = contentTypeConfig => {
     const { contentTypes } = this.props.config;
 
     this.props.updateConfig({
       contentTypes: {
         ...contentTypes,
-        ...contentConfig
+        ...contentTypeConfig
       }
     });
   };
 
   render() {
     if (this.state.loadingProjects) {
-      return <div>Loading ...</div>;
+      return (
+        <div>
+          Loading <Spinner />
+        </div>
+      );
     }
 
     const { contentTypes } = this.props.config;

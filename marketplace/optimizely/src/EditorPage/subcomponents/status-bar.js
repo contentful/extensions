@@ -97,17 +97,15 @@ export default function StatusBar(props) {
   }
 
   return (
-    <>
-      <div className={styles.container}>
-        <StatusItem active={statuses[Status.SelectExperiment]}>Select experiment</StatusItem>
-        <StatusSeparator />
-        <StatusItem active={statuses[Status.AddContent]}>Add content</StatusItem>
-        <StatusSeparator />
-        <StatusItem active={statuses[Status.PublishVariations]}>Publish variations</StatusItem>
-        <StatusSeparator />
-        <StatusItem active={statuses[Status.StartExperiment]}>Start experiment</StatusItem>
-      </div>
-    </>
+    <div className={styles.container}>
+      <StatusItem active={statuses[Status.SelectExperiment]}>Select experiment</StatusItem>
+      <StatusSeparator />
+      <StatusItem active={statuses[Status.AddContent]}>Add content</StatusItem>
+      <StatusSeparator />
+      <StatusItem active={statuses[Status.PublishVariations]}>Publish variations</StatusItem>
+      <StatusSeparator />
+      <StatusItem active={statuses[Status.StartExperiment]}>Start experiment</StatusItem>
+    </div>
   );
 }
 
