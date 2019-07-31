@@ -224,6 +224,9 @@ function ContentTypeRow({
     return null;
   }
 
+  // if any references are disabled, we should not allow for the delete button
+  let anyDisabled = false;
+
   return (
     <TableRow>
       <TableCell className={styles.contentTypeRow}>
@@ -233,6 +236,10 @@ function ContentTypeRow({
         {referencesToShow.map(id => {
           const field = contentType.fields.find(f => f.id === id) || {};
           const disabled = !hasFieldLinkValidations(field);
+
+          if (disabled) {
+            anyDisabled = true;
+          }
 
           return (
             <div key={id}>
@@ -245,12 +252,14 @@ function ContentTypeRow({
         <TextLink onClick={() => onEdit(contentTypeId)} className={styles.link}>
           Edit
         </TextLink>
-        <TextLink
-          onClick={() => onClickDelete(contentTypeId)}
-          className={styles.link}
-          linkType="negative">
-          Delete
-        </TextLink>
+        {!anyDisabled && (
+          <TextLink
+            onClick={() => onClickDelete(contentTypeId)}
+            className={styles.link}
+            linkType="negative">
+            Delete
+          </TextLink>
+        )}
       </TableCell>
     </TableRow>
   );
