@@ -65,7 +65,7 @@ export default function ContentTypes({
   );
 
   const [selectedContentType, onSelectContentType] = useState('');
-  const [selectedReferenceFields, onSelectReferenceField] = useState({});
+  const [selectedReferenceFields, selectRef] = useState({});
   const [modalOpen, toggleModal] = useState(false);
 
   const allContentTypesAdded =
@@ -96,6 +96,10 @@ export default function ContentTypes({
       return { ...acc, [id]: false };
     }, {});
   }
+
+  const onSelectReferenceField = fields => {
+    selectRef({ ...selectedReferenceFields, ...fields });
+  };
 
   const closeModal = () => {
     // reset state
