@@ -1,4 +1,4 @@
-Integrate with Bynder's digital asset management.
+Integrate with [Bynder's](https://www.bynder.com) digital asset management.
 
 This extension allows you to browse media stored in Bynder and reference it from Entries. The IDs of selected media is
 then stored in Contentful. Clients can then easily fetch content from Contentful and resolve all needed details on media
