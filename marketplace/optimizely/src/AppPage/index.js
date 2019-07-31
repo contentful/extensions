@@ -108,7 +108,7 @@ export default class AppPage extends React.Component {
       },
       targetState: {
         EditorInterface: {
-          [VARIATION_CONTAINER_ID]: { editor: true }
+          [VARIATION_CONTAINER_ID]: { editor: true, sidebar: { position: 0 } }
         }
       }
     };
