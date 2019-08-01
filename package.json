@@ -28,7 +28,7 @@
     "deploy": "node ./scripts/deploy.js",
     "lint": "eslint marketplace scripts --ext .js,.ts,.tsx --ignore-path .gitignore",
     "tsc": "lerna run tsc --stream",
-    "test:coverage": "lerna run test:coverage"
+    "test:coverage": "lerna run test:coverage --concurrency 2"
   },
   "engines": {
     "node": ">=10.15.0"
