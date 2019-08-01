@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Heading, Typography, TextField, Form } from '@contentful/forma-36-react-components';
+import {
+  Paragraph,
+  Spinner,
+  Heading,
+  Typography,
+  TextField,
+  Form
+} from '@contentful/forma-36-react-components';
+import { Workbench } from '@contentful/forma-36-react-components/dist/alpha';
 
 import {
   getCompatibleFields,
@@ -62,11 +70,25 @@ export default class AppConfig extends React.Component {
   };
 
   render() {
-    const { contentTypes, compatibleFields, selectedFields, bynderURL } = this.state;
+    return (
+      <Workbench>
+        <Workbench.Content>
+          {this.state.ready ? this.renderApp() : this.renderLoader()}
+        </Workbench.Content>
+      </Workbench>
+    );
+  }
 
-    if (!this.state.ready) {
-      return <div>Loading...</div>;
-    }
+  renderLoader() {
+    return (
+      <Paragraph>
+        Loading <Spinner />
+      </Paragraph>
+    );
+  }
+
+  renderApp() {
+    const { contentTypes, compatibleFields, selectedFields, bynderURL } = this.state;
 
     return (
       <Typography>
