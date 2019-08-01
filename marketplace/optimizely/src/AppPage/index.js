@@ -18,9 +18,17 @@ const styles = {
   section: css({
     margin: `${tokens.spacingXl} 0`
   }),
+  seperator: css({
+    border: 'none',
+    borderBottom: `1px solid ${tokens.colorTextLightest}`
+  }),
   featuresListItem: css({
     listStyleType: 'disc',
     marginLeft: tokens.spacingM
+  }),
+  light: css({
+    opacity: '0.6',
+    marginTop: tokens.spacingM
   })
 };
 
@@ -263,6 +271,7 @@ export default class AppPage extends React.Component {
         <div className={styles.section}>
           <Features />
         </div>
+        <hr className={styles.seperator} />
         <div className={styles.section}>
           <Typography>
             <Heading>Connect Optimizely</Heading>
@@ -273,8 +282,8 @@ export default class AppPage extends React.Component {
             ) : (
               <>
                 <Paragraph>You&rsquo;re currently connected to Optimizely.</Paragraph>
-                <Paragraph>
-                  Please note that an access token is valid for 2 hours then you must reauthorize.
+                <Paragraph className={styles.light}>
+                  An access token is valid for 2 hours then you must reauthorize.
                 </Paragraph>
               </>
             )}
@@ -282,6 +291,7 @@ export default class AppPage extends React.Component {
         </div>
         {!!this.props.client && (
           <div className={styles.section}>
+            <hr className={styles.seperator} />
             <Config
               client={this.props.client}
               config={this.state.config}
