@@ -121,8 +121,8 @@ export default class AppConfig extends React.Component {
           </Paragraph>
         ) : (
           <Paragraph>
-            There is no content type with an <code>Object</code> field. Come back to this page once
-            you create one.
+            There are no content types with an <code>Object</code> field. Come back to this page
+            once you create one.
           </Paragraph>
         )}
         <FieldSelector
