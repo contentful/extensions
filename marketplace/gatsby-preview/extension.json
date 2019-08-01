@@ -1,19 +1,20 @@
 {
-  "id": "gatsby-preview-sidebar",
+  "id": "gatsby-preview",
   "name": "Gatsby Preview",
   "srcdoc": "./build/index.html",
-  "sidebar": true,
   "parameters": {
     "installation": [
       {
         "id": "previewUrl",
         "type": "Symbol",
-        "name": "The url of your Gatsby Cloud instance"
+        "name": "The URL of your Gatsby Cloud instance",
+        "required": true
       },
       {
         "id": "webhookUrl",
         "type": "Symbol",
-        "name": "The url of the webhook to rebuild your Gatsby Cloud instance"
+        "name": "The URL of the webhook to rebuild your Gatsby Cloud instance",
+        "required": true
       },
       {
         "id": "authToken",
