@@ -11,20 +11,28 @@ import AppPage from './AppPage';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import 'whatwg-fetch';
 
-function getAccessTokenFromHash(hash) {
-  return (
-    hash
-      .slice(1)
-      .split('&')[0]
-      .split('=')[1] || null
-  );
+function parseHash(hash) {
+  return hash
+    .slice(1)
+    .split('&')
+    .reduce((acc, pair) => {
+      const [key, value] = pair.split('=');
+      acc[key] = value;
+      return acc;
+    }, {});
+}
+
+function getTokenExpirationTime(expires) {
+  return Date.now() + parseInt(expires, 10) * 1000;
 }
 
 // we can use this for the oauth endpoint,
 // if there is a hash with an access token, we will report it and close the page
 if (window.location.hash) {
-  const token = getAccessTokenFromHash(location.hash);
-  window.opener.postMessage({ token });
+  const { access_token = null, expires_in = null } = parseHash(window.location.hash);
+  const expireTime = getTokenExpirationTime(expires_in);
+
+  window.opener.postMessage({ token: access_token, expires: expireTime });
   window.close();
 }
 
@@ -37,6 +45,7 @@ const url = `https://app.optimizely.com/oauth2/authorize
 &scopes=all`;
 
 const TOKEN_KEY = 'optToken';
+const TOKEN_EXPIRATION = 'optExpire';
 
 export default class App extends React.Component {
   static propTypes = {
@@ -57,23 +66,27 @@ export default class App extends React.Component {
     super(props);
 
     const token = window.localStorage.getItem(TOKEN_KEY);
+    const expires = window.localStorage.getItem(TOKEN_EXPIRATION);
 
     this.state = {
       client: token ? this.makeClient(token) : null,
-      accessToken: token
+      accessToken: token,
+      expires
     };
 
     this.listener = window.addEventListener(
       'message',
       event => {
         const { data, origin } = event;
+        const { token, expires } = data;
 
-        if (origin !== HOST || !data.token) {
+        if (origin !== HOST || !token) {
           return;
         }
 
-        window.localStorage.setItem(TOKEN_KEY, data.token);
-        this.setState({ client: this.makeClient(data.token), accessToken: data.token });
+        window.localStorage.setItem(TOKEN_KEY, token);
+        window.localStorage.setItem(TOKEN_EXPIRATION, expires);
+        this.setState({ client: this.makeClient(data.token), accessToken: token, expires });
       },
       false
     );
@@ -126,7 +139,14 @@ export default class App extends React.Component {
         return <IncorrectContentType sdk={sdk} missingFields={missingFields} />;
       }
 
-      return <EditorPage sdk={sdk} client={client} openAuth={this.openAuth} />;
+      return (
+        <EditorPage
+          sdk={sdk}
+          client={client}
+          openAuth={this.openAuth}
+          expires={this.state.expires}
+        />
+      );
     }
   }
 }

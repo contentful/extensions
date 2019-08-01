@@ -1,9 +1,10 @@
-import React, { useEffect, useCallback } from 'react';
+/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events, jsx-a11y/anchor-is-valid */
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 import useMethods from 'use-methods';
 import tokens from '@contentful/forma-36-tokens';
-import { Note } from '@contentful/forma-36-react-components';
+import { Note, Paragraph, Modal } from '@contentful/forma-36-react-components';
 import StatusBar from './subcomponents/status-bar';
 import ReferencesSection from './subcomponents/references-section';
 import ExperimentSection from './subcomponents/experiment-section';
@@ -17,6 +18,13 @@ import ConnectButton from '../ConnectButton';
 const styles = {
   root: css({
     margin: tokens.spacingXl
+  }),
+  paragraph: css({
+    marginBottom: tokens.spacingM
+  }),
+  link: css({
+    cursor: 'pointer',
+    textDecoration: 'underline'
   })
 };
 
@@ -92,9 +100,15 @@ const fetchInitialData = async (sdk, client) => {
   };
 };
 
+function isCloseToExpiration(expires) {
+  const _10minutes = 600000;
+  return parseInt(expires, 10) - Date.now() <= _10minutes;
+}
+
 export default function EditorPage(props) {
   const globalState = useMethods(methods, getInitialValue(props.sdk));
   const [state, actions] = globalState;
+  const [showAuth, setShowAuth] = useState(isCloseToExpiration(props.expires));
 
   const experiment = state.experiments.find(
     experiment => experiment.id.toString() === state.experimentId
@@ -112,7 +126,7 @@ export default function EditorPage(props) {
       .catch(() => {
         actions.setError('Unable to load initial data');
       });
-  }, [props.client]);
+  }, [actions, props.client, props.sdk]);
 
   /**
    * Pulling current experiment every 5s to get new status and variations
@@ -127,6 +141,13 @@ export default function EditorPage(props) {
         })
         .catch(() => {});
     }
+  }, 5000);
+
+  /*
+   * Poll to see if we need to show the reauth flow preemptively
+   */
+  useInterval(() => {
+    setShowAuth(isCloseToExpiration(props.expires));
   }, 5000);
 
   /**
@@ -147,7 +168,12 @@ export default function EditorPage(props) {
       unsubsribeVariationsChange();
       unsubscribeMetaChange();
     };
-  }, []);
+  }, [
+    actions,
+    props.sdk.entry.fields.experimentId,
+    props.sdk.entry.fields.meta,
+    props.sdk.entry.fields.variations
+  ]);
 
   /**
    * Update title every time experiment is changed
@@ -157,7 +183,7 @@ export default function EditorPage(props) {
       const title = experiment ? `[Optimizely] ${experiment.name}` : '';
       props.sdk.entry.fields.experimentTitle.setValue(title);
     }
-  }, [experiment, state.loaded]);
+  }, [experiment, props.sdk.entry.fields.experimentTitle, state.loaded]);
 
   /**
    * Fetch experiment results every time experiment is changed
@@ -172,7 +198,7 @@ export default function EditorPage(props) {
         })
         .catch(() => {});
     }
-  }, [experiment, state.loaded]);
+  }, [actions, experiment, props.client, state.loaded]);
 
   const getExperimentResults = experiment => {
     if (!experiment) {
@@ -283,6 +309,12 @@ export default function EditorPage(props) {
   return (
     <SDKContext.Provider value={props.sdk}>
       <GlobalStateContext.Provider value={globalState}>
+        <Modal title="Connect with Optimizely" isShown={!props.client}>
+          <Paragraph className={styles.paragraph}>
+            Your Optimizely session has expired. Reconnect to continue editing.
+          </Paragraph>
+          <ConnectButton openAuth={props.openAuth} isFullWidth />
+        </Modal>
         <div className={styles.root} data-testid="editor-page">
           <StatusBar
             loaded={state.loaded}
@@ -291,7 +323,14 @@ export default function EditorPage(props) {
             entries={state.entries}
           />
           <SectionSplitter />
-          <ConnectButton openAuth={props.openAuth}/>
+          {showAuth && (
+            <Note noteType="warning" className={styles.paragraph}>
+              Your Optimizely session will expire soon. Click here to{' '}
+              <a onClick={props.openAuth} className={styles.link}>
+                connect with Optimizely.
+              </a>
+            </Note>
+          )}
           <ReferencesSection
             loaded={state.loaded}
             references={state.loaded ? state.referenceInfo.references : []}
@@ -328,6 +367,7 @@ export default function EditorPage(props) {
 EditorPage.propTypes = {
   openAuth: PropTypes.func.isRequired,
   client: PropTypes.any.isRequired,
+  expires: PropTypes.string.isRequired,
   sdk: PropTypes.shape({
     space: PropTypes.object.isRequired,
     ids: PropTypes.object.isRequired,

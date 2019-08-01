@@ -12,9 +12,9 @@ const styles = {
   })
 };
 
-export default function ConnectButton({ openAuth }) {
+export default function ConnectButton({ openAuth, isFullWidth }) {
   return (
-    <Button onClick={openAuth} data-testid="connect-button">
+    <Button onClick={openAuth} data-testid="connect-button" isFullWidth={isFullWidth}>
       <div className={styles.connect}>
         <OptimizelyLogo />
         &nbsp; Connect with Optimizely
@@ -23,7 +23,11 @@ export default function ConnectButton({ openAuth }) {
   );
 }
 
-ConnectButton.propTypes = {
-  openAuth: PropTypes.func.isRequired
+ConnectButton.defaultProps = {
+  isFullWidth: false
 };
 
+ConnectButton.propTypes = {
+  openAuth: PropTypes.func.isRequired,
+  isFullWidth: PropTypes.bool
+};

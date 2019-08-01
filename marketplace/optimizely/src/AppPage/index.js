@@ -7,6 +7,7 @@ import { Heading, Typography, Paragraph } from '@contentful/forma-36-react-compo
 import Features from './Features';
 import Connect from './Connect';
 import Config from './Config';
+import SectionSplitter from '../EditorPage/subcomponents/section-splitter';
 import { VARIATION_CONTAINER_ID } from './constants';
 
 const styles = {
@@ -17,10 +18,6 @@ const styles = {
   }),
   section: css({
     margin: `${tokens.spacingXl} 0`
-  }),
-  seperator: css({
-    border: 'none',
-    borderBottom: `1px solid ${tokens.colorTextLightest}`
   }),
   featuresListItem: css({
     listStyleType: 'disc',
@@ -271,7 +268,7 @@ export default class AppPage extends React.Component {
         <div className={styles.section}>
           <Features />
         </div>
-        <hr className={styles.seperator} />
+        <SectionSplitter />
         <div className={styles.section}>
           <Typography>
             <Heading>Connect Optimizely</Heading>
@@ -291,7 +288,7 @@ export default class AppPage extends React.Component {
         </div>
         {!!this.props.client && (
           <div className={styles.section}>
-            <hr className={styles.seperator} />
+            <SectionSplitter />
             <Config
               client={this.props.client}
               config={this.state.config}
