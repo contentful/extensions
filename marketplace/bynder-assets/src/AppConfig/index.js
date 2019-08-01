@@ -111,6 +111,20 @@ export default class AppConfig extends React.Component {
         </Form>
 
         <Heading>Field assignment</Heading>
+        <Paragraph>
+          This app can be used with <code>Object</code> fields.
+        </Paragraph>
+        {contentTypes.length > 0 ? (
+          <Paragraph>
+            The list below enumerates all Content Types with at least one <code>Object</code> field.
+            Tick the box next to a field name to enable Bynder for it.
+          </Paragraph>
+        ) : (
+          <Paragraph>
+            There is no content type with an <code>Object</code> field. Come back to this page once
+            you create one.
+          </Paragraph>
+        )}
         <FieldSelector
           contentTypes={contentTypes}
           compatibleFields={compatibleFields}
