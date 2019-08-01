@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@contentful/forma-36-react-components/dist/components/Button/index';
+import { Button } from '@contentful/forma-36-react-components';
 import Thumbnail from './Thumbnail';
 
 function reducer(state, action) {
