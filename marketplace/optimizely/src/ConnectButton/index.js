@@ -8,26 +8,27 @@ import OptimizelyLogo from './OptimizelyLogo';
 const styles = {
   connect: css({
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    '&:hover': {
+      backgroundColor: 'transparent!important' // necessary to eliminate the forma styling in favor of the custom optimizely styling
+    }
   })
 };
 
-export default function ConnectButton({ openAuth, isFullWidth }) {
+export default function ConnectButton({ openAuth }) {
   return (
-    <Button onClick={openAuth} data-testid="connect-button" isFullWidth={isFullWidth}>
-      <div className={styles.connect}>
-        <OptimizelyLogo />
-        &nbsp; Connect with Optimizely
-      </div>
+    <Button
+      className={styles.connect}
+      onClick={openAuth}
+      data-testid="connect-button"
+      isFullWidth
+      buttonType="naked">
+      <OptimizelyLogo />
     </Button>
   );
 }
 
-ConnectButton.defaultProps = {
-  isFullWidth: false
-};
-
 ConnectButton.propTypes = {
-  openAuth: PropTypes.func.isRequired,
-  isFullWidth: PropTypes.bool
+  openAuth: PropTypes.func.isRequired
 };

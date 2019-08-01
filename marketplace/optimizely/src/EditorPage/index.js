@@ -313,7 +313,7 @@ export default function EditorPage(props) {
           <Paragraph className={styles.paragraph}>
             Your Optimizely session has expired. Reconnect to continue editing.
           </Paragraph>
-          <ConnectButton openAuth={props.openAuth} isFullWidth />
+          <ConnectButton openAuth={props.openAuth} />
         </Modal>
         <div className={styles.root} data-testid="editor-page">
           <StatusBar
