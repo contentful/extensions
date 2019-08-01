@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from '@contentful/forma-36-react-components/dist/components/Card/Card/index';
-import IconButton from '@contentful/forma-36-react-components/dist/components/IconButton/index';
+import { Card, IconButton } from '@contentful/forma-36-react-components';
 
 export default function Thumbnail({ src, onDeleteClick }) {
   return (

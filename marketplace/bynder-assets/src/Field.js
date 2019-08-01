@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@contentful/forma-36-react-components/dist/components/Button/index';
+import { Button } from '@contentful/forma-36-react-components';
 import Thumbnail from './Thumbnail';
 
 function reducer(state, action) {
@@ -37,7 +37,9 @@ function Field({ sdk }) {
       width: 900,
       title: 'Select images from Bynder',
       shouldCloseOnEscapePress: true,
-      parameters: sdk.parameters.instance
+      parameters: {
+        bynderURL: sdk.parameters.installation.bynderURL
+      }
     });
     if (assets) {
       dispatch({ type: 'add-all-assets', payload: assets });

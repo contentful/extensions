@@ -7,11 +7,11 @@ import {
   Spinner,
   Typography,
   TextField,
-  Form,
-  Subheading,
-  CheckboxField
+  Form
 } from '@contentful/forma-36-react-components';
 import { Workbench } from '@contentful/forma-36-react-components/dist/alpha';
+
+import FieldSelector from './fieldSelector';
 
 import {
   toExtensionParameters,
@@ -125,24 +125,8 @@ export default class CloudinaryAppConfig extends React.Component<Props, State> {
     }));
   };
 
-  onSelectedFieldChange = (
-    ctId: string,
-    fieldId: string,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { checked } = e.currentTarget;
-
-    this.setState(state => {
-      const updated = { ...state.selectedFields };
-
-      if (checked) {
-        updated[ctId] = (updated[ctId] || []).concat([fieldId]);
-      } else {
-        updated[ctId] = (updated[ctId] || []).filter(cur => cur !== fieldId);
-      }
-
-      return { ...state, selectedFields: updated };
-    });
+  onSelectedFieldsChange = (selectedFields: SelectedFields) => {
+    this.setState({ selectedFields });
   };
 
   renderApp() {
@@ -215,28 +199,12 @@ export default class CloudinaryAppConfig extends React.Component<Props, State> {
               once you create one.
             </Paragraph>
           )}
-          {contentTypes.map(ct => {
-            const fields = compatibleFields[ct.sys.id];
-            return (
-              <div key={ct.sys.id}>
-                <Subheading>
-                  {ct.name} ({fields.length})
-                </Subheading>
-                <Form>
-                  {fields.map(field => (
-                    <CheckboxField
-                      key={field.id}
-                      id={`field-box-${ct.sys.id}-${field.id}`}
-                      labelText={field.name}
-                      helpText={`Field ID: ${field.id}`}
-                      checked={(selectedFields[ct.sys.id] || []).includes(field.id)}
-                      onChange={this.onSelectedFieldChange.bind(this, ct.sys.id, field.id)}
-                    />
-                  ))}
-                </Form>
-              </div>
-            );
-          })}
+          <FieldSelector
+            contentTypes={contentTypes}
+            compatibleFields={compatibleFields}
+            selectedFields={selectedFields}
+            onSelectedFieldsChange={this.onSelectedFieldsChange}
+          />
         </Typography>
       </>
     );
