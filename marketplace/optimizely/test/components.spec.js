@@ -1,11 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 
-import {
-  IncorrectContentType,
-  isValidContentType,
-  MissingProjectId
-} from '../src/components/errors-messages';
+import { IncorrectContentType, isValidContentType, MissingProjectId } from '../src/errors-messages';
 
 describe('error message components', () => {
   afterEach(cleanup);

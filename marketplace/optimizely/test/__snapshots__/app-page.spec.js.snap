@@ -152,43 +152,6 @@ exports[`Optimizely App should render the editor page 1`] = `
   <hr
     class="css-14380qe"
   />
-  <button
-    class="Button__Button___1ZfFj a11y__focus-border--default___60AXp Button__Button--primary___JImeO"
-    data-test-id="cf-ui-button"
-    data-testid="connect-button"
-    type="button"
-  >
-    <span
-      class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
-      tabindex="-1"
-    >
-      <span
-        class="Button__Button__label___3tcOj"
-      >
-        <div
-          class="css-70qvj9"
-        >
-          <svg
-            data-name="Layer 1"
-            height="40"
-            id="Layer_1"
-            viewBox="40 40"
-            width="40"
-          >
-            <path
-              d="M25.5,12.77a7.65,7.65,0,0,0-1.91,3.28,7.31,7.31,0,0,0-5.41,7l5.15-5.15c0,.44,0,.89.09,1.38l-5.1,5.15a7.44,7.44,0,0,0,.75,2.17l3.28-3.28a3.24,3.24,0,0,1,.89-2.4,4.7,4.7,0,0,1,.53-.44h0a7.24,7.24,0,0,0,4.3,4.3h0a3.05,3.05,0,0,1-2.8,1.46L22,29.55a7.44,7.44,0,0,0,2.17.75l5.19-5.15a6.89,6.89,0,0,0,1.38.13l-5.19,5.1a7.31,7.31,0,0,0,7-5.41,7.28,7.28,0,1,0-3.77-14.07A7,7,0,0,0,25.5,12.77Zm7.37,7.37a3.11,3.11,0,1,1,0-4.44,3.19,3.19,0,0,1,0,4.44Z"
-              style="fill: #fff;"
-            />
-            <path
-              d="M23.28,25.33a3.76,3.76,0,0,1-.62-.84l-3.06,3,.67.8c.27.27.53.49.8.71l3-3Z"
-              style="fill: #fff;"
-            />
-          </svg>
-            Connect with Optimizely
-        </div>
-      </span>
-    </span>
-  </button>
   <h2
     class="Heading__Heading___83D3K css-1fobf8d"
     data-test-id="cf-ui-heading"
