@@ -7,8 +7,9 @@ import {
   getCompatibleFields,
   currentStateToSelectedFields,
   selectedFieldsToTargetState
-} from '../../cloudinary-assets/src/components/cloudinaryAppConfig/fields';
-import FieldSelector from '../../cloudinary-assets/src/components/cloudinaryAppConfig/fieldSelector';
+} from './fields';
+
+import FieldSelector from './FieldSelector';
 
 export default class AppConfig extends React.Component {
   static propTypes = {
@@ -35,11 +36,7 @@ export default class AppConfig extends React.Component {
 
     const bynderURL = parameters ? parameters.bynderURL || '' : '';
     const contentTypes = contentTypesRes.items || [];
-    const compatibleFields = getCompatibleFields(contentTypes);
-    const filteredContentTypes = contentTypes.filter(ct => {
-      const fields = compatibleFields[ct.sys.id];
-      return fields && fields.length > 0;
-    });
+    const { compatibleFields, filteredContentTypes } = getCompatibleFields(contentTypes);
 
     this.setState({
       ready: true,
