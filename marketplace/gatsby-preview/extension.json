@@ -1,0 +1,26 @@
+{
+  "id": "gatsby-preview",
+  "name": "Gatsby Preview",
+  "srcdoc": "./build/index.html",
+  "parameters": {
+    "installation": [
+      {
+        "id": "previewUrl",
+        "type": "Symbol",
+        "name": "The URL of your Gatsby Cloud instance",
+        "required": true
+      },
+      {
+        "id": "webhookUrl",
+        "type": "Symbol",
+        "name": "The URL of the webhook to rebuild your Gatsby Cloud instance",
+        "required": true
+      },
+      {
+        "id": "authToken",
+        "type": "Symbol",
+        "name": "Optional Authentication token for private Gatsby Cloud instances"
+      }
+    ]
+  }
+}
