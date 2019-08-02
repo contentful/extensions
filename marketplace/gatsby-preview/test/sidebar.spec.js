@@ -2,9 +2,12 @@
 import React from 'react';
 import { render, cleanup, wait } from '@testing-library/react';
 
-import App from '../src/index';
+import Sidebar from '../src/Sidebar';
 
 const mockSdk = {
+  location: {
+    is: val => val === 'entry-sidebar'
+  },
   parameters: {
     installation: {
       previewUrl: 'https://preview.com',
@@ -29,11 +32,11 @@ const mockSdk = {
   }
 };
 
-describe('Gatsby React App', () => {
+describe('Gatsby App Sidebar', () => {
   afterEach(cleanup);
 
   it('should match snapshot', () => {
-    const { container } = render(<App sdk={mockSdk} />);
+    const { container } = render(<Sidebar sdk={mockSdk} />);
 
     expect(container).toMatchSnapshot();
   });
@@ -50,7 +53,7 @@ describe('Gatsby React App', () => {
       return jest.fn();
     });
 
-    render(<App sdk={mockSdk} />);
+    render(<Sidebar sdk={mockSdk} />);
 
     await wait(
       () => {
@@ -80,7 +83,7 @@ describe('Gatsby React App', () => {
       return mockDetach;
     });
 
-    const { unmount } = render(<App sdk={mockSdk} />);
+    const { unmount } = render(<Sidebar sdk={mockSdk} />);
 
     unmount();
 

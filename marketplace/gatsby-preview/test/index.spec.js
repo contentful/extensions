@@ -16,6 +16,9 @@ function loadEntryPoint() {
 jest.mock('react-dom');
 
 const mockSdk = {
+  location: {
+    is: val => val === 'entry-sidebar'
+  },
   parameters: {
     installation: {
       previewUrl: 'https://preview.com',
@@ -44,7 +47,10 @@ function doSdkMock() {
   jest.doMock('contentful-ui-extensions-sdk', () => {
     return {
       __esModule: true,
-      init: jest.fn(fn => fn(mockSdk))
+      init: jest.fn(fn => fn(mockSdk)),
+      locations: {
+        LOCATION_ENTRY_SIDEBAR: 'entry-sidebar'
+      }
     };
   });
 }
