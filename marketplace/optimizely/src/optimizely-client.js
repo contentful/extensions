@@ -26,7 +26,7 @@ export default class OptimizelyClient {
   };
 
   getProjects() {
-    return this.makeRequest('/projects')
+    return this.makeRequest('/projects');
   }
 
   getExperiment = experimentId => {

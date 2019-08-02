@@ -58,7 +58,7 @@ function mockSdk() {
         variations: {
           getValue: jest.fn(),
           onValueChanged: jest.fn(() => jest.fn())
-        },
+        }
       }
     },
     contentType: {
