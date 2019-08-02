@@ -36,7 +36,7 @@ if (window.location.hash) {
   window.close();
 }
 
-const HOST = `${window.location.protocol}//${window.location.host}`;
+const HOST = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
 
 const url = `https://app.optimizely.com/oauth2/authorize
 ?client_id=15687650042
@@ -80,7 +80,7 @@ export default class App extends React.Component {
         const { data, origin } = event;
         const { token, expires } = data;
 
-        if (origin !== HOST || !token) {
+        if (`${origin}${window.location.pathname}` !== HOST || !token) {
           return;
         }
 
