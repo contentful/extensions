@@ -310,7 +310,7 @@ export default function EditorPage(props) {
     <SDKContext.Provider value={props.sdk}>
       <GlobalStateContext.Provider value={globalState}>
         <Modal title="Connect with Optimizely" isShown={!props.client}>
-          <Paragraph className={styles.paragraph}>
+          <Paragraph className={styles.paragraph} data-testId="reconnect-optimizely">
             Your Optimizely session has expired. Reconnect to continue editing.
           </Paragraph>
           <ConnectButton openAuth={props.openAuth} />
@@ -326,7 +326,7 @@ export default function EditorPage(props) {
           {showAuth && (
             <Note noteType="warning" className={styles.paragraph}>
               Your Optimizely session will expire soon. Click here to{' '}
-              <a onClick={props.openAuth} className={styles.link}>
+              <a onClick={props.openAuth} className={styles.link} data-testId="preemptive-connect">
                 connect with Optimizely.
               </a>
             </Note>
