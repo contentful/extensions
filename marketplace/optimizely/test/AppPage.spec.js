@@ -7,7 +7,7 @@ import projectData from './mockData/project.json';
 import contentTypesData from './mockData/contentTypes.json';
 
 const basicProps = {
-  openAuth: jest.fn(),
+  openAuth: () => {},
   accessToken: '',
   client: {},
   sdk: mockProps.sdk
@@ -15,26 +15,10 @@ const basicProps = {
 
 describe('AppPage', () => {
   afterEach(cleanup);
-
-  it('should render the AppPage with Features and connect button', () => {
-    const { container } = render(<AppPage {...basicProps} />);
-
-    expect(container).toMatchSnapshot();
-  });
-
-  it('should render the AppPage loading when first connected to Optimizely', () => {
-    const props = { ...basicProps, accessToken: '123' };
-
-    const { container } = render(<AppPage {...props} />);
-
-    expect(container).toMatchSnapshot();
-  });
-
-  it.skip('should render the Optimizely config when loaded', async () => {
-    const client = {
-      getProjects: () => Promise.resolve(projectData)
-    };
-
+  // There is potentially a bug with react/testing library here. The order that these tests run
+  // actually seems to matter. I tried calling `cleanup` in various ways but it didn't work.
+  // This test must run before the other unfortunately.
+  it('should render the Optimizely config when loaded', async () => {
     let configFunc = null;
 
     const platformAlpha = {
@@ -52,13 +36,34 @@ describe('AppPage', () => {
 
     const sdk = { ...basicProps.sdk, platformAlpha, space };
 
+    const client = {
+      getProjects: () => Promise.resolve(projectData)
+    };
+
     const props = { ...basicProps, accessToken: '123', client, sdk };
 
     const { container } = render(<AppPage {...props} />);
 
-    await wait();
+    await wait(() => {
+      if (!configFunc) {
+        throw '';
+      }
+    });
+
     await configFunc();
-    await wait();
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render the AppPage with Features and connect button', () => {
+    const { container } = render(<AppPage {...basicProps} />);
+
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render the AppPage loading when first connected to Optimizely', () => {
+    const props = { ...basicProps, accessToken: '123' };
+
+    const { container } = render(<AppPage {...props} />);
 
     expect(container).toMatchSnapshot();
   });
