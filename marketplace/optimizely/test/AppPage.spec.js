@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, render, wait } from '@testing-library/react';
+import { cleanup, render, wait, fireEvent, act } from '@testing-library/react';
 
 import AppPage from '../src/AppPage';
 import mockProps from './mockProps';
@@ -9,7 +9,9 @@ import contentTypesData from './mockData/contentTypes.json';
 const basicProps = {
   openAuth: () => {},
   accessToken: '',
-  client: {},
+  client: {
+    getProjects: () => Promise.resolve(projectData)
+  },
   sdk: mockProps.sdk
 };
 
@@ -18,7 +20,7 @@ describe('AppPage', () => {
   // There is potentially a bug with react/testing library here. The order that these tests run
   // actually seems to matter. I tried calling `cleanup` in various ways but it didn't work.
   // This test must run before the other unfortunately.
-  it('should render the Optimizely config when loaded', async () => {
+  it('should render the Optimizely config and allow for adding content types', async () => {
     let configFunc = null;
 
     const platformAlpha = {
@@ -36,13 +38,9 @@ describe('AppPage', () => {
 
     const sdk = { ...basicProps.sdk, platformAlpha, space };
 
-    const client = {
-      getProjects: () => Promise.resolve(projectData)
-    };
+    const props = { ...basicProps, accessToken: '123', sdk };
 
-    const props = { ...basicProps, accessToken: '123', client, sdk };
-
-    const { container } = render(<AppPage {...props} />);
+    const { container, getByTestId } = render(<AppPage {...props} />);
 
     await wait(() => {
       if (!configFunc) {
@@ -52,6 +50,15 @@ describe('AppPage', () => {
 
     await configFunc();
     expect(container).toMatchSnapshot();
+
+    act(() => {
+      fireEvent.click(getByTestId('add-content'));
+    });
+
+    getByTestId('content-type-selector').click();
+
+    getByTestId('content-type-selector').firstChild.click();
+    expect(getByTestId('content-type-selector')).toMatchSnapshot();
   });
 
   it('should render the AppPage with Features and connect button', () => {
