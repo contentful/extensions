@@ -1,7 +1,9 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, configure } from '@testing-library/react';
 
 import { IncorrectContentType, isValidContentType, MissingProjectId } from '../src/errors-messages';
+
+configure({ testIdAttribute: 'data-test-id' });
 
 describe('error message components', () => {
   afterEach(cleanup);

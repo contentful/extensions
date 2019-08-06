@@ -21,7 +21,7 @@ export default function ConnectButton({ openAuth }) {
     <Button
       className={styles.connect}
       onClick={openAuth}
-      data-testid="connect-button"
+      testId="connect-button"
       isFullWidth
       buttonType="naked">
       <OptimizelyLogo />

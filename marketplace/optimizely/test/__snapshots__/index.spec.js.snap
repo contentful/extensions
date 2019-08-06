@@ -3,7 +3,7 @@
 exports[`Optimizely App should render the editor page 1`] = `
 <div
   class="css-175t7kh"
-  data-testid="editor-page"
+  data-test-id="editor-page"
 >
   <div
     class="css-3p38p2"
@@ -421,7 +421,7 @@ exports[`Optimizely App should render the editor page 1`] = `
 exports[`Optimizely App should render the incorrect type message 1`] = `
 <div
   class="css-hvj582"
-  data-testid="incorrect-type"
+  data-test-id="incorrect-type"
 >
   <div
     class="Note__Note___2eSKN Note__Note--negative___3fkwL"
@@ -477,7 +477,7 @@ exports[`Optimizely App should render the incorrect type message 1`] = `
 exports[`Optimizely App should render the missing project on the sidebar 1`] = `
 <div
   class="css-hvj582"
-  data-testid="missing-project"
+  data-test-id="missing-project"
 >
   <div
     class="Note__Note___2eSKN Note__Note--negative___3fkwL"
@@ -518,12 +518,11 @@ exports[`Optimizely App should render the missing project on the sidebar 1`] = `
 
 exports[`Optimizely App should render the sidebar 1`] = `
 <div
-  data-testid="sidebar"
+  data-test-id="sidebar"
 >
   <a
     class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--primary___JImeO Button__Button--full-width___3Fmpo"
-    data-test-id="cf-ui-button"
-    data-testid="view-experiment"
+    data-test-id="view-experiment"
     href="https://app.optimizely.com/v2/projects/123/experiments/exp123/variations"
     target="_blank"
     type="button"
@@ -541,8 +540,7 @@ exports[`Optimizely App should render the sidebar 1`] = `
   </a>
   <a
     class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-82qlwu Button__Button--muted___2Wair Button__Button--full-width___3Fmpo"
-    data-test-id="cf-ui-button"
-    data-testid="view-all"
+    data-test-id="view-all"
     href="https://app.optimizely.com/v2/projects/123/experiments"
     target="_blank"
     type="button"

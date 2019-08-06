@@ -38,7 +38,7 @@ export function isValidContentType(contentType) {
 
 export function MissingProjectId() {
   return (
-    <div className={styles.container} data-testid="missing-project">
+    <div className={styles.container} data-test-id="missing-project">
       <Note noteType="negative">
         Please, set <strong>Optimizely Project ID</strong> in Extension settings.
       </Note>
@@ -49,7 +49,7 @@ export function MissingProjectId() {
 export function IncorrectContentType(props) {
   const title = `Extension "${props.sdk.ids.extension}" cannot be assigned to this content type`;
   return (
-    <div className={styles.container} data-testid="incorrect-type">
+    <div className={styles.container} data-test-id="incorrect-type">
       <Note noteType="negative" title={title}>
         <div>
           <strong>Required:</strong>{' '}

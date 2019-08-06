@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render, configure } from '@testing-library/react';
 
 import Sidebar from '../src/Sidebar';
 
@@ -132,6 +132,8 @@ function mockSdk() {
     }
   };
 }
+
+configure({ testIdAttribute: 'data-test-id' });
 
 describe('Sidebar', () => {
   afterEach(cleanup);

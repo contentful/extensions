@@ -1,7 +1,9 @@
 import React from 'react';
-import { cleanup, render, fireEvent } from '@testing-library/react';
+import { cleanup, render, fireEvent, configure } from '@testing-library/react';
 
 import ConnectButton from '../src/ConnectButton';
+
+configure({ testIdAttribute: 'data-test-id' });
 
 describe('ConnectButton', () => {
   afterEach(cleanup);
