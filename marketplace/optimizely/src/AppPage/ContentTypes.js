@@ -14,7 +14,8 @@ import {
   TextLink,
   SelectField,
   Option,
-  Modal
+  Modal,
+  Typography
 } from '@contentful/forma-36-react-components';
 import ReferenceField, { hasFieldLinkValidations } from './ReferenceField';
 import RefToolTip from './RefToolTip';
@@ -35,9 +36,6 @@ const styles = {
   refList: css({
     display: 'flex',
     flexDirection: 'row'
-  }),
-  body: css({
-    marginTop: tokens.spacingXl
   }),
   spacingMedium: css({
     marginTop: tokens.spacingM
@@ -133,11 +131,9 @@ export default function ContentTypes({
   };
 
   return (
-    <div className={styles.body}>
+    <Typography>
       <Heading>Content Types</Heading>
-      <Paragraph className={styles.spacingMedium}>
-        Select the content types for which you want to enable A/B testing.
-      </Paragraph>
+      <Paragraph>Select the content types for which you want to enable A/B testing.</Paragraph>
       <Button
         buttonType="muted"
         className={styles.spacingMedium}
@@ -218,7 +214,7 @@ export default function ContentTypes({
           </tbody>
         </Table>
       ) : null}
-    </div>
+    </Typography>
   );
 }
 
