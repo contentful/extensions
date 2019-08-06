@@ -3,10 +3,9 @@ import { cleanup, render, fireEvent, configure } from '@testing-library/react';
 
 import ConnectButton from '../src/ConnectButton';
 
+configure({ testIdAttribute: 'data-test-id' });
+
 describe('ConnectButton', () => {
-  beforeAll(() => {
-    configure({ testIdAttribute: 'data-test-id' });
-  });
   afterEach(cleanup);
 
   it('should match snapshot', () => {

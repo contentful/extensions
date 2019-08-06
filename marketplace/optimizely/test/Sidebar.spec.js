@@ -133,10 +133,9 @@ function mockSdk() {
   };
 }
 
+configure({ testIdAttribute: 'data-test-id' });
+
 describe('Sidebar', () => {
-  beforeAll(() => {
-    configure({ testIdAttribute: 'data-test-id' });
-  });
   afterEach(cleanup);
 
   it('should run all lifecycle methods', () => {

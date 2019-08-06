@@ -6,10 +6,9 @@ import mockVariantData from './mockData/mockVariantData';
 
 import EditorPage from '../src/EditorPage';
 
+configure({ testIdAttribute: 'data-test-id' });
+
 describe('EditorPage', () => {
-  beforeAll(() => {
-    configure({ testIdAttribute: 'data-test-id' });
-  });
   afterEach(cleanup);
 
   it('should show the reauth modal when no client is available', () => {

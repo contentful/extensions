@@ -150,10 +150,9 @@ function mockSdk() {
   };
 }
 
+configure({ testIdAttribute: 'data-test-id' });
+
 describe('Optimizely App', () => {
-  beforeAll(() => {
-    configure({ testIdAttribute: 'data-test-id' });
-  });
   afterEach(() => {
     cleanup();
 

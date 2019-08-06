@@ -15,10 +15,9 @@ const basicProps = {
   sdk: mockProps.sdk
 };
 
+configure({ testIdAttribute: 'data-test-id' });
+
 describe('AppPage', () => {
-  beforeAll(() => {
-    configure({ testIdAttribute: 'data-test-id' });
-  });
   afterEach(cleanup);
   // There is potentially a bug with @testing-library/react here. The order that these tests run
   // actually seems to matter. I tried calling `cleanup` in various ways but it didn't work.
