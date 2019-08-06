@@ -35,6 +35,12 @@ const styles = {
   refList: css({
     display: 'flex',
     flexDirection: 'row'
+  }),
+  body: css({
+    marginTop: tokens.spacingXl
+  }),
+  spacingMedium: css({
+    marginTop: tokens.spacingM
   })
 };
 
@@ -46,14 +52,10 @@ ContentTypes.propTypes = {
   onDeleteContentType: PropTypes.func.isRequired
 };
 
-export function isContentTypeValidSelection(contentType) {
+function isContentTypeValidSelection(contentType) {
   return (
     contentType.sys.id !== VARIATION_CONTAINER_ID && hasReferenceFieldsLinkingToEntry(contentType)
   );
-}
-
-export function isContentTypeAlreadyAdded(contentType, addedContentTypes) {
-  return addedContentTypes.includes(contentType.sys.id);
 }
 
 export default function ContentTypes({
@@ -131,14 +133,14 @@ export default function ContentTypes({
   };
 
   return (
-    <div className="f36-margin-top--xl">
+    <div className={styles.body}>
       <Heading>Content Types</Heading>
-      <Paragraph className="f36-margin-top--m">
+      <Paragraph className={styles.spacingMedium}>
         Select the content types for which you want to enable A/B testing.
       </Paragraph>
       <Button
         buttonType="muted"
-        className="f36-margin-top--m"
+        className={styles.spacingMedium}
         onClick={() => toggleModal(true)}
         testId="add-content">
         Add content type
