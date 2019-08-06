@@ -17,7 +17,7 @@ const basicProps = {
 
 describe('AppPage', () => {
   afterEach(cleanup);
-  // There is potentially a bug with react/testing library here. The order that these tests run
+  // There is potentially a bug with @testing-library/react here. The order that these tests run
   // actually seems to matter. I tried calling `cleanup` in various ways but it didn't work.
   // This test must run before the other unfortunately.
   it('should render the Optimizely config and allow for adding content types', async () => {
