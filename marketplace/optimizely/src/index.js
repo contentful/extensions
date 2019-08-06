@@ -36,10 +36,11 @@ if (window.location.hash) {
   window.close();
 }
 
+const OPTIMIZELY_CLIENT_APP_ID = '15687650042';
 const HOST = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
 
 const url = `https://app.optimizely.com/oauth2/authorize
-?client_id=15687650042
+?client_id=${OPTIMIZELY_CLIENT_APP_ID}
 &redirect_uri=${window.encodeURIComponent(HOST)}
 &response_type=token
 &scopes=all`;

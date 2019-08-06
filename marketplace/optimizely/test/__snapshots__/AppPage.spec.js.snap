@@ -478,22 +478,23 @@ exports[`AppPage should render the Optimizely config and allow for adding conten
         class="css-xqqg40"
       >
         <div
-          class="f36-margin-top--xl"
+          class="Typography__Typography___1ZUfE"
+          data-test-id="cf-ui-text-container"
         >
           <h1
-            class="Heading__Heading___83D3K"
+            class="Heading__Heading___83D3K f36-margin-bottom--m"
             data-test-id="cf-ui-heading"
           >
             Content Types
           </h1>
           <p
-            class="Paragraph__Paragraph___2aO-9 f36-margin-top--m"
+            class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
             data-test-id="cf-ui-paragraph"
           >
             Select the content types for which you want to enable A/B testing.
           </p>
           <button
-            class="Button__Button___1ZfFj a11y__focus-border--default___60AXp f36-margin-top--m Button__Button--muted___2Wair"
+            class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-15g2oxy Button__Button--muted___2Wair"
             data-test-id="add-content"
             type="button"
           >

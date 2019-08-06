@@ -14,7 +14,8 @@ import {
   TextLink,
   SelectField,
   Option,
-  Modal
+  Modal,
+  Typography
 } from '@contentful/forma-36-react-components';
 import ReferenceField, { hasFieldLinkValidations } from './ReferenceField';
 import RefToolTip from './RefToolTip';
@@ -35,6 +36,9 @@ const styles = {
   refList: css({
     display: 'flex',
     flexDirection: 'row'
+  }),
+  spacingMedium: css({
+    marginTop: tokens.spacingM
   })
 };
 
@@ -46,14 +50,10 @@ ContentTypes.propTypes = {
   onDeleteContentType: PropTypes.func.isRequired
 };
 
-export function isContentTypeValidSelection(contentType) {
+function isContentTypeValidSelection(contentType) {
   return (
     contentType.sys.id !== VARIATION_CONTAINER_ID && hasReferenceFieldsLinkingToEntry(contentType)
   );
-}
-
-export function isContentTypeAlreadyAdded(contentType, addedContentTypes) {
-  return addedContentTypes.includes(contentType.sys.id);
 }
 
 export default function ContentTypes({
@@ -131,14 +131,12 @@ export default function ContentTypes({
   };
 
   return (
-    <div className="f36-margin-top--xl">
+    <Typography>
       <Heading>Content Types</Heading>
-      <Paragraph className="f36-margin-top--m">
-        Select the content types for which you want to enable A/B testing.
-      </Paragraph>
+      <Paragraph>Select the content types for which you want to enable A/B testing.</Paragraph>
       <Button
         buttonType="muted"
-        className="f36-margin-top--m"
+        className={styles.spacingMedium}
         onClick={() => toggleModal(true)}
         testId="add-content">
         Add content type
@@ -216,7 +214,7 @@ export default function ContentTypes({
           </tbody>
         </Table>
       ) : null}
-    </div>
+    </Typography>
   );
 }
 

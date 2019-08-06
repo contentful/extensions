@@ -4,7 +4,7 @@ import { css } from 'emotion';
 
 const styles = {
   tooltip: css({
-    'z-index': '99999'
+    zIndex: '99999'
   }),
   tooltipContainer: css({
     display: 'inline-block',
