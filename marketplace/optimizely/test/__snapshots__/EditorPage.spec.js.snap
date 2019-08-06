@@ -265,7 +265,7 @@ exports[`EditorPage should show the experiment data when loaded 1`] = `
         class="css-i51og3"
       >
         <h2
-          class="Subheading__Subheading___2mA9j css-f6z6nw"
+          class="Subheading__Subheading___2mA9j css-1ih9qgr"
           data-test-id="cf-ui-subheading"
         >
           variation_1
@@ -363,7 +363,7 @@ exports[`EditorPage should show the experiment data when loaded 1`] = `
         class="css-i51og3"
       >
         <h2
-          class="Subheading__Subheading___2mA9j css-f6z6nw"
+          class="Subheading__Subheading___2mA9j css-1ih9qgr"
           data-test-id="cf-ui-subheading"
         >
           variation_2
