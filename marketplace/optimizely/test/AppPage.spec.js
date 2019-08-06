@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, render, wait, fireEvent, act } from '@testing-library/react';
+import { cleanup, render, wait, fireEvent, act, configure } from '@testing-library/react';
 
 import AppPage from '../src/AppPage';
 import mockProps from './mockProps';
@@ -16,6 +16,9 @@ const basicProps = {
 };
 
 describe('AppPage', () => {
+  beforeAll(() => {
+    configure({ testIdAttribute: 'data-test-id' });
+  });
   afterEach(cleanup);
   // There is potentially a bug with @testing-library/react here. The order that these tests run
   // actually seems to matter. I tried calling `cleanup` in various ways but it didn't work.

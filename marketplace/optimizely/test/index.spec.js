@@ -1,6 +1,6 @@
 /* global global */
 import React from 'react';
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render, configure } from '@testing-library/react';
 
 import App from '../src';
 global.window.close = () => {};
@@ -151,6 +151,9 @@ function mockSdk() {
 }
 
 describe('Optimizely App', () => {
+  beforeAll(() => {
+    configure({ testIdAttribute: 'data-test-id' });
+  });
   afterEach(() => {
     cleanup();
 

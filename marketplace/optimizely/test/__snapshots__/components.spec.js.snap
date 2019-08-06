@@ -4,7 +4,7 @@ exports[`error message components IncorrectContentType should match snapshot 1`]
 <div>
   <div
     class="css-hvj582"
-    data-testid="incorrect-type"
+    data-test-id="incorrect-type"
   >
     <div
       class="Note__Note___2eSKN Note__Note--negative___3fkwL"
@@ -62,7 +62,7 @@ exports[`error message components MissingProjectId should match snapshot 1`] = `
 <div>
   <div
     class="css-hvj582"
-    data-testid="missing-project"
+    data-test-id="missing-project"
   >
     <div
       class="Note__Note___2eSKN Note__Note--negative___3fkwL"

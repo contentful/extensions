@@ -140,7 +140,7 @@ export default function ContentTypes({
         buttonType="muted"
         className="f36-margin-top--m"
         onClick={() => toggleModal(true)}
-        data-testId="add-content">
+        testId="add-content">
         Add content type
       </Button>
       <Modal title="Add content type" isShown={modalOpen} onClose={closeModal}>
@@ -159,7 +159,7 @@ export default function ContentTypes({
                 selectProps={{ width: 'medium' }}
                 onChange={e => onSelectContentType(e.target.value)}
                 value={selectedContentType || ''}
-                data-testId="content-type-selector"
+                testId="content-type-selector"
                 required>
                 <Option value="" disabled>
                   Select content type
@@ -181,7 +181,7 @@ export default function ContentTypes({
                     id={field}
                     checked={checkedFields[field] || selectedReferenceFields[field]}
                     onSelect={checked => onSelectReferenceField({ [field]: checked })}
-                    data-testId="reference-field"
+                    testId="reference-field"
                   />
                 ))}
               </div>

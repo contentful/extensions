@@ -4,7 +4,7 @@ exports[`EditorPage should show the experiment data when loaded 1`] = `
 <div>
   <div
     class="css-175t7kh"
-    data-testid="editor-page"
+    data-test-id="editor-page"
   >
     <div
       class="css-3p38p2"
@@ -465,7 +465,7 @@ exports[`EditorPage should show the experiment data when loaded 1`] = `
 exports[`EditorPage should show the preemtive reconnect warning box 1`] = `
 <a
   class="css-1lglquy"
-  data-testid="preemptive-connect"
+  data-test-id="preemptive-connect"
 >
   connect with Optimizely.
 </a>
@@ -474,8 +474,7 @@ exports[`EditorPage should show the preemtive reconnect warning box 1`] = `
 exports[`EditorPage should show the reauth modal when no client is available 1`] = `
 <p
   class="Paragraph__Paragraph___2aO-9 css-acwcvw"
-  data-test-id="cf-ui-paragraph"
-  data-testid="reconnect-optimizely"
+  data-test-id="reconnect-optimizely"
 >
   Your Optimizely session has expired. Reconnect to continue editing.
 </p>

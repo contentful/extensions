@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, render, wait } from '@testing-library/react';
+import { cleanup, render, wait, configure } from '@testing-library/react';
 
 import mockProps from './mockProps';
 import mockVariantData from './mockData/mockVariantData';
@@ -7,6 +7,9 @@ import mockVariantData from './mockData/mockVariantData';
 import EditorPage from '../src/EditorPage';
 
 describe('EditorPage', () => {
+  beforeAll(() => {
+    configure({ testIdAttribute: 'data-test-id' });
+  });
   afterEach(cleanup);
 
   it('should show the reauth modal when no client is available', () => {

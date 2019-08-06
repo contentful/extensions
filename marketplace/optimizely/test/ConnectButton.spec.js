@@ -1,9 +1,12 @@
 import React from 'react';
-import { cleanup, render, fireEvent } from '@testing-library/react';
+import { cleanup, render, fireEvent, configure } from '@testing-library/react';
 
 import ConnectButton from '../src/ConnectButton';
 
 describe('ConnectButton', () => {
+  beforeAll(() => {
+    configure({ testIdAttribute: 'data-test-id' });
+  });
   afterEach(cleanup);
 
   it('should match snapshot', () => {
