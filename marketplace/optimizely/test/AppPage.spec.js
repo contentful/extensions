@@ -58,9 +58,11 @@ describe('AppPage', () => {
       fireEvent.click(getByTestId('add-content'));
     });
 
+    // first we select the `select` element
     getByTestId('content-type-selector').click();
-
+    // then we select the first `option` element
     getByTestId('content-type-selector').firstChild.click();
+
     expect(getByTestId('content-type-selector')).toMatchSnapshot();
   });
 
