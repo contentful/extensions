@@ -8,14 +8,14 @@ body {
   vertical-align: baseline;
 }
 
-.preview-button {
+.site-button {
   height: 2.5rem;
   padding: 0 !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
   font-family: "Avenir Next W01", Helvetica, sans-serif !important;
 }
-.preview-button:focus {
+.site-button:focus {
   outline: 0;
   border: 1px solid #f1defa;
 }
