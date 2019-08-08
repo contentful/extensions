@@ -6,7 +6,7 @@
   "parameters": {
     "installation": [
       {
-        "id": "instanceUrl",
+        "id": "previewUrl",
         "type": "Symbol",
         "name": "The url of your Gatsby Cloud site"
       },

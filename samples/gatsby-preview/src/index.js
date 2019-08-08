@@ -66,12 +66,12 @@ class App extends React.Component {
       parameters: { installation },
       entry
     } = this.props.sdk;
-    const { instanceUrl, authToken } = installation;
+    const { previewUrl, authToken } = installation;
     const { slug: contentSlug } = entry.fields;
     return (
       <div className="extension">
         <div className="flexcontainer">
-          <ExtensionUI contentSlug={contentSlug && contentSlug.getValue()} siteUrl={instanceUrl} authToken={authToken} />
+          <ExtensionUI contentSlug={contentSlug && contentSlug.getValue()} siteUrl={previewUrl} authToken={authToken} />
         </div>
       </div>
     );
