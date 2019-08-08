@@ -1,0 +1,732 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppPage should render the AppPage loading when first connected to Optimizely 1`] = `
+<div>
+  <div
+    class="css-udl8of"
+  >
+    <div
+      class="css-xqqg40"
+    >
+      <div
+        class="f36-margin-top--l"
+      >
+        <div
+          class="Typography__Typography___1ZUfE"
+          data-test-id="cf-ui-text-container"
+        >
+          <h1
+            class="Heading__Heading___83D3K f36-margin-bottom--m"
+            data-test-id="cf-ui-heading"
+          >
+            Features
+          </h1>
+          <p
+            class="Paragraph__Paragraph___2aO-9 f36-margin-top--m f36-margin-bottom--m"
+            data-test-id="cf-ui-paragraph"
+          >
+            Optimizely integration enables:
+          </p>
+          <ul
+            class="List__List___1awv4 f36-margin-top--m f36-margin-bottom--m"
+            data-test-id="cf-ui-list"
+          >
+            <li
+              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
+              data-test-id="cf-ui-list-item"
+            >
+              Loading experiments from Optimizely
+            </li>
+            <li
+              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
+              data-test-id="cf-ui-list-item"
+            >
+              Adding content to variations
+            </li>
+            <li
+              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
+              data-test-id="cf-ui-list-item"
+            >
+              Seeing all experiments connected with Contentful (drafts, running, ended)
+            </li>
+          </ul>
+          <p
+            class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
+            data-test-id="cf-ui-paragraph"
+          >
+            Check out the
+             
+            <a
+              class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 TextLink__TextLink--primary___2Vc9F"
+              data-test-id="cf-ui-text-link"
+              href="https://www.contentful.com/developers/docs/extensibility/apps/optimizely/"
+              target="_blank"
+            >
+              <span
+                class="TabFocusTrap__TabFocusTrap___39Vty"
+                tabindex="-1"
+              >
+                documentation
+              </span>
+            </a>
+             
+            for more information.
+          </p>
+        </div>
+      </div>
+    </div>
+    <hr
+      class="css-14380qe"
+    />
+    <div
+      class="css-xqqg40"
+    >
+      <div
+        class="Typography__Typography___1ZUfE"
+        data-test-id="cf-ui-text-container"
+      >
+        <h1
+          class="Heading__Heading___83D3K f36-margin-bottom--m"
+          data-test-id="cf-ui-heading"
+        >
+          Connect Optimizely
+        </h1>
+        <p
+          class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
+          data-test-id="cf-ui-paragraph"
+        >
+          You’re currently connected to Optimizely.
+        </p>
+        <p
+          class="Paragraph__Paragraph___2aO-9 css-av19da f36-margin-bottom--m"
+          data-test-id="cf-ui-paragraph"
+        >
+          An access token is valid for 2 hours then you must reauthorize.
+        </p>
+      </div>
+    </div>
+    <div
+      class="css-xqqg40"
+    >
+      <hr
+        class="css-14380qe"
+      />
+      <div>
+        Loading 
+        <svg
+          class="Spinner__Spinner___32lpa Spinner__Spinner--default___1UP1r"
+          data-test-id="cf-ui-spinner"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>
+            Loading…
+          </title>
+          <path
+            d="M2,10a8,8,0,0,1,8-8V0a10,10,0,0,0,0,20V18A8,8,0,0,1,2,10Z"
+          />
+          <path
+            d="M10,0V2a8,8,0,0,1,0,16v2A10,10,0,0,0,10,0Z"
+            style="opacity: 0.4;"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AppPage should render the AppPage with Features and connect button 1`] = `
+<div>
+  <div
+    class="css-udl8of"
+  >
+    <div
+      class="css-xqqg40"
+    >
+      <div
+        class="f36-margin-top--l"
+      >
+        <div
+          class="Typography__Typography___1ZUfE"
+          data-test-id="cf-ui-text-container"
+        >
+          <h1
+            class="Heading__Heading___83D3K f36-margin-bottom--m"
+            data-test-id="cf-ui-heading"
+          >
+            Features
+          </h1>
+          <p
+            class="Paragraph__Paragraph___2aO-9 f36-margin-top--m f36-margin-bottom--m"
+            data-test-id="cf-ui-paragraph"
+          >
+            Optimizely integration enables:
+          </p>
+          <ul
+            class="List__List___1awv4 f36-margin-top--m f36-margin-bottom--m"
+            data-test-id="cf-ui-list"
+          >
+            <li
+              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
+              data-test-id="cf-ui-list-item"
+            >
+              Loading experiments from Optimizely
+            </li>
+            <li
+              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
+              data-test-id="cf-ui-list-item"
+            >
+              Adding content to variations
+            </li>
+            <li
+              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
+              data-test-id="cf-ui-list-item"
+            >
+              Seeing all experiments connected with Contentful (drafts, running, ended)
+            </li>
+          </ul>
+          <p
+            class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
+            data-test-id="cf-ui-paragraph"
+          >
+            Check out the
+             
+            <a
+              class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 TextLink__TextLink--primary___2Vc9F"
+              data-test-id="cf-ui-text-link"
+              href="https://www.contentful.com/developers/docs/extensibility/apps/optimizely/"
+              target="_blank"
+            >
+              <span
+                class="TabFocusTrap__TabFocusTrap___39Vty"
+                tabindex="-1"
+              >
+                documentation
+              </span>
+            </a>
+             
+            for more information.
+          </p>
+        </div>
+      </div>
+    </div>
+    <hr
+      class="css-14380qe"
+    />
+    <div
+      class="css-xqqg40"
+    >
+      <div
+        class="Typography__Typography___1ZUfE"
+        data-test-id="cf-ui-text-container"
+      >
+        <h1
+          class="Heading__Heading___83D3K f36-margin-bottom--m"
+          data-test-id="cf-ui-heading"
+        >
+          Connect Optimizely
+        </h1>
+        <p
+          class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
+          data-test-id="cf-ui-paragraph"
+        >
+          You’re currently connected to Optimizely.
+        </p>
+        <p
+          class="Paragraph__Paragraph___2aO-9 css-av19da f36-margin-bottom--m"
+          data-test-id="cf-ui-paragraph"
+        >
+          An access token is valid for 2 hours then you must reauthorize.
+        </p>
+      </div>
+    </div>
+    <div
+      class="css-xqqg40"
+    >
+      <hr
+        class="css-14380qe"
+      />
+      <div>
+        Loading 
+        <svg
+          class="Spinner__Spinner___32lpa Spinner__Spinner--default___1UP1r"
+          data-test-id="cf-ui-spinner"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>
+            Loading…
+          </title>
+          <path
+            d="M2,10a8,8,0,0,1,8-8V0a10,10,0,0,0,0,20V18A8,8,0,0,1,2,10Z"
+          />
+          <path
+            d="M10,0V2a8,8,0,0,1,0,16v2A10,10,0,0,0,10,0Z"
+            style="opacity: 0.4;"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AppPage should render the Optimizely config and allow for adding content types 1`] = `
+<div>
+  <div
+    class="css-udl8of"
+  >
+    <div
+      class="css-xqqg40"
+    >
+      <div
+        class="f36-margin-top--l"
+      >
+        <div
+          class="Typography__Typography___1ZUfE"
+          data-test-id="cf-ui-text-container"
+        >
+          <h1
+            class="Heading__Heading___83D3K f36-margin-bottom--m"
+            data-test-id="cf-ui-heading"
+          >
+            Features
+          </h1>
+          <p
+            class="Paragraph__Paragraph___2aO-9 f36-margin-top--m f36-margin-bottom--m"
+            data-test-id="cf-ui-paragraph"
+          >
+            Optimizely integration enables:
+          </p>
+          <ul
+            class="List__List___1awv4 f36-margin-top--m f36-margin-bottom--m"
+            data-test-id="cf-ui-list"
+          >
+            <li
+              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
+              data-test-id="cf-ui-list-item"
+            >
+              Loading experiments from Optimizely
+            </li>
+            <li
+              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
+              data-test-id="cf-ui-list-item"
+            >
+              Adding content to variations
+            </li>
+            <li
+              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
+              data-test-id="cf-ui-list-item"
+            >
+              Seeing all experiments connected with Contentful (drafts, running, ended)
+            </li>
+          </ul>
+          <p
+            class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
+            data-test-id="cf-ui-paragraph"
+          >
+            Check out the
+             
+            <a
+              class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 TextLink__TextLink--primary___2Vc9F"
+              data-test-id="cf-ui-text-link"
+              href="https://www.contentful.com/developers/docs/extensibility/apps/optimizely/"
+              target="_blank"
+            >
+              <span
+                class="TabFocusTrap__TabFocusTrap___39Vty"
+                tabindex="-1"
+              >
+                documentation
+              </span>
+            </a>
+             
+            for more information.
+          </p>
+        </div>
+      </div>
+    </div>
+    <hr
+      class="css-14380qe"
+    />
+    <div
+      class="css-xqqg40"
+    >
+      <div
+        class="Typography__Typography___1ZUfE"
+        data-test-id="cf-ui-text-container"
+      >
+        <h1
+          class="Heading__Heading___83D3K f36-margin-bottom--m"
+          data-test-id="cf-ui-heading"
+        >
+          Connect Optimizely
+        </h1>
+        <p
+          class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
+          data-test-id="cf-ui-paragraph"
+        >
+          You’re currently connected to Optimizely.
+        </p>
+        <p
+          class="Paragraph__Paragraph___2aO-9 css-av19da f36-margin-bottom--m"
+          data-test-id="cf-ui-paragraph"
+        >
+          An access token is valid for 2 hours then you must reauthorize.
+        </p>
+      </div>
+    </div>
+    <div
+      class="css-xqqg40"
+    >
+      <hr
+        class="css-14380qe"
+      />
+      <div
+        class="css-xqqg40"
+      >
+        <div
+          class="f36-margin-top--xl"
+        >
+          <h1
+            class="Heading__Heading___83D3K"
+            data-test-id="cf-ui-heading"
+          >
+            Optimizely Project
+          </h1>
+          <p
+            class="Paragraph__Paragraph___2aO-9 f36-margin-top--m"
+            data-test-id="cf-ui-paragraph"
+          >
+            Works only with Optimizely Full Stack projects
+          </p>
+          <div
+            class="SelectField__SelectField___kbQlf f36-margin-top--m"
+            data-test-id="cf-ui-select-field"
+            width="large"
+          >
+            <div
+              class="SelectField__SelectField__label-wrapper___3jGwo"
+            >
+              <label
+                class="FormLabel__FormLabel___3d6zQ"
+                data-test-id="cf-ui-form-label"
+                for="project"
+              >
+                Project
+                <span
+                  class="FormLabel__FormLabel__required-text___3mvdm"
+                >
+                  (
+                  required
+                  )
+                </span>
+              </label>
+            </div>
+            <div
+              class="Select__Select__wrapper___2pBIz Select__Select--full___7ei7d"
+            >
+              <select
+                aria-label="project"
+                class="Select__Select___31Z46 a11y__focus-border--default___60AXp"
+                data-test-id="cf-ui-select"
+                id="project"
+                name="project"
+                required=""
+              >
+                <option
+                  data-test-id="cf-ui-select-option"
+                  value=""
+                >
+                  Select Optimizely Project
+                </option>
+                <option
+                  data-test-id="cf-ui-select-option"
+                  value="57438502"
+                >
+                  My Project
+                </option>
+                <option
+                  data-test-id="cf-ui-select-option"
+                  value="4567"
+                >
+                  [Demo] - Docs tutorial
+                </option>
+              </select>
+              <svg
+                class="Icon__Icon___38Epv Select__Select__icon___boRAZ Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+                data-test-id="cf-ui-icon"
+                height="24"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7 10l5 5 5-5z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="css-xqqg40"
+      >
+        <div
+          class="Typography__Typography___1ZUfE"
+          data-test-id="cf-ui-text-container"
+        >
+          <h1
+            class="Heading__Heading___83D3K f36-margin-bottom--m"
+            data-test-id="cf-ui-heading"
+          >
+            Content Types
+          </h1>
+          <p
+            class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
+            data-test-id="cf-ui-paragraph"
+          >
+            Select the content types for which you want to enable A/B testing.
+          </p>
+          <button
+            class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-15g2oxy Button__Button--muted___2Wair"
+            data-test-id="add-content"
+            type="button"
+          >
+            <span
+              class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+              tabindex="-1"
+            >
+              <span
+                class="Button__Button__label___3tcOj"
+              >
+                Add content type
+              </span>
+            </span>
+          </button>
+          <table
+            cellpadding="0"
+            cellspacing="0"
+            class="css-1ogakd7 Table__Table___2x3zV"
+            data-test-id="cf-ui-table"
+          >
+            <tbody>
+              <tr
+                class="TableRow__TableRow___3kcNC"
+                data-test-id="cf-ui-table-row"
+              >
+                <td
+                  align="left"
+                  class="TableCell__TableCell___Wou8a css-qd6c40"
+                  data-test-id="cf-ui-table-cell"
+                  style="top: 0px;"
+                >
+                  <strong>
+                    Experiment
+                  </strong>
+                </td>
+                <td
+                  align="left"
+                  class="TableCell__TableCell___Wou8a css-qd6c40"
+                  data-test-id="cf-ui-table-cell"
+                  style="top: 0px;"
+                >
+                  <div>
+                    Authors
+                     
+                  </div>
+                </td>
+                <td
+                  align="left"
+                  class="TableCell__TableCell___Wou8a css-qd6c40"
+                  data-test-id="cf-ui-table-cell"
+                  style="top: 0px;"
+                >
+                  <button
+                    class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 css-uoder TextLink__TextLink--primary___2Vc9F"
+                    data-test-id="cf-ui-text-link"
+                    type="button"
+                  >
+                    <span
+                      class="TabFocusTrap__TabFocusTrap___39Vty"
+                      tabindex="-1"
+                    >
+                      Edit
+                    </span>
+                  </button>
+                  <button
+                    class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 css-uoder TextLink__TextLink--negative___3yhMk"
+                    data-test-id="cf-ui-text-link"
+                    type="button"
+                  >
+                    <span
+                      class="TabFocusTrap__TabFocusTrap___39Vty"
+                      tabindex="-1"
+                    >
+                      Delete
+                    </span>
+                  </button>
+                </td>
+              </tr>
+              <tr
+                class="TableRow__TableRow___3kcNC"
+                data-test-id="cf-ui-table-row"
+              >
+                <td
+                  align="left"
+                  class="TableCell__TableCell___Wou8a css-qd6c40"
+                  data-test-id="cf-ui-table-cell"
+                  style="top: 0px;"
+                >
+                  <strong>
+                    Author
+                  </strong>
+                </td>
+                <td
+                  align="left"
+                  class="TableCell__TableCell___Wou8a css-qd6c40"
+                  data-test-id="cf-ui-table-cell"
+                  style="top: 0px;"
+                >
+                  <div>
+                    Bio
+                     
+                    <div
+                      class="css-2k2f2j"
+                    >
+                      <span
+                        class="Tooltip__Tooltip__target-wrapper___Mtw42"
+                      >
+                        <svg
+                          class="Icon__Icon___38Epv Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+                          data-test-id="cf-ui-icon"
+                          height="18"
+                          viewBox="0 0 24 24"
+                          width="18"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                          />
+                          <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </td>
+                <td
+                  align="left"
+                  class="TableCell__TableCell___Wou8a css-qd6c40"
+                  data-test-id="cf-ui-table-cell"
+                  style="top: 0px;"
+                >
+                  <button
+                    class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 css-uoder TextLink__TextLink--primary___2Vc9F"
+                    data-test-id="cf-ui-text-link"
+                    type="button"
+                  >
+                    <span
+                      class="TabFocusTrap__TabFocusTrap___39Vty"
+                      tabindex="-1"
+                    >
+                      Edit
+                    </span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AppPage should render the Optimizely config and allow for adding content types 2`] = `
+<div
+  class="SelectField__SelectField___kbQlf"
+  data-test-id="content-type-selector"
+>
+  <div
+    class="SelectField__SelectField__label-wrapper___3jGwo"
+  >
+    <label
+      class="FormLabel__FormLabel___3d6zQ"
+      data-test-id="cf-ui-form-label"
+      for="content-types"
+    >
+      Content Type
+      <span
+        class="FormLabel__FormLabel__required-text___3mvdm"
+      >
+        (
+        required
+        )
+      </span>
+    </label>
+  </div>
+  <div
+    class="Select__Select__wrapper___2pBIz Select__Select--medium___1Hmlq"
+  >
+    <select
+      aria-label="content-types"
+      class="Select__Select___31Z46 a11y__focus-border--default___60AXp"
+      data-test-id="cf-ui-select"
+      id="content-types"
+      name="content-types"
+      required=""
+    >
+      <option
+        data-test-id="cf-ui-select-option"
+        disabled=""
+        value=""
+      >
+        Select content type
+      </option>
+      <option
+        data-test-id="cf-ui-select-option"
+        value="experiment"
+      >
+        Experiment
+      </option>
+      <option
+        data-test-id="cf-ui-select-option"
+        value="someOtherThing"
+      >
+        SomeOtherThing
+      </option>
+      <option
+        data-test-id="cf-ui-select-option"
+        value="author"
+      >
+        Author
+      </option>
+    </select>
+    <svg
+      class="Icon__Icon___38Epv Select__Select__icon___boRAZ Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+      data-test-id="cf-ui-icon"
+      height="24"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M7 10l5 5 5-5z"
+      />
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+      />
+    </svg>
+  </div>
+</div>
+`;

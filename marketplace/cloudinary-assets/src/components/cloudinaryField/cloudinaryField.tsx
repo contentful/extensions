@@ -1,25 +1,24 @@
 import * as React from 'react';
 import { Button } from '@contentful/forma-36-react-components';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
-import { ExtensionParameters, CloudinaryResponse, CloudinaryResource } from '../../interface';
+import { CloudinaryResource } from '../../cloudinaryInterfaces';
 import { SortableComponent } from '../sortable/sortable';
-import extension from '../../../extension.json';
+import { ExtensionParameters } from '../cloudinaryAppConfig/parameters';
 
 interface Props {
   sdk: FieldExtensionSDK;
 }
 
 interface State {
-  value?: CloudinaryResource[];
-  config: ExtensionParameters;
+  value: CloudinaryResource[];
 }
 
-export class CloudinaryField extends React.Component<Props, State> {
+export default class CloudinaryField extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
+    const value = props.sdk.field.getValue();
     this.state = {
-      value: props.sdk.field.getValue() || [],
-      config: props.sdk.parameters.instance as any
+      value: Array.isArray(value) ? value : []
     };
   }
 
@@ -38,49 +37,49 @@ export class CloudinaryField extends React.Component<Props, State> {
     }
   }
 
-  onExternalChange = (value: CloudinaryResource[]) => {
-    this.setState({ value });
+  onExternalChange = (value?: CloudinaryResource[]) => {
+    this.setState({ value: Array.isArray(value) ? value : [] });
   };
 
-  updateStateValue = (value: CloudinaryResource[]) => {
+  updateStateValue = async (value: CloudinaryResource[]) => {
     this.setState({ value });
-    this.props.sdk.field.setValue(value);
-  };
-
-  onCloudinaryDialogOpen = () => {
-    let maxSelectableFiles = this.state.config.maxFiles;
-
-    if (Array.isArray(this.state.value)) {
-      maxSelectableFiles -= this.state.value.length;
+    if (value.length > 0) {
+      await this.props.sdk.field.setValue(value);
+    } else {
+      await this.props.sdk.field.removeValue();
     }
-
-    this.props.sdk.dialogs
-      .openExtension({
-        id: extension.id,
-        position: 'center',
-        title: 'Select or Upload Media',
-        shouldCloseOnOverlayClick: true,
-        shouldCloseOnEscapePress: true,
-        parameters: { ...this.state.config, maxFiles: maxSelectableFiles },
-        width: 1100
-      })
-      .then(this.handleCloudinaryData);
   };
 
-  handleCloudinaryData = (data: CloudinaryResponse) => {
-    const currentState = this.state.value || [];
-    const newState = currentState.concat(data.assets);
-    this.updateStateValue(newState);
+  onCloudinaryDialogOpen = async () => {
+    const config = this.props.sdk.parameters.installation as ExtensionParameters;
+    const maxFiles = config.maxFiles - this.state.value.length;
+
+    const data = await this.props.sdk.dialogs.openExtension({
+      position: 'center',
+      title: 'Select or Upload Media',
+      shouldCloseOnOverlayClick: true,
+      shouldCloseOnEscapePress: true,
+      parameters: { ...config, maxFiles },
+      width: 1400
+    });
+
+    const newValue = [...(this.state.value || []), ...data.assets];
+
+    await this.updateStateValue(newValue);
   };
 
   render = () => {
+    const config = this.props.sdk.parameters.installation as ExtensionParameters;
+    const hasItems = this.state.value.length > 0;
+    const isDisabled = this.state.value.length >= config.maxFiles;
+
     return (
-      <React.Fragment>
-        {this.state.value && this.state.value.length > 0 && (
+      <>
+        {hasItems && (
           <SortableComponent
             resources={this.state.value}
             onChange={this.updateStateValue}
-            config={this.state.config}
+            config={config}
           />
         )}
         <div className="actions">
@@ -90,11 +89,11 @@ export class CloudinaryField extends React.Component<Props, State> {
             buttonType="muted"
             size="small"
             onClick={this.onCloudinaryDialogOpen}
-            disabled={this.state.value && this.state.value.length >= this.state.config.maxFiles}>
-            {this.state.config.btnTxt}
+            disabled={isDisabled}>
+            Select or upload a file on Cloudinary
           </Button>
         </div>
-      </React.Fragment>
+      </>
     );
   };
 }

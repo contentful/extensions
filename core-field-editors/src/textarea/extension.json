@@ -1,6 +1,0 @@
-{
-  "id": "textarea",
-  "name": "Textarea",
-  "fieldTypes": ["Symbol", "Text"],
-  "srcdoc": "editor.dist.html"
-}

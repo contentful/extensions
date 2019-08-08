@@ -1,0 +1,26 @@
+{
+  "id": "gatsby-cloud",
+  "name": "Gatsby Cloud",
+  "srcdoc": "./build/index.html",
+  "parameters": {
+    "installation": [
+      {
+        "id": "siteUrl",
+        "type": "Symbol",
+        "name": "The URL of your Gatsby Cloud site",
+        "required": true
+      },
+      {
+        "id": "webhookUrl",
+        "type": "Symbol",
+        "name": "The URL of the webhook to rebuild your Gatsby Cloud site",
+        "required": true
+      },
+      {
+        "id": "authToken",
+        "type": "Symbol",
+        "name": "Optional Authentication token for private Gatsby Cloud sites"
+      }
+    ]
+  }
+}

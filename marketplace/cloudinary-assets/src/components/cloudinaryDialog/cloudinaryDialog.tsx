@@ -1,24 +1,12 @@
 import * as React from 'react';
 import { DialogExtensionSDK } from 'contentful-ui-extensions-sdk';
-import { ExtensionParameters } from '../../interface';
+import { ExtensionParameters } from '../cloudinaryAppConfig/parameters';
 
 interface Props {
   sdk: DialogExtensionSDK;
 }
 
-interface State {
-  config: ExtensionParameters;
-}
-
-export default class CloudinaryDialog extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      config: props.sdk.parameters.invocation as any
-    };
-  }
-
+export default class CloudinaryDialog extends React.Component<Props> {
   componentDidMount() {
     const cloudinary = this.loadCloudinaryScript();
     cloudinary.show();
@@ -26,25 +14,28 @@ export default class CloudinaryDialog extends React.Component<Props, State> {
   }
 
   loadCloudinaryScript() {
+    // eslint-disable-next-line
     const cloudinary = (window as any).cloudinary;
+    const config = this.props.sdk.parameters.invocation as ExtensionParameters;
 
     const options = {
-      cloud_name: this.state.config.cloudName,
-      api_key: this.state.config.apiKey,
-      max_files: this.state.config.maxFiles,
-      multiple: this.state.config.maxFiles > 1,
+      cloud_name: config.cloudName,
+      api_key: config.apiKey,
+      max_files: config.maxFiles,
+      multiple: config.maxFiles > 1,
       inline_container: '#root',
       remove_header: true
     };
 
     return cloudinary.createMediaLibrary(options, {
-      insertHandler: data => {
+      // eslint-disable-next-line
+      insertHandler: (data: any) => {
         this.props.sdk.close(data);
       }
     });
   }
 
   render() {
-    return <span></span>;
+    return <span />;
   }
 }

@@ -24,7 +24,7 @@ jobs:
             - ./node_modules
       - run:
           name: Install extension dependencies
-          command: npm run bootstrap
+          command: npm run bootstrap -- --concurrency=2
       - run:
           name: Check code style
           command: npm run prettier-check
@@ -32,8 +32,11 @@ jobs:
           name: Linting code
           command: npm run lint
       - run:
+          name: Typechecking code
+          command: npm run tsc
+      - run:
           name: Running unit tests
-          command: npm run coverage
+          command: npm run test:coverage
       - run:
           name: Building extension code
           command: npm run build
@@ -42,7 +45,7 @@ jobs:
           paths:
             - ./dist
       - codecov/upload:
-          file: marketplace/*/coverage/*.json
+          file: marketplace/*/.coverage/*.json
           flags: extensions
   deploy:
     docker: *docker

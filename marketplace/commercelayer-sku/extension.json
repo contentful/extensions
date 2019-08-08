@@ -1,0 +1,31 @@
+{
+  "id": "commercelayer-sku",
+  "name": "Commerce Layer SKU",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": ["Object"],
+  "parameters": {
+    "instance": [
+      {
+        "id": "clientID",
+        "name": "Commerce Layer Client ID",
+        "type": "Symbol",
+        "description": "The Client ID of your Contentful application on Commerce Layer. Visit the setttings area on your Commerce Layer store to manage your organization's applications and generate the credentials for Contentful.",
+        "required": true
+      },
+      {
+        "id": "clientSecret",
+        "name": "Commerce Layer Client secret",
+        "type": "Symbol",
+        "description": "The Client secret of your Contentful application on Commerce Layer. Visit the setttings area on your Commerce Layer store to manage your organization's applications and generate the credentials for Contentful.",
+        "required": true
+      },
+      {
+        "id": "endpoint",
+        "name": "Commerce Layer Endpoint",
+        "type": "Symbol",
+        "description": "The Endpoint of your organization on Commerce Layer.",
+        "required": true
+      }
+    ]
+  }
+}

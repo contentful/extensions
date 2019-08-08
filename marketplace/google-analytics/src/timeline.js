@@ -13,6 +13,7 @@ class Timeline extends React.Component {
     };
   }
   componentDidMount() {
+    // eslint-disable-next-line
     this.setState({
       timeline: new gapi.analytics.googleCharts.DataChart({
         reportType: 'ga',

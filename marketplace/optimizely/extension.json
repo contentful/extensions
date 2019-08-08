@@ -1,0 +1,15 @@
+{
+  "id": "optimizely",
+  "name": "Optimizely Experiment",
+  "srcdoc": "./build/index.html",
+  "parameters": {
+    "installation": [
+      {
+        "id": "optimizelyProjectId",
+        "type": "Symbol",
+        "name": "Optimizely Project ID",
+        "required": true
+      }
+    ]
+  }
+}

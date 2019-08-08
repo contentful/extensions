@@ -1,6 +1,6 @@
 # Contentful extensions repository
 
-This repository provides samples of Contentful UI extensions, developed using the [UI Extensions SDK](https://www.contentful.com/developers/docs/extensibility/ui-extensions/sdk-reference/). 
+This repository provides samples of Contentful UI extensions, developed using the [UI Extensions SDK](https://www.contentful.com/developers/docs/extensibility/ui-extensions/sdk-reference/).
 
 If you don't know what UI Extensions are or how to use them, please refer to our [documentation](https://www.contentful.com/developers/docs/extensibility/ui-extensions/).
 
@@ -11,10 +11,6 @@ This folder contains officially maintained, production quality extensions that a
 ## UI extension examples
 
 We are offering a currated list of UI Extension examples under [samples](./samples) which demonstrate many popular use cases such as working with digital asset management, talking to third party APIs, doing OAuth or trigger builds.
-
-## Core field editor extensions
-
-We're progressively opening our [core field editors](./core-field-editors) within this repository, allowing you to understand how each component works, and create your own extensions based on them rather than starting from scratch.
 
 ## Resources
 

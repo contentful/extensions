@@ -12,9 +12,9 @@
     "contentful-cli": "0.26.2"
   },
   "dependencies": {
-    "@contentful/forma-36-fcss": "0.0.17",
-    "@contentful/forma-36-react-components": "3.0.0",
-    "@contentful/forma-36-tokens": "0.3.0",
+"@contentful/forma-36-fcss": "^0.0.27",
+"@contentful/forma-36-react-components": "^3.15.14",
+"@contentful/forma-36-tokens": "^0.4.1",
     "@gatsby-cloud-pkg/gatsby-cms-extension-base": "^0.0.25",
     "contentful-ui-extensions-sdk": "3.7.2",
     "prop-types": "15.7.2",

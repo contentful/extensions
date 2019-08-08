@@ -1,17 +1,21 @@
 import * as React from 'react';
-import { CloudinaryResource, ExtensionParameters } from '../../interface';
 import { Cloudinary as cloudinaryCore } from 'cloudinary-core';
+
+import { CloudinaryResource } from '../../cloudinaryInterfaces';
+import { ExtensionParameters } from '../cloudinaryAppConfig/parameters';
 
 export interface CloudinaryThumbnailProps {
   config: ExtensionParameters;
   resource: CloudinaryResource;
 }
 
-export function CloudinaryThumbnail(props: CloudinaryThumbnailProps) {
+export default function CloudinaryThumbnail(props: CloudinaryThumbnailProps) {
   const cloudinary = new cloudinaryCore({
     cloud_name: props.config.cloudName,
     api_key: props.config.apiKey
   });
+
+  const resourceName = props.resource.public_id + props.resource.tags.join(', ');
 
   if (
     props.resource.resource_type === 'image' &&
@@ -24,6 +28,7 @@ export function CloudinaryThumbnail(props: CloudinaryThumbnailProps) {
           width: 300,
           crop: 'fill'
         })}
+        alt={resourceName}
         className="CloudinaryImage"
       />
     );
@@ -35,12 +40,11 @@ export function CloudinaryThumbnail(props: CloudinaryThumbnailProps) {
           width: 300,
           crop: 'fill'
         })}
+        alt={resourceName}
         className="CloudinaryImage"
       />
     );
   }
 
-  return <div className={'unknownFiletype'}></div>;
+  return <div className="unknownFiletype" />;
 }
-
-export default CloudinaryThumbnail;
