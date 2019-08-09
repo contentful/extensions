@@ -8,17 +8,17 @@
       {
         "id": "previewUrl",
         "type": "Symbol",
-        "name": "The url of your Gatsby Cloud instance"
+        "name": "The url of your Gatsby Cloud site"
       },
       {
         "id": "webhookUrl",
         "type": "Symbol",
-        "name": "The url of the webhook to rebuild your Gatsby Cloud instance"
+        "name": "The url of the webhook to rebuild your Gatsby Cloud site"
       },
       {
         "id": "authToken",
         "type": "Symbol",
-        "name": "Optional Authentication token for private Gatsby Cloud instances"
+        "name": "Optional Authentication token for private Gatsby Cloud sites"
       }
     ]
   }

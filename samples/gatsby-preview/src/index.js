@@ -33,10 +33,10 @@ class App extends React.Component {
     if (this.debounceInterval) {
       clearInterval(this.debounceInterval);
     }
-    this.debounceInterval = setInterval(this.refreshGatsbyPreview, 1000);
+    this.debounceInterval = setInterval(this.refreshGatsbySite, 1000);
   };
 
-  refreshGatsbyPreview = () => {
+  refreshGatsbySite = () => {
     const {
       parameters: { installation }
     } = this.props.sdk;
@@ -56,8 +56,8 @@ class App extends React.Component {
       },
       body: JSON.stringify({})
     }).then(
-      () => this.props.sdk.notifier.success('Gatsby Preview updated!'),
-      () => this.props.sdk.notifier.error('Gatsby Preview failed :(')
+      () => this.props.sdk.notifier.success('Gatsby site updated!'),
+      () => this.props.sdk.notifier.error('Gatsby site failed :(')
     );
   };
 
@@ -71,7 +71,7 @@ class App extends React.Component {
     return (
       <div className="extension">
         <div className="flexcontainer">
-          <ExtensionUI contentSlug={contentSlug && contentSlug.getValue()} previewInstanceUrl={previewUrl} authToken={authToken} />
+          <ExtensionUI contentSlug={contentSlug && contentSlug.getValue()} siteUrl={previewUrl} authToken={authToken} />
         </div>
       </div>
     );
