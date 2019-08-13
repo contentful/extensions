@@ -51,12 +51,17 @@ export default class AppConfig extends React.Component {
     super(props);
 
     this.state = {
-      projectId: ''
+      projectId: '',
+      webhookUrl: ''
     };
   }
 
   updateProjectId = e => {
     this.setState({ projectId: e.target.value });
+  };
+
+  updateWebhookUrl = e => {
+    this.setState({ webhookUrl: e.target.value });
   };
 
   render() {
@@ -87,6 +92,17 @@ export default class AppConfig extends React.Component {
                 labelText="Project ID"
                 value={this.state.projectId}
                 onChange={this.updateProjectId}
+                className={styles.input}
+                textInputProps={{
+                  type: 'text'
+                }}
+              />
+              <TextField
+                name="webhookUrl"
+                id="webhookUrl"
+                labelText="Webhook URL"
+                value={this.state.webhookUrl}
+                onChange={this.updateWebhookUrl}
                 className={styles.input}
                 textInputProps={{
                   type: 'text'
