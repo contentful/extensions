@@ -15,6 +15,7 @@ const styles = {
     margin: '0 auto',
     padding: '20px 40px',
     maxWidth: '786px',
+    minHeight: '700px',
     marginTop: tokens.spacingXl,
     backgroundColor: '#fff',
     zIndex: '2',
