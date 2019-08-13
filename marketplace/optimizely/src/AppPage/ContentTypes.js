@@ -70,6 +70,7 @@ export default function ContentTypes({
   const [selectedContentType, selectContentType] = useState('');
   const [selectedReferenceFields, selectRef] = useState({});
   const [modalOpen, toggleModal] = useState(false);
+  const [isEditMode, setEditMode] = useState(false);
 
   const contentType = allContentTypes.find(ct => ct.sys.id === selectedContentType);
   let referenceFields = [];
@@ -110,6 +111,7 @@ export default function ContentTypes({
     // reset state
     onSelectReferenceField({});
     onSelectContentType('');
+    setEditMode(false);
     toggleModal(false);
   };
 
@@ -126,6 +128,7 @@ export default function ContentTypes({
   };
 
   const onEdit = ctId => {
+    setEditMode(true);
     onSelectContentType(ctId);
     toggleModal(true);
   };
@@ -154,7 +157,7 @@ export default function ContentTypes({
                 id="content-types"
                 name="content-types"
                 labelText="Content Type"
-                selectProps={{ width: 'medium' }}
+                selectProps={{ width: 'medium', isDisabled: isEditMode }}
                 onChange={e => onSelectContentType(e.target.value)}
                 value={selectedContentType || ''}
                 testId="content-type-selector"
