@@ -52,7 +52,8 @@ export default class AppConfig extends React.Component {
 
     this.state = {
       projectId: '',
-      webhookUrl: ''
+      webhookUrl: '',
+      authToken: ''
     };
   }
 
@@ -62,6 +63,10 @@ export default class AppConfig extends React.Component {
 
   updateWebhookUrl = e => {
     this.setState({ webhookUrl: e.target.value });
+  };
+
+  updateAuthToken = e => {
+    this.setState({ authToken: e.target.value });
   };
 
   render() {
@@ -106,6 +111,17 @@ export default class AppConfig extends React.Component {
                 className={styles.input}
                 textInputProps={{
                   type: 'text'
+                }}
+              />
+              <TextField
+                name="authToken"
+                id="authToken"
+                labelText="Authentication Token"
+                value={this.state.authToken}
+                onChange={this.updateAuthToken}
+                className={styles.input}
+                textInputProps={{
+                  type: 'password'
                 }}
               />
             </Typography>
