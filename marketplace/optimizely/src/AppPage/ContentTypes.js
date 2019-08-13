@@ -50,9 +50,12 @@ ContentTypes.propTypes = {
   onDeleteContentType: PropTypes.func.isRequired
 };
 
-function isContentTypeValidSelection(contentType) {
+function isContentTypeValidSelection(contentType, addedContentTypes, isEditMode) {
+  const { id } = contentType.sys;
   return (
-    contentType.sys.id !== VARIATION_CONTAINER_ID && hasReferenceFieldsLinkingToEntry(contentType)
+    id !== VARIATION_CONTAINER_ID &&
+    hasReferenceFieldsLinkingToEntry(contentType) &&
+    (isEditMode || !addedContentTypes.includes(id))
   );
 }
 
@@ -63,10 +66,6 @@ export default function ContentTypes({
   onAddContentType,
   onDeleteContentType
 }) {
-  const addableContentTypes = allContentTypes.filter(ct =>
-    isContentTypeValidSelection(ct, addedContentTypes)
-  );
-
   const [selectedContentType, selectContentType] = useState('');
   const [selectedReferenceFields, selectRef] = useState({});
   const [modalOpen, toggleModal] = useState(false);
@@ -75,6 +74,10 @@ export default function ContentTypes({
   const contentType = allContentTypes.find(ct => ct.sys.id === selectedContentType);
   let referenceFields = [];
   let checkedFields = {};
+
+  const addableContentTypes = allContentTypes.filter(ct =>
+    isContentTypeValidSelection(ct, addedContentTypes, isEditMode)
+  );
 
   if (contentType) {
     referenceFields = contentType.fields
@@ -141,6 +144,7 @@ export default function ContentTypes({
         buttonType="muted"
         className={styles.spacingMedium}
         onClick={() => toggleModal(true)}
+        disabled={!addableContentTypes.length}
         testId="add-content">
         Add content type
       </Button>
