@@ -1,11 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { css } from 'emotion';
 import tokens from '@contentful/forma-36-tokens';
-import { Heading, Typography, Paragraph, TextField } from '@contentful/forma-36-react-components';
+import {
+  Heading,
+  Typography,
+  Paragraph,
+  TextField,
+  CheckboxField,
+  Pill
+} from '@contentful/forma-36-react-components';
 import GatsbyIcon from './GatsbyIcon';
 
 const styles = {
   body: css({
+    height: 'auto',
     margin: '0 auto',
     marginTop: tokens.spacingXl,
     padding: '20px 40px',
@@ -13,7 +22,8 @@ const styles = {
     backgroundColor: '#fff',
     zIndex: '2',
     boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
-    borderRadius: '2px'
+    borderRadius: '2px',
+    transition: 'height 0.2s ease'
   }),
   background: css({
     display: 'block',
@@ -43,19 +53,86 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     marginTop: tokens.spacingXl
+  }),
+  checks: css({
+    marginTop: tokens.spacingM,
+    display: 'flex'
+  }),
+  pills: css({
+    margin: `0 ${tokens.spacingXs}`
   })
 };
 
 export default class AppConfig extends React.Component {
+  static propTypes = {
+    sdk: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
 
     this.state = {
       projectId: '',
       webhookUrl: '',
-      authToken: ''
+      authToken: '',
+      checkedContentTypes: {}
     };
   }
+
+  async componentDidMount() {
+    const { app } = this.props.sdk.platformAlpha;
+    app.onConfigure(this.configureApp);
+
+    const params = (await app.getParameters()) || {};
+
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState(prevState => ({
+      projectId: params.projectId || prevState.projectId,
+      webhookUrl: params.webhookUrl || prevState.webhookUrl,
+      authToken: params.authToken || prevState.authToken
+    }));
+
+    const { items } = await this.props.sdk.space.getContentTypes();
+
+    if (items && items.length) {
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState(prevState => {
+        return {
+          checkedContentTypes: items.reduce((acc, ct) => {
+            acc[ct.sys.id] = { name: ct.name, checked: false };
+            return acc;
+          }, prevState.checkedContentTypes)
+        };
+      });
+    }
+  }
+
+  configureApp = async () => {
+    const { projectId, webhookUrl, authToken, checkedContentTypes } = this.state;
+
+    if (!projectId || !webhookUrl || !authToken) {
+      this.props.sdk.notifier.error('You must fill out all fields before installing!');
+      return false;
+    }
+
+    const sidebarContentTypes = Object.keys(checkedContentTypes).reduce((acc, key) => {
+      if (checkedContentTypes[key].checked) {
+        acc[key] = { sidebar: { position: 3 } };
+      }
+      return acc;
+    }, {});
+
+    return {
+      parameters: {
+        projectId,
+        webhookUrl,
+        authToken
+      },
+      targetState: {
+        EditorInterface: sidebarContentTypes
+      }
+    };
+  };
 
   updateProjectId = e => {
     this.setState({ projectId: e.target.value });
@@ -67,6 +144,18 @@ export default class AppConfig extends React.Component {
 
   updateAuthToken = e => {
     this.setState({ authToken: e.target.value });
+  };
+
+  onContentTypeSelect = key => {
+    this.setState(prevState => ({
+      checkedContentTypes: {
+        ...prevState.checkedContentTypes,
+        [key]: {
+          ...prevState.checkedContentTypes[key],
+          checked: !prevState.checkedContentTypes[key].checked
+        }
+      }
+    }));
   };
 
   render() {
@@ -126,9 +215,37 @@ export default class AppConfig extends React.Component {
               />
             </Typography>
           </div>
-          <div className={styles.icon}>
-            <GatsbyIcon />
+          <hr className={styles.splitter} />
+          <div className={styles.section}>
+            <Typography>
+              <Heading>Preview locations</Heading>
+              <Paragraph>
+                Here you can choose which content type will show the Gatsby Cloud preview
+                functionality
+              </Paragraph>
+              <div className={styles.checks}>
+                {Object.keys(this.state.checkedContentTypes).map(key => (
+                  <Pill
+                    key={key}
+                    label={
+                      <CheckboxField
+                        labelText={this.state.checkedContentTypes[key].name}
+                        name={this.state.checkedContentTypes[key].name}
+                        checked={this.state.checkedContentTypes[key].checked}
+                        value={key}
+                        onChange={() => this.onContentTypeSelect(key)}
+                        id={key}
+                      />
+                    }
+                    className={styles.pills}
+                  />
+                ))}
+              </div>
+            </Typography>
           </div>
+        </div>
+        <div className={styles.icon}>
+          <GatsbyIcon />
         </div>
       </>
     );
