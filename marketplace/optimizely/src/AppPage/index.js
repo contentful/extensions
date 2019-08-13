@@ -4,7 +4,6 @@ import tokens from '@contentful/forma-36-tokens';
 import { css } from 'emotion';
 import { Heading, Typography, Paragraph } from '@contentful/forma-36-react-components';
 
-import Features from './Features';
 import Connect from './Connect';
 import Config from './Config';
 import OptimizelyLogo from './OptimizelyLogo';
@@ -29,7 +28,7 @@ const styles = {
     top: '0',
     width: '100%',
     height: '300px',
-    backgroundColor: '#e2f4ea'
+    backgroundColor: '#bcc3ca'
   }),
   section: css({
     margin: `${tokens.spacingXl} 0`
@@ -288,10 +287,6 @@ export default class AppPage extends React.Component {
       <>
         <div className={styles.background} />
         <div className={styles.body}>
-          <div className={styles.section}>
-            <Features />
-          </div>
-          <SectionSplitter />
           <div className={styles.section}>
             <Typography>
               <Heading>Connect Optimizely</Heading>
