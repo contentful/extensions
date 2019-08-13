@@ -109,8 +109,8 @@ export default class AppConfig extends React.Component {
   configureApp = async () => {
     const { previewUrl, webhookUrl, authToken, checkedContentTypes } = this.state;
 
-    if (!previewUrl || !webhookUrl || !authToken) {
-      this.props.sdk.notifier.error('You must fill out all fields before installing!');
+    if (!previewUrl || !webhookUrl) {
+      this.props.sdk.notifier.error('You must provide a preview URL and webhook URL!');
       return false;
     }
 
@@ -204,7 +204,7 @@ export default class AppConfig extends React.Component {
               <TextField
                 name="authToken"
                 id="authToken"
-                labelText="Authentication Token"
+                labelText="Authentication Token (Optional)"
                 value={this.state.authToken}
                 onChange={this.updateAuthToken}
                 className={styles.input}
