@@ -22,8 +22,7 @@ const styles = {
     backgroundColor: '#fff',
     zIndex: '2',
     boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
-    borderRadius: '2px',
-    transition: 'height 0.2s ease'
+    borderRadius: '2px'
   }),
   background: css({
     display: 'block',
@@ -72,7 +71,7 @@ export default class AppConfig extends React.Component {
     super(props);
 
     this.state = {
-      projectId: '',
+      previewUrl: '',
       webhookUrl: '',
       authToken: '',
       checkedContentTypes: {}
@@ -87,7 +86,7 @@ export default class AppConfig extends React.Component {
 
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState(prevState => ({
-      projectId: params.projectId || prevState.projectId,
+      previewUrl: params.previewUrl || prevState.previewUrl,
       webhookUrl: params.webhookUrl || prevState.webhookUrl,
       authToken: params.authToken || prevState.authToken
     }));
@@ -108,9 +107,9 @@ export default class AppConfig extends React.Component {
   }
 
   configureApp = async () => {
-    const { projectId, webhookUrl, authToken, checkedContentTypes } = this.state;
+    const { previewUrl, webhookUrl, authToken, checkedContentTypes } = this.state;
 
-    if (!projectId || !webhookUrl || !authToken) {
+    if (!previewUrl || !webhookUrl || !authToken) {
       this.props.sdk.notifier.error('You must fill out all fields before installing!');
       return false;
     }
@@ -124,7 +123,7 @@ export default class AppConfig extends React.Component {
 
     return {
       parameters: {
-        projectId,
+        previewUrl,
         webhookUrl,
         authToken
       },
@@ -134,8 +133,8 @@ export default class AppConfig extends React.Component {
     };
   };
 
-  updateProjectId = e => {
-    this.setState({ projectId: e.target.value });
+  updatePreviewUrl = e => {
+    this.setState({ previewUrl: e.target.value });
   };
 
   updateWebhookUrl = e => {
@@ -181,11 +180,11 @@ export default class AppConfig extends React.Component {
               <Heading>Account Details</Heading>
               <Paragraph>Gatsby Cloud needs a project ID in order to preview projects.</Paragraph>
               <TextField
-                name="projectId"
-                id="projectId"
-                labelText="Project ID"
-                value={this.state.projectId}
-                onChange={this.updateProjectId}
+                name="previewUrl"
+                id="previewUrl"
+                labelText="Site URL"
+                value={this.state.previewUrl}
+                onChange={this.updatePreviewUrl}
                 className={styles.input}
                 textInputProps={{
                   type: 'text'
@@ -220,7 +219,7 @@ export default class AppConfig extends React.Component {
             <Typography>
               <Heading>Preview locations</Heading>
               <Paragraph>
-                Here you can choose which content type will show the Gatsby Cloud preview
+                Here you can choose which content type(s) will show the Gatsby Cloud preview
                 functionality
               </Paragraph>
               <div className={styles.checks}>
