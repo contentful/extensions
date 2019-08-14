@@ -5,23 +5,21 @@ import { IconButton, Card } from '@contentful/forma-36-react-components';
 import { ExtensionParameters } from '../AppConfig/parameters';
 
 type Hash = Record<string, any>;
+type ThumbnailFn = (resource: Hash, config: Hash) => (string | undefined)[];
+type DeleteFn = (index: number) => void;
 
 interface SortableElementProperties {
-  onChange?: (data: Hash[]) => void;
+  onChange: (data: Hash[]) => void;
   config: ExtensionParameters;
   resources: Hash[];
-  makeThumbnail: (resource: Hash, config: Hash) => (string | undefined)[];
+  makeThumbnail: ThumbnailFn;
 }
 
-interface SortableContainerData {
+interface SortableContainerProps {
   config: ExtensionParameters;
   resources: Hash[];
-  deleteFnc: (index: number) => void;
-  makeThumbnail: (resource: Hash, config: Hash) => (string | undefined)[];
-}
-
-interface SortableElementState {
-  readonly resources: Hash[];
+  deleteFnc: DeleteFn;
+  makeThumbnail: ThumbnailFn;
 }
 
 interface ThumbnailProps {
@@ -29,22 +27,20 @@ interface ThumbnailProps {
   alt: string | undefined;
 }
 
-interface SortableElementData extends ThumbnailProps {
+interface SortableElementProps extends ThumbnailProps {
   readonly index: number;
-  deleteFnc: (index: number) => void;
+  deleteFnc: DeleteFn;
 }
 
-const DragHandle = SortableHandle<ThumbnailProps>(({ url, alt }: ThumbnailProps) => (
-  <div className="order">
-    {url ? (
-      <img src={url} alt={alt} className="CloudinaryImage" />
-    ) : (
-      <div className="unknownFiletype" />
-    )}
-  </div>
-));
+const DragHandle = SortableHandle<ThumbnailProps>(({ url, alt }: ThumbnailProps) =>
+  url ? (
+    <img src={url} alt={alt} className="CloudinaryImage" />
+  ) : (
+    <div className="unknownFiletype" />
+  )
+);
 
-const SortableItem = SortableElement<SortableElementData>((props: SortableElementData) => {
+const SortableItem = SortableElement<SortableElementProps>((props: SortableElementProps) => {
   return (
     <Card className="thumbnail">
       <DragHandle url={props.url} alt={props.alt} />
@@ -59,7 +55,7 @@ const SortableItem = SortableElement<SortableElementData>((props: SortableElemen
   );
 });
 
-const SortableList = SortableContainer<SortableContainerData>((props: SortableContainerData) => {
+const SortableList = SortableContainer<SortableContainerProps>((props: SortableContainerProps) => {
   return (
     <div className="thumbnail-list">
       {props.resources.map((resource, index) => {
@@ -78,47 +74,16 @@ const SortableList = SortableContainer<SortableContainerData>((props: SortableCo
   );
 });
 
-export class SortableComponent extends React.Component<
-  SortableElementProperties,
-  SortableElementState
-> {
-  public constructor(props: SortableElementProperties) {
-    super(props);
-
-    this.state = {
-      resources: props.resources
-    };
-  }
-
-  componentWillReceiveProps(props: SortableElementProperties) {
-    this.setState({
-      resources: props.resources
-    });
-  }
-
+export class SortableComponent extends React.Component<SortableElementProperties> {
   onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    this.setState(({ resources }) => ({
-      resources: arrayMove(resources, oldIndex, newIndex)
-    }));
-
-    if (this.props.onChange) {
-      this.props.onChange(this.state.resources);
-    }
+    const resources = arrayMove(this.props.resources, oldIndex, newIndex);
+    this.props.onChange(resources);
   };
 
   deleteItem = (index: number) => {
-    this.setState(
-      state => {
-        const resources = [...state.resources];
-        resources.splice(index, 1);
-        return { resources };
-      },
-      () => {
-        if (this.props.onChange) {
-          this.props.onChange(this.state.resources);
-        }
-      }
-    );
+    const resources = [...this.props.resources];
+    resources.splice(index, 1);
+    this.props.onChange(resources);
   };
 
   render() {
@@ -126,7 +91,7 @@ export class SortableComponent extends React.Component<
       <SortableList
         onSortEnd={this.onSortEnd}
         axis="xy"
-        resources={this.state.resources}
+        resources={this.props.resources}
         config={this.props.config}
         deleteFnc={this.deleteItem}
         useDragHandle
