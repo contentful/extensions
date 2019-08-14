@@ -8,13 +8,16 @@ import {
   Paragraph,
   TextField,
   CheckboxField,
-  Pill
+  Pill,
+  SkeletonContainer,
+  SkeletonBodyText
 } from '@contentful/forma-36-react-components';
 import GatsbyIcon from './GatsbyIcon';
 
 const styles = {
   body: css({
     height: 'auto',
+    minHeight: '850px',
     margin: '0 auto',
     marginTop: tokens.spacingXl,
     padding: '20px 40px',
@@ -85,20 +88,27 @@ export default class AppConfig extends React.Component {
     const params = (await app.getParameters()) || {};
 
     // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState(prevState => ({
-      previewUrl: params.previewUrl || prevState.previewUrl,
-      webhookUrl: params.webhookUrl || prevState.webhookUrl,
-      authToken: params.authToken || prevState.authToken
-    }));
+    this.setState({
+      previewUrl: params.previewUrl || '',
+      webhookUrl: params.webhookUrl || '',
+      authToken: params.authToken || ''
+    });
 
-    const { items } = await this.props.sdk.space.getContentTypes();
+    const [{ EditorInterface } = {}, { items }] = await Promise.all([
+      app.getCurrentState(),
+      this.props.sdk.space.getContentTypes()
+    ]);
+
+    const previouslyCheckedTypes = Object.keys(EditorInterface || {}).filter(
+      ct => EditorInterface[ct].sidebar
+    );
 
     if (items && items.length) {
       // eslint-disable-next-line react/no-did-mount-set-state
       this.setState(prevState => {
         return {
           checkedContentTypes: items.reduce((acc, ct) => {
-            acc[ct.sys.id] = { name: ct.name, checked: false };
+            acc[ct.sys.id] = { name: ct.name, checked: previouslyCheckedTypes.includes(ct.sys.id) };
             return acc;
           }, prevState.checkedContentTypes)
         };
@@ -107,19 +117,35 @@ export default class AppConfig extends React.Component {
   }
 
   configureApp = async () => {
+    const { app } = this.props.sdk.platformAlpha;
     const { previewUrl, webhookUrl, authToken, checkedContentTypes } = this.state;
 
-    if (!previewUrl || !webhookUrl) {
-      this.props.sdk.notifier.error('You must provide a preview URL and webhook URL!');
+    if (!previewUrl) {
+      this.props.sdk.notifier.error('You must provide a preview URL!');
       return false;
     }
 
+    if (!previewUrl.startsWith('http')) {
+      this.props.sdk.notifier.error('Please provide a valid preview URL!');
+      return false;
+    }
+
+    // the webhookUrl is optional but if it is passed, check that it is valid
+    if (webhookUrl && !webhookUrl.startsWith('http')) {
+      this.props.sdk.notifier.error('Please provide a valid webhook URL!');
+      return false;
+    }
+
+    const { EditorInterface = {} } = await app.getCurrentState();
     const sidebarContentTypes = Object.keys(checkedContentTypes).reduce((acc, key) => {
       if (checkedContentTypes[key].checked) {
         acc[key] = { sidebar: { position: 3 } };
+      } else {
+        delete (acc[key] || {}).sidebar;
       }
+
       return acc;
-    }, {});
+    }, EditorInterface);
 
     return {
       parameters: {
@@ -158,6 +184,8 @@ export default class AppConfig extends React.Component {
   };
 
   render() {
+    const checkedTypes = Object.keys(this.state.checkedContentTypes);
+
     return (
       <>
         <div className={styles.background} />
@@ -220,25 +248,31 @@ export default class AppConfig extends React.Component {
               <Heading>Preview locations</Heading>
               <Paragraph>
                 Here you can choose which content type(s) will show the Gatsby Cloud preview
-                functionality
+                functionality in the sidebar.
               </Paragraph>
               <div className={styles.checks}>
-                {Object.keys(this.state.checkedContentTypes).map(key => (
-                  <Pill
-                    key={key}
-                    label={
-                      <CheckboxField
-                        labelText={this.state.checkedContentTypes[key].name}
-                        name={this.state.checkedContentTypes[key].name}
-                        checked={this.state.checkedContentTypes[key].checked}
-                        value={key}
-                        onChange={() => this.onContentTypeSelect(key)}
-                        id={key}
-                      />
-                    }
-                    className={styles.pills}
-                  />
-                ))}
+                {checkedTypes.length ? (
+                  checkedTypes.map(key => (
+                    <Pill
+                      key={key}
+                      label={
+                        <CheckboxField
+                          labelText={this.state.checkedContentTypes[key].name}
+                          name={this.state.checkedContentTypes[key].name}
+                          checked={this.state.checkedContentTypes[key].checked}
+                          value={key}
+                          onChange={() => this.onContentTypeSelect(key)}
+                          id={key}
+                        />
+                      }
+                      className={styles.pills}
+                    />
+                  ))
+                ) : (
+                  <SkeletonContainer width="100%">
+                    <SkeletonBodyText numberOfLines={3} />
+                  </SkeletonContainer>
+                )}
               </div>
             </Typography>
           </div>
