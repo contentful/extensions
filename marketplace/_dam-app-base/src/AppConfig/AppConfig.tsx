@@ -13,14 +13,7 @@ import { Workbench } from '@contentful/forma-36-react-components/dist/alpha';
 
 import FieldSelector from './FieldSelector';
 
-import {
-  toExtensionParameters,
-  toInputParameters,
-  validateParameters,
-  ParameterValue,
-  InputParameters,
-  MAX_FILES_UPPER_LIMIT
-} from './parameters';
+import { toInputParameters, toExtensionParameters } from './parameters';
 
 import {
   getCompatibleFields,
@@ -31,8 +24,12 @@ import {
   SelectedFields
 } from './fields';
 
+import { Hash, ValidateParametersFn } from '../interfaces';
+
 interface Props {
   sdk: AppExtensionSDK;
+  parameterDefinitions: Hash[];
+  validateParameters: ValidateParametersFn;
 }
 
 interface State {
@@ -40,7 +37,7 @@ interface State {
   contentTypes: ContentType[];
   compatibleFields: CompatibleFields;
   selectedFields: SelectedFields;
-  parameters: InputParameters;
+  parameters: Hash;
 }
 
 export default class AppConfig extends React.Component<Props, State> {
@@ -49,7 +46,7 @@ export default class AppConfig extends React.Component<Props, State> {
     contentTypes: [] as ContentType[],
     compatibleFields: ({} as any) as CompatibleFields,
     selectedFields: ({} as any) as SelectedFields,
-    parameters: toInputParameters(null)
+    parameters: toInputParameters(this.props.parameterDefinitions, null)
   };
 
   componentDidMount() {
@@ -79,13 +76,13 @@ export default class AppConfig extends React.Component<Props, State> {
       contentTypes: filteredContentTypes,
       compatibleFields,
       selectedFields: currentStateToSelectedFields(currentState || {}),
-      parameters: toInputParameters((parameters || {}) as Record<string, ParameterValue>)
+      parameters: toInputParameters(this.props.parameterDefinitions, parameters)
     });
   };
 
   onAppConfigure = () => {
     const { parameters, contentTypes, selectedFields } = this.state;
-    const error = validateParameters(parameters);
+    const error = this.props.validateParameters(parameters);
 
     if (error) {
       this.props.sdk.notifier.error(error);
@@ -93,7 +90,7 @@ export default class AppConfig extends React.Component<Props, State> {
     }
 
     return {
-      parameters: toExtensionParameters(parameters),
+      parameters: toExtensionParameters(this.props.parameterDefinitions, parameters),
       targetState: selectedFieldsToTargetState(contentTypes, selectedFields)
     };
   };
@@ -135,55 +132,31 @@ export default class AppConfig extends React.Component<Props, State> {
     return (
       <>
         <Typography>
-          <Heading>Cloudinary account</Heading>
+          <Heading>Cloudinary configuration</Heading>
           <Paragraph>Provide details of your Cloudinary account so we can connect to it.</Paragraph>
           <Form>
-            <TextField
-              required={true}
-              id="cloud-name-input"
-              name="cloud-name-input"
-              labelText="Cloud name"
-              textInputProps={{
-                width: 'large',
-                maxLength: 50
-              }}
-              helpText="The cloud_name of the account to access."
-              value={parameters.cloudName}
-              onChange={this.onParameterChange.bind(this, 'cloudName')}
-            />
-            <TextField
-              required={true}
-              id="api-key-input"
-              name="api-key-input"
-              labelText="API key"
-              textInputProps={{
-                width: 'large',
-                type: 'password',
-                maxLength: 50
-              }}
-              helpText="The account API key."
-              value={parameters.apiKey}
-              onChange={this.onParameterChange.bind(this, 'apiKey')}
-            />
-          </Form>
+            {this.props.parameterDefinitions.map(def => {
+              const key = `config-input-${def.id}`;
 
-          <Heading>Configuration</Heading>
-          <Form>
-            <TextField
-              required={true}
-              id="max-files-input"
-              name="max-files-input"
-              labelText="Max number of files"
-              textInputProps={{
-                width: 'medium',
-                type: 'number'
-              }}
-              helpText={`Max number of files that can be added to a single field. Between 1 and ${MAX_FILES_UPPER_LIMIT}.`}
-              value={parameters.maxFiles}
-              onChange={this.onParameterChange.bind(this, 'maxFiles')}
-            />
+              return (
+                <TextField
+                  required={def.required}
+                  key={key}
+                  id={key}
+                  name={key}
+                  labelText={def.name}
+                  textInputProps={{
+                    width: def.type === 'Symbol' ? 'large' : 'medium',
+                    type: def.type === 'Symbol' ? 'text' : 'number',
+                    maxLength: 255
+                  }}
+                  helpText={def.description}
+                  value={parameters[def.id]}
+                  onChange={this.onParameterChange.bind(this, def.id)}
+                />
+              );
+            })}
           </Form>
-
           <Heading>Field assignment</Heading>
           <Paragraph>
             This app can be used with <code>Object</code> fields.

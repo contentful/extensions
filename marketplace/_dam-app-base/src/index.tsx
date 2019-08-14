@@ -42,7 +42,14 @@ export function setup(integration: Integration) {
     }
 
     if (sdk.location.is(locations.LOCATION_APP)) {
-      render(<AppConfig sdk={sdk as AppExtensionSDK} />, root);
+      render(
+        <AppConfig
+          sdk={sdk as AppExtensionSDK}
+          parameterDefinitions={integration.parameterDefinitions}
+          validateParameters={integration.validateParameters}
+        />,
+        root
+      );
     }
   });
 }

@@ -1,13 +1,16 @@
 import { Cloudinary as cloudinaryCore } from 'cloudinary-core';
 
 import logoSvg from './cloudinary.svg';
+import descriptor from '../extension.json';
 
 type Hash = Record<string, any>;
 
 const VALID_IMAGE_FORMATS = ['svg', 'jpg', 'png', 'gif', 'jpeg'];
+const MAX_FILES_UPPER_LIMIT = 25;
 
 export const cta = 'Select or upload a file on Cloudinary';
 export const logo = logoSvg;
+export const parameterDefinitions = descriptor.parameters.installation;
 
 export function makeThumbnail(resource: Hash, config: Hash) {
   const cloudinary = new cloudinaryCore({
@@ -71,4 +74,23 @@ export async function openDialog(sdk: any, currentValue: Hash[], config: Hash) {
 
 export function isDisabled(currentValue: Hash[], config: Hash) {
   return currentValue.length >= config.maxFiles;
+}
+
+export function validateParameters(parameters: Record<string, string>): string | null {
+  if (parameters.cloudName.length < 1) {
+    return 'Provide your Cloudinary Cloud name.';
+  }
+
+  if (parameters.apiKey.length < 1) {
+    return 'Provide your Cloudinary API key.';
+  }
+
+  const validFormat = /^[1-9][0-9]*$/.test(parameters.maxFiles);
+  const int = parseInt(parameters.maxFiles, 10);
+  const valid = validFormat && int > 0 && int <= MAX_FILES_UPPER_LIMIT;
+  if (!valid) {
+    return `Max files should be a number between 1 and ${MAX_FILES_UPPER_LIMIT}.`;
+  }
+
+  return null;
 }

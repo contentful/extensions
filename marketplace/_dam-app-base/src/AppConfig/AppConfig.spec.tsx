@@ -4,6 +4,7 @@ import { render, cleanup, wait, fireEvent } from '@testing-library/react';
 import { AppExtensionSDK } from 'contentful-ui-extensions-sdk';
 
 import AppConfig from './AppConfig';
+import { definitions } from './parameters.spec';
 
 const contentTypes = [
   {
@@ -39,8 +40,16 @@ const makeSdkMock = () => ({
   }
 });
 
+const validate = () => null; // Means no error
+
 const renderComponent = (sdk: unknown) => {
-  return render(<AppConfig sdk={sdk as AppExtensionSDK} />);
+  return render(
+    <AppConfig
+      sdk={sdk as AppExtensionSDK}
+      parameterDefinitions={definitions}
+      validateParameters={validate}
+    />
+  );
 };
 
 describe('AppConfig', () => {

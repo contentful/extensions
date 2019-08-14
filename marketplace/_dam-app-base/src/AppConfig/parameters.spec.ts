@@ -1,9 +1,34 @@
-import { toInputParameters, validateParameters, toExtensionParameters } from './parameters';
+import { toInputParameters, toExtensionParameters } from './parameters';
+
+export const definitions = [
+  {
+    id: 'cloudName',
+    name: 'Cloud name',
+    description: 'The cloud_name of the account to access.',
+    type: 'Symbol',
+    required: true
+  },
+  {
+    id: 'apiKey',
+    name: 'API key',
+    description: 'The account API key.',
+    type: 'Symbol',
+    required: true
+  },
+  {
+    id: 'maxFiles',
+    name: 'Max number of files',
+    description: 'Max number of files that can be added to a single field. Between 1 and 25.',
+    type: 'Number',
+    required: false,
+    default: 10
+  }
+];
 
 describe('parameters', () => {
   describe('toInputParameters', () => {
     it('handles lack of paramters', () => {
-      const result = toInputParameters({});
+      const result = toInputParameters(definitions, {});
 
       expect(result).toEqual({
         cloudName: '',
@@ -13,7 +38,7 @@ describe('parameters', () => {
     });
 
     it('resolves parameters to string values', () => {
-      const result = toInputParameters({
+      const result = toInputParameters(definitions, {
         cloudName: 'cloud',
         apiKey: 'key',
         maxFiles: 15
@@ -27,58 +52,9 @@ describe('parameters', () => {
     });
   });
 
-  describe('validateParameters', () => {
-    const empty = {
-      cloudName: '',
-      apiKey: '',
-      maxFiles: ''
-    };
-
-    const valid = {
-      cloudName: 'CLOUD',
-      apiKey: 'KEY',
-      maxFiles: '12'
-    };
-
-    it('validates presence of string parameters', () => {
-      const err1 = validateParameters(empty);
-      expect(err1).toMatch(/Cloudinary Cloud name/);
-
-      const err2 = validateParameters({
-        ...empty,
-        cloudName: 'CLOUD'
-      });
-      expect(err2).toMatch(/Cloudinary API key/);
-    });
-
-    it('validates maxFiles format', () => {
-      const err = validateParameters({
-        ...valid,
-        maxFiles: '-123.6'
-      });
-
-      expect(err).toMatch(/should be a number between/);
-    });
-
-    it('validates maxFiles bounds', () => {
-      const err = validateParameters({
-        ...valid,
-        maxFiles: '123'
-      });
-
-      expect(err).toMatch(/between 1 and 25/);
-    });
-
-    it('returns null if everything is fine', () => {
-      const err = validateParameters(valid);
-
-      expect(err).toBeNull();
-    });
-  });
-
   describe('toExtensionParameters', () => {
-    it('converts maxFiles to an integer', () => {
-      const result = toExtensionParameters({
+    it('converts Number parameters to integers', () => {
+      const result = toExtensionParameters(definitions, {
         cloudName: 'CLOUD',
         apiKey: 'KEY',
         maxFiles: '17'
