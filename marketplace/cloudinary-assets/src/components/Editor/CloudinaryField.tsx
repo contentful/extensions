@@ -7,6 +7,7 @@ import { ExtensionParameters } from '../AppConfig/parameters';
 
 interface Props {
   sdk: FieldExtensionSDK;
+  makeThumbnail: (resource: any, config: any) => (string | undefined)[];
 }
 
 interface State {
@@ -80,6 +81,7 @@ export default class CloudinaryField extends React.Component<Props, State> {
             resources={this.state.value}
             onChange={this.updateStateValue}
             config={config}
+            makeThumbnail={this.props.makeThumbnail}
           />
         )}
         <div className="actions">

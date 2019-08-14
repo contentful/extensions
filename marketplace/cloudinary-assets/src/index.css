@@ -35,11 +35,8 @@ iframe {
   padding: 0;
 }
 
-.order {
-  cursor: pointer;
-}
-
 .thumbnail {
+  cursor: pointer;
   margin: 10px;
   position: relative;
 }
@@ -47,6 +44,7 @@ iframe {
 .thumbnail img {
   display: block;
   width: 150px;
+  height: 100px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -61,14 +59,10 @@ iframe {
 }
 
 .unknownFiletype {
+  width: 150px;
   height: 100px;
-  width: 100px;
   background-image: url(./img/no_image_available.svg);
-  background-size: 100%;
+  background-size: 70%;
   background-repeat: no-repeat;
-}
-
-.CloudinaryImage {
-  height: 100px;
-  width: 100px;
+  background-position: center;
 }

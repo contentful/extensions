@@ -2,64 +2,78 @@ import * as React from 'react';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { IconButton, Card } from '@contentful/forma-36-react-components';
-import CloudinaryThumbnail, {
-  CloudinaryThumbnailProps
-} from './CloudinaryThumbnail';
-import { CloudinaryResource } from '../../cloudinaryInterfaces';
 import { ExtensionParameters } from '../AppConfig/parameters';
 
+type Resource = Record<string, any>;
+
 interface SortableElementProperties {
-  onChange?: (data: CloudinaryResource[]) => void;
+  onChange?: (data: Resource[]) => void;
   config: ExtensionParameters;
-  resources: CloudinaryResource[];
+  resources: Resource[];
+  makeThumbnail: (resource: any, config: any) => (string | undefined)[];
 }
 
 interface SortableContainerData {
   config: ExtensionParameters;
-  resources: CloudinaryResource[];
+  resources: Resource[];
   deleteFnc: (index: number) => void;
+  makeThumbnail: (resource: any, config: any) => (string | undefined)[];
 }
 
 interface SortableElementState {
-  readonly resources: CloudinaryResource[];
+  readonly resources: Resource[];
 }
 
-interface SortableElementData extends CloudinaryThumbnailProps {
+interface ThumbnailProps {
+  url: string | undefined;
+  alt: string | undefined;
+}
+
+interface SortableElementData extends ThumbnailProps {
   readonly index: number;
   deleteFnc: (index: number) => void;
 }
 
-const DragHandle = SortableHandle<CloudinaryThumbnailProps>((props: CloudinaryThumbnailProps) => (
+const DragHandle = SortableHandle<ThumbnailProps>(({ url, alt }: ThumbnailProps) => (
   <div className="order">
-    <CloudinaryThumbnail config={props.config} resource={props.resource} />
+    {url ? (
+      <img src={url} alt={alt} className="CloudinaryImage" />
+    ) : (
+      <div className="unknownFiletype" />
+    )}
   </div>
 ));
 
-const SortableItem = SortableElement<SortableElementData>((props: SortableElementData) => (
-  <Card className="thumbnail">
-    <DragHandle resource={props.resource} config={props.config} />
-    <IconButton
-      label="Close"
-      onClick={() => props.deleteFnc(props.index)}
-      className="thumbnail-remove"
-      iconProps={{ icon: 'Close' }}
-      buttonType="muted"
-    />
-  </Card>
-));
+const SortableItem = SortableElement<SortableElementData>((props: SortableElementData) => {
+  return (
+    <Card className="thumbnail">
+      <DragHandle url={props.url} alt={props.alt} />
+      <IconButton
+        label="Close"
+        onClick={() => props.deleteFnc(props.index)}
+        className="thumbnail-remove"
+        iconProps={{ icon: 'Close' }}
+        buttonType="muted"
+      />
+    </Card>
+  );
+});
 
 const SortableList = SortableContainer<SortableContainerData>((props: SortableContainerData) => {
   return (
     <div className="thumbnail-list">
-      {props.resources.map((resource, index) => (
-        <SortableItem
-          key={`item-${index}`}
-          index={index}
-          config={props.config}
-          resource={resource}
-          deleteFnc={props.deleteFnc}
-        />
-      ))}
+      {props.resources.map((resource, index) => {
+        const [url, alt] = props.makeThumbnail(resource, props.config);
+        return (
+          <SortableItem
+            key={`item-${index}`}
+            index={index}
+            url={url}
+            alt={alt}
+            deleteFnc={props.deleteFnc}
+          />
+        );
+      })}
     </div>
   );
 });
@@ -116,6 +130,7 @@ export class SortableComponent extends React.Component<
         config={this.props.config}
         deleteFnc={this.deleteItem}
         useDragHandle
+        makeThumbnail={this.props.makeThumbnail}
       />
     );
   }
