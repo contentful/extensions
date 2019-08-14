@@ -94,12 +94,14 @@ export default class AppConfig extends React.Component {
       authToken: params.authToken || ''
     });
 
-    const [{ EditorInterface } = {}, { items }] = await Promise.all([
+    const [currentParams, { items }] = await Promise.all([
       app.getCurrentState(),
       this.props.sdk.space.getContentTypes()
     ]);
 
-    const previouslyCheckedTypes = Object.keys(EditorInterface || {}).filter(
+    const { EditorInterface = {} } = currentParams || {};
+
+    const previouslyCheckedTypes = Object.keys(EditorInterface).filter(
       ct => EditorInterface[ct].sidebar
     );
 
@@ -136,7 +138,7 @@ export default class AppConfig extends React.Component {
       return false;
     }
 
-    const { EditorInterface = {} } = await app.getCurrentState();
+    const { EditorInterface = {} } = (await app.getCurrentState()) || {};
     const sidebarContentTypes = Object.keys(checkedContentTypes).reduce((acc, key) => {
       if (checkedContentTypes[key].checked) {
         acc[key] = { sidebar: { position: 3 } };
