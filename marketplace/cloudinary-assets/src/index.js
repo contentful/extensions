@@ -1,18 +1,15 @@
 import { Cloudinary as cloudinaryCore } from 'cloudinary-core';
 
-import logoSvg from './cloudinary.svg';
-import descriptor from '../extension.json';
+import { setup } from 'dam-app-base';
 
-type Hash = Record<string, any>;
+import logo from './logo.svg';
+import descriptor from '../extension.json';
 
 const VALID_IMAGE_FORMATS = ['svg', 'jpg', 'png', 'gif', 'jpeg'];
 const MAX_FILES_UPPER_LIMIT = 25;
+const CTA = 'Select or upload a file on Cloudinary';
 
-export const cta = 'Select or upload a file on Cloudinary';
-export const logo = logoSvg;
-export const parameterDefinitions = descriptor.parameters.installation;
-
-export function makeThumbnail(resource: Hash, config: Hash) {
+function makeThumbnail(resource, config) {
   const cloudinary = new cloudinaryCore({
     cloud_name: config.cloudName,
     api_key: config.apiKey
@@ -31,9 +28,9 @@ export function makeThumbnail(resource: Hash, config: Hash) {
   return [url, alt];
 }
 
-export function renderDialog(sdk: any) {
-  const { cloudinary } = window as any;
-  const config = sdk.parameters.invocation as Hash;
+function renderDialog(sdk) {
+  const { cloudinary } = window;
+  const config = sdk.parameters.invocation;
 
   const options = {
     cloud_name: config.cloudName,
@@ -45,7 +42,7 @@ export function renderDialog(sdk: any) {
   };
 
   const instance = cloudinary.createMediaLibrary(options, {
-    insertHandler: (data: any) => sdk.close(data)
+    insertHandler: data => sdk.close(data)
   });
 
   instance.show();
@@ -53,12 +50,12 @@ export function renderDialog(sdk: any) {
   sdk.window.updateHeight(window.outerHeight);
 }
 
-export async function openDialog(sdk: any, currentValue: Hash[], config: Hash) {
+async function openDialog(sdk, currentValue, config) {
   const maxFiles = config.maxFiles - currentValue.length;
 
   const result = await sdk.dialogs.openExtension({
     position: 'center',
-    title: cta,
+    title: CTA,
     shouldCloseOnOverlayClick: true,
     shouldCloseOnEscapePress: true,
     parameters: { ...config, maxFiles },
@@ -72,11 +69,11 @@ export async function openDialog(sdk: any, currentValue: Hash[], config: Hash) {
   }
 }
 
-export function isDisabled(currentValue: Hash[], config: Hash) {
+function isDisabled(currentValue, config) {
   return currentValue.length >= config.maxFiles;
 }
 
-export function validateParameters(parameters: Record<string, string>): string | null {
+function validateParameters(parameters) {
   if (parameters.cloudName.length < 1) {
     return 'Provide your Cloudinary Cloud name.';
   }
@@ -94,3 +91,14 @@ export function validateParameters(parameters: Record<string, string>): string |
 
   return null;
 }
+
+setup({
+  cta: CTA,
+  logo,
+  parameterDefinitions: descriptor.parameters.installation,
+  makeThumbnail,
+  renderDialog,
+  openDialog,
+  isDisabled,
+  validateParameters
+});

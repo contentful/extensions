@@ -9,11 +9,8 @@
     "@babel/preset-env": "7.4.5",
     "@babel/preset-react": "7.0.0",
     "@contentful/contentful-extension-scripts": "^0.14.0",
-    "@types/jest": "24.0.15",
-    "@types/webpack-env": "1.13.9",
     "contentful-cli": "^0.34.2",
-    "cssnano": "4.1.10",
-    "typescript": "^3.5.3"
+    "cssnano": "4.1.10"
   },
   "dependencies": {
     "cloudinary-core": "^2.7.3",
@@ -24,7 +21,6 @@
     "start": "contentful-extension-scripts start",
     "build": "contentful-extension-scripts build",
     "deploy": "npm run build && contentful extension update --force",
-    "tsc": "tsc -p ./ --noEmit",
     "test": "contentful-extension-scripts test --env=jsdom --watch",
     "test:coverage": "contentful-extension-scripts test --env=jsdom --coverage --passWithNoTests",
     "configure": "contentful space use && contentful space environment use",
