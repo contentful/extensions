@@ -13,7 +13,6 @@ import {
 
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
-import './index.css';
 
 import Field from './Editor/Field';
 import AppConfig from './AppConfig/AppConfig';
@@ -33,6 +32,7 @@ export function setup(integration: Integration) {
         <Field
           sdk={sdk as FieldExtensionSDK}
           cta={integration.cta}
+          logo={integration.logo}
           makeThumbnail={integration.makeThumbnail}
           openDialog={integration.openDialog}
           isDisabled={integration.isDisabled}

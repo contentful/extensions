@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
+import { css } from 'emotion';
 import arrayMove from 'array-move';
 import { IconButton, Card } from '@contentful/forma-36-react-components';
+import tokens from '@contentful/forma-36-tokens';
 import { Hash, ThumbnailFn, DeleteFn } from '../interfaces';
 
 interface Props {
@@ -18,32 +20,57 @@ interface SortableContainerProps {
   makeThumbnail: ThumbnailFn;
 }
 
-interface ThumbnailProps {
+interface DragHandleProps {
   url: string | undefined;
   alt: string | undefined;
 }
 
-interface SortableElementProps extends ThumbnailProps {
+interface SortableElementProps extends DragHandleProps {
   readonly index: number;
   deleteFn: DeleteFn;
 }
 
-const DragHandle = SortableHandle<ThumbnailProps>(({ url, alt }: ThumbnailProps) =>
-  url ? (
-    <img src={url} alt={alt} className="CloudinaryImage" />
-  ) : (
-    <div className="unknownFiletype" />
-  )
+const DragHandle = SortableHandle<DragHandleProps>(({ url, alt }: DragHandleProps) =>
+  url ? <img src={url} alt={alt} /> : <div>Asset not available</div>
 );
+
+const styles = {
+  container: css({
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  }),
+  card: css({
+    cursor: 'pointer',
+    margin: tokens.spacingXs,
+    position: 'relative',
+    width: '150px',
+    height: '100px',
+    '> img': {
+      display: 'block',
+      // Image selection sometimes makes drag and drop ugly.
+      '-webkit-user-select': 'none',
+      '-moz-user-select': 'none',
+      '-ms-user-select': 'none',
+      'user-select': 'none'
+    }
+  }),
+  remove: css({
+    position: 'absolute',
+    top: '-10px',
+    right: '-10px',
+    backgroundColor: 'white'
+  })
+};
 
 const SortableItem = SortableElement<SortableElementProps>((props: SortableElementProps) => {
   return (
-    <Card className="thumbnail">
+    <Card className={styles.card}>
       <DragHandle url={props.url} alt={props.alt} />
       <IconButton
         label="Close"
         onClick={() => props.deleteFn(props.index)}
-        className="thumbnail-remove"
+        className={styles.remove}
         iconProps={{ icon: 'Close' }}
         buttonType="muted"
       />
@@ -53,7 +80,7 @@ const SortableItem = SortableElement<SortableElementProps>((props: SortableEleme
 
 const SortableList = SortableContainer<SortableContainerProps>((props: SortableContainerProps) => {
   return (
-    <div className="thumbnail-list">
+    <div className={styles.container}>
       {props.resources.map((resource, index) => {
         const [url, alt] = props.makeThumbnail(resource, props.config);
         return (

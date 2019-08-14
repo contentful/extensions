@@ -4,9 +4,12 @@ import { Cloudinary as cloudinaryCore } from 'cloudinary-core';
 
 import { Hash } from './interfaces';
 
+import logoSvg from './cloudinary.svg';
+
 const VALID_IMAGE_FORMATS = ['svg', 'jpg', 'png', 'gif', 'jpeg'];
 
 export const cta = 'Select or upload a file on Cloudinary';
+export const logo = logoSvg;
 
 export function makeThumbnail(resource: Hash, config: Hash) {
   const cloudinary = new cloudinaryCore({

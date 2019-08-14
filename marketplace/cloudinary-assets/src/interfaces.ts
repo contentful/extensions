@@ -13,6 +13,7 @@ export type DisabledPredicateFn = (currentValue: Hash[], config: Hash) => boolea
 
 export interface Integration {
   cta: string;
+  logo: string;
   makeThumbnail: ThumbnailFn;
   renderDialog: Function;
   openDialog: OpenDialogFn;

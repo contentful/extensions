@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { Button } from '@contentful/forma-36-react-components';
+import tokens from '@contentful/forma-36-tokens';
+import { css } from 'emotion';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { SortableComponent } from './SortableComponent';
-import { ThumbnailFn, OpenDialogFn, DisabledPredicateFn } from '../interfaces';
-
-type Hash = Record<string, any>;
+import { ThumbnailFn, OpenDialogFn, DisabledPredicateFn, Hash } from '../interfaces';
 
 interface Props {
   sdk: FieldExtensionSDK;
   cta: string;
+  logo: string;
   makeThumbnail: ThumbnailFn;
   openDialog: OpenDialogFn;
   isDisabled: DisabledPredicateFn;
@@ -17,6 +18,21 @@ interface Props {
 interface State {
   value: Hash[];
 }
+
+const styles = {
+  sortable: css({
+    marginBottom: tokens.spacingM
+  }),
+  container: css({
+    display: 'flex'
+  }),
+  logo: css({
+    display: 'block',
+    width: '30px',
+    height: '30px',
+    marginRight: tokens.spacingM
+  })
+};
 
 export default class Field extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -76,15 +92,17 @@ export default class Field extends React.Component<Props, State> {
     return (
       <>
         {hasItems && (
-          <SortableComponent
-            resources={this.state.value}
-            onChange={this.updateStateValue}
-            config={config}
-            makeThumbnail={this.props.makeThumbnail}
-          />
+          <div className={styles.sortable}>
+            <SortableComponent
+              resources={this.state.value}
+              onChange={this.updateStateValue}
+              config={config}
+              makeThumbnail={this.props.makeThumbnail}
+            />
+          </div>
         )}
-        <div className="actions">
-          <div className="logo" />
+        <div className={styles.container}>
+          <img src={this.props.logo} alt="Logo" className={styles.logo} />
           <Button
             icon="Asset"
             buttonType="muted"
