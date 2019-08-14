@@ -1,10 +1,8 @@
-import { FieldExtensionSDK, DialogExtensionSDK } from 'contentful-ui-extensions-sdk';
-
 import { Cloudinary as cloudinaryCore } from 'cloudinary-core';
 
-import { Hash } from './interfaces';
-
 import logoSvg from './cloudinary.svg';
+
+type Hash = Record<string, any>;
 
 const VALID_IMAGE_FORMATS = ['svg', 'jpg', 'png', 'gif', 'jpeg'];
 
@@ -30,7 +28,7 @@ export function makeThumbnail(resource: Hash, config: Hash) {
   return [url, alt];
 }
 
-export function renderDialog(sdk: DialogExtensionSDK) {
+export function renderDialog(sdk: any) {
   const { cloudinary } = window as any;
   const config = sdk.parameters.invocation as Hash;
 
@@ -52,7 +50,7 @@ export function renderDialog(sdk: DialogExtensionSDK) {
   sdk.window.updateHeight(window.outerHeight);
 }
 
-export async function openDialog(sdk: FieldExtensionSDK, currentValue: Hash[], config: Hash) {
+export async function openDialog(sdk: any, currentValue: Hash[], config: Hash) {
   const maxFiles = config.maxFiles - currentValue.length;
 
   const result = await sdk.dialogs.openExtension({
