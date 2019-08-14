@@ -90,7 +90,7 @@ describe('AppConfig', () => {
       const configInput = getByLabelText(labelRe as RegExp) as HTMLInputElement;
       expect(configInput.value).toEqual(expected);
     });
-    
+
     [[/Some object/, false], [/Some other object/, true]].forEach(([labelRe, expected]) => {
       const fieldCheckbox = getByLabelText(labelRe as RegExp) as HTMLInputElement;
       expect(fieldCheckbox.checked).toBe(expected);

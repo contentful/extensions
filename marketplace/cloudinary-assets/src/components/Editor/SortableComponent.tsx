@@ -2,12 +2,9 @@ import * as React from 'react';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { IconButton, Card } from '@contentful/forma-36-react-components';
+import { Hash, ThumbnailFn, DeleteFn } from '../../interfaces';
 
-type Hash = Record<string, any>;
-type ThumbnailFn = (resource: Hash, config: Hash) => (string | undefined)[];
-type DeleteFn = (index: number) => void;
-
-interface SortableElementProperties {
+interface Props {
   onChange: (data: Hash[]) => void;
   config: Hash;
   resources: Hash[];
@@ -17,7 +14,7 @@ interface SortableElementProperties {
 interface SortableContainerProps {
   config: Hash;
   resources: Hash[];
-  deleteFnc: DeleteFn;
+  deleteFn: DeleteFn;
   makeThumbnail: ThumbnailFn;
 }
 
@@ -28,7 +25,7 @@ interface ThumbnailProps {
 
 interface SortableElementProps extends ThumbnailProps {
   readonly index: number;
-  deleteFnc: DeleteFn;
+  deleteFn: DeleteFn;
 }
 
 const DragHandle = SortableHandle<ThumbnailProps>(({ url, alt }: ThumbnailProps) =>
@@ -45,7 +42,7 @@ const SortableItem = SortableElement<SortableElementProps>((props: SortableEleme
       <DragHandle url={props.url} alt={props.alt} />
       <IconButton
         label="Close"
-        onClick={() => props.deleteFnc(props.index)}
+        onClick={() => props.deleteFn(props.index)}
         className="thumbnail-remove"
         iconProps={{ icon: 'Close' }}
         buttonType="muted"
@@ -65,7 +62,7 @@ const SortableList = SortableContainer<SortableContainerProps>((props: SortableC
             index={index}
             url={url}
             alt={alt}
-            deleteFnc={props.deleteFnc}
+            deleteFn={props.deleteFn}
           />
         );
       })}
@@ -73,7 +70,7 @@ const SortableList = SortableContainer<SortableContainerProps>((props: SortableC
   );
 });
 
-export class SortableComponent extends React.Component<SortableElementProperties> {
+export class SortableComponent extends React.Component<Props> {
   onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
     const resources = arrayMove(this.props.resources, oldIndex, newIndex);
     this.props.onChange(resources);
@@ -92,7 +89,7 @@ export class SortableComponent extends React.Component<SortableElementProperties
         axis="xy"
         resources={this.props.resources}
         config={this.props.config}
-        deleteFnc={this.deleteItem}
+        deleteFn={this.deleteItem}
         useDragHandle
         makeThumbnail={this.props.makeThumbnail}
       />

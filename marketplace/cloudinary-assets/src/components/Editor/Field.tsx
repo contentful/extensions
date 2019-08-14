@@ -2,15 +2,16 @@ import * as React from 'react';
 import { Button } from '@contentful/forma-36-react-components';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { SortableComponent } from './SortableComponent';
+import { ThumbnailFn, OpenDialogFn, DisabledPredicateFn } from '../../interfaces';
 
 type Hash = Record<string, any>;
 
 interface Props {
   sdk: FieldExtensionSDK;
   cta: string;
-  makeThumbnail: (resource: Hash, config: Hash) => (string | undefined)[];
-  openDialog: (sdk: FieldExtensionSDK, currentValue: Hash[], config: Hash) => Promise<Hash[]>;
-  isDisabled: (currentValue: Hash[], config: Hash) => boolean;
+  makeThumbnail: ThumbnailFn;
+  openDialog: OpenDialogFn;
+  isDisabled: DisabledPredicateFn;
 }
 
 interface State {

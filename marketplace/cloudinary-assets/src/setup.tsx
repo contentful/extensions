@@ -1,0 +1,48 @@
+import 'es6-promise/auto';
+
+import * as React from 'react';
+import { render } from 'react-dom';
+
+import {
+  init,
+  locations,
+  FieldExtensionSDK,
+  DialogExtensionSDK,
+  AppExtensionSDK
+} from 'contentful-ui-extensions-sdk';
+
+import '@contentful/forma-36-react-components/dist/styles.css';
+import '@contentful/forma-36-fcss/dist/styles.css';
+import './index.css';
+
+import Field from './components/Editor/Field';
+import AppConfig from './components/AppConfig/AppConfig';
+
+import { Integration } from './interfaces';
+
+export function setup(integration: Integration) {
+  init(sdk => {
+    const root = document.getElementById('root');
+
+    if (sdk.location.is(locations.LOCATION_DIALOG)) {
+      integration.renderDialog(sdk as DialogExtensionSDK);
+    }
+
+    if (sdk.location.is(locations.LOCATION_ENTRY_FIELD)) {
+      render(
+        <Field
+          sdk={sdk as FieldExtensionSDK}
+          cta={integration.cta}
+          makeThumbnail={integration.makeThumbnail}
+          openDialog={integration.openDialog}
+          isDisabled={integration.isDisabled}
+        />,
+        root
+      );
+    }
+
+    if (sdk.location.is(locations.LOCATION_APP)) {
+      render(<AppConfig sdk={sdk as AppExtensionSDK} />, root);
+    }
+  });
+}
