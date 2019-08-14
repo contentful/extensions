@@ -65,13 +65,39 @@ function renderDialog(sdk: DialogExtensionSDK) {
   sdk.window.updateHeight(window.outerHeight);
 }
 
+async function openDialog(sdk: FieldExtensionSDK, currentValue: Hash[], config: Hash) {
+  const maxFiles = config.maxFiles - currentValue.length;
+
+  const result = await sdk.dialogs.openExtension({
+    position: 'center',
+    title: 'Select or upload a file',
+    shouldCloseOnOverlayClick: true,
+    shouldCloseOnEscapePress: true,
+    parameters: { ...config, maxFiles },
+    width: 1400
+  });
+
+  if (result && Array.isArray(result.assets)) {
+    return result.assets;
+  } else {
+    return [];
+  }
+}
+
 init(sdk => {
   const root = document.getElementById('root');
 
   if (sdk.location.is(locations.LOCATION_DIALOG)) {
     renderDialog(sdk as DialogExtensionSDK);
   } else if (sdk.location.is(locations.LOCATION_ENTRY_FIELD)) {
-    render(<Field sdk={sdk as FieldExtensionSDK} makeThumbnail={makeThumbnail} />, root);
+    render(
+      <Field
+        sdk={sdk as FieldExtensionSDK}
+        makeThumbnail={makeThumbnail}
+        openDialog={openDialog}
+      />,
+      root
+    );
   } else if (sdk.location.is(locations.LOCATION_APP)) {
     render(<AppConfig sdk={sdk as AppExtensionSDK} />, root);
   }

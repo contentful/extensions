@@ -4,11 +4,12 @@ import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { SortableComponent } from './SortableComponent';
 import { ExtensionParameters } from '../AppConfig/parameters';
 
-type Hash = Record<string, any>
+type Hash = Record<string, any>;
 
 interface Props {
   sdk: FieldExtensionSDK;
   makeThumbnail: (resource: Hash, config: Hash) => (string | undefined)[];
+  openDialog: (sdk: FieldExtensionSDK, currentValue: Hash[], config: Hash) => Promise<Hash[]>;
 }
 
 interface State {
@@ -54,20 +55,14 @@ export default class Field extends React.Component<Props, State> {
 
   onDialogOpen = async () => {
     const config = this.props.sdk.parameters.installation as ExtensionParameters;
-    const maxFiles = config.maxFiles - this.state.value.length;
 
-    const data = await this.props.sdk.dialogs.openExtension({
-      position: 'center',
-      title: 'Select or upload a file',
-      shouldCloseOnOverlayClick: true,
-      shouldCloseOnEscapePress: true,
-      parameters: { ...config, maxFiles },
-      width: 1400
-    });
+    const result = await this.props.openDialog(this.props.sdk, this.state.value, config);
 
-    const newValue = [...(this.state.value || []), ...data.assets];
+    if (result.length > 0) {
+      const newValue = [...(this.state.value || []), ...result];
 
-    await this.updateStateValue(newValue);
+      await this.updateStateValue(newValue);
+    }
   };
 
   render = () => {
