@@ -15,8 +15,8 @@ import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
 import './index.css';
 
-import CloudinaryDialog from './components/cloudinaryDialog/cloudinaryDialog';
-import CloudinaryField from './components/cloudinaryField/cloudinaryField';
+import CloudinaryDialog from './components/Editor/CloudinaryDialog';
+import CloudinaryField from './components/Editor/CloudinaryField';
 import ClodudinaryAppConfig from './components/AppConfig/AppConfig';
 
 init(sdk => {

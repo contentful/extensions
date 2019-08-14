@@ -2,15 +2,32 @@ import * as React from 'react';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { IconButton, Card } from '@contentful/forma-36-react-components';
-import {
-  SortableElementProperties,
-  SortableElementState,
-  SortableElementData,
-  SortableContainerData
-} from './interfaces';
 import CloudinaryThumbnail, {
   CloudinaryThumbnailProps
-} from '../cloudinaryThumbnail/cloudinaryThumbnail';
+} from './CloudinaryThumbnail';
+import { CloudinaryResource } from '../../cloudinaryInterfaces';
+import { ExtensionParameters } from '../AppConfig/parameters';
+
+interface SortableElementProperties {
+  onChange?: (data: CloudinaryResource[]) => void;
+  config: ExtensionParameters;
+  resources: CloudinaryResource[];
+}
+
+interface SortableContainerData {
+  config: ExtensionParameters;
+  resources: CloudinaryResource[];
+  deleteFnc: (index: number) => void;
+}
+
+interface SortableElementState {
+  readonly resources: CloudinaryResource[];
+}
+
+interface SortableElementData extends CloudinaryThumbnailProps {
+  readonly index: number;
+  deleteFnc: (index: number) => void;
+}
 
 const DragHandle = SortableHandle<CloudinaryThumbnailProps>((props: CloudinaryThumbnailProps) => (
   <div className="order">
