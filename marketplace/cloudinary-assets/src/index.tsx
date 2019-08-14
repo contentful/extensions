@@ -23,6 +23,7 @@ import AppConfig from './components/AppConfig/AppConfig';
 type Hash = Record<string, any>;
 
 const VALID_IMAGE_FORMATS = ['svg', 'jpg', 'png', 'gif', 'jpeg'];
+const CTA = 'Select or upload a file on Cloudinary';
 
 function makeThumbnail(resource: Hash, config: Hash) {
   const cloudinary = new cloudinaryCore({
@@ -70,7 +71,7 @@ async function openDialog(sdk: FieldExtensionSDK, currentValue: Hash[], config: 
 
   const result = await sdk.dialogs.openExtension({
     position: 'center',
-    title: 'Select or upload a file',
+    title: CTA,
     shouldCloseOnOverlayClick: true,
     shouldCloseOnEscapePress: true,
     parameters: { ...config, maxFiles },
@@ -93,6 +94,7 @@ init(sdk => {
     render(
       <Field
         sdk={sdk as FieldExtensionSDK}
+        cta={CTA}
         makeThumbnail={makeThumbnail}
         openDialog={openDialog}
       />,

@@ -8,6 +8,7 @@ type Hash = Record<string, any>;
 
 interface Props {
   sdk: FieldExtensionSDK;
+  cta: string;
   makeThumbnail: (resource: Hash, config: Hash) => (string | undefined)[];
   openDialog: (sdk: FieldExtensionSDK, currentValue: Hash[], config: Hash) => Promise<Hash[]>;
 }
@@ -88,7 +89,7 @@ export default class Field extends React.Component<Props, State> {
             size="small"
             onClick={this.onDialogOpen}
             disabled={isDisabled}>
-            Select or upload a file
+            {this.props.cta}
           </Button>
         </div>
       </>
