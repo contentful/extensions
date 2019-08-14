@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Cloudinary as cloudinaryCore } from 'cloudinary-core';
 
 import { CloudinaryResource } from '../../cloudinaryInterfaces';
-import { ExtensionParameters } from '../cloudinaryAppConfig/parameters';
+import { ExtensionParameters } from '../AppConfig/parameters';
 
 export interface CloudinaryThumbnailProps {
   config: ExtensionParameters;

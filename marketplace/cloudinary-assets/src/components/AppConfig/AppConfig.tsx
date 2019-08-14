@@ -11,7 +11,7 @@ import {
 } from '@contentful/forma-36-react-components';
 import { Workbench } from '@contentful/forma-36-react-components/dist/alpha';
 
-import FieldSelector from './fieldSelector';
+import FieldSelector from './FieldSelector';
 
 import {
   toExtensionParameters,
@@ -43,7 +43,7 @@ interface State {
   parameters: InputParameters;
 }
 
-export default class CloudinaryAppConfig extends React.Component<Props, State> {
+export default class AppConfig extends React.Component<Props, State> {
   state = {
     ready: false,
     contentTypes: [] as ContentType[],

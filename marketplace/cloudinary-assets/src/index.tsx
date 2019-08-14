@@ -17,7 +17,7 @@ import './index.css';
 
 import CloudinaryDialog from './components/cloudinaryDialog/cloudinaryDialog';
 import CloudinaryField from './components/cloudinaryField/cloudinaryField';
-import ClodudinaryAppConfig from './components/cloudinaryAppConfig/cloudinaryAppConfig';
+import ClodudinaryAppConfig from './components/AppConfig/AppConfig';
 
 init(sdk => {
   const root = document.getElementById('root');

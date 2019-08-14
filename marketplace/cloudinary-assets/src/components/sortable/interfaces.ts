@@ -1,6 +1,6 @@
 import { CloudinaryResource } from '../../cloudinaryInterfaces';
 import { CloudinaryThumbnailProps } from '../cloudinaryThumbnail/cloudinaryThumbnail';
-import { ExtensionParameters } from '../cloudinaryAppConfig/parameters';
+import { ExtensionParameters } from '../AppConfig/parameters';
 
 export interface SortableElementProperties {
   onChange?: (data: CloudinaryResource[]) => void;

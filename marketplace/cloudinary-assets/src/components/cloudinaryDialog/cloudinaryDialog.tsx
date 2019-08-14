@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DialogExtensionSDK } from 'contentful-ui-extensions-sdk';
-import { ExtensionParameters } from '../cloudinaryAppConfig/parameters';
+import { ExtensionParameters } from '../AppConfig/parameters';
 
 interface Props {
   sdk: DialogExtensionSDK;
