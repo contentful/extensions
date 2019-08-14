@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { IconButton, Card } from '@contentful/forma-36-react-components';
-import { Hash, ThumbnailFn, DeleteFn } from '../../interfaces';
+import { Hash, ThumbnailFn, DeleteFn } from '../interfaces';
 
 interface Props {
   onChange: (data: Hash[]) => void;

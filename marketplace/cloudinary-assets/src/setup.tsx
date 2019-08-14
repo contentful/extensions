@@ -15,8 +15,8 @@ import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
 import './index.css';
 
-import Field from './components/Editor/Field';
-import AppConfig from './components/AppConfig/AppConfig';
+import Field from './Editor/Field';
+import AppConfig from './AppConfig/AppConfig';
 
 import { Integration } from './interfaces';
 

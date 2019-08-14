@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button } from '@contentful/forma-36-react-components';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { SortableComponent } from './SortableComponent';
-import { ThumbnailFn, OpenDialogFn, DisabledPredicateFn } from '../../interfaces';
+import { ThumbnailFn, OpenDialogFn, DisabledPredicateFn } from '../interfaces';
 
 type Hash = Record<string, any>;
 
