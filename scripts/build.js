@@ -38,7 +38,9 @@ async function writeExtensionHeaders(extensionDir) {
 }
 
 dirs(`${__dirname}/../marketplace`)
-  .then(extensions => {
+  .then(dirs => {
+    const extensions = dirs.filter(dir => !dir.startsWith('_'));
+
     return Promise.all(
       extensions.map(async extension => {
         const entryFile = path.join(BASE_DIR, extension, 'src', 'index.html');
