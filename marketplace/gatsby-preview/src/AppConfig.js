@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { css } from 'emotion';
-import tokens from '@contentful/forma-36-tokens';
 import {
   Heading,
   Typography,
@@ -13,109 +11,50 @@ import {
   SkeletonBodyText
 } from '@contentful/forma-36-react-components';
 import GatsbyIcon from './GatsbyIcon';
-
-const styles = {
-  body: css({
-    height: 'auto',
-    minHeight: '850px',
-    margin: '0 auto',
-    marginTop: tokens.spacingXl,
-    padding: '20px 40px',
-    maxWidth: '786px',
-    backgroundColor: '#fff',
-    zIndex: '2',
-    boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
-    borderRadius: '2px'
-  }),
-  background: css({
-    display: 'block',
-    position: 'absolute',
-    zIndex: '-1',
-    top: '0',
-    width: '100%',
-    height: '300px',
-    backgroundColor: '#452475',
-    backgroundImage:
-      'linear-gradient(45deg,#542c85 25%,transparent 25%,transparent 50%,#542c85 50%,#542c85 75%,transparent 75%,transparent)'
-  }),
-  section: css({
-    margin: `${tokens.spacingXl} 0`
-  }),
-  input: css({
-    marginTop: tokens.spacingM
-  }),
-  splitter: css({
-    marginTop: tokens.spacingL,
-    marginBottom: tokens.spacingL,
-    border: 0,
-    height: '1px',
-    backgroundColor: tokens.colorElementMid
-  }),
-  icon: css({
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: tokens.spacingXl
-  }),
-  checks: css({
-    marginTop: tokens.spacingM,
-    display: 'flex'
-  }),
-  pills: css({
-    margin: `0 ${tokens.spacingXs}`
-  })
-};
+import styles from './styles';
 
 export default class AppConfig extends React.Component {
   static propTypes = {
     sdk: PropTypes.object.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      previewUrl: '',
-      webhookUrl: '',
-      authToken: '',
-      checkedContentTypes: {}
-    };
-  }
+  state = {
+    previewUrl: '',
+    webhookUrl: '',
+    authToken: '',
+    checkedContentTypes: {}
+  };
 
   async componentDidMount() {
     const { app } = this.props.sdk.platformAlpha;
     app.onConfigure(this.configureApp);
 
-    const params = (await app.getParameters()) || {};
-
-    // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({
-      previewUrl: params.previewUrl || '',
-      webhookUrl: params.webhookUrl || '',
-      authToken: params.authToken || ''
-    });
-
-    const [currentParams, { items }] = await Promise.all([
+    const [installationParams, currentState, { items }] = await Promise.all([
+      app.getParameters(),
       app.getCurrentState(),
       this.props.sdk.space.getContentTypes()
     ]);
 
-    const { EditorInterface = {} } = currentParams || {};
+    const { EditorInterface = {} } = currentState || {};
 
     const previouslyCheckedTypes = Object.keys(EditorInterface).filter(
       ct => EditorInterface[ct].sidebar
     );
 
-    if (items && items.length) {
-      // eslint-disable-next-line react/no-did-mount-set-state
-      this.setState(prevState => {
-        return {
-          checkedContentTypes: items.reduce((acc, ct) => {
-            acc[ct.sys.id] = { name: ct.name, checked: previouslyCheckedTypes.includes(ct.sys.id) };
-            return acc;
-          }, prevState.checkedContentTypes)
-        };
-      });
-    }
+    const params = installationParams || {};
+
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState(prevState => {
+      return {
+        checkedContentTypes: items.reduce((acc, ct) => {
+          acc[ct.sys.id] = { name: ct.name, checked: previouslyCheckedTypes.includes(ct.sys.id) };
+          return acc;
+        }, prevState.checkedContentTypes),
+        previewUrl: params.previewUrl || '',
+        webhookUrl: params.webhookUrl || '',
+        authToken: params.authToken || ''
+      };
+    });
   }
 
   configureApp = async () => {
