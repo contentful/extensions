@@ -3,6 +3,8 @@ import 'es6-promise/auto';
 import * as React from 'react';
 import { render } from 'react-dom';
 
+import { Cloudinary as cloudinaryCore } from 'cloudinary-core';
+
 import {
   init,
   locations,
@@ -16,16 +18,14 @@ import '@contentful/forma-36-fcss/dist/styles.css';
 import './index.css';
 
 import CloudinaryDialog from './components/Editor/CloudinaryDialog';
-import CloudinaryField from './components/Editor/CloudinaryField';
-import ClodudinaryAppConfig from './components/AppConfig/AppConfig';
+import Field from './components/Editor/Field';
+import AppConfig from './components/AppConfig/AppConfig';
 
-import { Cloudinary as cloudinaryCore } from 'cloudinary-core';
-import { CloudinaryResource } from './cloudinaryInterfaces';
-import { ExtensionParameters } from './components/AppConfig/parameters';
+type Hash = Record<string, any>;
 
 const VALID_IMAGE_FORMATS = ['svg', 'jpg', 'png', 'gif', 'jpeg'];
 
-function makeThumbnail(resource: CloudinaryResource, config: ExtensionParameters) {
+function makeThumbnail(resource: Hash, config: Hash) {
   const cloudinary = new cloudinaryCore({
     cloud_name: config.cloudName,
     api_key: config.apiKey
@@ -50,8 +50,8 @@ init(sdk => {
   if (sdk.location.is(locations.LOCATION_DIALOG)) {
     render(<CloudinaryDialog sdk={sdk as DialogExtensionSDK} />, root);
   } else if (sdk.location.is(locations.LOCATION_ENTRY_FIELD)) {
-    render(<CloudinaryField sdk={sdk as FieldExtensionSDK} makeThumbnail={makeThumbnail} />, root);
+    render(<Field sdk={sdk as FieldExtensionSDK} makeThumbnail={makeThumbnail} />, root);
   } else if (sdk.location.is(locations.LOCATION_APP)) {
-    render(<ClodudinaryAppConfig sdk={sdk as AppExtensionSDK} />, root);
+    render(<AppConfig sdk={sdk as AppExtensionSDK} />, root);
   }
 });

@@ -1,20 +1,21 @@
 import * as React from 'react';
 import { Button } from '@contentful/forma-36-react-components';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
-import { CloudinaryResource } from '../../cloudinaryInterfaces';
 import { SortableComponent } from './SortableComponent';
 import { ExtensionParameters } from '../AppConfig/parameters';
 
+type Hash = Record<string, any>
+
 interface Props {
   sdk: FieldExtensionSDK;
-  makeThumbnail: (resource: any, config: any) => (string | undefined)[];
+  makeThumbnail: (resource: Hash, config: Hash) => (string | undefined)[];
 }
 
 interface State {
-  value: CloudinaryResource[];
+  value: Hash[];
 }
 
-export default class CloudinaryField extends React.Component<Props, State> {
+export default class Field extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     const value = props.sdk.field.getValue();
@@ -38,11 +39,11 @@ export default class CloudinaryField extends React.Component<Props, State> {
     }
   }
 
-  onExternalChange = (value?: CloudinaryResource[]) => {
+  onExternalChange = (value?: Hash[]) => {
     this.setState({ value: Array.isArray(value) ? value : [] });
   };
 
-  updateStateValue = async (value: CloudinaryResource[]) => {
+  updateStateValue = async (value: Hash[]) => {
     this.setState({ value });
     if (value.length > 0) {
       await this.props.sdk.field.setValue(value);
@@ -51,13 +52,13 @@ export default class CloudinaryField extends React.Component<Props, State> {
     }
   };
 
-  onCloudinaryDialogOpen = async () => {
+  onDialogOpen = async () => {
     const config = this.props.sdk.parameters.installation as ExtensionParameters;
     const maxFiles = config.maxFiles - this.state.value.length;
 
     const data = await this.props.sdk.dialogs.openExtension({
       position: 'center',
-      title: 'Select or Upload Media',
+      title: 'Select or upload a file',
       shouldCloseOnOverlayClick: true,
       shouldCloseOnEscapePress: true,
       parameters: { ...config, maxFiles },
@@ -90,9 +91,9 @@ export default class CloudinaryField extends React.Component<Props, State> {
             icon="Asset"
             buttonType="muted"
             size="small"
-            onClick={this.onCloudinaryDialogOpen}
+            onClick={this.onDialogOpen}
             disabled={isDisabled}>
-            Select or upload a file on Cloudinary
+            Select or upload a file
           </Button>
         </div>
       </>

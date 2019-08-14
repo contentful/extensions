@@ -4,24 +4,24 @@ import arrayMove from 'array-move';
 import { IconButton, Card } from '@contentful/forma-36-react-components';
 import { ExtensionParameters } from '../AppConfig/parameters';
 
-type Resource = Record<string, any>;
+type Hash = Record<string, any>;
 
 interface SortableElementProperties {
-  onChange?: (data: Resource[]) => void;
+  onChange?: (data: Hash[]) => void;
   config: ExtensionParameters;
-  resources: Resource[];
-  makeThumbnail: (resource: any, config: any) => (string | undefined)[];
+  resources: Hash[];
+  makeThumbnail: (resource: Hash, config: Hash) => (string | undefined)[];
 }
 
 interface SortableContainerData {
   config: ExtensionParameters;
-  resources: Resource[];
+  resources: Hash[];
   deleteFnc: (index: number) => void;
-  makeThumbnail: (resource: any, config: any) => (string | undefined)[];
+  makeThumbnail: (resource: Hash, config: Hash) => (string | undefined)[];
 }
 
 interface SortableElementState {
-  readonly resources: Resource[];
+  readonly resources: Hash[];
 }
 
 interface ThumbnailProps {
