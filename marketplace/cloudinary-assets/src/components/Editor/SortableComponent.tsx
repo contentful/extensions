@@ -2,7 +2,6 @@ import * as React from 'react';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { IconButton, Card } from '@contentful/forma-36-react-components';
-import { ExtensionParameters } from '../AppConfig/parameters';
 
 type Hash = Record<string, any>;
 type ThumbnailFn = (resource: Hash, config: Hash) => (string | undefined)[];
@@ -10,13 +9,13 @@ type DeleteFn = (index: number) => void;
 
 interface SortableElementProperties {
   onChange: (data: Hash[]) => void;
-  config: ExtensionParameters;
+  config: Hash;
   resources: Hash[];
   makeThumbnail: ThumbnailFn;
 }
 
 interface SortableContainerProps {
-  config: ExtensionParameters;
+  config: Hash;
   resources: Hash[];
   deleteFnc: DeleteFn;
   makeThumbnail: ThumbnailFn;

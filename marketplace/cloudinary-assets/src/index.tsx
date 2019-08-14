@@ -85,6 +85,10 @@ async function openDialog(sdk: FieldExtensionSDK, currentValue: Hash[], config: 
   }
 }
 
+function isDisabled(currentValue: Hash[], config: Hash) {
+  return currentValue.length >= config.maxFiles;
+}
+
 init(sdk => {
   const root = document.getElementById('root');
 
@@ -97,6 +101,7 @@ init(sdk => {
         cta={CTA}
         makeThumbnail={makeThumbnail}
         openDialog={openDialog}
+        isDisabled={isDisabled}
       />,
       root
     );

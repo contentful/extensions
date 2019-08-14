@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Button } from '@contentful/forma-36-react-components';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { SortableComponent } from './SortableComponent';
-import { ExtensionParameters } from '../AppConfig/parameters';
 
 type Hash = Record<string, any>;
 
@@ -11,6 +10,7 @@ interface Props {
   cta: string;
   makeThumbnail: (resource: Hash, config: Hash) => (string | undefined)[];
   openDialog: (sdk: FieldExtensionSDK, currentValue: Hash[], config: Hash) => Promise<Hash[]>;
+  isDisabled: (currentValue: Hash[], config: Hash) => boolean;
 }
 
 interface State {
@@ -55,9 +55,9 @@ export default class Field extends React.Component<Props, State> {
   };
 
   onDialogOpen = async () => {
-    const config = this.props.sdk.parameters.installation as ExtensionParameters;
-
-    const result = await this.props.openDialog(this.props.sdk, this.state.value, config);
+    const currentValue = this.state.value;
+    const config = this.props.sdk.parameters.installation;
+    const result = await this.props.openDialog(this.props.sdk, currentValue, config);
 
     if (result.length > 0) {
       const newValue = [...(this.state.value || []), ...result];
@@ -67,9 +67,10 @@ export default class Field extends React.Component<Props, State> {
   };
 
   render = () => {
-    const config = this.props.sdk.parameters.installation as ExtensionParameters;
-    const hasItems = this.state.value.length > 0;
-    const isDisabled = this.state.value.length >= config.maxFiles;
+    const currentValue = this.state.value;
+    const hasItems = currentValue.length > 0;
+    const config = this.props.sdk.parameters.installation;
+    const isDisabled = this.props.isDisabled(currentValue, config);
 
     return (
       <>
