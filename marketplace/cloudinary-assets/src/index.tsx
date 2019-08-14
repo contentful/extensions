@@ -17,7 +17,6 @@ import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
 import './index.css';
 
-import CloudinaryDialog from './components/Editor/CloudinaryDialog';
 import Field from './components/Editor/Field';
 import AppConfig from './components/AppConfig/AppConfig';
 
@@ -44,11 +43,33 @@ function makeThumbnail(resource: Hash, config: Hash) {
   return [url, alt];
 }
 
+function renderDialog(sdk: DialogExtensionSDK) {
+  const { cloudinary } = window as any;
+  const config = sdk.parameters.invocation as Hash;
+
+  const options = {
+    cloud_name: config.cloudName,
+    api_key: config.apiKey,
+    max_files: config.maxFiles,
+    multiple: config.maxFiles > 1,
+    inline_container: '#root',
+    remove_header: true
+  };
+
+  const instance = cloudinary.createMediaLibrary(options, {
+    insertHandler: (data: any) => sdk.close(data)
+  });
+
+  instance.show();
+
+  sdk.window.updateHeight(window.outerHeight);
+}
+
 init(sdk => {
   const root = document.getElementById('root');
 
   if (sdk.location.is(locations.LOCATION_DIALOG)) {
-    render(<CloudinaryDialog sdk={sdk as DialogExtensionSDK} />, root);
+    renderDialog(sdk as DialogExtensionSDK);
   } else if (sdk.location.is(locations.LOCATION_ENTRY_FIELD)) {
     render(<Field sdk={sdk as FieldExtensionSDK} makeThumbnail={makeThumbnail} />, root);
   } else if (sdk.location.is(locations.LOCATION_APP)) {
