@@ -1,7 +1,10 @@
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { init } from 'contentful-ui-extensions-sdk';
-import { ExtensionUI } from "@gatsby-cloud-pkg/gatsby-cms-extension-base"
+import { ExtensionUI } from "@gatsby-cloud-pkg/gatsby-cms-extension-base";
+import { Textarea } from "gatsby-interface"
 
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
@@ -13,7 +16,7 @@ class App extends React.Component {
 
   componentDidMount = () => {
     this.detachFn = this.props.sdk.entry.onSysChanged(this.onSysChanged);
-
+    console.log(this.props.sdk)
     this.props.sdk.window.startAutoResizer();
   };
 
@@ -30,6 +33,7 @@ class App extends React.Component {
   };
 
   onSysChanged = () => {
+    console.log(`sys change`)
     if (this.debounceInterval) {
       clearInterval(this.debounceInterval);
     }
@@ -37,6 +41,7 @@ class App extends React.Component {
   };
 
   refreshGatsbySite = () => {
+    console.log(this.props.sdk.notifier)
     const {
       parameters: { installation }
     } = this.props.sdk;
@@ -68,9 +73,11 @@ class App extends React.Component {
     } = this.props.sdk;
     const { previewUrl, authToken } = installation;
     const { slug: contentSlug } = entry.fields;
+    console.log(`hey`)
     return (
       <div className="extension">
         <div className="flexcontainer">
+
           <ExtensionUI contentSlug={contentSlug && contentSlug.getValue()} siteUrl={previewUrl} authToken={authToken} />
         </div>
       </div>
