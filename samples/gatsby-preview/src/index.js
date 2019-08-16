@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import { jsx } from "@emotion/core"
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { init } from 'contentful-ui-extensions-sdk';
