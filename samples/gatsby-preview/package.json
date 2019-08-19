@@ -19,7 +19,8 @@
     "contentful-ui-extensions-sdk": "3.7.2",
     "prop-types": "15.7.2",
     "react": "16.8.6",
-    "react-dom": "16.8.6"
+    "react-dom": "16.8.6",
+    "react-icons": "^3.7.0"
   },
   "scripts": {
     "prestart": "contentful extension update --src http://localhost:1234 --force",

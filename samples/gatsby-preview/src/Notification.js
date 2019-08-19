@@ -15,13 +15,13 @@ const tones = {
   }
 };
 
-const Notification = ({ tone = `STANDARD`, children, icon: Icon }) =>  (
+const Notification = ({ tone = `STANDARD`, children, icon: Icon, className }) =>  (
   <div
     className="notification"
     style={{
       borderLeft: `10px solid ${tones[tone].dark}`,
     }}>
-    {Icon && <Icon />}
+    {Icon && <Icon className={className} />}
     {children}
   </div>
 )

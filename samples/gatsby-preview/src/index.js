@@ -4,7 +4,7 @@ import { init } from 'contentful-ui-extensions-sdk';
 import { ExtensionUI } from "@gatsby-cloud-pkg/gatsby-cms-extension-base";
 import Notification from "./Notification"
 import Danger from "../assets/danger"
-import Warning from "../assets/warning"
+import { MdRefresh } from "react-icons/md"
 
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
@@ -42,7 +42,7 @@ class App extends React.Component {
     const { showNotification, notificationTone } = this.state
     if (this.debounceInterval) {
       !showNotification && this.setState({ showNotification: true })
-      notificationTone !== `WARNING` && this.setState({ notificationText: `Refreshing the preview...`, notificationTone: `WARNING`, notificationIcon: Warning })
+      notificationTone !== `WARNING` && this.setState({ notificationText: `Refreshing the preview...`, notificationTone: `WARNING`, notificationIcon: MdRefresh })
       clearInterval(this.debounceInterval);
     }
     this.debounceInterval = setInterval(this.refreshGatsbySite, 1000);
@@ -86,7 +86,7 @@ class App extends React.Component {
     return (
       <div className="extension">
         <div className="flexcontainer">
-          {showNotification && <Notification icon={notificationIcon} tone={notificationTone}>{notificationText}</Notification>}
+          {showNotification && <Notification icon={notificationIcon} tone={notificationTone} className={notificationIcon === MdRefresh ? `loading` : ``}>{notificationText}</Notification>}
           <ExtensionUI contentSlug={contentSlug && contentSlug.getValue()} siteUrl={previewUrl} authToken={authToken} />
         </div>
       </div>
