@@ -46,7 +46,8 @@ const styles = {
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
-    marginTop: tokens.spacingXl
+    marginTop: tokens.spacingXl,
+    marginBottom: tokens.spacingXl
   })
 };
 

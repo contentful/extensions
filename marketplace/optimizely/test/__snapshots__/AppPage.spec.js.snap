@@ -244,7 +244,7 @@ exports[`AppPage should render the AppPage loading when first connected to Optim
     </div>
   </div>
   <div
-    class="css-pnxp72"
+    class="css-fngmsh"
   >
     <svg
       height="60"
@@ -530,7 +530,7 @@ exports[`AppPage should render the AppPage with Features and connect button 1`] 
     </div>
   </div>
   <div
-    class="css-pnxp72"
+    class="css-fngmsh"
   >
     <svg
       height="60"
@@ -877,7 +877,7 @@ exports[`AppPage should render the Optimizely config and allow for adding conten
     </div>
   </div>
   <div
-    class="css-pnxp72"
+    class="css-fngmsh"
   >
     <svg
       height="60"
