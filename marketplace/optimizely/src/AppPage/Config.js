@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import tokens from '@contentful/forma-36-tokens';
 import { css } from 'emotion';
-import { Spinner } from '@contentful/forma-36-react-components';
+import { SkeletonContainer, SkeletonBodyText } from '@contentful/forma-36-react-components';
 
 import Projects from './Projects';
 import ContentTypes from './ContentTypes';
 
 const styles = {
   section: css({
-    margin: `${tokens.spacingXl} 0`
+    margin: `${tokens.spacingXl} 0`,
+    width: '100%'
   })
 };
 
@@ -71,14 +72,16 @@ export default class Config extends React.Component {
     });
   };
 
+  renderLoader = () => (
+    <div>
+      <SkeletonContainer width="100%">
+        <SkeletonBodyText numberOfLines={3} offsetTop={35} />
+      </SkeletonContainer>
+    </div>
+  );
+
   render() {
-    if (this.state.loadingProjects) {
-      return (
-        <div>
-          Loading <Spinner />
-        </div>
-      );
-    }
+    const { loadingProjects } = this.state;
 
     const { contentTypes } = this.props.config;
     const addedContentTypes = Object.keys(contentTypes);
@@ -86,20 +89,28 @@ export default class Config extends React.Component {
     return (
       <>
         <div className={styles.section}>
-          <Projects
-            allProjects={this.state.allProjects}
-            onProjectChange={this.onProjectChange}
-            selectedProject={this.props.config.optimizelyProjectId}
-          />
+          {loadingProjects ? (
+            this.renderLoader()
+          ) : (
+            <Projects
+              allProjects={this.state.allProjects}
+              onProjectChange={this.onProjectChange}
+              selectedProject={this.props.config.optimizelyProjectId}
+            />
+          )}
         </div>
         <div className={styles.section}>
-          <ContentTypes
-            addedContentTypes={addedContentTypes}
-            allContentTypes={this.props.allContentTypes}
-            allReferenceFields={contentTypes}
-            onAddContentType={this.onAddContentType}
-            onDeleteContentType={this.onDeleteContentType}
-          />
+          {loadingProjects ? (
+            this.renderLoader()
+          ) : (
+            <ContentTypes
+              addedContentTypes={addedContentTypes}
+              allContentTypes={this.props.allContentTypes}
+              allReferenceFields={contentTypes}
+              onAddContentType={this.onAddContentType}
+              onDeleteContentType={this.onDeleteContentType}
+            />
+          )}
         </div>
       </>
     );

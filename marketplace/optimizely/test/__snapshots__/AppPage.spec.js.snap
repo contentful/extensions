@@ -3,81 +3,11 @@
 exports[`AppPage should render the AppPage loading when first connected to Optimizely 1`] = `
 <div>
   <div
-    class="css-udl8of"
+    class="css-1a8f5ni"
+  />
+  <div
+    class="css-jjthht"
   >
-    <div
-      class="css-xqqg40"
-    >
-      <div
-        class="f36-margin-top--l"
-      >
-        <div
-          class="Typography__Typography___1ZUfE"
-          data-test-id="cf-ui-text-container"
-        >
-          <h1
-            class="Heading__Heading___83D3K f36-margin-bottom--m"
-            data-test-id="cf-ui-heading"
-          >
-            Features
-          </h1>
-          <p
-            class="Paragraph__Paragraph___2aO-9 f36-margin-top--m f36-margin-bottom--m"
-            data-test-id="cf-ui-paragraph"
-          >
-            Optimizely integration enables:
-          </p>
-          <ul
-            class="List__List___1awv4 f36-margin-top--m f36-margin-bottom--m"
-            data-test-id="cf-ui-list"
-          >
-            <li
-              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
-              data-test-id="cf-ui-list-item"
-            >
-              Loading experiments from Optimizely
-            </li>
-            <li
-              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
-              data-test-id="cf-ui-list-item"
-            >
-              Adding content to variations
-            </li>
-            <li
-              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
-              data-test-id="cf-ui-list-item"
-            >
-              Seeing all experiments connected with Contentful (drafts, running, ended)
-            </li>
-          </ul>
-          <p
-            class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
-            data-test-id="cf-ui-paragraph"
-          >
-            Check out the
-             
-            <a
-              class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 TextLink__TextLink--primary___2Vc9F"
-              data-test-id="cf-ui-text-link"
-              href="https://www.contentful.com/developers/docs/extensibility/apps/optimizely/"
-              target="_blank"
-            >
-              <span
-                class="TabFocusTrap__TabFocusTrap___39Vty"
-                tabindex="-1"
-              >
-                documentation
-              </span>
-            </a>
-             
-            for more information.
-          </p>
-        </div>
-      </div>
-    </div>
-    <hr
-      class="css-14380qe"
-    />
     <div
       class="css-xqqg40"
     >
@@ -111,27 +41,247 @@ exports[`AppPage should render the AppPage loading when first connected to Optim
       <hr
         class="css-14380qe"
       />
-      <div>
-        Loading 
-        <svg
-          class="Spinner__Spinner___32lpa Spinner__Spinner--default___1UP1r"
-          data-test-id="cf-ui-spinner"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <title>
-            Loading…
-          </title>
-          <path
-            d="M2,10a8,8,0,0,1,8-8V0a10,10,0,0,0,0,20V18A8,8,0,0,1,2,10Z"
-          />
-          <path
-            d="M10,0V2a8,8,0,0,1,0,16v2A10,10,0,0,0,10,0Z"
-            style="opacity: 0.4;"
-          />
-        </svg>
+      <div
+        class="css-bfyjep"
+      >
+        <div>
+          <svg
+            aria-label="Loading component..."
+            class="SkeletonContainer__SkeletonContainer___23jiu"
+            data-test-id="cf-ui-skeleton-form"
+            height="100%"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            width="100%"
+          >
+            <title>
+              Loading component...
+            </title>
+            <rect
+              clip-path="url(#cf-ui-skeleton-clip-id)"
+              height="100%"
+              style="fill: url(#cf-ui-skeleton-clip-gradient);"
+              width="100%"
+              x="0"
+              y="0"
+            />
+            <defs>
+              <clippath
+                id="cf-ui-skeleton-clip-id"
+              >
+                <rect
+                  height="16"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  x="0"
+                  y="35"
+                />
+                <rect
+                  height="16"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  x="0"
+                  y="59"
+                />
+                <rect
+                  height="16"
+                  rx="0"
+                  ry="0"
+                  width="80%"
+                  x="0"
+                  y="83"
+                />
+              </clippath>
+              <lineargradient
+                id="cf-ui-skeleton-clip-gradient"
+              >
+                <stop
+                  offset="0%"
+                  stop-color="#e5ebed"
+                  stop-opacity="1"
+                >
+                  <animate
+                    attributeName="stop-color"
+                    dur="2s"
+                    id="animation1"
+                    repeatCount="indefinite"
+                    values="#e5ebed; #f7f9fa; #e5ebed"
+                  />
+                </stop>
+                <stop
+                  offset="50%"
+                  stop-color="#f7f9fa"
+                  stop-opacity="1"
+                >
+                  <animate
+                    attributeName="stop-color"
+                    begin="animation1.begin+0.25s"
+                    dur="2s"
+                    repeatCount="indefinite"
+                    values="#e5ebed; #f7f9fa; #e5ebed"
+                  />
+                </stop>
+                <stop
+                  offset="100%"
+                  stop-color="#e5ebed"
+                  stop-opacity="1"
+                >
+                  <animate
+                    attributeName="stop-color"
+                    begin="animation1.begin+0.5s"
+                    dur="2s"
+                    repeatCount="indefinite"
+                    values="#e5ebed; #f7f9fa; #e5ebed"
+                  />
+                </stop>
+              </lineargradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+      <div
+        class="css-bfyjep"
+      >
+        <div>
+          <svg
+            aria-label="Loading component..."
+            class="SkeletonContainer__SkeletonContainer___23jiu"
+            data-test-id="cf-ui-skeleton-form"
+            height="100%"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            width="100%"
+          >
+            <title>
+              Loading component...
+            </title>
+            <rect
+              clip-path="url(#cf-ui-skeleton-clip-id)"
+              height="100%"
+              style="fill: url(#cf-ui-skeleton-clip-gradient);"
+              width="100%"
+              x="0"
+              y="0"
+            />
+            <defs>
+              <clippath
+                id="cf-ui-skeleton-clip-id"
+              >
+                <rect
+                  height="16"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  x="0"
+                  y="35"
+                />
+                <rect
+                  height="16"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  x="0"
+                  y="59"
+                />
+                <rect
+                  height="16"
+                  rx="0"
+                  ry="0"
+                  width="80%"
+                  x="0"
+                  y="83"
+                />
+              </clippath>
+              <lineargradient
+                id="cf-ui-skeleton-clip-gradient"
+              >
+                <stop
+                  offset="0%"
+                  stop-color="#e5ebed"
+                  stop-opacity="1"
+                >
+                  <animate
+                    attributeName="stop-color"
+                    dur="2s"
+                    id="animation1"
+                    repeatCount="indefinite"
+                    values="#e5ebed; #f7f9fa; #e5ebed"
+                  />
+                </stop>
+                <stop
+                  offset="50%"
+                  stop-color="#f7f9fa"
+                  stop-opacity="1"
+                >
+                  <animate
+                    attributeName="stop-color"
+                    begin="animation1.begin+0.25s"
+                    dur="2s"
+                    repeatCount="indefinite"
+                    values="#e5ebed; #f7f9fa; #e5ebed"
+                  />
+                </stop>
+                <stop
+                  offset="100%"
+                  stop-color="#e5ebed"
+                  stop-opacity="1"
+                >
+                  <animate
+                    attributeName="stop-color"
+                    begin="animation1.begin+0.5s"
+                    dur="2s"
+                    repeatCount="indefinite"
+                    values="#e5ebed; #f7f9fa; #e5ebed"
+                  />
+                </stop>
+              </lineargradient>
+            </defs>
+          </svg>
+        </div>
       </div>
     </div>
+  </div>
+  <div
+    class="css-fngmsh"
+  >
+    <svg
+      height="60"
+      width="60"
+    >
+      <g
+        fill="none"
+        fill-rule="evenodd"
+      >
+        <path
+          d="M0 0h60v60H0z"
+          fill="#FFF"
+        />
+        <g
+          fill-rule="nonzero"
+        >
+          <g
+            fill="#0037FF"
+          >
+            <path
+              d="M22.2 6.6a22 22 0 0 0-5.8 10 22 22 0 0 1 5.5-.8L15.7 22c0 1.4 0 2.8.3 4.1l10-10c1.4.2 2.6.6 3.9 1l1.2-1.6A9.4 9.4 0 1 1 43 30.1a21 21 0 0 1 1 3.8L34 44c1.4.3 2.8.4 4.2.4l6.2-6.2c0 1.8-.3 3.7-.7 5.5a22.1 22.1 0 1 0-21.4-37z"
+            />
+            <path
+              d="M29.3 26.3a9.8 9.8 0 0 1-1-3.6l-5.6 5.7-4.4 4.3c.5 1 1.1 1.9 1.8 2.8l6.1-6.2 3-3zm8 5.4c-1.2-.1-2.4-.4-3.6-1l-3 3-6.1 6.2c.8.7 1.7 1.3 2.7 1.8l4.3-4.4 5.7-5.6z"
+            />
+          </g>
+          <path
+            d="M28.4 22.7c-.1-1.9.4-3.9 1.4-5.6-1.2-.4-2.5-.8-3.7-1l-10 10a21.3 21.3 0 0 0 2.2 6.7l10-10zm8.9 9l-10 10a22.2 22.2 0 0 0 6.6 2.3l10-10c-.2-1.3-.5-2.6-1-3.8a9.5 9.5 0 0 1-5.6 1.5zm6.3 11.9c.4-1.8.7-3.7.7-5.5l-6.2 6.2c1.8 0 3.6-.2 5.5-.7zm-27.2-27c-.5 1.7-.7 3.6-.7 5.4l6.2-6.2c-1.8 0-3.7.2-5.5.7zm17.3 14.2a9.6 9.6 0 0 1-4.4-4.5L20 35.5a24.6 24.6 0 0 0 4.4 4.4l9.2-9.1z"
+            fill="#080738"
+          />
+          <path
+            d="M16.4 16.5A22.1 22.1 0 0 0 0 37.6L15.7 22c0-1.8.2-3.7.7-5.5zm6 43.4a22.1 22.1 0 0 0 21.2-16.3 22 22 0 0 1-5.6.7L22.4 60zm-7-28.7c.5-.5 1-1 1.6-1.3-.4-1.2-.8-2.5-1-3.8L.4 41.8a22 22 0 0 0 2.3 6.6l10-10c-.1-2.6.8-5.3 2.8-7.2zM30.2 43a9.4 9.4 0 0 1-8.5 4.3l-10 10a22 22 0 0 0 6.7 2.3L33.9 44c-1.3-.2-2.5-.6-3.8-1zm-14.6 1.5a9.4 9.4 0 0 1-1.9-2.6l-9.2 9.2A24.6 24.6 0 0 0 9 55.6l9.2-9.2c-1-.5-1.9-1-2.6-1.9z"
+            fill="#0037FF"
+          />
+        </g>
+      </g>
+    </svg>
   </div>
 </div>
 `;
@@ -139,81 +289,11 @@ exports[`AppPage should render the AppPage loading when first connected to Optim
 exports[`AppPage should render the AppPage with Features and connect button 1`] = `
 <div>
   <div
-    class="css-udl8of"
+    class="css-1a8f5ni"
+  />
+  <div
+    class="css-jjthht"
   >
-    <div
-      class="css-xqqg40"
-    >
-      <div
-        class="f36-margin-top--l"
-      >
-        <div
-          class="Typography__Typography___1ZUfE"
-          data-test-id="cf-ui-text-container"
-        >
-          <h1
-            class="Heading__Heading___83D3K f36-margin-bottom--m"
-            data-test-id="cf-ui-heading"
-          >
-            Features
-          </h1>
-          <p
-            class="Paragraph__Paragraph___2aO-9 f36-margin-top--m f36-margin-bottom--m"
-            data-test-id="cf-ui-paragraph"
-          >
-            Optimizely integration enables:
-          </p>
-          <ul
-            class="List__List___1awv4 f36-margin-top--m f36-margin-bottom--m"
-            data-test-id="cf-ui-list"
-          >
-            <li
-              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
-              data-test-id="cf-ui-list-item"
-            >
-              Loading experiments from Optimizely
-            </li>
-            <li
-              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
-              data-test-id="cf-ui-list-item"
-            >
-              Adding content to variations
-            </li>
-            <li
-              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
-              data-test-id="cf-ui-list-item"
-            >
-              Seeing all experiments connected with Contentful (drafts, running, ended)
-            </li>
-          </ul>
-          <p
-            class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
-            data-test-id="cf-ui-paragraph"
-          >
-            Check out the
-             
-            <a
-              class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 TextLink__TextLink--primary___2Vc9F"
-              data-test-id="cf-ui-text-link"
-              href="https://www.contentful.com/developers/docs/extensibility/apps/optimizely/"
-              target="_blank"
-            >
-              <span
-                class="TabFocusTrap__TabFocusTrap___39Vty"
-                tabindex="-1"
-              >
-                documentation
-              </span>
-            </a>
-             
-            for more information.
-          </p>
-        </div>
-      </div>
-    </div>
-    <hr
-      class="css-14380qe"
-    />
     <div
       class="css-xqqg40"
     >
@@ -247,27 +327,247 @@ exports[`AppPage should render the AppPage with Features and connect button 1`] 
       <hr
         class="css-14380qe"
       />
-      <div>
-        Loading 
-        <svg
-          class="Spinner__Spinner___32lpa Spinner__Spinner--default___1UP1r"
-          data-test-id="cf-ui-spinner"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <title>
-            Loading…
-          </title>
-          <path
-            d="M2,10a8,8,0,0,1,8-8V0a10,10,0,0,0,0,20V18A8,8,0,0,1,2,10Z"
-          />
-          <path
-            d="M10,0V2a8,8,0,0,1,0,16v2A10,10,0,0,0,10,0Z"
-            style="opacity: 0.4;"
-          />
-        </svg>
+      <div
+        class="css-bfyjep"
+      >
+        <div>
+          <svg
+            aria-label="Loading component..."
+            class="SkeletonContainer__SkeletonContainer___23jiu"
+            data-test-id="cf-ui-skeleton-form"
+            height="100%"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            width="100%"
+          >
+            <title>
+              Loading component...
+            </title>
+            <rect
+              clip-path="url(#cf-ui-skeleton-clip-id)"
+              height="100%"
+              style="fill: url(#cf-ui-skeleton-clip-gradient);"
+              width="100%"
+              x="0"
+              y="0"
+            />
+            <defs>
+              <clippath
+                id="cf-ui-skeleton-clip-id"
+              >
+                <rect
+                  height="16"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  x="0"
+                  y="35"
+                />
+                <rect
+                  height="16"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  x="0"
+                  y="59"
+                />
+                <rect
+                  height="16"
+                  rx="0"
+                  ry="0"
+                  width="80%"
+                  x="0"
+                  y="83"
+                />
+              </clippath>
+              <lineargradient
+                id="cf-ui-skeleton-clip-gradient"
+              >
+                <stop
+                  offset="0%"
+                  stop-color="#e5ebed"
+                  stop-opacity="1"
+                >
+                  <animate
+                    attributeName="stop-color"
+                    dur="2s"
+                    id="animation1"
+                    repeatCount="indefinite"
+                    values="#e5ebed; #f7f9fa; #e5ebed"
+                  />
+                </stop>
+                <stop
+                  offset="50%"
+                  stop-color="#f7f9fa"
+                  stop-opacity="1"
+                >
+                  <animate
+                    attributeName="stop-color"
+                    begin="animation1.begin+0.25s"
+                    dur="2s"
+                    repeatCount="indefinite"
+                    values="#e5ebed; #f7f9fa; #e5ebed"
+                  />
+                </stop>
+                <stop
+                  offset="100%"
+                  stop-color="#e5ebed"
+                  stop-opacity="1"
+                >
+                  <animate
+                    attributeName="stop-color"
+                    begin="animation1.begin+0.5s"
+                    dur="2s"
+                    repeatCount="indefinite"
+                    values="#e5ebed; #f7f9fa; #e5ebed"
+                  />
+                </stop>
+              </lineargradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+      <div
+        class="css-bfyjep"
+      >
+        <div>
+          <svg
+            aria-label="Loading component..."
+            class="SkeletonContainer__SkeletonContainer___23jiu"
+            data-test-id="cf-ui-skeleton-form"
+            height="100%"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            width="100%"
+          >
+            <title>
+              Loading component...
+            </title>
+            <rect
+              clip-path="url(#cf-ui-skeleton-clip-id)"
+              height="100%"
+              style="fill: url(#cf-ui-skeleton-clip-gradient);"
+              width="100%"
+              x="0"
+              y="0"
+            />
+            <defs>
+              <clippath
+                id="cf-ui-skeleton-clip-id"
+              >
+                <rect
+                  height="16"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  x="0"
+                  y="35"
+                />
+                <rect
+                  height="16"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  x="0"
+                  y="59"
+                />
+                <rect
+                  height="16"
+                  rx="0"
+                  ry="0"
+                  width="80%"
+                  x="0"
+                  y="83"
+                />
+              </clippath>
+              <lineargradient
+                id="cf-ui-skeleton-clip-gradient"
+              >
+                <stop
+                  offset="0%"
+                  stop-color="#e5ebed"
+                  stop-opacity="1"
+                >
+                  <animate
+                    attributeName="stop-color"
+                    dur="2s"
+                    id="animation1"
+                    repeatCount="indefinite"
+                    values="#e5ebed; #f7f9fa; #e5ebed"
+                  />
+                </stop>
+                <stop
+                  offset="50%"
+                  stop-color="#f7f9fa"
+                  stop-opacity="1"
+                >
+                  <animate
+                    attributeName="stop-color"
+                    begin="animation1.begin+0.25s"
+                    dur="2s"
+                    repeatCount="indefinite"
+                    values="#e5ebed; #f7f9fa; #e5ebed"
+                  />
+                </stop>
+                <stop
+                  offset="100%"
+                  stop-color="#e5ebed"
+                  stop-opacity="1"
+                >
+                  <animate
+                    attributeName="stop-color"
+                    begin="animation1.begin+0.5s"
+                    dur="2s"
+                    repeatCount="indefinite"
+                    values="#e5ebed; #f7f9fa; #e5ebed"
+                  />
+                </stop>
+              </lineargradient>
+            </defs>
+          </svg>
+        </div>
       </div>
     </div>
+  </div>
+  <div
+    class="css-fngmsh"
+  >
+    <svg
+      height="60"
+      width="60"
+    >
+      <g
+        fill="none"
+        fill-rule="evenodd"
+      >
+        <path
+          d="M0 0h60v60H0z"
+          fill="#FFF"
+        />
+        <g
+          fill-rule="nonzero"
+        >
+          <g
+            fill="#0037FF"
+          >
+            <path
+              d="M22.2 6.6a22 22 0 0 0-5.8 10 22 22 0 0 1 5.5-.8L15.7 22c0 1.4 0 2.8.3 4.1l10-10c1.4.2 2.6.6 3.9 1l1.2-1.6A9.4 9.4 0 1 1 43 30.1a21 21 0 0 1 1 3.8L34 44c1.4.3 2.8.4 4.2.4l6.2-6.2c0 1.8-.3 3.7-.7 5.5a22.1 22.1 0 1 0-21.4-37z"
+            />
+            <path
+              d="M29.3 26.3a9.8 9.8 0 0 1-1-3.6l-5.6 5.7-4.4 4.3c.5 1 1.1 1.9 1.8 2.8l6.1-6.2 3-3zm8 5.4c-1.2-.1-2.4-.4-3.6-1l-3 3-6.1 6.2c.8.7 1.7 1.3 2.7 1.8l4.3-4.4 5.7-5.6z"
+            />
+          </g>
+          <path
+            d="M28.4 22.7c-.1-1.9.4-3.9 1.4-5.6-1.2-.4-2.5-.8-3.7-1l-10 10a21.3 21.3 0 0 0 2.2 6.7l10-10zm8.9 9l-10 10a22.2 22.2 0 0 0 6.6 2.3l10-10c-.2-1.3-.5-2.6-1-3.8a9.5 9.5 0 0 1-5.6 1.5zm6.3 11.9c.4-1.8.7-3.7.7-5.5l-6.2 6.2c1.8 0 3.6-.2 5.5-.7zm-27.2-27c-.5 1.7-.7 3.6-.7 5.4l6.2-6.2c-1.8 0-3.7.2-5.5.7zm17.3 14.2a9.6 9.6 0 0 1-4.4-4.5L20 35.5a24.6 24.6 0 0 0 4.4 4.4l9.2-9.1z"
+            fill="#080738"
+          />
+          <path
+            d="M16.4 16.5A22.1 22.1 0 0 0 0 37.6L15.7 22c0-1.8.2-3.7.7-5.5zm6 43.4a22.1 22.1 0 0 0 21.2-16.3 22 22 0 0 1-5.6.7L22.4 60zm-7-28.7c.5-.5 1-1 1.6-1.3-.4-1.2-.8-2.5-1-3.8L.4 41.8a22 22 0 0 0 2.3 6.6l10-10c-.1-2.6.8-5.3 2.8-7.2zM30.2 43a9.4 9.4 0 0 1-8.5 4.3l-10 10a22 22 0 0 0 6.7 2.3L33.9 44c-1.3-.2-2.5-.6-3.8-1zm-14.6 1.5a9.4 9.4 0 0 1-1.9-2.6l-9.2 9.2A24.6 24.6 0 0 0 9 55.6l9.2-9.2c-1-.5-1.9-1-2.6-1.9z"
+            fill="#0037FF"
+          />
+        </g>
+      </g>
+    </svg>
   </div>
 </div>
 `;
@@ -275,81 +575,11 @@ exports[`AppPage should render the AppPage with Features and connect button 1`] 
 exports[`AppPage should render the Optimizely config and allow for adding content types 1`] = `
 <div>
   <div
-    class="css-udl8of"
+    class="css-1a8f5ni"
+  />
+  <div
+    class="css-jjthht"
   >
-    <div
-      class="css-xqqg40"
-    >
-      <div
-        class="f36-margin-top--l"
-      >
-        <div
-          class="Typography__Typography___1ZUfE"
-          data-test-id="cf-ui-text-container"
-        >
-          <h1
-            class="Heading__Heading___83D3K f36-margin-bottom--m"
-            data-test-id="cf-ui-heading"
-          >
-            Features
-          </h1>
-          <p
-            class="Paragraph__Paragraph___2aO-9 f36-margin-top--m f36-margin-bottom--m"
-            data-test-id="cf-ui-paragraph"
-          >
-            Optimizely integration enables:
-          </p>
-          <ul
-            class="List__List___1awv4 f36-margin-top--m f36-margin-bottom--m"
-            data-test-id="cf-ui-list"
-          >
-            <li
-              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
-              data-test-id="cf-ui-list-item"
-            >
-              Loading experiments from Optimizely
-            </li>
-            <li
-              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
-              data-test-id="cf-ui-list-item"
-            >
-              Adding content to variations
-            </li>
-            <li
-              class="ListItem__ListItem___3S9Oc css-1jr0xnc"
-              data-test-id="cf-ui-list-item"
-            >
-              Seeing all experiments connected with Contentful (drafts, running, ended)
-            </li>
-          </ul>
-          <p
-            class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
-            data-test-id="cf-ui-paragraph"
-          >
-            Check out the
-             
-            <a
-              class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 TextLink__TextLink--primary___2Vc9F"
-              data-test-id="cf-ui-text-link"
-              href="https://www.contentful.com/developers/docs/extensibility/apps/optimizely/"
-              target="_blank"
-            >
-              <span
-                class="TabFocusTrap__TabFocusTrap___39Vty"
-                tabindex="-1"
-              >
-                documentation
-              </span>
-            </a>
-             
-            for more information.
-          </p>
-        </div>
-      </div>
-    </div>
-    <hr
-      class="css-14380qe"
-    />
     <div
       class="css-xqqg40"
     >
@@ -384,11 +614,9 @@ exports[`AppPage should render the Optimizely config and allow for adding conten
         class="css-14380qe"
       />
       <div
-        class="css-xqqg40"
+        class="css-bfyjep"
       >
-        <div
-          class="f36-margin-top--xl"
-        >
+        <div>
           <h1
             class="Heading__Heading___83D3K"
             data-test-id="cf-ui-heading"
@@ -396,13 +624,13 @@ exports[`AppPage should render the Optimizely config and allow for adding conten
             Optimizely Project
           </h1>
           <p
-            class="Paragraph__Paragraph___2aO-9 f36-margin-top--m"
+            class="Paragraph__Paragraph___2aO-9"
             data-test-id="cf-ui-paragraph"
           >
-            Works only with Optimizely Full Stack projects
+            Works only with Optimizely Full Stack projects.
           </p>
           <div
-            class="SelectField__SelectField___kbQlf f36-margin-top--m"
+            class="SelectField__SelectField___kbQlf css-15g2oxy"
             data-test-id="cf-ui-select-field"
             width="large"
           >
@@ -475,7 +703,7 @@ exports[`AppPage should render the Optimizely config and allow for adding conten
         </div>
       </div>
       <div
-        class="css-xqqg40"
+        class="css-bfyjep"
       >
         <div
           class="Typography__Typography___1ZUfE"
@@ -648,6 +876,46 @@ exports[`AppPage should render the Optimizely config and allow for adding conten
       </div>
     </div>
   </div>
+  <div
+    class="css-fngmsh"
+  >
+    <svg
+      height="60"
+      width="60"
+    >
+      <g
+        fill="none"
+        fill-rule="evenodd"
+      >
+        <path
+          d="M0 0h60v60H0z"
+          fill="#FFF"
+        />
+        <g
+          fill-rule="nonzero"
+        >
+          <g
+            fill="#0037FF"
+          >
+            <path
+              d="M22.2 6.6a22 22 0 0 0-5.8 10 22 22 0 0 1 5.5-.8L15.7 22c0 1.4 0 2.8.3 4.1l10-10c1.4.2 2.6.6 3.9 1l1.2-1.6A9.4 9.4 0 1 1 43 30.1a21 21 0 0 1 1 3.8L34 44c1.4.3 2.8.4 4.2.4l6.2-6.2c0 1.8-.3 3.7-.7 5.5a22.1 22.1 0 1 0-21.4-37z"
+            />
+            <path
+              d="M29.3 26.3a9.8 9.8 0 0 1-1-3.6l-5.6 5.7-4.4 4.3c.5 1 1.1 1.9 1.8 2.8l6.1-6.2 3-3zm8 5.4c-1.2-.1-2.4-.4-3.6-1l-3 3-6.1 6.2c.8.7 1.7 1.3 2.7 1.8l4.3-4.4 5.7-5.6z"
+            />
+          </g>
+          <path
+            d="M28.4 22.7c-.1-1.9.4-3.9 1.4-5.6-1.2-.4-2.5-.8-3.7-1l-10 10a21.3 21.3 0 0 0 2.2 6.7l10-10zm8.9 9l-10 10a22.2 22.2 0 0 0 6.6 2.3l10-10c-.2-1.3-.5-2.6-1-3.8a9.5 9.5 0 0 1-5.6 1.5zm6.3 11.9c.4-1.8.7-3.7.7-5.5l-6.2 6.2c1.8 0 3.6-.2 5.5-.7zm-27.2-27c-.5 1.7-.7 3.6-.7 5.4l6.2-6.2c-1.8 0-3.7.2-5.5.7zm17.3 14.2a9.6 9.6 0 0 1-4.4-4.5L20 35.5a24.6 24.6 0 0 0 4.4 4.4l9.2-9.1z"
+            fill="#080738"
+          />
+          <path
+            d="M16.4 16.5A22.1 22.1 0 0 0 0 37.6L15.7 22c0-1.8.2-3.7.7-5.5zm6 43.4a22.1 22.1 0 0 0 21.2-16.3 22 22 0 0 1-5.6.7L22.4 60zm-7-28.7c.5-.5 1-1 1.6-1.3-.4-1.2-.8-2.5-1-3.8L.4 41.8a22 22 0 0 0 2.3 6.6l10-10c-.1-2.6.8-5.3 2.8-7.2zM30.2 43a9.4 9.4 0 0 1-8.5 4.3l-10 10a22 22 0 0 0 6.7 2.3L33.9 44c-1.3-.2-2.5-.6-3.8-1zm-14.6 1.5a9.4 9.4 0 0 1-1.9-2.6l-9.2 9.2A24.6 24.6 0 0 0 9 55.6l9.2-9.2c-1-.5-1.9-1-2.6-1.9z"
+            fill="#0037FF"
+          />
+        </g>
+      </g>
+    </svg>
+  </div>
 </div>
 `;
 
@@ -694,21 +962,9 @@ exports[`AppPage should render the Optimizely config and allow for adding conten
       </option>
       <option
         data-test-id="cf-ui-select-option"
-        value="experiment"
-      >
-        Experiment
-      </option>
-      <option
-        data-test-id="cf-ui-select-option"
         value="someOtherThing"
       >
         SomeOtherThing
-      </option>
-      <option
-        data-test-id="cf-ui-select-option"
-        value="author"
-      >
-        Author
       </option>
     </select>
     <svg
