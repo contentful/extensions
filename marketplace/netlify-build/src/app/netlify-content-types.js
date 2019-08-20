@@ -7,10 +7,8 @@ import {
   Paragraph,
   FieldGroup,
   CheckboxField,
-  TextLink,
-  Pill
+  TextLink
 } from '@contentful/forma-36-react-components';
-import styles from './styles';
 
 export default class NetlifyContentTypes extends React.Component {
   static propTypes = {
@@ -45,18 +43,13 @@ export default class NetlifyContentTypes extends React.Component {
         </Paragraph>
         <FieldGroup>
           {contentTypes.map(([id, name]) => (
-            <Pill
+            <CheckboxField
               key={id}
-              label={
-                <CheckboxField
-                  id={`ct-box-${id}`}
-                  labelText={name}
-                  onChange={e => this.onChange(e.target.checked, id)}
-                  disabled={disabled}
-                  checked={enabledContentTypes.includes(id)}
-                />
-              }
-              className={styles.pill}
+              id={`ct-box-${id}`}
+              labelText={name}
+              onChange={e => this.onChange(e.target.checked, id)}
+              disabled={disabled}
+              checked={enabledContentTypes.includes(id)}
             />
           ))}
         </FieldGroup>
