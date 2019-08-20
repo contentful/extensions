@@ -31,6 +31,13 @@ const styles = {
   }),
   removeBtn: css({
     marginTop: tokens.spacingL
+  }),
+  splitter: css({
+    marginTop: tokens.spacingL,
+    marginBottom: tokens.spacingL,
+    border: 0,
+    height: '1px',
+    backgroundColor: tokens.colorElementMid
   })
 };
 
@@ -138,6 +145,7 @@ export default class NetlifyConfigEditor extends React.Component {
           onClick={this.onAdd}>
           Add another site (max {MAX_CONFIGS})
         </Button>
+        <hr className={styles.splitter} />
       </Typography>
     );
   }

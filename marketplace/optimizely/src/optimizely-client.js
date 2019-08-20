@@ -17,7 +17,7 @@ export default class OptimizelyClient {
       }
     });
 
-    if (response.status === 200) {
+    if (response.ok) {
       return await response.json();
     }
 
