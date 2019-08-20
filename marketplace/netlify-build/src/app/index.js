@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import uniqBy from 'lodash.uniqby';
 
-import { Paragraph, Spinner } from '@contentful/forma-36-react-components';
-import { Workbench } from '@contentful/forma-36-react-components/dist/alpha';
-
 import {
   currentStateToEnabledContentTypes,
   enabledContentTypesToTargetState
@@ -15,6 +12,7 @@ import NetlifyConfigEditor from './netlify-config-editor';
 import NetlifyContentTypes from './netlify-content-types';
 import * as NetlifyClient from './netlify-client';
 import * as NetlifyIntegration from './netlify-integration';
+import styles from './styles';
 
 import { parametersToConfig, configToParameters } from '../config';
 
@@ -159,46 +157,35 @@ export default class NetlifyAppConfig extends React.Component {
   };
 
   render() {
-    return (
-      <Workbench>
-        <Workbench.Content>
-          {this.state.ready ? this.renderApp() : this.renderLoader()}
-        </Workbench.Content>
-      </Workbench>
-    );
-  }
-
-  renderLoader() {
-    return (
-      <Paragraph>
-        Loading <Spinner />
-      </Paragraph>
-    );
-  }
-
-  renderApp() {
     const disabled = !this.state.token;
 
     return (
       <>
-        <NetlifyConnection
-          connected={!disabled}
-          email={this.state.email}
-          netlifyCounts={this.state.netlifyCounts}
-          onConnectClick={this.onConnectClick}
-        />
-        <NetlifyConfigEditor
-          disabled={disabled}
-          siteConfigs={this.state.config.sites}
-          netlifySites={this.state.netlifySites}
-          onSiteConfigsChange={this.onSiteConfigsChange}
-        />
-        <NetlifyContentTypes
-          disabled={disabled}
-          contentTypes={this.state.contentTypes}
-          enabledContentTypes={this.state.enabledContentTypes}
-          onEnabledContentTypesChange={this.onEnabledContentTypesChange}
-        />
+        <div className={styles.background} />
+        <div className={styles.body}>
+          <NetlifyConnection
+            connected={!disabled}
+            email={this.state.email}
+            netlifyCounts={this.state.netlifyCounts}
+            onConnectClick={this.onConnectClick}
+          />
+          {!disabled && (
+            <>
+              <NetlifyConfigEditor
+                disabled={disabled}
+                siteConfigs={this.state.config.sites}
+                netlifySites={this.state.netlifySites}
+                onSiteConfigsChange={this.onSiteConfigsChange}
+              />
+              <NetlifyContentTypes
+                disabled={disabled}
+                contentTypes={this.state.contentTypes}
+                enabledContentTypes={this.state.enabledContentTypes}
+                onEnabledContentTypesChange={this.onEnabledContentTypesChange}
+              />
+            </>
+          )}
+        </div>
       </>
     );
   }

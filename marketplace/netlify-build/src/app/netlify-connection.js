@@ -1,7 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { css } from 'emotion';
 
-import { Typography, Heading, Paragraph, Button } from '@contentful/forma-36-react-components';
+import tokens from '@contentful/forma-36-tokens';
+import { Typography, Heading, Paragraph } from '@contentful/forma-36-react-components';
+
+const styles = {
+  auth: css({
+    display: 'flex',
+    justifyContent: 'center'
+  }),
+  button: css({
+    backgroundColor: '#00ad9e',
+    color: '#fff',
+    padding: '12px 80px',
+    outline: 'none',
+    borderRadius: '6px',
+    border: '1px solid #e9ebeb',
+    borderBottom: '1px solid #e1e2e4',
+    boxShadow: '0 2px 4px 0 rgba(14,30,37,.12)',
+    cursor: 'pointer',
+    fontSize: '16px',
+    boxSizing: 'border-box'
+  }),
+  splitter: css({
+    marginTop: tokens.spacingL,
+    marginBottom: tokens.spacingL,
+    border: 0,
+    height: '1px',
+    backgroundColor: tokens.colorElementMid
+  })
+};
 
 export default class NetlifyConnection extends React.Component {
   static propTypes = {
@@ -17,7 +46,7 @@ export default class NetlifyConnection extends React.Component {
   render() {
     return (
       <Typography>
-        <Heading>Netlify account</Heading>
+        <Heading>Connect Netlify</Heading>
         {this.props.connected ? this.renderConnectionInfo() : this.renderConnectButton()}
       </Typography>
     );
@@ -31,9 +60,14 @@ export default class NetlifyConnection extends React.Component {
           Web App.
         </Paragraph>
         <Paragraph>
-          <Button buttonType="primary" onClick={this.props.onConnectClick}>
-            Connect account
-          </Button>
+          <div className={styles.auth}>
+            <button
+              buttonType="primary"
+              onClick={this.props.onConnectClick}
+              className={styles.button}>
+              Connect account
+            </button>
+          </div>
         </Paragraph>
       </>
     );
@@ -67,6 +101,7 @@ export default class NetlifyConnection extends React.Component {
             to create one!
           </Paragraph>
         )}
+        <hr className={styles.splitter} />
       </>
     );
   }
