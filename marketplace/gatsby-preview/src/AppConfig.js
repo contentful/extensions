@@ -6,7 +6,7 @@ import {
   Paragraph,
   TextField,
   CheckboxField,
-  Pill,
+  FieldGroup,
   SkeletonContainer,
   SkeletonBodyText
 } from '@contentful/forma-36-react-components';
@@ -22,7 +22,9 @@ export default class AppConfig extends React.Component {
     previewUrl: '',
     webhookUrl: '',
     authToken: '',
-    checkedContentTypes: {}
+    checkedContentTypes: {},
+    validPreview: true,
+    validWebhook: true
   };
 
   async componentDidMount() {
@@ -60,20 +62,28 @@ export default class AppConfig extends React.Component {
   configureApp = async () => {
     const { app } = this.props.sdk.platformAlpha;
     const { previewUrl, webhookUrl, authToken, checkedContentTypes } = this.state;
+    this.setState({ validPreview: true, validWebhook: true });
+
+    let valid = true;
 
     if (!previewUrl) {
-      this.props.sdk.notifier.error('You must provide a preview URL!');
-      return false;
+      this.setState({ validPreview: false });
+      valid = false;
     }
 
     if (!previewUrl.startsWith('http')) {
-      this.props.sdk.notifier.error('Please provide a valid preview URL!');
-      return false;
+      this.setState({ validPreview: false });
+      valid = false;
     }
 
     // the webhookUrl is optional but if it is passed, check that it is valid
     if (webhookUrl && !webhookUrl.startsWith('http')) {
-      this.props.sdk.notifier.error('Please provide a valid webhook URL!');
+      this.setState({ validWebhook: false });
+      valid = false;
+    }
+
+    if (!valid) {
+      this.props.sdk.notifier.error('Please review the errors in the form.');
       return false;
     }
 
@@ -101,15 +111,27 @@ export default class AppConfig extends React.Component {
   };
 
   updatePreviewUrl = e => {
-    this.setState({ previewUrl: e.target.value });
+    this.setState({ previewUrl: e.target.value, validPreview: true });
   };
 
   updateWebhookUrl = e => {
-    this.setState({ webhookUrl: e.target.value });
+    this.setState({ webhookUrl: e.target.value, validWebhook: true });
   };
 
   updateAuthToken = e => {
     this.setState({ authToken: e.target.value });
+  };
+
+  validatePreviewUrl = () => {
+    if (!this.state.previewUrl.startsWith('http')) {
+      this.setState({ validPreview: false });
+    }
+  };
+
+  validateWebhookUrl = () => {
+    if (this.state.webhookUrl && !this.state.webhookUrl.startsWith('http')) {
+      this.setState({ validWebhook: false });
+    }
   };
 
   onContentTypeSelect = key => {
@@ -152,9 +174,27 @@ export default class AppConfig extends React.Component {
                 name="previewUrl"
                 id="previewUrl"
                 labelText="Site URL"
+                required
                 value={this.state.previewUrl}
                 onChange={this.updatePreviewUrl}
+                onBlur={this.validatePreviewUrl}
                 className={styles.input}
+                helpText={
+                  <span>
+                    To get your Site URL, see your{' '}
+                    <a
+                      href="https://www.gatsbyjs.com/dashboard/sites"
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      Gatsby dashboard
+                    </a>
+                  </span>
+                }
+                validationMessage={
+                  !this.state.validPreview
+                    ? 'Please provide a valid URL (It should start with http)'
+                    : ''
+                }
                 textInputProps={{
                   type: 'text'
                 }}
@@ -165,7 +205,14 @@ export default class AppConfig extends React.Component {
                 labelText="Webhook URL"
                 value={this.state.webhookUrl}
                 onChange={this.updateWebhookUrl}
+                onBlur={this.validateWebhookUrl}
                 className={styles.input}
+                helpText="Optional Webhook URL for manually building sites"
+                validationMessage={
+                  !this.state.validWebhook
+                    ? 'Please provide a valid URL (It should start with http)'
+                    : ''
+                }
                 textInputProps={{
                   type: 'text'
                 }}
@@ -173,10 +220,11 @@ export default class AppConfig extends React.Component {
               <TextField
                 name="authToken"
                 id="authToken"
-                labelText="Authentication Token (Optional)"
+                labelText="Authentication Token"
                 value={this.state.authToken}
                 onChange={this.updateAuthToken}
                 className={styles.input}
+                helpText="Optional Authentication token for private Gatsby Cloud sites"
                 textInputProps={{
                   type: 'password'
                 }}
@@ -192,28 +240,25 @@ export default class AppConfig extends React.Component {
                 functionality in the sidebar.
               </Paragraph>
               <div className={styles.checks}>
-                {checkedTypes.length ? (
-                  checkedTypes.map(key => (
-                    <Pill
-                      key={key}
-                      label={
-                        <CheckboxField
-                          labelText={this.state.checkedContentTypes[key].name}
-                          name={this.state.checkedContentTypes[key].name}
-                          checked={this.state.checkedContentTypes[key].checked}
-                          value={key}
-                          onChange={() => this.onContentTypeSelect(key)}
-                          id={key}
-                        />
-                      }
-                      className={styles.pills}
-                    />
-                  ))
-                ) : (
-                  <SkeletonContainer width="100%">
-                    <SkeletonBodyText numberOfLines={3} />
-                  </SkeletonContainer>
-                )}
+                <FieldGroup>
+                  {checkedTypes.length ? (
+                    checkedTypes.map(key => (
+                      <CheckboxField
+                        key={key}
+                        labelText={this.state.checkedContentTypes[key].name}
+                        name={this.state.checkedContentTypes[key].name}
+                        checked={this.state.checkedContentTypes[key].checked}
+                        value={key}
+                        onChange={() => this.onContentTypeSelect(key)}
+                        id={key}
+                      />
+                    ))
+                  ) : (
+                    <SkeletonContainer width="100%">
+                      <SkeletonBodyText numberOfLines={3} />
+                    </SkeletonContainer>
+                  )}
+                </FieldGroup>
               </div>
             </Typography>
           </div>

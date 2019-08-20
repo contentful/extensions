@@ -37,8 +37,7 @@ export default {
     marginTop: tokens.spacingXl
   }),
   checks: css({
-    marginTop: tokens.spacingM,
-    display: 'flex'
+    marginTop: tokens.spacingM
   }),
   pills: css({
     margin: `0 ${tokens.spacingXs}`
