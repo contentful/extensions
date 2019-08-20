@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { init } from 'contentful-ui-extensions-sdk';
 import { ExtensionUI } from '@gatsby-cloud-pkg/gatsby-cms-extension-base';
-import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 import Danger from '../assets/danger';
 import { MdRefresh } from 'react-icons/md';
@@ -18,7 +18,7 @@ class App extends React.Component {
       showNotification: false,
       notificationText: ``,
       NotificationIcon: null,
-      ago: null,
+      ago: null
     };
   }
 
@@ -43,12 +43,14 @@ class App extends React.Component {
   updatedLast = () => {
     const { showNotification, NotificationIcon } = this.state;
     if (showNotification && !NotificationIcon) {
-      const ago = `${formatDistanceToNow(new Date(this.props.sdk.entry.getSys().updatedAt), { includeSeconds: true})} ago`
+      const ago = `${formatDistanceToNow(new Date(this.props.sdk.entry.getSys().updatedAt), {
+        includeSeconds: true
+      })} ago`;
       this.setState({
-        ago,
-      })
+        ago
+      });
     }
-  }
+  };
 
   onSysChanged = () => {
     const { showNotification, NotificationIcon } = this.state;
@@ -57,12 +59,12 @@ class App extends React.Component {
       NotificationIcon !== MdRefresh &&
         this.setState({
           notificationText: `Refreshing the preview...`,
-          NotificationIcon: MdRefresh,
+          NotificationIcon: MdRefresh
         });
       clearInterval(this.debounceInterval);
     }
     this.debounceInterval = setInterval(this.refreshGatsbyPreview, 1000);
-    this.updatedLast = setInterval(this.updatedLast, 1000)
+    this.updatedLast = setInterval(this.updatedLast, 1000);
   };
 
   refreshGatsbyPreview = () => {
@@ -91,13 +93,15 @@ class App extends React.Component {
         this.setState({
           notificationText: `Preview updated `,
           NotificationIcon: null,
-          ago: `${formatDistanceToNow(new Date(this.props.sdk.entry.getSys().updatedAt), { includeSeconds: true})} ago`
+          ago: `${formatDistanceToNow(new Date(this.props.sdk.entry.getSys().updatedAt), {
+            includeSeconds: true
+          })} ago`
         }),
       () =>
-      NotificationIcon !== Danger &&
+        NotificationIcon !== Danger &&
         this.setState({
           notificationText: `Preview failed`,
-          NotificationIcon: Danger,
+          NotificationIcon: Danger
         })
     );
   };
@@ -114,22 +118,25 @@ class App extends React.Component {
     return (
       <div className="extension">
         <div className="flexcontainer">
-          {showNotification && (
-            <div className="notification-container">
-            <span className="notification">
-              {NotificationIcon && (
-                <NotificationIcon className={NotificationIcon === MdRefresh ? `loading` : ``} />
-              )}
-              {notificationText}{!NotificationIcon && ago}
-            </span>
-            </div>
-          )}
           <div className="gatsby-group">
-          <ExtensionUI
-            contentSlug={contentSlug && contentSlug.getValue()}
-            previewUrl={previewUrl}
-            authToken={authToken}
-          />
+            <ExtensionUI
+              contentSlug={contentSlug && contentSlug.getValue()}
+              previewUrl={previewUrl}
+              authToken={authToken}>
+              <div className="notification-container">
+                {showNotification && (
+                  <span className="notification">
+                    {NotificationIcon && (
+                      <NotificationIcon
+                        className={NotificationIcon === MdRefresh ? `loading` : ``}
+                      />
+                    )}
+                    {notificationText}
+                    {!NotificationIcon && ago}
+                  </span>
+                )}
+              </div>
+            </ExtensionUI>
           </div>
         </div>
       </div>

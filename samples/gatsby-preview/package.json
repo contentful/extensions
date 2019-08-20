@@ -15,7 +15,7 @@
     "@contentful/forma-36-fcss": "^0.0.27",
     "@contentful/forma-36-react-components": "^3.15.14",
     "@contentful/forma-36-tokens": "^0.4.1",
-    "@gatsby-cloud-pkg/gatsby-cms-extension-base": "^0.0.27",
+    "@gatsby-cloud-pkg/gatsby-cms-extension-base": "^0.0.30",
     "contentful-ui-extensions-sdk": "3.7.2",
     "date-fns": "^2.0.0",
     "prop-types": "15.7.2",
