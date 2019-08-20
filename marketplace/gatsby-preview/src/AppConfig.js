@@ -6,7 +6,6 @@ import {
   Paragraph,
   TextField,
   CheckboxField,
-  Pill,
   FieldGroup,
   SkeletonContainer,
   SkeletonBodyText
@@ -230,19 +229,14 @@ export default class AppConfig extends React.Component {
                 <FieldGroup>
                   {checkedTypes.length ? (
                     checkedTypes.map(key => (
-                      <Pill
+                      <CheckboxField
                         key={key}
-                        label={
-                          <CheckboxField
-                            labelText={this.state.checkedContentTypes[key].name}
-                            name={this.state.checkedContentTypes[key].name}
-                            checked={this.state.checkedContentTypes[key].checked}
-                            value={key}
-                            onChange={() => this.onContentTypeSelect(key)}
-                            id={key}
-                          />
-                        }
-                        className={styles.pills}
+                        labelText={this.state.checkedContentTypes[key].name}
+                        name={this.state.checkedContentTypes[key].name}
+                        checked={this.state.checkedContentTypes[key].checked}
+                        value={key}
+                        onChange={() => this.onContentTypeSelect(key)}
+                        id={key}
                       />
                     ))
                   ) : (
