@@ -12,6 +12,7 @@ import NetlifyConfigEditor from './netlify-config-editor';
 import NetlifyContentTypes from './netlify-content-types';
 import * as NetlifyClient from './netlify-client';
 import * as NetlifyIntegration from './netlify-integration';
+import NetlifyIcon from './NetlifyIcon';
 import styles from './styles';
 
 import { parametersToConfig, configToParameters } from '../config';
@@ -186,6 +187,9 @@ export default class NetlifyAppConfig extends React.Component {
               />
             </>
           )}
+        </div>
+        <div className={styles.icon}>
+          <NetlifyIcon />
         </div>
       </>
     );
