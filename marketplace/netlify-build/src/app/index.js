@@ -158,6 +158,7 @@ export default class NetlifyAppConfig extends React.Component {
 
   render() {
     const disabled = !this.state.token;
+    const buildableCount = this.state.netlifyCounts ? this.state.netlifyCounts.buildable : 0;
 
     return (
       <>
@@ -169,7 +170,7 @@ export default class NetlifyAppConfig extends React.Component {
             netlifyCounts={this.state.netlifyCounts}
             onConnectClick={this.onConnectClick}
           />
-          {!disabled && (
+          {!disabled && buildableCount > 0 && (
             <>
               <NetlifyConfigEditor
                 disabled={disabled}

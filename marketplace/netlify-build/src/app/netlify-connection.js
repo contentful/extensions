@@ -73,6 +73,10 @@ export default class NetlifyConnection extends React.Component {
     );
   }
 
+  getSitePlural = count => {
+    return count === 1 ? 'site' : 'sites';
+  };
+
   renderConnectionInfo() {
     const { unavailable, buildable } = this.props.netlifyCounts;
 
@@ -83,18 +87,22 @@ export default class NetlifyConnection extends React.Component {
         </Paragraph>
         {unavailable > 0 && (
           <Paragraph>
-            There are {unavailable} sites we can’t build because they are not configured to use
-            continuous deployment.{' '}
+            There are {unavailable} {this.getSitePlural(unavailable)} we can’t build because they
+            are not configured to use continuous deployment.{' '}
             <a href="https://app.netlify.com/" target="_blank" rel="noopener noreferrer">
               View more on Netlify
             </a>
             .
           </Paragraph>
         )}
-        {buildable > 0 && <Paragraph>{buildable} sites can be built.</Paragraph>}
+        {buildable > 0 && (
+          <Paragraph>
+            {buildable} {this.getSitePlural(buildable)} can be built.
+          </Paragraph>
+        )}
         {buildable < 1 && (
           <Paragraph>
-            There are no sites that can be built. Navigate to{' '}
+            You don&rsquo;t have any sites set up to be built on your account. Head over to{' '}
             <a href="https://app.netlify.com/" target="_blank" rel="noopener noreferrer">
               Netlify
             </a>{' '}
