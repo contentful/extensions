@@ -122,6 +122,18 @@ export default class AppConfig extends React.Component {
     this.setState({ authToken: e.target.value });
   };
 
+  validatePreviewUrl = () => {
+    if (!this.state.previewUrl.startsWith('http')) {
+      this.setState({ validPreview: false });
+    }
+  };
+
+  validateWebhookUrl = () => {
+    if (this.state.webhookUrl && !this.state.webhookUrl.startsWith('http')) {
+      this.setState({ validWebhook: false });
+    }
+  };
+
   onContentTypeSelect = key => {
     this.setState(prevState => ({
       checkedContentTypes: {
@@ -165,6 +177,7 @@ export default class AppConfig extends React.Component {
                 required
                 value={this.state.previewUrl}
                 onChange={this.updatePreviewUrl}
+                onBlur={this.validatePreviewUrl}
                 className={styles.input}
                 helpText={
                   <span>
@@ -192,6 +205,7 @@ export default class AppConfig extends React.Component {
                 labelText="Webhook URL"
                 value={this.state.webhookUrl}
                 onChange={this.updateWebhookUrl}
+                onBlur={this.validateWebhookUrl}
                 className={styles.input}
                 helpText="Optional Webhook URL for manually building sites"
                 validationMessage={
