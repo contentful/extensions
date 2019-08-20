@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { init } from 'contentful-ui-extensions-sdk';
-import { ExtensionUI } from "@gatsby-cloud-pkg/gatsby-cms-extension-base"
+import { ExtensionUI } from '@gatsby-cloud-pkg/gatsby-cms-extension-base';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+
+import Danger from '../assets/danger';
+import { MdRefresh } from 'react-icons/md';
 
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
@@ -9,11 +13,17 @@ import './index.css';
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      showNotification: false,
+      notificationText: ``,
+      NotificationIcon: null,
+      ago: null
+    };
   }
 
   componentDidMount = () => {
     this.detachFn = this.props.sdk.entry.onSysChanged(this.onSysChanged);
-
     this.props.sdk.window.startAutoResizer();
   };
 
@@ -22,6 +32,7 @@ class App extends React.Component {
     if (this.debounceInterval) {
       clearInterval(this.debounceInterval);
     }
+    clearInterval(this.updatedLast);
   };
 
   onError = error => {
@@ -29,14 +40,35 @@ class App extends React.Component {
     this.props.sdk.notifier.error(error.message);
   };
 
-  onSysChanged = () => {
-    if (this.debounceInterval) {
-      clearInterval(this.debounceInterval);
+  updatedLast = () => {
+    const { showNotification, NotificationIcon } = this.state;
+    if (showNotification && !NotificationIcon) {
+      const ago = `${formatDistanceToNow(new Date(this.props.sdk.entry.getSys().updatedAt), {
+        includeSeconds: true
+      })} ago`;
+      this.setState({
+        ago
+      });
     }
-    this.debounceInterval = setInterval(this.refreshGatsbySite, 1000);
   };
 
-  refreshGatsbySite = () => {
+  onSysChanged = () => {
+    const { showNotification, NotificationIcon } = this.state;
+    if (this.debounceInterval) {
+      !showNotification && this.setState({ showNotification: true });
+      NotificationIcon !== MdRefresh &&
+        this.setState({
+          notificationText: `Refreshing the preview...`,
+          NotificationIcon: MdRefresh
+        });
+      clearInterval(this.debounceInterval);
+    }
+    this.debounceInterval = setInterval(this.refreshGatsbyPreview, 1000);
+    this.updatedLast = setInterval(this.updatedLast, 1000);
+  };
+
+  refreshGatsbyPreview = () => {
+    const { NotificationIcon } = this.state;
     const {
       parameters: { installation }
     } = this.props.sdk;
@@ -56,8 +88,21 @@ class App extends React.Component {
       },
       body: JSON.stringify({})
     }).then(
-      () => this.props.sdk.notifier.success('Gatsby site updated!'),
-      () => this.props.sdk.notifier.error('Gatsby site failed :(')
+      () =>
+        NotificationIcon !== null &&
+        this.setState({
+          notificationText: `Preview updated `,
+          NotificationIcon: null,
+          ago: `${formatDistanceToNow(new Date(this.props.sdk.entry.getSys().updatedAt), {
+            includeSeconds: true
+          })} ago`
+        }),
+      () =>
+        NotificationIcon !== Danger &&
+        this.setState({
+          notificationText: `Preview failed`,
+          NotificationIcon: Danger
+        })
     );
   };
 
@@ -68,10 +113,31 @@ class App extends React.Component {
     } = this.props.sdk;
     const { previewUrl, authToken } = installation;
     const { slug: contentSlug } = entry.fields;
+    const { showNotification, notificationText, NotificationIcon, ago } = this.state;
+
     return (
       <div className="extension">
         <div className="flexcontainer">
-          <ExtensionUI contentSlug={contentSlug && contentSlug.getValue()} siteUrl={previewUrl} authToken={authToken} />
+          <div className="gatsby-group">
+            <ExtensionUI
+              contentSlug={contentSlug && contentSlug.getValue()}
+              previewUrl={previewUrl}
+              authToken={authToken}>
+              <div className="notification-container">
+                {showNotification && (
+                  <span className="notification">
+                    {NotificationIcon && (
+                      <NotificationIcon
+                        className={NotificationIcon === MdRefresh ? `loading` : ``}
+                      />
+                    )}
+                    {notificationText}
+                    {!NotificationIcon && ago}
+                  </span>
+                )}
+              </div>
+            </ExtensionUI>
+          </div>
         </div>
       </div>
     );

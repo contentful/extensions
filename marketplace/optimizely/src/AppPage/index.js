@@ -4,17 +4,32 @@ import tokens from '@contentful/forma-36-tokens';
 import { css } from 'emotion';
 import { Heading, Typography, Paragraph } from '@contentful/forma-36-react-components';
 
-import Features from './Features';
 import Connect from './Connect';
 import Config from './Config';
+import OptimizelyLogo from './OptimizelyLogo';
 import SectionSplitter from '../EditorPage/subcomponents/section-splitter';
 import { VARIATION_CONTAINER_ID } from './constants';
 
 const styles = {
   body: css({
     margin: '0 auto',
-    padding: '0 40px',
-    maxWidth: '786px'
+    padding: '20px 40px',
+    maxWidth: '786px',
+    minHeight: '700px',
+    marginTop: tokens.spacingXl,
+    backgroundColor: '#fff',
+    zIndex: '2',
+    boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
+    borderRadius: '2px'
+  }),
+  background: css({
+    display: 'block',
+    position: 'absolute',
+    zIndex: '-1',
+    top: '0',
+    width: '100%',
+    height: '300px',
+    backgroundColor: '#bcc3ca'
   }),
   section: css({
     margin: `${tokens.spacingXl} 0`
@@ -26,6 +41,13 @@ const styles = {
   light: css({
     opacity: '0.6',
     marginTop: tokens.spacingM
+  }),
+  logo: css({
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: tokens.spacingXl,
+    marginBottom: tokens.spacingXl
   })
 };
 
@@ -264,41 +286,43 @@ export default class AppPage extends React.Component {
 
   render() {
     return (
-      <div className={styles.body}>
-        <div className={styles.section}>
-          <Features />
-        </div>
-        <SectionSplitter />
-        <div className={styles.section}>
-          <Typography>
-            <Heading>Connect Optimizely</Heading>
-            {!this.props.client ? (
-              <div className={styles.section}>
-                <Connect openAuth={this.props.openAuth} />
-              </div>
-            ) : (
-              <>
-                <Paragraph>You&rsquo;re currently connected to Optimizely.</Paragraph>
-                <Paragraph className={styles.light}>
-                  An access token is valid for 2 hours then you must reauthorize.
-                </Paragraph>
-              </>
-            )}
-          </Typography>
-        </div>
-        {!!this.props.client && (
+      <>
+        <div className={styles.background} />
+        <div className={styles.body}>
           <div className={styles.section}>
-            <SectionSplitter />
-            <Config
-              client={this.props.client}
-              config={this.state.config}
-              updateConfig={this.updateConfig}
-              allContentTypes={this.state.allContentTypes}
-              sdk={this.props.sdk}
-            />
+            <Typography>
+              <Heading>Connect Optimizely</Heading>
+              {!this.props.client ? (
+                <div className={styles.section}>
+                  <Connect openAuth={this.props.openAuth} />
+                </div>
+              ) : (
+                <>
+                  <Paragraph>You&rsquo;re currently connected to Optimizely.</Paragraph>
+                  <Paragraph className={styles.light}>
+                    An access token is valid for 2 hours then you must reauthorize.
+                  </Paragraph>
+                </>
+              )}
+            </Typography>
           </div>
-        )}
-      </div>
+          {!!this.props.client && (
+            <div className={styles.section}>
+              <SectionSplitter />
+              <Config
+                client={this.props.client}
+                config={this.state.config}
+                updateConfig={this.updateConfig}
+                allContentTypes={this.state.allContentTypes}
+                sdk={this.props.sdk}
+              />
+            </div>
+          )}
+        </div>
+        <div className={styles.logo}>
+          <OptimizelyLogo />
+        </div>
+      </>
     );
   }
 }

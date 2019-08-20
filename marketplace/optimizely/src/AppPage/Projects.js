@@ -1,21 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { css } from 'emotion';
 
+import tokens from '@contentful/forma-36-tokens';
 import { Heading, Paragraph, SelectField, Option } from '@contentful/forma-36-react-components';
+
+const styles = {
+  section: css({
+    marginTop: tokens.spacingM
+  })
+};
 
 export default function Projects({ allProjects, selectedProject, onProjectChange }) {
   return (
-    <div className="f36-margin-top--xl">
+    <div>
       <Heading>Optimizely Project</Heading>
-      <Paragraph className="f36-margin-top--m">
-        Works only with Optimizely Full Stack projects
-      </Paragraph>
+      <Paragraph>Works only with Optimizely Full Stack projects.</Paragraph>
       <SelectField
         name="project"
-        className="f36-margin-top--m"
         id="project"
         labelText="Project"
         required={true}
+        className={styles.section}
         value={selectedProject ? selectedProject.toString() : ''}
         onChange={onProjectChange}
         selectProps={{ isDisabled: !allProjects }}
