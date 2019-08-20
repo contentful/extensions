@@ -7,6 +7,7 @@ import {
   TextField,
   CheckboxField,
   Pill,
+  FieldGroup,
   SkeletonContainer,
   SkeletonBodyText
 } from '@contentful/forma-36-react-components';
@@ -62,12 +63,12 @@ export default class AppConfig extends React.Component {
     const { previewUrl, webhookUrl, authToken, checkedContentTypes } = this.state;
 
     if (!previewUrl) {
-      this.props.sdk.notifier.error('You must provide a preview URL!');
+      this.props.sdk.notifier.error('You must provide a Site URL!');
       return false;
     }
 
     if (!previewUrl.startsWith('http')) {
-      this.props.sdk.notifier.error('Please provide a valid preview URL!');
+      this.props.sdk.notifier.error('Please provide a valid Site URL!');
       return false;
     }
 
@@ -192,28 +193,30 @@ export default class AppConfig extends React.Component {
                 functionality in the sidebar.
               </Paragraph>
               <div className={styles.checks}>
-                {checkedTypes.length ? (
-                  checkedTypes.map(key => (
-                    <Pill
-                      key={key}
-                      label={
-                        <CheckboxField
-                          labelText={this.state.checkedContentTypes[key].name}
-                          name={this.state.checkedContentTypes[key].name}
-                          checked={this.state.checkedContentTypes[key].checked}
-                          value={key}
-                          onChange={() => this.onContentTypeSelect(key)}
-                          id={key}
-                        />
-                      }
-                      className={styles.pills}
-                    />
-                  ))
-                ) : (
-                  <SkeletonContainer width="100%">
-                    <SkeletonBodyText numberOfLines={3} />
-                  </SkeletonContainer>
-                )}
+                <FieldGroup>
+                  {checkedTypes.length ? (
+                    checkedTypes.map(key => (
+                      <Pill
+                        key={key}
+                        label={
+                          <CheckboxField
+                            labelText={this.state.checkedContentTypes[key].name}
+                            name={this.state.checkedContentTypes[key].name}
+                            checked={this.state.checkedContentTypes[key].checked}
+                            value={key}
+                            onChange={() => this.onContentTypeSelect(key)}
+                            id={key}
+                          />
+                        }
+                        className={styles.pills}
+                      />
+                    ))
+                  ) : (
+                    <SkeletonContainer width="100%">
+                      <SkeletonBodyText numberOfLines={3} />
+                    </SkeletonContainer>
+                  )}
+                </FieldGroup>
               </div>
             </Typography>
           </div>
