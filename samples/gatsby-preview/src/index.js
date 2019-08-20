@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { init } from 'contentful-ui-extensions-sdk';
 import { ExtensionUI } from '@gatsby-cloud-pkg/gatsby-cms-extension-base';
-import relativeDate from "relative-date";
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 import Danger from '../assets/danger';
 import { MdRefresh } from 'react-icons/md';
@@ -43,9 +43,9 @@ class App extends React.Component {
   updatedLast = () => {
     const { showNotification, NotificationIcon } = this.state;
     if (showNotification && !NotificationIcon) {
-      const ago = relativeDate(new Date(this.props.sdk.entry.getSys().updatedAt))
+      const ago = `${formatDistanceToNow(new Date(this.props.sdk.entry.getSys().updatedAt), { includeSeconds: true})} ago`
       this.setState({
-        ago: ago === `just now` ? `a few seconds ago` : ago
+        ago,
       })
     }
   }
@@ -62,7 +62,7 @@ class App extends React.Component {
       clearInterval(this.debounceInterval);
     }
     this.debounceInterval = setInterval(this.refreshGatsbyPreview, 1000);
-    this.updatedLast = setInterval(this.updatedLast, 6000)
+    this.updatedLast = setInterval(this.updatedLast, 1000)
   };
 
   refreshGatsbyPreview = () => {
@@ -91,7 +91,7 @@ class App extends React.Component {
         this.setState({
           notificationText: `Preview updated `,
           NotificationIcon: null,
-          ago: `a few seconds ago`
+          ago: `${formatDistanceToNow(new Date(this.props.sdk.entry.getSys().updatedAt), { includeSeconds: true})} ago`
         }),
       () =>
       NotificationIcon !== Danger &&
