@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { init } from 'contentful-ui-extensions-sdk';
-import { ExtensionUI } from "@gatsby-cloud-pkg/gatsby-cms-extension-base";
-import Notification from "./Notification"
-import Danger from "../assets/danger"
-import { MdRefresh } from "react-icons/md"
+import { ExtensionUI } from '@gatsby-cloud-pkg/gatsby-cms-extension-base';
+import relativeDate from "relative-date";
+
+import Danger from '../assets/danger';
+import { MdRefresh } from 'react-icons/md';
 
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
@@ -16,9 +17,9 @@ class App extends React.Component {
     this.state = {
       showNotification: false,
       notificationText: ``,
-      notificationTone: `STANDARD`,
-      notificationIcon: null,
-    } 
+      NotificationIcon: null,
+      ago: null,
+    };
   }
 
   componentDidMount = () => {
@@ -31,6 +32,7 @@ class App extends React.Component {
     if (this.debounceInterval) {
       clearInterval(this.debounceInterval);
     }
+    clearInterval(this.updatedLast);
   };
 
   onError = error => {
@@ -38,18 +40,33 @@ class App extends React.Component {
     this.props.sdk.notifier.error(error.message);
   };
 
+  updatedLast = () => {
+    const { showNotification, NotificationIcon } = this.state;
+    if (showNotification && !NotificationIcon) {
+      const ago = relativeDate(new Date(this.props.sdk.entry.getSys().updatedAt))
+      this.setState({
+        ago: ago === `just now` ? `a few seconds ago` : ago
+      })
+    }
+  }
+
   onSysChanged = () => {
-    const { showNotification, notificationTone } = this.state
+    const { showNotification, NotificationIcon } = this.state;
     if (this.debounceInterval) {
-      !showNotification && this.setState({ showNotification: true })
-      notificationTone !== `WARNING` && this.setState({ notificationText: `Refreshing the preview...`, notificationTone: `WARNING`, notificationIcon: MdRefresh })
+      !showNotification && this.setState({ showNotification: true });
+      NotificationIcon !== MdRefresh &&
+        this.setState({
+          notificationText: `Refreshing the preview...`,
+          NotificationIcon: MdRefresh,
+        });
       clearInterval(this.debounceInterval);
     }
-    this.debounceInterval = setInterval(this.refreshGatsbySite, 1000);
+    this.debounceInterval = setInterval(this.refreshGatsbyPreview, 1000);
+    this.updatedLast = setInterval(this.updatedLast, 6000)
   };
 
-  refreshGatsbySite = () => {
-    const { notificationTone } = this.state
+  refreshGatsbyPreview = () => {
+    const { NotificationIcon } = this.state;
     const {
       parameters: { installation }
     } = this.props.sdk;
@@ -58,7 +75,6 @@ class App extends React.Component {
       clearInterval(this.debounceInterval);
     }
 
-    const date = new Date().toString();
     const { webhookUrl, authToken } = installation;
 
     fetch(webhookUrl, {
@@ -70,8 +86,19 @@ class App extends React.Component {
       },
       body: JSON.stringify({})
     }).then(
-      () => notificationTone !== `SUCCESS` && this.setState({ notificationText: `Preview updated on ${date}`, notificationTone: `SUCCESS`, notificationIcon: null }),
-      () => notificationTone !== `DANGER` && this.setState({ notificationText: `Preview failed`, notificationTone: `DANGER`, notificationIcon: Danger })
+      () =>
+        NotificationIcon !== null &&
+        this.setState({
+          notificationText: `Preview updated `,
+          NotificationIcon: null,
+          ago: `a few seconds ago`
+        }),
+      () =>
+      NotificationIcon !== Danger &&
+        this.setState({
+          notificationText: `Preview failed`,
+          NotificationIcon: Danger,
+        })
     );
   };
 
@@ -82,12 +109,28 @@ class App extends React.Component {
     } = this.props.sdk;
     const { previewUrl, authToken } = installation;
     const { slug: contentSlug } = entry.fields;
-    const { showNotification, notificationText, notificationTone, notificationIcon } = this.state
+    const { showNotification, notificationText, NotificationIcon, ago } = this.state;
+
     return (
       <div className="extension">
         <div className="flexcontainer">
-          {showNotification && <Notification icon={notificationIcon} tone={notificationTone} className={notificationIcon === MdRefresh ? `loading` : ``}>{notificationText}</Notification>}
-          <ExtensionUI contentSlug={contentSlug && contentSlug.getValue()} siteUrl={previewUrl} authToken={authToken} />
+          {showNotification && (
+            <div className="notification-container">
+            <span className="notification">
+              {NotificationIcon && (
+                <NotificationIcon className={NotificationIcon === MdRefresh ? `loading` : ``} />
+              )}
+              {notificationText}{!NotificationIcon && ago}
+            </span>
+            </div>
+          )}
+          <div className="gatsby-group">
+          <ExtensionUI
+            contentSlug={contentSlug && contentSlug.getValue()}
+            previewUrl={previewUrl}
+            authToken={authToken}
+          />
+          </div>
         </div>
       </div>
     );
