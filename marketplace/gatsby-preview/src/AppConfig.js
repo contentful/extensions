@@ -23,7 +23,9 @@ export default class AppConfig extends React.Component {
     previewUrl: '',
     webhookUrl: '',
     authToken: '',
-    checkedContentTypes: {}
+    checkedContentTypes: {},
+    validPreview: true,
+    validWebhook: true
   };
 
   async componentDidMount() {
@@ -61,20 +63,28 @@ export default class AppConfig extends React.Component {
   configureApp = async () => {
     const { app } = this.props.sdk.platformAlpha;
     const { previewUrl, webhookUrl, authToken, checkedContentTypes } = this.state;
+    this.setState({ validPreview: true, validWebhook: true });
+
+    let valid = true;
 
     if (!previewUrl) {
-      this.props.sdk.notifier.error('You must provide a Site URL!');
-      return false;
+      this.setState({ validPreview: false });
+      valid = false;
     }
 
     if (!previewUrl.startsWith('http')) {
-      this.props.sdk.notifier.error('Please provide a valid Site URL!');
-      return false;
+      this.setState({ validPreview: false });
+      valid = false;
     }
 
     // the webhookUrl is optional but if it is passed, check that it is valid
     if (webhookUrl && !webhookUrl.startsWith('http')) {
-      this.props.sdk.notifier.error('Please provide a valid webhook URL!');
+      this.setState({ validWebhook: false });
+      valid = false;
+    }
+
+    if (!valid) {
+      this.props.sdk.notifier.error('Please review the errors in the form.');
       return false;
     }
 
@@ -102,11 +112,11 @@ export default class AppConfig extends React.Component {
   };
 
   updatePreviewUrl = e => {
-    this.setState({ previewUrl: e.target.value });
+    this.setState({ previewUrl: e.target.value, validPreview: true });
   };
 
   updateWebhookUrl = e => {
-    this.setState({ webhookUrl: e.target.value });
+    this.setState({ webhookUrl: e.target.value, validWebhook: true });
   };
 
   updateAuthToken = e => {
@@ -153,9 +163,26 @@ export default class AppConfig extends React.Component {
                 name="previewUrl"
                 id="previewUrl"
                 labelText="Site URL"
+                required
                 value={this.state.previewUrl}
                 onChange={this.updatePreviewUrl}
                 className={styles.input}
+                helpText={
+                  <span>
+                    To get your Site URL, see your{' '}
+                    <a
+                      href="https://www.gatsbyjs.com/dashboard/sites"
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      Gatsby dashboard
+                    </a>
+                  </span>
+                }
+                validationMessage={
+                  !this.state.validPreview
+                    ? 'Please provide a valid URL (It should start with http)'
+                    : ''
+                }
                 textInputProps={{
                   type: 'text'
                 }}
@@ -167,6 +194,12 @@ export default class AppConfig extends React.Component {
                 value={this.state.webhookUrl}
                 onChange={this.updateWebhookUrl}
                 className={styles.input}
+                helpText="Optional Webhook URL for manually building sites"
+                validationMessage={
+                  !this.state.validWebhook
+                    ? 'Please provide a valid URL (It should start with http)'
+                    : ''
+                }
                 textInputProps={{
                   type: 'text'
                 }}
@@ -174,10 +207,11 @@ export default class AppConfig extends React.Component {
               <TextField
                 name="authToken"
                 id="authToken"
-                labelText="Authentication Token (Optional)"
+                labelText="Authentication Token"
                 value={this.state.authToken}
                 onChange={this.updateAuthToken}
                 className={styles.input}
+                helpText="Optional Authentication token for private Gatsby Cloud sites"
                 textInputProps={{
                   type: 'password'
                 }}
