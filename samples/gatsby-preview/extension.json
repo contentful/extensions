@@ -8,17 +8,17 @@
       {
         "id": "previewUrl",
         "type": "Symbol",
-        "name": "The url of your Gatsby Cloud Preview site"
+        "name": "The url of your Gatsby Cloud Previews"
       },
       {
         "id": "webhookUrl",
         "type": "Symbol",
-        "name": "The url of the webhook to rebuild your Gatsby Cloud Preview site"
+        "name": "The url of the webhook to rebuild your Gatsby Cloud Previews"
       },
       {
         "id": "authToken",
         "type": "Symbol",
-        "name": "Optional Authentication token for private Gatsby Cloud Preview sites"
+        "name": "Optional Authentication token for private Gatsby Cloud Previews"
       }
     ]
   }
