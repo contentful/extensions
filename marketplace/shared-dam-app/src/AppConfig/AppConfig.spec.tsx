@@ -48,6 +48,9 @@ const renderComponent = (sdk: unknown) => {
       sdk={sdk as AppExtensionSDK}
       parameterDefinitions={definitions}
       validateParameters={validate}
+      logo="some-logo.svg"
+      color="red"
+      description="App description"
     />
   );
 };

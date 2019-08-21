@@ -4,12 +4,14 @@ import { AppExtensionSDK } from 'contentful-ui-extensions-sdk';
 import {
   Heading,
   Paragraph,
-  Spinner,
   Typography,
   TextField,
-  Form
+  Form,
+  SkeletonContainer,
+  SkeletonBodyText
 } from '@contentful/forma-36-react-components';
-import { Workbench } from '@contentful/forma-36-react-components/dist/alpha';
+import tokens from '@contentful/forma-36-tokens';
+import { css } from 'emotion';
 
 import FieldSelector from './FieldSelector';
 
@@ -30,6 +32,9 @@ interface Props {
   sdk: AppExtensionSDK;
   parameterDefinitions: Hash[];
   validateParameters: ValidateParametersFn;
+  logo: string;
+  color: string;
+  description: string;
 }
 
 interface State {
@@ -39,6 +44,43 @@ interface State {
   selectedFields: SelectedFields;
   parameters: Hash;
 }
+
+const styles = {
+  body: css({
+    height: 'auto',
+    minHeight: '500px',
+    margin: '0 auto',
+    marginTop: tokens.spacingXl,
+    padding: '20px 40px',
+    maxWidth: '786px',
+    backgroundColor: '#fff',
+    zIndex: 2,
+    boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
+    borderRadius: '2px'
+  }),
+  background: (color: string) =>
+    css({
+      display: 'block',
+      position: 'absolute',
+      zIndex: -1,
+      top: 0,
+      width: '100%',
+      height: '300px',
+      backgroundColor: color
+    }),
+  section: css({
+    margin: `${tokens.spacingXl} 0`
+  }),
+  icon: css({
+    display: 'flex',
+    justifyContent: 'center',
+    '> img': {
+      display: 'block',
+      width: '70px',
+      margin: `${tokens.spacingXl} 0`
+    }
+  })
+};
 
 export default class AppConfig extends React.Component<Props, State> {
   state = {
@@ -97,19 +139,27 @@ export default class AppConfig extends React.Component<Props, State> {
 
   render() {
     return (
-      <Workbench>
-        <Workbench.Content>
+      <>
+        <div className={styles.background(this.props.color)} />
+        <div className={styles.body}>
+          <Typography>
+            <Heading>About</Heading>
+            <Paragraph>{this.props.description}</Paragraph>
+          </Typography>
           {this.state.ready ? this.renderApp() : this.renderLoader()}
-        </Workbench.Content>
-      </Workbench>
+        </div>
+        <div className={styles.icon}>
+          <img src={this.props.logo} alt="App logo" />
+        </div>
+      </>
     );
   }
 
   renderLoader() {
     return (
-      <Paragraph>
-        Loading <Spinner />
-      </Paragraph>
+      <SkeletonContainer width="100%">
+        <SkeletonBodyText numberOfLines={3} />
+      </SkeletonContainer>
     );
   }
 

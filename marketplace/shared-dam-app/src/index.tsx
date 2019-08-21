@@ -47,6 +47,9 @@ export function setup(integration: Integration) {
           sdk={sdk as AppExtensionSDK}
           parameterDefinitions={integration.parameterDefinitions}
           validateParameters={integration.validateParameters}
+          logo={integration.logo}
+          color={integration.color}
+          description={integration.description}
         />,
         root
       );

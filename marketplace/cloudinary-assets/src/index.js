@@ -95,6 +95,9 @@ function validateParameters(parameters) {
 setup({
   cta: CTA,
   logo,
+  description:
+    'Cloudinary enables dynamic management of digital assets and optimized user experience by streamlining the entire lifecycle — from upload, organization, and reuse to rapid creation of multiple variants for optimized delivery across multiple devices and channels.',
+  color: '#F4B21B',
   parameterDefinitions: descriptor.parameters.installation,
   makeThumbnail,
   renderDialog,
