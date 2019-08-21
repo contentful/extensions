@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button } from '@contentful/forma-36-react-components';
+import { Button, Note, TextLink } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import { css } from 'emotion';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
@@ -17,6 +17,8 @@ interface Props {
 
 interface State {
   value: Hash[];
+  valid: boolean;
+  editingDisabled: boolean;
 }
 
 const styles = {
@@ -34,33 +36,40 @@ const styles = {
   })
 };
 
+const isObject = (o: any) => typeof o === 'object' && o !== null && !Array.isArray(o);
+
 export default class Field extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
+
     const value = props.sdk.field.getValue();
+    const validListOfObjects = Array.isArray(value) && value.every(isObject);
+
+    // `valid` is `true` if the app can render/write the value safely.
+    // If for example there is an object stored we don't want to override
+    // it without a user explicitly telling us to do so.
+    const valid = typeof value === 'undefined' || value === null || validListOfObjects;
+
     this.state = {
-      value: Array.isArray(value) ? value : []
+      value: Array.isArray(value) ? value : [],
+      valid,
+      editingDisabled: false
     };
   }
-
-  detachExternalChangeHandler: Function | null = null;
 
   componentDidMount() {
     this.props.sdk.window.startAutoResizer();
 
-    // Handler for external field value changes (e.g. when multiple authors are working on the same entry).
-    this.detachExternalChangeHandler = this.props.sdk.field.onValueChanged(this.onExternalChange);
-  }
+    // Handle external changes (e.g. when multiple authors are working on the same entry).
+    this.props.sdk.field.onValueChanged((value?: Hash[]) => {
+      this.setState({ value: Array.isArray(value) ? value : [] });
+    });
 
-  componentWillUnmount() {
-    if (this.detachExternalChangeHandler) {
-      this.detachExternalChangeHandler();
-    }
+    // Disable editing (e.g. when field is not editable due to R&P).
+    this.props.sdk.field.onIsDisabledChanged((editingDisabled: boolean) => {
+      this.setState({ editingDisabled });
+    });
   }
-
-  onExternalChange = (value?: Hash[]) => {
-    this.setState({ value: Array.isArray(value) ? value : [] });
-  };
 
   updateStateValue = async (value: Hash[]) => {
     this.setState({ value });
@@ -84,17 +93,31 @@ export default class Field extends React.Component<Props, State> {
   };
 
   render = () => {
-    const currentValue = this.state.value;
-    const hasItems = currentValue.length > 0;
+    const { value, valid, editingDisabled } = this.state;
+
+    if (!valid) {
+      return (
+        <Note noteType="warning" title="Field value is incompatibile">
+          The JSON object stored in this field cannot be managed with this App.
+          <TextLink onClick={() => this.setState({ value: [], valid: true })}>
+            I want to override the value using the App
+          </TextLink>
+          .
+        </Note>
+      );
+    }
+
+    const hasItems = value.length > 0;
     const config = this.props.sdk.parameters.installation;
-    const isDisabled = this.props.isDisabled(currentValue, config);
+    const isDisabled = editingDisabled || this.props.isDisabled(value, config);
 
     return (
       <>
         {hasItems && (
           <div className={styles.sortable}>
             <SortableComponent
-              resources={this.state.value}
+              disabled={editingDisabled}
+              resources={value}
               onChange={this.updateStateValue}
               config={config}
               makeThumbnail={this.props.makeThumbnail}
