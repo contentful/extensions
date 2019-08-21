@@ -7,6 +7,7 @@ import tokens from '@contentful/forma-36-tokens';
 import { Hash, ThumbnailFn, DeleteFn } from '../interfaces';
 
 interface Props {
+  disabled: boolean;
   onChange: (data: Hash[]) => void;
   config: Hash;
   resources: Hash[];
@@ -14,6 +15,7 @@ interface Props {
 }
 
 interface SortableContainerProps {
+  disabled: boolean;
   config: Hash;
   resources: Hash[];
   deleteFn: DeleteFn;
@@ -26,6 +28,7 @@ interface DragHandleProps {
 }
 
 interface SortableElementProps extends DragHandleProps {
+  disabled: boolean;
   readonly index: number;
   deleteFn: DeleteFn;
 }
@@ -66,13 +69,15 @@ const SortableItem = SortableElement<SortableElementProps>((props: SortableEleme
   return (
     <Card className={styles.card}>
       <DragHandle url={props.url} alt={props.alt} />
-      <IconButton
-        label="Close"
-        onClick={() => props.deleteFn(props.index)}
-        className={styles.remove}
-        iconProps={{ icon: 'Close' }}
-        buttonType="muted"
-      />
+      {!props.disabled && (
+        <IconButton
+          label="Close"
+          onClick={() => props.deleteFn(props.index)}
+          className={styles.remove}
+          iconProps={{ icon: 'Close' }}
+          buttonType="muted"
+        />
+      )}
     </Card>
   );
 });
@@ -84,6 +89,7 @@ const SortableList = SortableContainer<SortableContainerProps>((props: SortableC
         const [url, alt] = props.makeThumbnail(resource, props.config);
         return (
           <SortableItem
+            disabled={props.disabled}
             key={`item-${index}`}
             index={index}
             url={url}
@@ -111,6 +117,7 @@ export class SortableComponent extends React.Component<Props> {
   render() {
     return (
       <SortableList
+        disabled={this.props.disabled}
         onSortEnd={this.onSortEnd}
         axis="xy"
         resources={this.props.resources}

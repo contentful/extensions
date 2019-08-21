@@ -17,6 +17,7 @@ interface Props {
 
 interface State {
   value: Hash[];
+  editingDisabled: boolean;
 }
 
 const styles = {
@@ -39,7 +40,8 @@ export default class Field extends React.Component<Props, State> {
     super(props);
     const value = props.sdk.field.getValue();
     this.state = {
-      value: Array.isArray(value) ? value : []
+      value: Array.isArray(value) ? value : [],
+      editingDisabled: false
     };
   }
 
@@ -48,19 +50,16 @@ export default class Field extends React.Component<Props, State> {
   componentDidMount() {
     this.props.sdk.window.startAutoResizer();
 
-    // Handler for external field value changes (e.g. when multiple authors are working on the same entry).
-    this.detachExternalChangeHandler = this.props.sdk.field.onValueChanged(this.onExternalChange);
-  }
+    // Handle external changes (e.g. when multiple authors are working on the same entry).
+    this.props.sdk.field.onValueChanged((value?: Hash[]) => {
+      this.setState({ value: Array.isArray(value) ? value : [] });
+    });
 
-  componentWillUnmount() {
-    if (this.detachExternalChangeHandler) {
-      this.detachExternalChangeHandler();
-    }
+    // Disable editing (e.g. when field is not editable due to R&P).
+    this.props.sdk.field.onIsDisabledChanged((editingDisabled: boolean) => {
+      this.setState({ editingDisabled });
+    });
   }
-
-  onExternalChange = (value?: Hash[]) => {
-    this.setState({ value: Array.isArray(value) ? value : [] });
-  };
 
   updateStateValue = async (value: Hash[]) => {
     this.setState({ value });
@@ -84,17 +83,18 @@ export default class Field extends React.Component<Props, State> {
   };
 
   render = () => {
-    const currentValue = this.state.value;
-    const hasItems = currentValue.length > 0;
+    const { value, editingDisabled } = this.state;
+    const hasItems = value.length > 0;
     const config = this.props.sdk.parameters.installation;
-    const isDisabled = this.props.isDisabled(currentValue, config);
+    const isDisabled = editingDisabled || this.props.isDisabled(value, config);
 
     return (
       <>
         {hasItems && (
           <div className={styles.sortable}>
             <SortableComponent
-              resources={this.state.value}
+              disabled={editingDisabled}
+              resources={value}
               onChange={this.updateStateValue}
               config={config}
               makeThumbnail={this.props.makeThumbnail}
