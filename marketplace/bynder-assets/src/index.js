@@ -87,6 +87,9 @@ function validateParameters({ bynderURL }) {
 setup({
   cta: CTA,
   logo,
+  color: '#0af',
+  description:
+    "Bynder's digital asset management solution improves your digital asset flow from creation to approval, to deliver consistent content across all of your channels.",
   parameterDefinitions: descriptor.parameters.installation,
   makeThumbnail,
   renderDialog,

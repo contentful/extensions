@@ -15,6 +15,8 @@ export type DisabledPredicateFn = (currentValue: Hash[], config: Hash) => boolea
 export interface Integration {
   cta: string;
   logo: string;
+  color: string;
+  description: string;
   parameterDefinitions: Hash[];
   validateParameters: ValidateParametersFn;
   makeThumbnail: ThumbnailFn;

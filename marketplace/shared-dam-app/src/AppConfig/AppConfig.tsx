@@ -33,6 +33,8 @@ interface Props {
   parameterDefinitions: Hash[];
   validateParameters: ValidateParametersFn;
   logo: string;
+  color: string;
+  description: string;
 }
 
 interface State {
@@ -46,7 +48,7 @@ interface State {
 const styles = {
   body: css({
     height: 'auto',
-    minHeight: '850px',
+    minHeight: '500px',
     margin: '0 auto',
     marginTop: tokens.spacingXl,
     padding: '20px 40px',
@@ -138,11 +140,11 @@ export default class AppConfig extends React.Component<Props, State> {
   render() {
     return (
       <>
-        <div className={styles.background('#F4B21B')} />
+        <div className={styles.background(this.props.color)} />
         <div className={styles.body}>
           <Typography>
             <Heading>About</Heading>
-            <Paragraph>Some description...</Paragraph>
+            <Paragraph>{this.props.description}</Paragraph>
           </Typography>
           {this.state.ready ? this.renderApp() : this.renderLoader()}
         </div>

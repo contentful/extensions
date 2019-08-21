@@ -48,6 +48,8 @@ export function setup(integration: Integration) {
           parameterDefinitions={integration.parameterDefinitions}
           validateParameters={integration.validateParameters}
           logo={integration.logo}
+          color={integration.color}
+          description={integration.description}
         />,
         root
       );
