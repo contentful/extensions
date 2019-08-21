@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button } from '@contentful/forma-36-react-components';
+import { Button, Note, TextLink } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import { css } from 'emotion';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
@@ -17,6 +17,7 @@ interface Props {
 
 interface State {
   value: Hash[];
+  valid: boolean;
   editingDisabled: boolean;
 }
 
@@ -35,17 +36,26 @@ const styles = {
   })
 };
 
+const isObject = (o: any) => typeof o === 'object' && o !== null && !Array.isArray(o);
+
 export default class Field extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
+
     const value = props.sdk.field.getValue();
+    const validListOfObjects = Array.isArray(value) && value.every(isObject);
+
+    // `valid` is `true` if the app can render/write the value safely.
+    // If for example there is an object stored we don't want to override
+    // it without a user explicitly telling us to do so.
+    const valid = typeof value === 'undefined' || value === null || validListOfObjects;
+
     this.state = {
       value: Array.isArray(value) ? value : [],
+      valid,
       editingDisabled: false
     };
   }
-
-  detachExternalChangeHandler: Function | null = null;
 
   componentDidMount() {
     this.props.sdk.window.startAutoResizer();
@@ -83,7 +93,20 @@ export default class Field extends React.Component<Props, State> {
   };
 
   render = () => {
-    const { value, editingDisabled } = this.state;
+    const { value, valid, editingDisabled } = this.state;
+
+    if (!valid) {
+      return (
+        <Note noteType="warning" title="Field value is incompatibile">
+          JSON object stored in this field cannot be managed with this App.
+          <TextLink onClick={() => this.setState({ value: [], valid: true })}>
+            I want to override the value using the App
+          </TextLink>
+          .
+        </Note>
+      );
+    }
+
     const hasItems = value.length > 0;
     const config = this.props.sdk.parameters.installation;
     const isDisabled = editingDisabled || this.props.isDisabled(value, config);
