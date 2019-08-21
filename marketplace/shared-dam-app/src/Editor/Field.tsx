@@ -98,7 +98,7 @@ export default class Field extends React.Component<Props, State> {
     if (!valid) {
       return (
         <Note noteType="warning" title="Field value is incompatibile">
-          JSON object stored in this field cannot be managed with this App.
+          The JSON object stored in this field cannot be managed with this App.
           <TextLink onClick={() => this.setState({ value: [], valid: true })}>
             I want to override the value using the App
           </TextLink>
