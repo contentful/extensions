@@ -1,6 +1,6 @@
 import { Cloudinary as cloudinaryCore } from 'cloudinary-core';
 
-import { setup } from 'dam-app-base';
+import { setup } from 'shared-dam-app';
 
 import logo from './logo.svg';
 import descriptor from '../extension.json';

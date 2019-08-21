@@ -48,7 +48,7 @@ function createOrUpdate(extensionName) {
 
 dirs(BUILD_DIR)
   .then(dirs => {
-    const extensions = dirs.filter(dir => !dir.startsWith('_'));
+    const extensions = dirs.filter(dir => !dir.startsWith('shared-'));
 
     return Promise.all(extensions.map(createOrUpdate));
   })

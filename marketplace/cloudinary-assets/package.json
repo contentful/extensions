@@ -15,7 +15,7 @@
   "dependencies": {
     "cloudinary-core": "^2.7.3",
     "core-js": "3.1.4",
-    "dam-app-base": "file:../_dam-app-base"
+    "shared-dam-app": "^1.0.0"
   },
   "scripts": {
     "start": "contentful-extension-scripts start",

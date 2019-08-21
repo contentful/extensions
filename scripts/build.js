@@ -37,9 +37,11 @@ async function writeExtensionHeaders(extensionDir) {
   return makeDir(outPutDir).then(() => writeFile(filePath, headers, 'utf8'));
 }
 
+console.log('BUILDING.....');
+
 dirs(`${__dirname}/../marketplace`)
   .then(dirs => {
-    const extensions = dirs.filter(dir => !dir.startsWith('_'));
+    const extensions = dirs.filter(dir => !dir.startsWith('shared-'));
 
     return Promise.all(
       extensions.map(async extension => {
