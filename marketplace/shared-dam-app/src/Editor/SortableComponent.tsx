@@ -48,11 +48,10 @@ const styles = {
     height: '100px',
     '> img': {
       display: 'block',
-      // Image selection sometimes makes drag and drop ugly.
-      '-webkit-user-select': 'none',
-      '-moz-user-select': 'none',
-      '-ms-user-select': 'none',
-      'user-select': 'none'
+      overflow: 'hidden',
+      height: '100px',
+      margin: '0 auto',
+      userSelect: 'none' // Image selection sometimes makes drag and drop ugly.
     }
   }),
   remove: css({

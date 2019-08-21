@@ -4,11 +4,13 @@
   "srcdoc": "./build/index.html",
   "fieldTypes": ["Object"],
   "parameters": {
-    "instance": [
+    "installation": [
       {
         "id": "bynderURL",
+        "type": "Symbol",
         "name": "Bynder URL",
-        "type": "Symbol"
+        "description": "Provide Bynder URL of your account.",
+        "required": true
       }
     ]
   }
