@@ -3,7 +3,8 @@ import { render, cleanup, wait, fireEvent } from '@testing-library/react';
 
 import { AppExtensionSDK } from 'contentful-ui-extensions-sdk';
 
-import CloudinaryAppConfig from './cloudinaryAppConfig';
+import AppConfig from './AppConfig';
+import { definitions } from './parameters.spec';
 
 const contentTypes = [
   {
@@ -39,23 +40,33 @@ const makeSdkMock = () => ({
   }
 });
 
+const validate = () => null; // Means no error
+
 const renderComponent = (sdk: unknown) => {
-  return render(<CloudinaryAppConfig sdk={sdk as AppExtensionSDK} />);
+  return render(
+    <AppConfig
+      sdk={sdk as AppExtensionSDK}
+      parameterDefinitions={definitions}
+      validateParameters={validate}
+    />
+  );
 };
 
-describe('CloudinaryAppConfig', () => {
+describe('AppConfig', () => {
   afterEach(cleanup);
 
   it('renders app before installation', async () => {
     const sdk = makeSdkMock();
     const { getByLabelText } = renderComponent(sdk);
     await wait(() => getByLabelText(/Cloud name/));
+
     [[/Cloud name/, ''], [/API key/, ''], [/Max number of files/, '10']].forEach(
       ([labelRe, expected]) => {
         const configInput = getByLabelText(labelRe) as HTMLInputElement;
         expect(configInput.value).toEqual(expected);
       }
     );
+
     [/Some object/, /Some other object/].forEach(labelRe => {
       const fieldCheckbox = getByLabelText(labelRe) as HTMLInputElement;
       expect(fieldCheckbox.checked).toBe(false);
@@ -79,6 +90,7 @@ describe('CloudinaryAppConfig', () => {
 
     const { getByLabelText } = renderComponent(sdk);
     await wait(() => getByLabelText(/Cloud name/));
+
     [
       [/Cloud name/, 'test-cloud'],
       [/API key/, 'test-api-key'],
@@ -87,6 +99,7 @@ describe('CloudinaryAppConfig', () => {
       const configInput = getByLabelText(labelRe as RegExp) as HTMLInputElement;
       expect(configInput.value).toEqual(expected);
     });
+
     [[/Some object/, false], [/Some other object/, true]].forEach(([labelRe, expected]) => {
       const fieldCheckbox = getByLabelText(labelRe as RegExp) as HTMLInputElement;
       expect(fieldCheckbox.checked).toBe(expected);
