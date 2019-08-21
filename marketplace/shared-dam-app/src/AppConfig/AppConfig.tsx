@@ -132,8 +132,7 @@ export default class AppConfig extends React.Component<Props, State> {
     return (
       <>
         <Typography>
-          <Heading>Cloudinary configuration</Heading>
-          <Paragraph>Provide details of your Cloudinary account so we can connect to it.</Paragraph>
+          <Heading>Configuration</Heading>
           <Form>
             {this.props.parameterDefinitions.map(def => {
               const key = `config-input-${def.id}`;
@@ -164,7 +163,7 @@ export default class AppConfig extends React.Component<Props, State> {
           {contentTypes.length > 0 ? (
             <Paragraph>
               The list below enumerates all Content Types with at least one <code>Object</code>{' '}
-              field. Tick the box next to a field name to enable Cloudinary for it.
+              field. Tick the box next to a field name to enable the App for it.
             </Paragraph>
           ) : (
             <Paragraph>
