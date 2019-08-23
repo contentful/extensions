@@ -3,7 +3,6 @@ import { SortableContainer, SortableElement, SortableHandle } from 'react-sortab
 import { css } from 'emotion';
 import arrayMove from 'array-move';
 import { IconButton, Card } from '@contentful/forma-36-react-components';
-import tokens from '@contentful/forma-36-tokens';
 import { Hash, ThumbnailFn, DeleteFn } from '../interfaces';
 
 interface Props {
@@ -29,8 +28,7 @@ interface DragHandleProps {
 
 interface SortableElementProps extends DragHandleProps {
   disabled: boolean;
-  readonly index: number;
-  deleteFn: DeleteFn;
+  onDelete: () => void;
 }
 
 const DragHandle = SortableHandle<DragHandleProps>(({ url, alt }: DragHandleProps) =>
@@ -39,17 +37,19 @@ const DragHandle = SortableHandle<DragHandleProps>(({ url, alt }: DragHandleProp
 
 const styles = {
   container: css({
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap'
+    maxWidth: '600px'
+  }),
+  grid: css({
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)'
   }),
   card: css({
-    cursor: 'pointer',
-    margin: tokens.spacingXs,
+    margin: '10px',
     position: 'relative',
     width: '150px',
     height: '100px',
     '> img': {
+      cursor: 'move',
       display: 'block',
       overflow: 'hidden',
       height: '100px',
@@ -72,7 +72,7 @@ const SortableItem = SortableElement<SortableElementProps>((props: SortableEleme
       {!props.disabled && (
         <IconButton
           label="Close"
-          onClick={() => props.deleteFn(props.index)}
+          onClick={props.onDelete}
           className={styles.remove}
           iconProps={{ icon: 'Close' }}
           buttonType="muted"
@@ -83,21 +83,47 @@ const SortableItem = SortableElement<SortableElementProps>((props: SortableEleme
 });
 
 const SortableList = SortableContainer<SortableContainerProps>((props: SortableContainerProps) => {
+  // Provide stable keys for all resources so images don't blink.
+  const { list } = props.resources.reduce(
+    (acc, resource, index) => {
+      const [url, alt] = props.makeThumbnail(resource, props.config);
+      const item = { url, alt, key: `url-unknown-${index}` };
+      const counts = { ...acc.counts };
+
+      // URLs are used as keys.
+      // It is possible to include the same image more than once.
+      // We count usages of the same URL and use the count in keys.
+      // This can be considered an edge-case but still - should be covered.
+      if (url) {
+        counts[url] = counts[url] || 1;
+        item.key = [url, counts[url]].join('-');
+        counts[url] += 1;
+      }
+
+      return {
+        counts,
+        list: [...acc.list, item]
+      };
+    },
+    { counts: {}, list: [] }
+  ) as { list: Hash[] };
+
   return (
     <div className={styles.container}>
-      {props.resources.map((resource, index) => {
-        const [url, alt] = props.makeThumbnail(resource, props.config);
-        return (
-          <SortableItem
-            disabled={props.disabled}
-            key={`item-${index}`}
-            index={index}
-            url={url}
-            alt={alt}
-            deleteFn={props.deleteFn}
-          />
-        );
-      })}
+      <div className={styles.grid}>
+        {list.map(({ url, alt, key }, index) => {
+          return (
+            <SortableItem
+              disabled={props.disabled}
+              key={key}
+              url={url}
+              alt={alt}
+              index={index}
+              onDelete={() => props.deleteFn(index)}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 });
@@ -118,6 +144,7 @@ export class SortableComponent extends React.Component<Props> {
     return (
       <SortableList
         disabled={this.props.disabled}
+        onSortStart={(_, e) => e.preventDefault()} // Fixes FF glitches.
         onSortEnd={this.onSortEnd}
         axis="xy"
         resources={this.props.resources}
