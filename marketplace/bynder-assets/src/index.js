@@ -9,7 +9,7 @@ const BYNDER_SDK_URL =
 const CTA = 'Select or upload a file on Bynder';
 
 function makeThumbnail(resource) {
-  const thumbnail = resource.thumbnails && resource.thumbnails.webimage;
+  const thumbnail = (resource.thumbnails && resource.thumbnails.webimage) || resource.src;
   const url = typeof thumbnail === 'string' ? thumbnail : undefined;
   const alt = [resource.id, ...(resource.tags || [])].join(', ');
 
@@ -66,7 +66,14 @@ async function openDialog(sdk, _currentValue, config) {
     width: 1400
   });
 
-  return Array.isArray(result) ? result : [];
+  if (!Array.isArray(result)) {
+    return [];
+  }
+
+  return result.map(item => ({
+    ...item,
+    src: item.thumbnails && item.thumbnails.webimage
+  }));
 }
 
 function isDisabled() {
