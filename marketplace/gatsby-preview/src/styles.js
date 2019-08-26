@@ -34,7 +34,7 @@ export default {
   icon: css({
     display: 'flex',
     justifyContent: 'center',
-    marginTop: tokens.spacingXl
+    margin: `${tokens.spacingXl} 0`
   }),
   checks: css({
     marginTop: tokens.spacingM

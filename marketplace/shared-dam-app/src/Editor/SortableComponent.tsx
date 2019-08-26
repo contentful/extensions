@@ -43,20 +43,21 @@ const styles = {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)'
   }),
-  card: css({
-    margin: '10px',
-    position: 'relative',
-    width: '150px',
-    height: '100px',
-    '> img': {
-      cursor: 'move',
-      display: 'block',
-      overflow: 'hidden',
+  card: (disabled: boolean) =>
+    css({
+      margin: '10px',
+      position: 'relative',
+      width: '150px',
       height: '100px',
-      margin: '0 auto',
-      userSelect: 'none' // Image selection sometimes makes drag and drop ugly.
-    }
-  }),
+      '> img': {
+        cursor: disabled ? 'move' : 'pointer',
+        display: 'block',
+        maxWidth: '150px',
+        maxHeight: '100px',
+        margin: 'auto',
+        userSelect: 'none' // Image selection sometimes makes drag and drop ugly.
+      }
+    }),
   remove: css({
     position: 'absolute',
     top: '-10px',
@@ -67,7 +68,7 @@ const styles = {
 
 const SortableItem = SortableElement<SortableElementProps>((props: SortableElementProps) => {
   return (
-    <Card className={styles.card}>
+    <Card className={styles.card(props.disabled)}>
       <DragHandle url={props.url} alt={props.alt} />
       {!props.disabled && (
         <IconButton
