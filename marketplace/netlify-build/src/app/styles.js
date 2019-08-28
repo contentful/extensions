@@ -60,7 +60,7 @@ export default {
     right: 0,
     bottom: 0,
     pointerEvents: 'none',
-    backgroundColor: 'rgba(255, 255, 255, 0.50)',
+    backgroundColor: 'rgba(255, 255, 255, 0.60)',
     position: 'absolute'
   })
 };

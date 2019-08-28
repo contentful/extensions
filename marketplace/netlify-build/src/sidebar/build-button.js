@@ -111,7 +111,7 @@ export default class NeflifySidebarBuildButton extends React.Component {
     return (
       <div className={styles.body}>
         <Button disabled={!ready || busy} loading={busy} isFullWidth onClick={this.build}>
-          {busy && status ? status : 'Build'}
+          {busy && status ? status : 'Build website'}
         </Button>
         {misconfigured && (
           <div className={styles.info}>

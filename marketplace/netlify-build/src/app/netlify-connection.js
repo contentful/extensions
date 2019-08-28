@@ -3,13 +3,7 @@ import PropTypes from 'prop-types';
 import { css } from 'emotion';
 
 import tokens from '@contentful/forma-36-tokens';
-import {
-  Typography,
-  Heading,
-  Paragraph,
-  TextLink,
-  Icon
-} from '@contentful/forma-36-react-components';
+import { Typography, Heading, Paragraph, Icon } from '@contentful/forma-36-react-components';
 
 const styles = {
   auth: css({
@@ -36,11 +30,8 @@ const styles = {
     height: '1px',
     backgroundColor: tokens.colorElementMid
   }),
-  disconnectButton: css({
-    marginLeft: tokens.spacingL
-  }),
   connectAgain: css({
-    marginTop: tokens.spacingM,
+    marginTop: tokens.spacingXs,
     textAlign: 'center',
     color: tokens.colorTextLight
   }),
@@ -60,8 +51,7 @@ export default class NetlifyConnection extends React.Component {
       buildable: PropTypes.number.isRequired,
       unavailable: PropTypes.number.isRequired
     }),
-    onConnectClick: PropTypes.func.isRequired,
-    onDisconnectClick: PropTypes.func.isRequired
+    onConnectClick: PropTypes.func.isRequired
   };
 
   render() {
@@ -90,13 +80,11 @@ export default class NetlifyConnection extends React.Component {
           Connect your Netlify account so you can trigger builds and view statuses in the Contentful
           Web App.
         </Paragraph>
-        <Paragraph>
-          <div className={styles.auth}>
-            <button onClick={this.props.onConnectClick} className={styles.button}>
-              Connect account
-            </button>
-          </div>
-        </Paragraph>
+        <div className={styles.auth}>
+          <button onClick={this.props.onConnectClick} className={styles.button}>
+            Connect account
+          </button>
+        </div>
       </>
     );
   }
@@ -112,9 +100,6 @@ export default class NetlifyConnection extends React.Component {
       <>
         <Paragraph>
           Netlify account: <strong>{this.props.email}</strong>
-          <TextLink className={styles.disconnectButton} onClick={this.props.onDisconnectClick}>
-            Disconnect account
-          </TextLink>
         </Paragraph>
         {unavailable > 0 && (
           <Paragraph>
