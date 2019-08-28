@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import { css } from 'emotion';
 
 import tokens from '@contentful/forma-36-tokens';
-import { Typography, Heading, Paragraph, TextLink } from '@contentful/forma-36-react-components';
+import {
+  Typography,
+  Heading,
+  Paragraph,
+  TextLink,
+  Icon
+} from '@contentful/forma-36-react-components';
 
 const styles = {
   auth: css({
@@ -32,12 +38,23 @@ const styles = {
   }),
   disconnectButton: css({
     marginLeft: tokens.spacingL
+  }),
+  connectAgain: css({
+    marginTop: tokens.spacingM,
+    textAlign: 'center',
+    color: tokens.colorTextLight
+  }),
+  connectAgainIcon: css({
+    fill: tokens.colorTextLight,
+    marginRight: tokens.spacingXs,
+    verticalAlign: 'middle'
   })
 };
 
 export default class NetlifyConnection extends React.Component {
   static propTypes = {
     connected: PropTypes.bool.isRequired,
+    hasConfig: PropTypes.bool.isRequired,
     email: PropTypes.string,
     netlifyCounts: PropTypes.shape({
       buildable: PropTypes.number.isRequired,
@@ -52,7 +69,17 @@ export default class NetlifyConnection extends React.Component {
       <Typography>
         <Heading>Connect Netlify</Heading>
         {this.props.connected ? this.renderConnectionInfo() : this.renderConnectButton()}
+        {!this.props.connected && this.props.hasConfig ? this.renderConnectAgainInfo() : null}
       </Typography>
+    );
+  }
+
+  renderConnectAgainInfo() {
+    return (
+      <Paragraph className={styles.connectAgain}>
+        <Icon icon="Lock" className={styles.connectAgainIcon} />
+        Connect account to make changes
+      </Paragraph>
     );
   }
 

@@ -167,21 +167,21 @@ export default class NetlifyAppConfig extends React.Component {
 
   render() {
     const disabled = !this.state.token;
-    const buildableCount = this.state.netlifyCounts ? this.state.netlifyCounts.buildable : 0;
-
     return (
       <>
         <div className={styles.background} />
         <div className={styles.body}>
           <NetlifyConnection
             connected={!disabled}
+            hasConfig={!!this.state.config}
             email={this.state.email}
             netlifyCounts={this.state.netlifyCounts}
             onConnectClick={this.onConnectClick}
             onDisconnectClick={this.onDisconnectClick}
           />
-          {!disabled && buildableCount > 0 && (
-            <>
+          {this.state.ready && (
+            <div className={styles.relative}>
+              {disabled && <div className={styles.configurationProtector} />}
               <NetlifyConfigEditor
                 disabled={disabled}
                 siteConfigs={this.state.config.sites}
@@ -194,7 +194,7 @@ export default class NetlifyAppConfig extends React.Component {
                 enabledContentTypes={this.state.enabledContentTypes}
                 onEnabledContentTypesChange={this.onEnabledContentTypesChange}
               />
-            </>
+            </div>
           )}
         </div>
         <div className={styles.icon}>

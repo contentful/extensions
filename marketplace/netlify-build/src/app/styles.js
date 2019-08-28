@@ -4,12 +4,12 @@ import tokens from '@contentful/forma-36-tokens';
 export default {
   body: css({
     height: 'auto',
-    minHeight: '850px',
+    minHeight: '65vh',
     margin: '0 auto',
     marginTop: tokens.spacingXl,
-    padding: '20px 40px',
-    maxWidth: '786px',
-    backgroundColor: '#fff',
+    padding: `${tokens.spacingXl} ${tokens.spacing2Xl}`,
+    maxWidth: tokens.contentWidthText,
+    backgroundColor: tokens.colorWhite,
     zIndex: '2',
     boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
     borderRadius: '2px'
@@ -49,5 +49,18 @@ export default {
   }),
   pills: css({
     margin: `0 ${tokens.spacingXs}`
+  }),
+  relative: css({
+    position: 'relative'
+  }),
+  configurationProtector: css({
+    zIndex: 9999,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    pointerEvents: 'none',
+    backgroundColor: 'rgba(255, 255, 255, 0.50)',
+    position: 'absolute'
   })
 };
