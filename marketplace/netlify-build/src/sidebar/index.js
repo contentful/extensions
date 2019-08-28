@@ -3,26 +3,19 @@ import PropTypes from 'prop-types';
 import { css } from 'emotion';
 
 import tokens from '@contentful/forma-36-tokens';
-import { Select, Option, Button, Icon } from '@contentful/forma-36-react-components';
+import { Select, Option, Button } from '@contentful/forma-36-react-components';
 
 import NeflifySidebarBuildButton from './build-button';
 
 import { parametersToConfig } from '../config';
 
 const styles = {
-  previewButton: css({
-    margin: `${tokens.spacingS} 0`,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }),
   previewContent: css({
     display: 'flex',
     alignContent: 'center'
   }),
-  previewIcon: css({
-    marginRight: tokens.spacing2Xs,
-    marginTop: '1px'
+  separator: css({
+    marginTop: tokens.spacingS
   })
 };
 
@@ -64,24 +57,6 @@ export default class NetlifySidebar extends React.Component {
 
     return (
       <>
-        <NeflifySidebarBuildButton
-          key={`${selectedSiteIndex},${users.length}`}
-          users={users}
-          userId={this.props.sdk.user.sys.id}
-          site={selectedSite}
-        />
-        <Button
-          href={selectedSite.netlifySiteUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          buttonType="muted"
-          isFullWidth
-          className={styles.previewButton}>
-          <div className={styles.previewContent}>
-            <Icon icon="ExternalLink" color="muted" className={styles.previewIcon} />
-            Open preview
-          </div>
-        </Button>
         <Select onChange={this.selectSite}>
           {this.state.sites.map((site, idx) => (
             <Option key={site.buildHookId} value={`${idx}`}>
@@ -89,6 +64,23 @@ export default class NetlifySidebar extends React.Component {
             </Option>
           ))}
         </Select>
+        <div className={styles.separator} />
+        <NeflifySidebarBuildButton
+          key={`${selectedSiteIndex},${users.length}`}
+          users={users}
+          userId={this.props.sdk.user.sys.id}
+          site={selectedSite}
+        />
+        <div className={styles.separator} />
+        <Button
+          icon="ExternalLink"
+          href={selectedSite.netlifySiteUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          buttonType="muted"
+          isFullWidth>
+          <div className={styles.previewContent}>Open preview</div>
+        </Button>
       </>
     );
   }

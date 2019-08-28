@@ -17,9 +17,6 @@ const styles = {
     fontSize: tokens.fontSizeS,
     fontWeight: tokens.fontWeightNormal
   }),
-  button: css({
-    marginBottom: tokens.spacingS
-  }),
   header: css({
     display: 'flex',
     marginBottom: tokens.spacingS
@@ -113,12 +110,7 @@ export default class NeflifySidebarBuildButton extends React.Component {
 
     return (
       <div className={styles.body}>
-        <Button
-          disabled={!ready || busy}
-          loading={busy}
-          isFullWidth
-          onClick={this.build}
-          className={styles.button}>
+        <Button disabled={!ready || busy} loading={busy} isFullWidth onClick={this.build}>
           {busy && status ? status : 'Build'}
         </Button>
         {misconfigured && (
