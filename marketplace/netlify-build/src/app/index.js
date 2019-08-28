@@ -22,7 +22,9 @@ export default class NetlifyAppConfig extends React.Component {
     sdk: PropTypes.object.isRequired
   };
 
-  state = { ready: false };
+  state = {
+    ready: false
+  };
 
   componentDidMount() {
     this.init();
@@ -136,6 +138,12 @@ export default class NetlifyAppConfig extends React.Component {
     );
   };
 
+  onDisconnectClick = async () => {
+    this.stopPolling();
+    this.setState({ token: undefined });
+    this.init();
+  };
+
   initNetlifyConnection = async ({ token, email }) => {
     try {
       const { sites, counts } = await NetlifyClient.listSites(token);
@@ -170,6 +178,7 @@ export default class NetlifyAppConfig extends React.Component {
             email={this.state.email}
             netlifyCounts={this.state.netlifyCounts}
             onConnectClick={this.onConnectClick}
+            onDisconnectClick={this.onDisconnectClick}
           />
           {!disabled && buildableCount > 0 && (
             <>

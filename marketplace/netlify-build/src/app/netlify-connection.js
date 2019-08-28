@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { css } from 'emotion';
 
 import tokens from '@contentful/forma-36-tokens';
-import { Typography, Heading, Paragraph } from '@contentful/forma-36-react-components';
+import { Typography, Heading, Paragraph, TextLink } from '@contentful/forma-36-react-components';
 
 const styles = {
   auth: css({
@@ -29,6 +29,9 @@ const styles = {
     border: 0,
     height: '1px',
     backgroundColor: tokens.colorElementMid
+  }),
+  disconnectButton: css({
+    marginLeft: tokens.spacingL
   })
 };
 
@@ -40,7 +43,8 @@ export default class NetlifyConnection extends React.Component {
       buildable: PropTypes.number.isRequired,
       unavailable: PropTypes.number.isRequired
     }),
-    onConnectClick: PropTypes.func.isRequired
+    onConnectClick: PropTypes.func.isRequired,
+    onDisconnectClick: PropTypes.func.isRequired
   };
 
   render() {
@@ -61,10 +65,7 @@ export default class NetlifyConnection extends React.Component {
         </Paragraph>
         <Paragraph>
           <div className={styles.auth}>
-            <button
-              buttonType="primary"
-              onClick={this.props.onConnectClick}
-              className={styles.button}>
+            <button onClick={this.props.onConnectClick} className={styles.button}>
               Connect account
             </button>
           </div>
@@ -83,7 +84,10 @@ export default class NetlifyConnection extends React.Component {
     return (
       <>
         <Paragraph>
-          Netlify account: <code>{this.props.email}</code>.
+          Netlify account: <strong>{this.props.email}</strong>
+          <TextLink className={styles.disconnectButton} onClick={this.props.onDisconnectClick}>
+            Disconnect account
+          </TextLink>
         </Paragraph>
         {unavailable > 0 && (
           <Paragraph>
