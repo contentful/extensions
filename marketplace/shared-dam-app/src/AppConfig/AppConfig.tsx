@@ -48,13 +48,13 @@ interface State {
 const styles = {
   body: css({
     height: 'auto',
-    minHeight: '500px',
+    minHeight: '65vh',
     margin: '0 auto',
     marginTop: tokens.spacingXl,
-    padding: '20px 40px',
-    maxWidth: '786px',
-    backgroundColor: '#fff',
-    zIndex: 2,
+    padding: `${tokens.spacingXl} ${tokens.spacing2Xl}`,
+    maxWidth: tokens.contentWidthText,
+    backgroundColor: tokens.colorWhite,
+    zIndex: '2',
     boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
     borderRadius: '2px'
   }),
@@ -70,6 +70,13 @@ const styles = {
     }),
   section: css({
     margin: `${tokens.spacingXl} 0`
+  }),
+  splitter: css({
+    marginTop: tokens.spacingL,
+    marginBottom: tokens.spacingL,
+    border: 0,
+    height: '1px',
+    backgroundColor: tokens.colorElementMid
   }),
   icon: css({
     display: 'flex',
@@ -145,6 +152,7 @@ export default class AppConfig extends React.Component<Props, State> {
           <Typography>
             <Heading>About</Heading>
             <Paragraph>{this.props.description}</Paragraph>
+            <hr className={styles.splitter} />
           </Typography>
           {this.state.ready ? this.renderApp() : this.renderLoader()}
         </div>
@@ -206,6 +214,9 @@ export default class AppConfig extends React.Component<Props, State> {
               );
             })}
           </Form>
+          <hr className={styles.splitter} />
+        </Typography>
+        <Typography>
           <Heading>Field assignment</Heading>
           <Paragraph>
             This app can be used with <code>Object</code> fields.

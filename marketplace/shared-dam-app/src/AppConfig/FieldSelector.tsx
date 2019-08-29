@@ -1,5 +1,6 @@
 import * as React from 'react';
-
+import tokens from '@contentful/forma-36-tokens';
+import { css } from 'emotion';
 import { Form, Subheading, CheckboxField, Typography } from '@contentful/forma-36-react-components';
 
 import { ContentType, CompatibleFields, SelectedFields } from './fields';
@@ -36,7 +37,7 @@ export default class FieldSelector extends React.Component<Props> {
         {contentTypes.map(ct => {
           const fields = compatibleFields[ct.sys.id];
           return (
-            <div key={ct.sys.id}>
+            <div key={ct.sys.id} className={css({ marginTop: tokens.spacingL })}>
               <Subheading>
                 {ct.name} ({fields.length})
               </Subheading>
