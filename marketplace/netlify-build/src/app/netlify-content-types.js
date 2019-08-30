@@ -42,7 +42,9 @@ export default class NetlifyContentTypes extends React.Component {
     return (
       <Typography>
         <Heading>Content Types</Heading>
-        <Paragraph>Select the content types that can use the Netlify App in the sidebar.</Paragraph>
+        <Paragraph>
+          Select which content types will show the Netlify functionality in the sidebar.
+        </Paragraph>
         <Paragraph>
           <CheckboxField
             id="selectAll"

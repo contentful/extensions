@@ -234,8 +234,7 @@ export default class AppConfig extends React.Component {
           <Typography>
             <Heading>Content Types</Heading>
             <Paragraph>
-              Here you can choose which content type(s) will show the Gatsby Cloud preview
-              functionality in the sidebar.
+              Select which content types will show the Gatsby Cloud functionality in the sidebar.
             </Paragraph>
             <div className={styles.checks}>
               <FieldGroup>
