@@ -9,7 +9,7 @@ import { IncorrectContentType, isValidContentType, MissingProjectId } from './er
 import OptimizelyClient from './optimizely-client';
 import AppPage from './AppPage';
 import '@contentful/forma-36-react-components/dist/styles.css';
-import '@contentful/forma-36-fcss';
+import '@contentful/forma-36-fcss/dist/styles.css';
 import 'whatwg-fetch';
 
 function parseHash(hash) {
