@@ -6,8 +6,7 @@ import {
   Heading,
   Paragraph,
   FieldGroup,
-  CheckboxField,
-  TextLink
+  CheckboxField
 } from '@contentful/forma-36-react-components';
 
 export default class NetlifyContentTypes extends React.Component {
@@ -18,8 +17,14 @@ export default class NetlifyContentTypes extends React.Component {
     onEnabledContentTypesChange: PropTypes.func.isRequired
   };
 
-  onSelectAll = () => {
-    this.props.onEnabledContentTypesChange(this.props.contentTypes.map(([id]) => id));
+  onToggleSelect = () => {
+    const { contentTypes, enabledContentTypes } = this.props;
+    const allSelected = contentTypes.length === enabledContentTypes.length;
+    if (allSelected) {
+      this.props.onEnabledContentTypesChange([]);
+    } else {
+      this.props.onEnabledContentTypesChange(contentTypes.map(([id]) => id));
+    }
   };
 
   onChange = (checked, id) => {
@@ -32,14 +37,20 @@ export default class NetlifyContentTypes extends React.Component {
   render() {
     const { disabled, contentTypes, enabledContentTypes } = this.props;
 
+    const allSelected = contentTypes.length === enabledContentTypes.length;
+
     return (
       <Typography>
         <Heading>Enable Netlify builds for content types</Heading>
         <Paragraph>Select the content types that can use the Netlify App in the sidebar.</Paragraph>
         <Paragraph>
-          <TextLink disabled={disabled} onClick={this.onSelectAll}>
-            Select all
-          </TextLink>
+          <CheckboxField
+            id="selectAll"
+            labelText="Select all"
+            disabled={disabled}
+            onChange={this.onToggleSelect}
+            checked={allSelected}
+          />
         </Paragraph>
         <FieldGroup>
           {contentTypes.map(([id, name]) => (
