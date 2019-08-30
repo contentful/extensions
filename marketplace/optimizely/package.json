@@ -29,7 +29,7 @@
     "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
-    "start": "contentful-extension-scripts start --serveOnly",
+    "start": "contentful-extension-scripts start --serve-only",
     "build": "contentful-extension-scripts build",
     "deploy": "npm run build && contentful extension update --force",
     "configure": "contentful space use && contentful space environment use",

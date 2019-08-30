@@ -18,7 +18,7 @@
     "shared-dam-app": "^1.0.0"
   },
   "scripts": {
-    "start": "contentful-extension-scripts start",
+    "start": "contentful-extension-scripts start --serve-only",
     "build": "contentful-extension-scripts build",
     "deploy": "npm run build && contentful extension update --force",
     "test": "contentful-extension-scripts test --env=jsdom --watch",

@@ -6,11 +6,9 @@ exports[`AppPage should render the AppPage loading when first connected to Optim
     class="css-1a8f5ni"
   />
   <div
-    class="css-jjthht"
+    class="css-jwwzlh"
   >
-    <div
-      class="css-xqqg40"
-    >
+    <div>
       <div
         class="Typography__Typography___1ZUfE"
         data-test-id="cf-ui-text-container"
@@ -28,219 +26,210 @@ exports[`AppPage should render the AppPage loading when first connected to Optim
           You’re currently connected to Optimizely.
         </p>
         <p
-          class="Paragraph__Paragraph___2aO-9 css-av19da f36-margin-bottom--m"
+          class="Paragraph__Paragraph___2aO-9 css-1ntki7d f36-margin-bottom--m"
           data-test-id="cf-ui-paragraph"
         >
           An access token is valid for 2 hours then you must reauthorize.
         </p>
       </div>
     </div>
-    <div
-      class="css-xqqg40"
-    >
-      <hr
-        class="css-14380qe"
-      />
-      <div
-        class="css-bfyjep"
+    <hr
+      class="css-14380qe"
+    />
+    <div>
+      <svg
+        aria-label="Loading component..."
+        class="SkeletonContainer__SkeletonContainer___23jiu"
+        data-test-id="cf-ui-skeleton-form"
+        height="100%"
+        preserveAspectRatio="xMidYMid meet"
+        role="img"
+        width="100%"
       >
-        <div>
-          <svg
-            aria-label="Loading component..."
-            class="SkeletonContainer__SkeletonContainer___23jiu"
-            data-test-id="cf-ui-skeleton-form"
-            height="100%"
-            preserveAspectRatio="xMidYMid meet"
-            role="img"
-            width="100%"
+        <title>
+          Loading component...
+        </title>
+        <rect
+          clip-path="url(#cf-ui-skeleton-clip-id)"
+          height="100%"
+          style="fill: url(#cf-ui-skeleton-clip-gradient);"
+          width="100%"
+          x="0"
+          y="0"
+        />
+        <defs>
+          <clippath
+            id="cf-ui-skeleton-clip-id"
           >
-            <title>
-              Loading component...
-            </title>
             <rect
-              clip-path="url(#cf-ui-skeleton-clip-id)"
-              height="100%"
-              style="fill: url(#cf-ui-skeleton-clip-gradient);"
+              height="16"
+              rx="0"
+              ry="0"
               width="100%"
               x="0"
-              y="0"
+              y="35"
             />
-            <defs>
-              <clippath
-                id="cf-ui-skeleton-clip-id"
-              >
-                <rect
-                  height="16"
-                  rx="0"
-                  ry="0"
-                  width="100%"
-                  x="0"
-                  y="35"
-                />
-                <rect
-                  height="16"
-                  rx="0"
-                  ry="0"
-                  width="100%"
-                  x="0"
-                  y="59"
-                />
-                <rect
-                  height="16"
-                  rx="0"
-                  ry="0"
-                  width="80%"
-                  x="0"
-                  y="83"
-                />
-              </clippath>
-              <lineargradient
-                id="cf-ui-skeleton-clip-gradient"
-              >
-                <stop
-                  offset="0%"
-                  stop-color="#e5ebed"
-                  stop-opacity="1"
-                >
-                  <animate
-                    attributeName="stop-color"
-                    dur="2s"
-                    id="animation1"
-                    repeatCount="indefinite"
-                    values="#e5ebed; #f7f9fa; #e5ebed"
-                  />
-                </stop>
-                <stop
-                  offset="50%"
-                  stop-color="#f7f9fa"
-                  stop-opacity="1"
-                >
-                  <animate
-                    attributeName="stop-color"
-                    begin="animation1.begin+0.25s"
-                    dur="2s"
-                    repeatCount="indefinite"
-                    values="#e5ebed; #f7f9fa; #e5ebed"
-                  />
-                </stop>
-                <stop
-                  offset="100%"
-                  stop-color="#e5ebed"
-                  stop-opacity="1"
-                >
-                  <animate
-                    attributeName="stop-color"
-                    begin="animation1.begin+0.5s"
-                    dur="2s"
-                    repeatCount="indefinite"
-                    values="#e5ebed; #f7f9fa; #e5ebed"
-                  />
-                </stop>
-              </lineargradient>
-            </defs>
-          </svg>
-        </div>
-      </div>
-      <div
-        class="css-bfyjep"
-      >
-        <div>
-          <svg
-            aria-label="Loading component..."
-            class="SkeletonContainer__SkeletonContainer___23jiu"
-            data-test-id="cf-ui-skeleton-form"
-            height="100%"
-            preserveAspectRatio="xMidYMid meet"
-            role="img"
-            width="100%"
-          >
-            <title>
-              Loading component...
-            </title>
             <rect
-              clip-path="url(#cf-ui-skeleton-clip-id)"
-              height="100%"
-              style="fill: url(#cf-ui-skeleton-clip-gradient);"
+              height="16"
+              rx="0"
+              ry="0"
               width="100%"
               x="0"
-              y="0"
+              y="59"
             />
-            <defs>
-              <clippath
-                id="cf-ui-skeleton-clip-id"
-              >
-                <rect
-                  height="16"
-                  rx="0"
-                  ry="0"
-                  width="100%"
-                  x="0"
-                  y="35"
-                />
-                <rect
-                  height="16"
-                  rx="0"
-                  ry="0"
-                  width="100%"
-                  x="0"
-                  y="59"
-                />
-                <rect
-                  height="16"
-                  rx="0"
-                  ry="0"
-                  width="80%"
-                  x="0"
-                  y="83"
-                />
-              </clippath>
-              <lineargradient
-                id="cf-ui-skeleton-clip-gradient"
-              >
-                <stop
-                  offset="0%"
-                  stop-color="#e5ebed"
-                  stop-opacity="1"
-                >
-                  <animate
-                    attributeName="stop-color"
-                    dur="2s"
-                    id="animation1"
-                    repeatCount="indefinite"
-                    values="#e5ebed; #f7f9fa; #e5ebed"
-                  />
-                </stop>
-                <stop
-                  offset="50%"
-                  stop-color="#f7f9fa"
-                  stop-opacity="1"
-                >
-                  <animate
-                    attributeName="stop-color"
-                    begin="animation1.begin+0.25s"
-                    dur="2s"
-                    repeatCount="indefinite"
-                    values="#e5ebed; #f7f9fa; #e5ebed"
-                  />
-                </stop>
-                <stop
-                  offset="100%"
-                  stop-color="#e5ebed"
-                  stop-opacity="1"
-                >
-                  <animate
-                    attributeName="stop-color"
-                    begin="animation1.begin+0.5s"
-                    dur="2s"
-                    repeatCount="indefinite"
-                    values="#e5ebed; #f7f9fa; #e5ebed"
-                  />
-                </stop>
-              </lineargradient>
-            </defs>
-          </svg>
-        </div>
-      </div>
+            <rect
+              height="16"
+              rx="0"
+              ry="0"
+              width="80%"
+              x="0"
+              y="83"
+            />
+          </clippath>
+          <lineargradient
+            id="cf-ui-skeleton-clip-gradient"
+          >
+            <stop
+              offset="0%"
+              stop-color="#e5ebed"
+              stop-opacity="1"
+            >
+              <animate
+                attributeName="stop-color"
+                dur="2s"
+                id="animation1"
+                repeatCount="indefinite"
+                values="#e5ebed; #f7f9fa; #e5ebed"
+              />
+            </stop>
+            <stop
+              offset="50%"
+              stop-color="#f7f9fa"
+              stop-opacity="1"
+            >
+              <animate
+                attributeName="stop-color"
+                begin="animation1.begin+0.25s"
+                dur="2s"
+                repeatCount="indefinite"
+                values="#e5ebed; #f7f9fa; #e5ebed"
+              />
+            </stop>
+            <stop
+              offset="100%"
+              stop-color="#e5ebed"
+              stop-opacity="1"
+            >
+              <animate
+                attributeName="stop-color"
+                begin="animation1.begin+0.5s"
+                dur="2s"
+                repeatCount="indefinite"
+                values="#e5ebed; #f7f9fa; #e5ebed"
+              />
+            </stop>
+          </lineargradient>
+        </defs>
+      </svg>
+    </div>
+    <hr
+      class="css-14380qe"
+    />
+    <div>
+      <svg
+        aria-label="Loading component..."
+        class="SkeletonContainer__SkeletonContainer___23jiu"
+        data-test-id="cf-ui-skeleton-form"
+        height="100%"
+        preserveAspectRatio="xMidYMid meet"
+        role="img"
+        width="100%"
+      >
+        <title>
+          Loading component...
+        </title>
+        <rect
+          clip-path="url(#cf-ui-skeleton-clip-id)"
+          height="100%"
+          style="fill: url(#cf-ui-skeleton-clip-gradient);"
+          width="100%"
+          x="0"
+          y="0"
+        />
+        <defs>
+          <clippath
+            id="cf-ui-skeleton-clip-id"
+          >
+            <rect
+              height="16"
+              rx="0"
+              ry="0"
+              width="100%"
+              x="0"
+              y="35"
+            />
+            <rect
+              height="16"
+              rx="0"
+              ry="0"
+              width="100%"
+              x="0"
+              y="59"
+            />
+            <rect
+              height="16"
+              rx="0"
+              ry="0"
+              width="80%"
+              x="0"
+              y="83"
+            />
+          </clippath>
+          <lineargradient
+            id="cf-ui-skeleton-clip-gradient"
+          >
+            <stop
+              offset="0%"
+              stop-color="#e5ebed"
+              stop-opacity="1"
+            >
+              <animate
+                attributeName="stop-color"
+                dur="2s"
+                id="animation1"
+                repeatCount="indefinite"
+                values="#e5ebed; #f7f9fa; #e5ebed"
+              />
+            </stop>
+            <stop
+              offset="50%"
+              stop-color="#f7f9fa"
+              stop-opacity="1"
+            >
+              <animate
+                attributeName="stop-color"
+                begin="animation1.begin+0.25s"
+                dur="2s"
+                repeatCount="indefinite"
+                values="#e5ebed; #f7f9fa; #e5ebed"
+              />
+            </stop>
+            <stop
+              offset="100%"
+              stop-color="#e5ebed"
+              stop-opacity="1"
+            >
+              <animate
+                attributeName="stop-color"
+                begin="animation1.begin+0.5s"
+                dur="2s"
+                repeatCount="indefinite"
+                values="#e5ebed; #f7f9fa; #e5ebed"
+              />
+            </stop>
+          </lineargradient>
+        </defs>
+      </svg>
     </div>
   </div>
   <div
@@ -292,11 +281,9 @@ exports[`AppPage should render the AppPage with Features and connect button 1`] 
     class="css-1a8f5ni"
   />
   <div
-    class="css-jjthht"
+    class="css-jwwzlh"
   >
-    <div
-      class="css-xqqg40"
-    >
+    <div>
       <div
         class="Typography__Typography___1ZUfE"
         data-test-id="cf-ui-text-container"
@@ -314,219 +301,210 @@ exports[`AppPage should render the AppPage with Features and connect button 1`] 
           You’re currently connected to Optimizely.
         </p>
         <p
-          class="Paragraph__Paragraph___2aO-9 css-av19da f36-margin-bottom--m"
+          class="Paragraph__Paragraph___2aO-9 css-1ntki7d f36-margin-bottom--m"
           data-test-id="cf-ui-paragraph"
         >
           An access token is valid for 2 hours then you must reauthorize.
         </p>
       </div>
     </div>
-    <div
-      class="css-xqqg40"
-    >
-      <hr
-        class="css-14380qe"
-      />
-      <div
-        class="css-bfyjep"
+    <hr
+      class="css-14380qe"
+    />
+    <div>
+      <svg
+        aria-label="Loading component..."
+        class="SkeletonContainer__SkeletonContainer___23jiu"
+        data-test-id="cf-ui-skeleton-form"
+        height="100%"
+        preserveAspectRatio="xMidYMid meet"
+        role="img"
+        width="100%"
       >
-        <div>
-          <svg
-            aria-label="Loading component..."
-            class="SkeletonContainer__SkeletonContainer___23jiu"
-            data-test-id="cf-ui-skeleton-form"
-            height="100%"
-            preserveAspectRatio="xMidYMid meet"
-            role="img"
-            width="100%"
+        <title>
+          Loading component...
+        </title>
+        <rect
+          clip-path="url(#cf-ui-skeleton-clip-id)"
+          height="100%"
+          style="fill: url(#cf-ui-skeleton-clip-gradient);"
+          width="100%"
+          x="0"
+          y="0"
+        />
+        <defs>
+          <clippath
+            id="cf-ui-skeleton-clip-id"
           >
-            <title>
-              Loading component...
-            </title>
             <rect
-              clip-path="url(#cf-ui-skeleton-clip-id)"
-              height="100%"
-              style="fill: url(#cf-ui-skeleton-clip-gradient);"
+              height="16"
+              rx="0"
+              ry="0"
               width="100%"
               x="0"
-              y="0"
+              y="35"
             />
-            <defs>
-              <clippath
-                id="cf-ui-skeleton-clip-id"
-              >
-                <rect
-                  height="16"
-                  rx="0"
-                  ry="0"
-                  width="100%"
-                  x="0"
-                  y="35"
-                />
-                <rect
-                  height="16"
-                  rx="0"
-                  ry="0"
-                  width="100%"
-                  x="0"
-                  y="59"
-                />
-                <rect
-                  height="16"
-                  rx="0"
-                  ry="0"
-                  width="80%"
-                  x="0"
-                  y="83"
-                />
-              </clippath>
-              <lineargradient
-                id="cf-ui-skeleton-clip-gradient"
-              >
-                <stop
-                  offset="0%"
-                  stop-color="#e5ebed"
-                  stop-opacity="1"
-                >
-                  <animate
-                    attributeName="stop-color"
-                    dur="2s"
-                    id="animation1"
-                    repeatCount="indefinite"
-                    values="#e5ebed; #f7f9fa; #e5ebed"
-                  />
-                </stop>
-                <stop
-                  offset="50%"
-                  stop-color="#f7f9fa"
-                  stop-opacity="1"
-                >
-                  <animate
-                    attributeName="stop-color"
-                    begin="animation1.begin+0.25s"
-                    dur="2s"
-                    repeatCount="indefinite"
-                    values="#e5ebed; #f7f9fa; #e5ebed"
-                  />
-                </stop>
-                <stop
-                  offset="100%"
-                  stop-color="#e5ebed"
-                  stop-opacity="1"
-                >
-                  <animate
-                    attributeName="stop-color"
-                    begin="animation1.begin+0.5s"
-                    dur="2s"
-                    repeatCount="indefinite"
-                    values="#e5ebed; #f7f9fa; #e5ebed"
-                  />
-                </stop>
-              </lineargradient>
-            </defs>
-          </svg>
-        </div>
-      </div>
-      <div
-        class="css-bfyjep"
-      >
-        <div>
-          <svg
-            aria-label="Loading component..."
-            class="SkeletonContainer__SkeletonContainer___23jiu"
-            data-test-id="cf-ui-skeleton-form"
-            height="100%"
-            preserveAspectRatio="xMidYMid meet"
-            role="img"
-            width="100%"
-          >
-            <title>
-              Loading component...
-            </title>
             <rect
-              clip-path="url(#cf-ui-skeleton-clip-id)"
-              height="100%"
-              style="fill: url(#cf-ui-skeleton-clip-gradient);"
+              height="16"
+              rx="0"
+              ry="0"
               width="100%"
               x="0"
-              y="0"
+              y="59"
             />
-            <defs>
-              <clippath
-                id="cf-ui-skeleton-clip-id"
-              >
-                <rect
-                  height="16"
-                  rx="0"
-                  ry="0"
-                  width="100%"
-                  x="0"
-                  y="35"
-                />
-                <rect
-                  height="16"
-                  rx="0"
-                  ry="0"
-                  width="100%"
-                  x="0"
-                  y="59"
-                />
-                <rect
-                  height="16"
-                  rx="0"
-                  ry="0"
-                  width="80%"
-                  x="0"
-                  y="83"
-                />
-              </clippath>
-              <lineargradient
-                id="cf-ui-skeleton-clip-gradient"
-              >
-                <stop
-                  offset="0%"
-                  stop-color="#e5ebed"
-                  stop-opacity="1"
-                >
-                  <animate
-                    attributeName="stop-color"
-                    dur="2s"
-                    id="animation1"
-                    repeatCount="indefinite"
-                    values="#e5ebed; #f7f9fa; #e5ebed"
-                  />
-                </stop>
-                <stop
-                  offset="50%"
-                  stop-color="#f7f9fa"
-                  stop-opacity="1"
-                >
-                  <animate
-                    attributeName="stop-color"
-                    begin="animation1.begin+0.25s"
-                    dur="2s"
-                    repeatCount="indefinite"
-                    values="#e5ebed; #f7f9fa; #e5ebed"
-                  />
-                </stop>
-                <stop
-                  offset="100%"
-                  stop-color="#e5ebed"
-                  stop-opacity="1"
-                >
-                  <animate
-                    attributeName="stop-color"
-                    begin="animation1.begin+0.5s"
-                    dur="2s"
-                    repeatCount="indefinite"
-                    values="#e5ebed; #f7f9fa; #e5ebed"
-                  />
-                </stop>
-              </lineargradient>
-            </defs>
-          </svg>
-        </div>
-      </div>
+            <rect
+              height="16"
+              rx="0"
+              ry="0"
+              width="80%"
+              x="0"
+              y="83"
+            />
+          </clippath>
+          <lineargradient
+            id="cf-ui-skeleton-clip-gradient"
+          >
+            <stop
+              offset="0%"
+              stop-color="#e5ebed"
+              stop-opacity="1"
+            >
+              <animate
+                attributeName="stop-color"
+                dur="2s"
+                id="animation1"
+                repeatCount="indefinite"
+                values="#e5ebed; #f7f9fa; #e5ebed"
+              />
+            </stop>
+            <stop
+              offset="50%"
+              stop-color="#f7f9fa"
+              stop-opacity="1"
+            >
+              <animate
+                attributeName="stop-color"
+                begin="animation1.begin+0.25s"
+                dur="2s"
+                repeatCount="indefinite"
+                values="#e5ebed; #f7f9fa; #e5ebed"
+              />
+            </stop>
+            <stop
+              offset="100%"
+              stop-color="#e5ebed"
+              stop-opacity="1"
+            >
+              <animate
+                attributeName="stop-color"
+                begin="animation1.begin+0.5s"
+                dur="2s"
+                repeatCount="indefinite"
+                values="#e5ebed; #f7f9fa; #e5ebed"
+              />
+            </stop>
+          </lineargradient>
+        </defs>
+      </svg>
+    </div>
+    <hr
+      class="css-14380qe"
+    />
+    <div>
+      <svg
+        aria-label="Loading component..."
+        class="SkeletonContainer__SkeletonContainer___23jiu"
+        data-test-id="cf-ui-skeleton-form"
+        height="100%"
+        preserveAspectRatio="xMidYMid meet"
+        role="img"
+        width="100%"
+      >
+        <title>
+          Loading component...
+        </title>
+        <rect
+          clip-path="url(#cf-ui-skeleton-clip-id)"
+          height="100%"
+          style="fill: url(#cf-ui-skeleton-clip-gradient);"
+          width="100%"
+          x="0"
+          y="0"
+        />
+        <defs>
+          <clippath
+            id="cf-ui-skeleton-clip-id"
+          >
+            <rect
+              height="16"
+              rx="0"
+              ry="0"
+              width="100%"
+              x="0"
+              y="35"
+            />
+            <rect
+              height="16"
+              rx="0"
+              ry="0"
+              width="100%"
+              x="0"
+              y="59"
+            />
+            <rect
+              height="16"
+              rx="0"
+              ry="0"
+              width="80%"
+              x="0"
+              y="83"
+            />
+          </clippath>
+          <lineargradient
+            id="cf-ui-skeleton-clip-gradient"
+          >
+            <stop
+              offset="0%"
+              stop-color="#e5ebed"
+              stop-opacity="1"
+            >
+              <animate
+                attributeName="stop-color"
+                dur="2s"
+                id="animation1"
+                repeatCount="indefinite"
+                values="#e5ebed; #f7f9fa; #e5ebed"
+              />
+            </stop>
+            <stop
+              offset="50%"
+              stop-color="#f7f9fa"
+              stop-opacity="1"
+            >
+              <animate
+                attributeName="stop-color"
+                begin="animation1.begin+0.25s"
+                dur="2s"
+                repeatCount="indefinite"
+                values="#e5ebed; #f7f9fa; #e5ebed"
+              />
+            </stop>
+            <stop
+              offset="100%"
+              stop-color="#e5ebed"
+              stop-opacity="1"
+            >
+              <animate
+                attributeName="stop-color"
+                begin="animation1.begin+0.5s"
+                dur="2s"
+                repeatCount="indefinite"
+                values="#e5ebed; #f7f9fa; #e5ebed"
+              />
+            </stop>
+          </lineargradient>
+        </defs>
+      </svg>
     </div>
   </div>
   <div
@@ -578,11 +556,9 @@ exports[`AppPage should render the Optimizely config and allow for adding conten
     class="css-1a8f5ni"
   />
   <div
-    class="css-jjthht"
+    class="css-jwwzlh"
   >
-    <div
-      class="css-xqqg40"
-    >
+    <div>
       <div
         class="Typography__Typography___1ZUfE"
         data-test-id="cf-ui-text-container"
@@ -600,280 +576,274 @@ exports[`AppPage should render the Optimizely config and allow for adding conten
           You’re currently connected to Optimizely.
         </p>
         <p
-          class="Paragraph__Paragraph___2aO-9 css-av19da f36-margin-bottom--m"
+          class="Paragraph__Paragraph___2aO-9 css-1ntki7d f36-margin-bottom--m"
           data-test-id="cf-ui-paragraph"
         >
           An access token is valid for 2 hours then you must reauthorize.
         </p>
       </div>
     </div>
+    <hr
+      class="css-14380qe"
+    />
     <div
-      class="css-xqqg40"
+      class="Typography__Typography___1ZUfE"
+      data-test-id="cf-ui-text-container"
     >
-      <hr
-        class="css-14380qe"
-      />
-      <div
-        class="css-bfyjep"
+      <h1
+        class="Heading__Heading___83D3K f36-margin-bottom--m"
+        data-test-id="cf-ui-heading"
       >
-        <div>
-          <h1
-            class="Heading__Heading___83D3K"
-            data-test-id="cf-ui-heading"
-          >
-            Optimizely Project
-          </h1>
-          <p
-            class="Paragraph__Paragraph___2aO-9"
-            data-test-id="cf-ui-paragraph"
-          >
-            Works only with Optimizely Full Stack projects.
-          </p>
-          <div
-            class="SelectField__SelectField___kbQlf css-15g2oxy"
-            data-test-id="cf-ui-select-field"
-            width="large"
-          >
-            <div
-              class="SelectField__SelectField__label-wrapper___3jGwo"
-            >
-              <label
-                class="FormLabel__FormLabel___3d6zQ"
-                data-test-id="cf-ui-form-label"
-                for="project"
-              >
-                Project
-                <span
-                  class="FormLabel__FormLabel__required-text___3mvdm"
-                >
-                  (
-                  required
-                  )
-                </span>
-              </label>
-            </div>
-            <div
-              class="Select__Select__wrapper___2pBIz Select__Select--full___7ei7d"
-            >
-              <select
-                aria-label="project"
-                class="Select__Select___31Z46 a11y__focus-border--default___60AXp"
-                data-test-id="cf-ui-select"
-                id="project"
-                name="project"
-                required=""
-              >
-                <option
-                  data-test-id="cf-ui-select-option"
-                  value=""
-                >
-                  Select Optimizely Project
-                </option>
-                <option
-                  data-test-id="cf-ui-select-option"
-                  value="57438502"
-                >
-                  My Project
-                </option>
-                <option
-                  data-test-id="cf-ui-select-option"
-                  value="4567"
-                >
-                  [Demo] - Docs tutorial
-                </option>
-              </select>
-              <svg
-                class="Icon__Icon___38Epv Select__Select__icon___boRAZ Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
-                data-test-id="cf-ui-icon"
-                height="24"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M7 10l5 5 5-5z"
-                />
-                <path
-                  d="M0 0h24v24H0z"
-                  fill="none"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
+        Optimizely Project
+      </h1>
+      <p
+        class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
+        data-test-id="cf-ui-paragraph"
+      >
+        Works only with Optimizely Full Stack projects.
+      </p>
       <div
-        class="css-bfyjep"
+        class="SelectField__SelectField___kbQlf css-15g2oxy"
+        data-test-id="cf-ui-select-field"
+        width="large"
       >
         <div
-          class="Typography__Typography___1ZUfE"
-          data-test-id="cf-ui-text-container"
+          class="SelectField__SelectField__label-wrapper___3jGwo"
         >
-          <h1
-            class="Heading__Heading___83D3K f36-margin-bottom--m"
-            data-test-id="cf-ui-heading"
+          <label
+            class="FormLabel__FormLabel___3d6zQ"
+            data-test-id="cf-ui-form-label"
+            for="project"
           >
-            Content Types
-          </h1>
-          <p
-            class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
-            data-test-id="cf-ui-paragraph"
-          >
-            Select the content types for which you want to enable A/B testing.
-          </p>
-          <button
-            class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-15g2oxy Button__Button--muted___2Wair"
-            data-test-id="add-content"
-            type="button"
-          >
+            Project
             <span
-              class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
-              tabindex="-1"
+              class="FormLabel__FormLabel__required-text___3mvdm"
             >
-              <span
-                class="Button__Button__label___3tcOj"
-              >
-                Add content type
-              </span>
+              (
+              required
+              )
             </span>
-          </button>
-          <table
-            cellpadding="0"
-            cellspacing="0"
-            class="css-1ogakd7 Table__Table___2x3zV"
-            data-test-id="cf-ui-table"
+          </label>
+        </div>
+        <div
+          class="Select__Select__wrapper___2pBIz Select__Select--full___7ei7d"
+        >
+          <select
+            aria-label="project"
+            class="Select__Select___31Z46 a11y__focus-border--default___60AXp"
+            data-test-id="cf-ui-select"
+            id="project"
+            name="project"
+            required=""
           >
-            <tbody>
-              <tr
-                class="TableRow__TableRow___3kcNC"
-                data-test-id="cf-ui-table-row"
-              >
-                <td
-                  align="left"
-                  class="TableCell__TableCell___Wou8a css-qd6c40"
-                  data-test-id="cf-ui-table-cell"
-                  style="top: 0px;"
-                >
-                  <strong>
-                    Experiment
-                  </strong>
-                </td>
-                <td
-                  align="left"
-                  class="TableCell__TableCell___Wou8a css-qd6c40"
-                  data-test-id="cf-ui-table-cell"
-                  style="top: 0px;"
-                >
-                  <div>
-                    Authors
-                     
-                  </div>
-                </td>
-                <td
-                  align="left"
-                  class="TableCell__TableCell___Wou8a css-qd6c40"
-                  data-test-id="cf-ui-table-cell"
-                  style="top: 0px;"
-                >
-                  <button
-                    class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 css-uoder TextLink__TextLink--primary___2Vc9F"
-                    data-test-id="cf-ui-text-link"
-                    type="button"
-                  >
-                    <span
-                      class="TabFocusTrap__TabFocusTrap___39Vty"
-                      tabindex="-1"
-                    >
-                      Edit
-                    </span>
-                  </button>
-                  <button
-                    class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 css-uoder TextLink__TextLink--negative___3yhMk"
-                    data-test-id="cf-ui-text-link"
-                    type="button"
-                  >
-                    <span
-                      class="TabFocusTrap__TabFocusTrap___39Vty"
-                      tabindex="-1"
-                    >
-                      Delete
-                    </span>
-                  </button>
-                </td>
-              </tr>
-              <tr
-                class="TableRow__TableRow___3kcNC"
-                data-test-id="cf-ui-table-row"
-              >
-                <td
-                  align="left"
-                  class="TableCell__TableCell___Wou8a css-qd6c40"
-                  data-test-id="cf-ui-table-cell"
-                  style="top: 0px;"
-                >
-                  <strong>
-                    Author
-                  </strong>
-                </td>
-                <td
-                  align="left"
-                  class="TableCell__TableCell___Wou8a css-qd6c40"
-                  data-test-id="cf-ui-table-cell"
-                  style="top: 0px;"
-                >
-                  <div>
-                    Bio
-                     
-                    <div
-                      class="css-2k2f2j"
-                    >
-                      <span
-                        class="Tooltip__Tooltip__target-wrapper___Mtw42"
-                      >
-                        <svg
-                          class="Icon__Icon___38Epv Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
-                          data-test-id="cf-ui-icon"
-                          height="18"
-                          viewBox="0 0 24 24"
-                          width="18"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M0 0h24v24H0z"
-                            fill="none"
-                          />
-                          <path
-                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
-                </td>
-                <td
-                  align="left"
-                  class="TableCell__TableCell___Wou8a css-qd6c40"
-                  data-test-id="cf-ui-table-cell"
-                  style="top: 0px;"
-                >
-                  <button
-                    class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 css-uoder TextLink__TextLink--primary___2Vc9F"
-                    data-test-id="cf-ui-text-link"
-                    type="button"
-                  >
-                    <span
-                      class="TabFocusTrap__TabFocusTrap___39Vty"
-                      tabindex="-1"
-                    >
-                      Edit
-                    </span>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            <option
+              data-test-id="cf-ui-select-option"
+              value=""
+            >
+              Select Optimizely Project
+            </option>
+            <option
+              data-test-id="cf-ui-select-option"
+              value="57438502"
+            >
+              My Project
+            </option>
+            <option
+              data-test-id="cf-ui-select-option"
+              value="4567"
+            >
+              [Demo] - Docs tutorial
+            </option>
+          </select>
+          <svg
+            class="Icon__Icon___38Epv Select__Select__icon___boRAZ Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+            data-test-id="cf-ui-icon"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
         </div>
       </div>
+    </div>
+    <hr
+      class="css-14380qe"
+    />
+    <div
+      class="Typography__Typography___1ZUfE"
+      data-test-id="cf-ui-text-container"
+    >
+      <h1
+        class="Heading__Heading___83D3K f36-margin-bottom--m"
+        data-test-id="cf-ui-heading"
+      >
+        Content Types
+      </h1>
+      <p
+        class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
+        data-test-id="cf-ui-paragraph"
+      >
+        Select the content types for which you want to enable A/B testing.
+      </p>
+      <button
+        class="Button__Button___1ZfFj a11y__focus-border--default___60AXp Button__Button--muted___2Wair"
+        data-test-id="add-content"
+        type="button"
+      >
+        <span
+          class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+          tabindex="-1"
+        >
+          <span
+            class="Button__Button__label___3tcOj"
+          >
+            Add content type
+          </span>
+        </span>
+      </button>
+      <table
+        cellpadding="0"
+        cellspacing="0"
+        class="css-1w2p18d Table__Table___2x3zV"
+        data-test-id="cf-ui-table"
+      >
+        <tbody>
+          <tr
+            class="TableRow__TableRow___3kcNC"
+            data-test-id="cf-ui-table-row"
+          >
+            <td
+              align="left"
+              class="TableCell__TableCell___Wou8a css-qd6c40"
+              data-test-id="cf-ui-table-cell"
+              style="top: 0px;"
+            >
+              <strong>
+                Experiment
+              </strong>
+            </td>
+            <td
+              align="left"
+              class="TableCell__TableCell___Wou8a css-qd6c40"
+              data-test-id="cf-ui-table-cell"
+              style="top: 0px;"
+            >
+              <div>
+                Authors
+                 
+              </div>
+            </td>
+            <td
+              align="left"
+              class="TableCell__TableCell___Wou8a css-qd6c40"
+              data-test-id="cf-ui-table-cell"
+              style="top: 0px;"
+            >
+              <button
+                class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 css-uoder TextLink__TextLink--primary___2Vc9F"
+                data-test-id="cf-ui-text-link"
+                type="button"
+              >
+                <span
+                  class="TabFocusTrap__TabFocusTrap___39Vty"
+                  tabindex="-1"
+                >
+                  Edit
+                </span>
+              </button>
+              <button
+                class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 css-uoder TextLink__TextLink--negative___3yhMk"
+                data-test-id="cf-ui-text-link"
+                type="button"
+              >
+                <span
+                  class="TabFocusTrap__TabFocusTrap___39Vty"
+                  tabindex="-1"
+                >
+                  Delete
+                </span>
+              </button>
+            </td>
+          </tr>
+          <tr
+            class="TableRow__TableRow___3kcNC"
+            data-test-id="cf-ui-table-row"
+          >
+            <td
+              align="left"
+              class="TableCell__TableCell___Wou8a css-qd6c40"
+              data-test-id="cf-ui-table-cell"
+              style="top: 0px;"
+            >
+              <strong>
+                Author
+              </strong>
+            </td>
+            <td
+              align="left"
+              class="TableCell__TableCell___Wou8a css-qd6c40"
+              data-test-id="cf-ui-table-cell"
+              style="top: 0px;"
+            >
+              <div>
+                Bio
+                 
+                <div
+                  class="css-2k2f2j"
+                >
+                  <span
+                    class="Tooltip__Tooltip__target-wrapper___Mtw42"
+                  >
+                    <svg
+                      class="Icon__Icon___38Epv Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+                      data-test-id="cf-ui-icon"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      width="18"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0 0h24v24H0z"
+                        fill="none"
+                      />
+                      <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td
+              align="left"
+              class="TableCell__TableCell___Wou8a css-qd6c40"
+              data-test-id="cf-ui-table-cell"
+              style="top: 0px;"
+            >
+              <button
+                class="TextLink__TextLink___1biUr a11y__focus-outline--default___2hwb1 css-uoder TextLink__TextLink--primary___2Vc9F"
+                data-test-id="cf-ui-text-link"
+                type="button"
+              >
+                <span
+                  class="TabFocusTrap__TabFocusTrap___39Vty"
+                  tabindex="-1"
+                >
+                  Edit
+                </span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
   <div

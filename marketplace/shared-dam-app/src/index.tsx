@@ -44,6 +44,7 @@ export function setup(integration: Integration) {
     if (sdk.location.is(locations.LOCATION_APP)) {
       render(
         <AppConfig
+          name={integration.name}
           sdk={sdk as AppExtensionSDK}
           parameterDefinitions={integration.parameterDefinitions}
           validateParameters={integration.validateParameters}

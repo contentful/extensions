@@ -45,6 +45,7 @@ const validate = () => null; // Means no error
 const renderComponent = (sdk: unknown) => {
   return render(
     <AppConfig
+      name="Some app"
       sdk={sdk as AppExtensionSDK}
       parameterDefinitions={definitions}
       validateParameters={validate}

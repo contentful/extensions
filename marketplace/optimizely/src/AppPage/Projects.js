@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import { css } from 'emotion';
 
 import tokens from '@contentful/forma-36-tokens';
-import { Heading, Paragraph, SelectField, Option } from '@contentful/forma-36-react-components';
+import {
+  Heading,
+  Paragraph,
+  SelectField,
+  Option,
+  Typography
+} from '@contentful/forma-36-react-components';
 
 const styles = {
   section: css({
@@ -13,7 +19,7 @@ const styles = {
 
 export default function Projects({ allProjects, selectedProject, onProjectChange }) {
   return (
-    <div>
+    <Typography>
       <Heading>Optimizely Project</Heading>
       <Paragraph>Works only with Optimizely Full Stack projects.</Paragraph>
       <SelectField
@@ -34,7 +40,7 @@ export default function Projects({ allProjects, selectedProject, onProjectChange
             </Option>
           ))}
       </SelectField>
-    </div>
+    </Typography>
   );
 }
 
