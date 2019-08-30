@@ -23,9 +23,9 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
-    "@contentful/forma-36-fcss": "^0.0.27",
+    "@contentful/forma-36-fcss": "^0.0.31",
     "@contentful/forma-36-react-components": "^3.15.14",
-    "@contentful/forma-36-tokens": "^0.4.1",
+    "@contentful/forma-36-tokens": "^0.4.5",
     "array-move": "2.1.0",
     "contentful-ui-extensions-sdk": "^3.9.2",
     "core-js": "3.1.4",

@@ -55,7 +55,7 @@ const styles = {
     padding: `${tokens.spacingXl} ${tokens.spacing2Xl}`,
     maxWidth: tokens.contentWidthText,
     backgroundColor: tokens.colorWhite,
-    zIndex: '2',
+    zIndex: 2,
     boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
     borderRadius: '2px'
   }),
