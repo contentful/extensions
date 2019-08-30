@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import uniqBy from 'lodash.uniqby';
-
+import { SkeletonContainer, SkeletonBodyText } from '@contentful/forma-36-react-components';
 import {
   currentStateToEnabledContentTypes,
   enabledContentTypesToTargetState
@@ -166,13 +166,14 @@ export default class NetlifyAppConfig extends React.Component {
         <div className={styles.background} />
         <div className={styles.body}>
           <NetlifyConnection
+            ready={this.state.ready}
             connected={!disabled}
             hasConfig={!!this.state.config}
             email={this.state.email}
             netlifyCounts={this.state.netlifyCounts}
             onConnectClick={this.onConnectClick}
           />
-          {this.state.ready && (
+          {this.state.ready ? (
             <div className={styles.relative}>
               {disabled && <div className={styles.configurationProtector} />}
               <NetlifyConfigEditor
@@ -188,6 +189,10 @@ export default class NetlifyAppConfig extends React.Component {
                 onEnabledContentTypesChange={this.onEnabledContentTypesChange}
               />
             </div>
+          ) : (
+            <SkeletonContainer width="100%">
+              <SkeletonBodyText numberOfLines={3} offsetTop={55} />
+            </SkeletonContainer>
           )}
         </div>
         <div className={styles.icon}>

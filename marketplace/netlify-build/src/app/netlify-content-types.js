@@ -41,8 +41,10 @@ export default class NetlifyContentTypes extends React.Component {
 
     return (
       <Typography>
-        <Heading>Enable Netlify builds for content types</Heading>
-        <Paragraph>Select the content types that can use the Netlify App in the sidebar.</Paragraph>
+        <Heading>Content Types</Heading>
+        <Paragraph>
+          Select which content types will show the Netlify functionality in the sidebar.
+        </Paragraph>
         <Paragraph>
           <CheckboxField
             id="selectAll"
@@ -57,6 +59,7 @@ export default class NetlifyContentTypes extends React.Component {
             <CheckboxField
               key={id}
               id={`ct-box-${id}`}
+              labelIsLight
               labelText={name}
               onChange={e => this.onChange(e.target.checked, id)}
               disabled={disabled}

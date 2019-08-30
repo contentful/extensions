@@ -232,10 +232,9 @@ export default class AppConfig extends React.Component {
           </Typography>
           <hr className={styles.splitter} />
           <Typography>
-            <Heading>Preview locations</Heading>
+            <Heading>Content Types</Heading>
             <Paragraph>
-              Here you can choose which content type(s) will show the Gatsby Cloud preview
-              functionality in the sidebar.
+              Select which content types will show the Gatsby Cloud functionality in the sidebar.
             </Paragraph>
             <div className={styles.checks}>
               <FieldGroup>
@@ -243,6 +242,7 @@ export default class AppConfig extends React.Component {
                   checkedTypes.map(key => (
                     <CheckboxField
                       key={key}
+                      labelIsLight
                       labelText={this.state.checkedContentTypes[key].name}
                       name={this.state.checkedContentTypes[key].name}
                       checked={this.state.checkedContentTypes[key].checked}

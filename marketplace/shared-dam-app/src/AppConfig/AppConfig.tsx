@@ -220,16 +220,16 @@ export default class AppConfig extends React.Component<Props, State> {
         <Typography>
           <Heading>Field assignment</Heading>
           <Paragraph>
-            This app can be used with <code>Object</code> fields.
+            This app can be used with <strong>Object</strong> fields.
           </Paragraph>
           {contentTypes.length > 0 ? (
             <Paragraph>
-              The list below enumerates all Content Types with at least one <code>Object</code>{' '}
+              The list below enumerates all Content Types with at least one <strong>Object</strong>{' '}
               field. Tick the box next to a field name to enable the App for it.
             </Paragraph>
           ) : (
             <Paragraph>
-              There is no content type with an <code>Object</code> field. Come back to this page
+              There is no content type with an <strong>Object</strong> field. Come back to this page
               once you create one.
             </Paragraph>
           )}
