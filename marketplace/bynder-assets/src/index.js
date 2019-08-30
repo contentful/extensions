@@ -93,6 +93,7 @@ function validateParameters({ bynderURL }) {
 
 setup({
   cta: CTA,
+  name: 'Bynder',
   logo,
   color: '#0af',
   description:

@@ -8,7 +8,8 @@ import {
   CheckboxField,
   FieldGroup,
   SkeletonContainer,
-  SkeletonBodyText
+  SkeletonBodyText,
+  TextLink
 } from '@contentful/forma-36-react-components';
 import GatsbyIcon from './GatsbyIcon';
 import styles from './styles';
@@ -155,7 +156,7 @@ export default class AppConfig extends React.Component {
         <div className={styles.body}>
           <div className={styles.section}>
             <Typography>
-              <Heading>Gatsby Cloud</Heading>
+              <Heading>About Gatsby Cloud</Heading>
               <Paragraph>
                 Gatsby is an open-source, modern website framework based on React to create and
                 deploy websites or web apps with ease. This UI Extension connects to Gatsby Cloud
@@ -166,102 +167,98 @@ export default class AppConfig extends React.Component {
             </Typography>
           </div>
           <hr className={styles.splitter} />
-          <div className={styles.section}>
-            <Typography>
-              <Heading>Account Details</Heading>
-              <Paragraph>Gatsby Cloud needs a project ID in order to preview projects.</Paragraph>
-              <TextField
-                name="previewUrl"
-                id="previewUrl"
-                labelText="Site URL"
-                required
-                value={this.state.previewUrl}
-                onChange={this.updatePreviewUrl}
-                onBlur={this.validatePreviewUrl}
-                className={styles.input}
-                helpText={
-                  <span>
-                    To get your Site URL, see your{' '}
-                    <a
-                      href="https://www.gatsbyjs.com/dashboard/sites"
-                      target="_blank"
-                      rel="noopener noreferrer">
-                      Gatsby dashboard
-                    </a>
-                  </span>
-                }
-                validationMessage={
-                  !this.state.validPreview
-                    ? 'Please provide a valid URL (It should start with http)'
-                    : ''
-                }
-                textInputProps={{
-                  type: 'text'
-                }}
-              />
-              <TextField
-                name="webhookUrl"
-                id="webhookUrl"
-                labelText="Webhook URL"
-                value={this.state.webhookUrl}
-                onChange={this.updateWebhookUrl}
-                onBlur={this.validateWebhookUrl}
-                className={styles.input}
-                helpText="Optional Webhook URL for manually building sites"
-                validationMessage={
-                  !this.state.validWebhook
-                    ? 'Please provide a valid URL (It should start with http)'
-                    : ''
-                }
-                textInputProps={{
-                  type: 'text'
-                }}
-              />
-              <TextField
-                name="authToken"
-                id="authToken"
-                labelText="Authentication Token"
-                value={this.state.authToken}
-                onChange={this.updateAuthToken}
-                className={styles.input}
-                helpText="Optional Authentication token for private Gatsby Cloud sites"
-                textInputProps={{
-                  type: 'password'
-                }}
-              />
-            </Typography>
-          </div>
+          <Typography>
+            <Heading>Account Details</Heading>
+            <Paragraph>Gatsby Cloud needs a project ID in order to preview projects.</Paragraph>
+            <TextField
+              name="previewUrl"
+              id="previewUrl"
+              labelText="Site URL"
+              required
+              value={this.state.previewUrl}
+              onChange={this.updatePreviewUrl}
+              onBlur={this.validatePreviewUrl}
+              className={styles.input}
+              helpText={
+                <span>
+                  To get your Site URL, see your{' '}
+                  <TextLink
+                    href="https://www.gatsbyjs.com/dashboard/sites"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    Gatsby dashboard
+                  </TextLink>
+                </span>
+              }
+              validationMessage={
+                !this.state.validPreview
+                  ? 'Please provide a valid URL (It should start with http)'
+                  : ''
+              }
+              textInputProps={{
+                type: 'text'
+              }}
+            />
+            <TextField
+              name="webhookUrl"
+              id="webhookUrl"
+              labelText="Webhook URL"
+              value={this.state.webhookUrl}
+              onChange={this.updateWebhookUrl}
+              onBlur={this.validateWebhookUrl}
+              className={styles.input}
+              helpText="Optional Webhook URL for manually building sites"
+              validationMessage={
+                !this.state.validWebhook
+                  ? 'Please provide a valid URL (It should start with http)'
+                  : ''
+              }
+              textInputProps={{
+                type: 'text'
+              }}
+            />
+            <TextField
+              name="authToken"
+              id="authToken"
+              labelText="Authentication Token"
+              value={this.state.authToken}
+              onChange={this.updateAuthToken}
+              className={styles.input}
+              helpText="Optional Authentication token for private Gatsby Cloud sites"
+              textInputProps={{
+                type: 'password'
+              }}
+            />
+          </Typography>
           <hr className={styles.splitter} />
-          <div className={styles.section}>
-            <Typography>
-              <Heading>Preview locations</Heading>
-              <Paragraph>
-                Here you can choose which content type(s) will show the Gatsby Cloud preview
-                functionality in the sidebar.
-              </Paragraph>
-              <div className={styles.checks}>
-                <FieldGroup>
-                  {checkedTypes.length ? (
-                    checkedTypes.map(key => (
-                      <CheckboxField
-                        key={key}
-                        labelText={this.state.checkedContentTypes[key].name}
-                        name={this.state.checkedContentTypes[key].name}
-                        checked={this.state.checkedContentTypes[key].checked}
-                        value={key}
-                        onChange={() => this.onContentTypeSelect(key)}
-                        id={key}
-                      />
-                    ))
-                  ) : (
-                    <SkeletonContainer width="100%">
-                      <SkeletonBodyText numberOfLines={3} />
-                    </SkeletonContainer>
-                  )}
-                </FieldGroup>
-              </div>
-            </Typography>
-          </div>
+          <Typography>
+            <Heading>Preview locations</Heading>
+            <Paragraph>
+              Here you can choose which content type(s) will show the Gatsby Cloud preview
+              functionality in the sidebar.
+            </Paragraph>
+            <div className={styles.checks}>
+              <FieldGroup>
+                {checkedTypes.length ? (
+                  checkedTypes.map(key => (
+                    <CheckboxField
+                      key={key}
+                      labelText={this.state.checkedContentTypes[key].name}
+                      name={this.state.checkedContentTypes[key].name}
+                      checked={this.state.checkedContentTypes[key].checked}
+                      value={key}
+                      onChange={() => this.onContentTypeSelect(key)}
+                      id={key}
+                    />
+                  ))
+                ) : (
+                  <SkeletonContainer width="100%">
+                    <SkeletonBodyText numberOfLines={3} />
+                  </SkeletonContainer>
+                )}
+              </FieldGroup>
+            </div>
+          </Typography>
         </div>
         <div className={styles.icon}>
           <GatsbyIcon />

@@ -33,6 +33,7 @@ interface Props {
   parameterDefinitions: Hash[];
   validateParameters: ValidateParametersFn;
   logo: string;
+  name: string;
   color: string;
   description: string;
 }
@@ -150,7 +151,7 @@ export default class AppConfig extends React.Component<Props, State> {
         <div className={styles.background(this.props.color)} />
         <div className={styles.body}>
           <Typography>
-            <Heading>About</Heading>
+            <Heading>About {this.props.name}</Heading>
             <Paragraph>{this.props.description}</Paragraph>
             <hr className={styles.splitter} />
           </Typography>
