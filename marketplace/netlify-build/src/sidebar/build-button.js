@@ -13,6 +13,7 @@ import { EVENT_TRIGGERED, EVENT_TRIGGER_FAILED } from '../constants';
 const styles = {
   info: css({
     color: tokens.colorTextLight,
+    marginTop: tokens.spacingS,
     marginBottom: tokens.spacingM,
     fontSize: tokens.fontSizeS,
     fontWeight: tokens.fontWeightNormal
