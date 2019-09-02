@@ -31,7 +31,7 @@
     "prettier-check": "prettier marketplace/**/*.{js,jsx,ts,tsx} scripts/**/*.js --check --ignore-path .gitignore",
     "build": "lerna run build --stream --concurrency 2 -- -- --no-inline && node ./scripts/build.js",
     "deploy": "node ./scripts/deploy.js",
-    "lint": "eslint marketplace scripts --ext .js,.ts,.tsx --ignore-path .gitignore",
+    "lint": "eslint lib marketplace scripts --ext .js,.ts,.tsx --ignore-path .gitignore",
     "tsc": "lerna run tsc --stream",
     "test:coverage": "lerna run test:coverage --concurrency 2",
     "test:integration": "jest --rootDir ./test './test/.*.js$'"
