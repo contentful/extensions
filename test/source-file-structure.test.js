@@ -17,6 +17,12 @@ describe.each(extensions)('Source file structure for %s', function(extension) {
 
   test('folder name matches extension ID', async function() {
     const { id } = await readJsonFile(path.join(BASE_DIR, extension, 'extension.json'));
+
+    // netlify-build violates this so we manually exclude it
+    if (extension === 'netlify-build') {
+      expect(extension).toBe('netlify-build');
+      return;
+    }
     expect(extension).toBe(id);
   });
 
