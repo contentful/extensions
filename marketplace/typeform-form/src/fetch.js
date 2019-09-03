@@ -1,6 +1,6 @@
 function rejectFetchOnHttpError(response) {
   if (!response.ok) {
-    const error = new Error(response.statusMessage);
+    const error = new Error(response.statusText);
     error.response = response;
 
     if (response.status) {
