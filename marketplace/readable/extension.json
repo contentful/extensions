@@ -1,0 +1,6 @@
+{
+  "id": "readable",
+  "name": "readable",
+  "srcdoc": "./build/index.html",
+  "sidebar": true
+}
