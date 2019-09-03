@@ -8,3 +8,26 @@ div {
   font: inherit;
   vertical-align: baseline;
 }
+
+.rating.ratingA {
+  color: #32936f;
+}
+.rating.ratingB {
+  color: #1e5943;
+}
+.rating.ratingC {
+  color: #27463a;
+}
+.rating.ratingD {
+  color: #f19117;
+}
+.rating.ratingE {
+  color: #e61a27;
+}
+
+.outofbounds {
+  background: #fdd;
+}
+.inbounds {
+  background: #dfd;
+}

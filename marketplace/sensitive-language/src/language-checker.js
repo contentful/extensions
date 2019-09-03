@@ -81,12 +81,12 @@ export class LanguageChecker extends React.Component {
             return null;
           }
 
-          const fieldDefiniton = fieldsToCheck.find(({ id }) => id === fieldId);
+          const fieldDefinition = fieldsToCheck.find(({ id }) => id === fieldId);
 
           return (
             <div key={fieldId}>
               <SectionHeading className="f36-margin-bottom--m">
-                {fieldDefiniton.name}
+                {fieldDefinition.name}
               </SectionHeading>
 
               <ul className="warning-list f36-margin-bottom--m">

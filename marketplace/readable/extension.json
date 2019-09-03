@@ -1,6 +1,26 @@
 {
   "id": "readable",
-  "name": "readable",
+  "name": "Readble",
   "srcdoc": "./build/index.html",
-  "sidebar": true
+  "sidebar": true,
+  "parameters": {
+    "installation": [
+      {
+        "id": "apiKey",
+        "name": "API key",
+        "description": "Your readable.com API key",
+        "type": "Symbol",
+        "required": true
+      }
+    ],
+    "instance": [
+      {
+        "id": "ignoredFields",
+        "name": "Ignored fields",
+        "description": "A comma separated list of fields to ignore. By default all long text and rich text fields are checked.",
+        "type": "Symbol",
+        "default": ""
+      }
+    ]
+  }
 }
