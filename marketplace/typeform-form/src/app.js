@@ -26,12 +26,12 @@ export class App extends React.Component {
     const { value } = this.state;
 
     // Handle external changes (e.g. when multiple authors are working on the same entry).
-    sdk.field.onValueChanged(value => {
+    this.unsubscribeOnValue = sdk.field.onValueChanged(value => {
       this.setState({ value: value });
     });
 
     // Disable editing (e.g. when field is not editable due to R&P).
-    sdk.field.onIsDisabledChanged(isDisabled => {
+    this.unsubscribeIsDisabled = sdk.field.onIsDisabledChanged(isDisabled => {
       this.setState({ isDisabled });
     });
 
@@ -59,6 +59,16 @@ export class App extends React.Component {
       .catch(error => {
         this.setState({ error });
       });
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribeOnValue) {
+      this.unsubscribeOnValue();
+    }
+
+    if (this.unsubscribeIsDisabled) {
+      this.unsubscribeIsDisabled();
+    }
   }
 
   onChange(e) {
