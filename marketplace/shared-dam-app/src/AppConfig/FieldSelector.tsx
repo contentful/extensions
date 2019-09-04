@@ -47,7 +47,6 @@ export default class FieldSelector extends React.Component<Props> {
                     key={field.id}
                     id={`field-box-${ct.sys.id}-${field.id}`}
                     labelText={field.name}
-                    labelIsLight
                     helpText={`Field ID: ${field.id}`}
                     checked={(selectedFields[ct.sys.id] || []).includes(field.id)}
                     onChange={this.onSelectedFieldChange.bind(this, ct.sys.id, field.id)}

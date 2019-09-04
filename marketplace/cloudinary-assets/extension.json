@@ -8,7 +8,7 @@
       {
         "id": "cloudName",
         "name": "Cloud name",
-        "description": "The cloud_name of the account to access.",
+        "description": "The cloud name of the account to access.",
         "type": "Symbol",
         "required": true
       },
