@@ -218,20 +218,22 @@ export default class AppConfig extends React.Component<Props, State> {
           <hr className={styles.splitter} />
         </Typography>
         <Typography>
-          <Heading>Field assignment</Heading>
-          <Paragraph>
-            This app can be used with <strong>JSON object</strong> fields.
-          </Paragraph>
+          <Heading>Assign to fields</Heading>
           {contentTypes.length > 0 ? (
             <Paragraph>
-              All of your Content Types with at least one <strong>JSON object</strong> field are
-              listed below. Tick the box next to a field name to enable the App for it.
+              This app can be used only with <strong>JSON object</strong> fields. Select for which
+              ones you want to enable this app.
             </Paragraph>
           ) : (
-            <Paragraph>
-              There is no content type with an <strong>JSON object</strong> field. Come back to this
-              page after you have create one.
-            </Paragraph>
+            <>
+              <Paragraph>
+                This app can be used only with <strong>JSON object</strong> fields.
+              </Paragraph>
+              <Paragraph>
+                There are <strong>no content types with JSON object</strong> fields in this
+                environment. You can add one here later.
+              </Paragraph>
+            </>
           )}
           <FieldSelector
             contentTypes={contentTypes}
