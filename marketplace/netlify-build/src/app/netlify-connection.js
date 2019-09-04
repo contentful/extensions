@@ -115,11 +115,6 @@ export default class NetlifyConnection extends React.Component {
             .
           </Paragraph>
         )}
-        {buildable > 0 && (
-          <Paragraph>
-            {buildable} {this.getSitePlural(buildable)} can be built.
-          </Paragraph>
-        )}
         {buildable < 1 && (
           <Paragraph>
             You don&rsquo;t have any sites set up to be built on your account. Head over to{' '}
