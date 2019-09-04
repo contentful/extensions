@@ -38,9 +38,7 @@ export default class FieldSelector extends React.Component<Props> {
           const fields = compatibleFields[ct.sys.id];
           return (
             <div key={ct.sys.id} className={css({ marginTop: tokens.spacingL })}>
-              <Subheading>
-                {ct.name} ({fields.length})
-              </Subheading>
+              <Subheading>{ct.name}</Subheading>
               <Form>
                 {fields.map(field => (
                   <CheckboxField
