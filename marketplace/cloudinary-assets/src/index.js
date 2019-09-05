@@ -17,7 +17,18 @@ function makeThumbnail(resource, config) {
 
   let url;
   const alt = [resource.public_id, ...(resource.tags || [])].join(', ');
-  const transformations = { width: 150, height: 100, crop: 'fill' };
+  let transformations = { width: 150, height: 100, crop: 'fill' };
+
+  if (
+    Array.isArray(resource.derived) &&
+    resource.derived[0] &&
+    resource.derived[0].raw_transformation
+  ) {
+    transformations = {
+      rawTransformation: resource.derived[0].raw_transformation,
+      ...transformations
+    };
+  }
 
   if (resource.resource_type === 'image' && VALID_IMAGE_FORMATS.includes(resource.format)) {
     url = cloudinary.url(resource.public_id, transformations);
