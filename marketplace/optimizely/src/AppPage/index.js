@@ -296,7 +296,7 @@ export default class AppPage extends React.Component {
                 <>
                   <Paragraph>You&rsquo;re currently connected to Optimizely.</Paragraph>
                   <Paragraph className={styles.light}>
-                    This access token is valid for 2 hours – after this you must reauthorize
+                    This access token is valid for 2 hours – after this you must reauthorize with
                     Optimizely.
                   </Paragraph>
                 </>
