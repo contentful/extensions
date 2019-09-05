@@ -45,7 +45,7 @@ export default class NetlifyContentTypes extends React.Component {
         <Paragraph>
           Select which content types will show the Netlify functionality in the sidebar.
         </Paragraph>
-        <Paragraph>
+        <FieldGroup>
           <CheckboxField
             id="selectAll"
             labelText="Select all"
@@ -53,7 +53,7 @@ export default class NetlifyContentTypes extends React.Component {
             onChange={this.onToggleSelect}
             checked={allSelected}
           />
-        </Paragraph>
+        </FieldGroup>
         <FieldGroup>
           {contentTypes.map(([id, name]) => (
             <CheckboxField

@@ -80,6 +80,16 @@ export default class NetlifyAppConfig extends React.Component {
       return false;
     }
 
+    const configuredNetlifySiteIds = this.state.config.sites.map(site => site.netlifySiteId);
+    const availableNetlifySiteIds = this.state.netlifySites.map(site => site.id);
+
+    if (!configuredNetlifySiteIds.every(id => availableNetlifySiteIds.includes(id))) {
+      this.notifyError(
+        'Looks like some sites were deleted in Netlify. Pick a new site or remove outdated configuration.'
+      );
+      return false;
+    }
+
     try {
       const isInstalled = await this.props.sdk.platformAlpha.app.isInstalled();
       const method = isInstalled ? 'update' : 'install';
