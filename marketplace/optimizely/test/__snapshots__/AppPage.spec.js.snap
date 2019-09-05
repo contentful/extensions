@@ -29,7 +29,7 @@ exports[`AppPage should render the AppPage loading when first connected to Optim
           class="Paragraph__Paragraph___2aO-9 css-1ntki7d f36-margin-bottom--m"
           data-test-id="cf-ui-paragraph"
         >
-          An access token is valid for 2 hours then you must reauthorize.
+          This access token is valid for 2 hours – after this you must reauthorize with Optimizely.
         </p>
       </div>
     </div>
@@ -304,7 +304,7 @@ exports[`AppPage should render the AppPage with Features and connect button 1`] 
           class="Paragraph__Paragraph___2aO-9 css-1ntki7d f36-margin-bottom--m"
           data-test-id="cf-ui-paragraph"
         >
-          An access token is valid for 2 hours then you must reauthorize.
+          This access token is valid for 2 hours – after this you must reauthorize with Optimizely.
         </p>
       </div>
     </div>
@@ -579,7 +579,7 @@ exports[`AppPage should render the Optimizely config and allow for adding conten
           class="Paragraph__Paragraph___2aO-9 css-1ntki7d f36-margin-bottom--m"
           data-test-id="cf-ui-paragraph"
         >
-          An access token is valid for 2 hours then you must reauthorize.
+          This access token is valid for 2 hours – after this you must reauthorize with Optimizely.
         </p>
       </div>
     </div>
@@ -600,7 +600,7 @@ exports[`AppPage should render the Optimizely config and allow for adding conten
         class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
         data-test-id="cf-ui-paragraph"
       >
-        Works only with Optimizely Full Stack projects.
+        Works only with Optimizely Full Stack projects
       </p>
       <div
         class="SelectField__SelectField___kbQlf css-15g2oxy"
@@ -685,13 +685,13 @@ exports[`AppPage should render the Optimizely config and allow for adding conten
         class="Heading__Heading___83D3K f36-margin-bottom--m"
         data-test-id="cf-ui-heading"
       >
-        Content Types
+        Content types
       </h1>
       <p
         class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
         data-test-id="cf-ui-paragraph"
       >
-        Select the content types for which you want to enable A/B testing.
+        Select the content types for which you want to enable A/B testing
       </p>
       <button
         class="Button__Button___1ZfFj a11y__focus-border--default___60AXp Button__Button--muted___2Wair"
