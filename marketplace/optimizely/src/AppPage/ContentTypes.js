@@ -138,8 +138,8 @@ export default function ContentTypes({
   return (
     <>
       <Typography>
-        <Heading>Content Types</Heading>
-        <Paragraph>Select the content types for which you want to enable A/B testing.</Paragraph>
+        <Heading>Content types</Heading>
+        <Paragraph>Select the content types for which you want to enable A/B testing</Paragraph>
         <Button
           buttonType="muted"
           onClick={() => toggleModal(true)}
