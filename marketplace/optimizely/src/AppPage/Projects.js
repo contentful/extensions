@@ -21,7 +21,7 @@ export default function Projects({ allProjects, selectedProject, onProjectChange
   return (
     <Typography>
       <Heading>Optimizely Project</Heading>
-      <Paragraph>Works only with Optimizely Full Stack projects.</Paragraph>
+      <Paragraph>Works only with Optimizely Full Stack projects</Paragraph>
       <SelectField
         name="project"
         id="project"

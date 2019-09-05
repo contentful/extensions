@@ -18,7 +18,7 @@ export default function RefToolTip() {
     <div className={styles.tooltipContainer}>
       <Tooltip
         className={styles.tooltip}
-        content="This field can have a variation container assigned to it by default because it has no explicit validations."
+        content="This field can have a variation container assigned to it by default because it has no explicit validations"
         place="right">
         <Icon color="muted" icon="HelpCircle" />
       </Tooltip>
