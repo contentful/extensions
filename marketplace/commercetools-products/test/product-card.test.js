@@ -47,13 +47,11 @@ describe('ProductCardRenderer', function() {
     const tree = renderer
       .create(
         <ProductCardRenderer
-          loading={false}
           error={new Error('broken!')}
           sku="ABCD1234"
           index={0}
           removeItem={() => {}}
           locale="en"
-          sortable={true}
         />
       )
       .toJSON();
@@ -82,7 +80,6 @@ describe('ProductCardRenderer', function() {
     const tree = renderer
       .create(
         <ProductCardRenderer
-          loading={false}
           sku="ABCD1234"
           data={data}
           index={0}
@@ -139,34 +136,22 @@ describe('ProductCardRenderer', function() {
       }
     };
 
-    test('and sortable', function() {
+    test.each([
+      ['', { sortable: false, disabled: false }],
+      ['and disabled', { sortable: false, disabled: true }],
+      ['and sortable', { sortable: true, disabled: false }],
+      ['and sortable and disabled', { sortable: true, disabled: true }]
+    ])('%s', function(_, { sortable, disabled }) {
       const tree = renderer
         .create(
           <ProductCardRenderer
-            loading={false}
             sku="ABCD1234"
             data={data}
             index={0}
             removeItem={() => {}}
             locale="en"
-            sortable={true}
-          />
-        )
-        .toJSON();
-      expect(tree).toMatchSnapshot();
-    });
-
-    test('and not sortable', function() {
-      const tree = renderer
-        .create(
-          <ProductCardRenderer
-            loading={false}
-            sku="ABCD1234"
-            data={data}
-            index={0}
-            removeItem={() => {}}
-            locale="en"
-            sortable={false}
+            sortable={sortable}
+            disabled={disabled}
           />
         )
         .toJSON();

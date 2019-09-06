@@ -84,7 +84,7 @@ exports[`ProductCardRenderer renders missing product state 1`] = `
 </div>
 `;
 
-exports[`ProductCardRenderer renders with data and not sortable 1`] = `
+exports[`ProductCardRenderer renders with data  1`] = `
 <div
   cardDragHandleComponent={null}
   className="entry-card"
@@ -93,6 +93,43 @@ exports[`ProductCardRenderer renders with data and not sortable 1`] = `
     <React.Fragment>
       <Unknown>
         <Unknown
+          isDisabled={false}
+          onClick={[Function]}
+        >
+          Remove
+        </Unknown>
+        <Unknown
+          href="https://mc.commercetools.com/ivos-personal-project/products/2c7f2de9-d30a-42cd-bbca-5783381efb9c/general"
+          target="_blank"
+        >
+          Open in Merchant Center
+        </Unknown>
+      </Unknown>
+    </React.Fragment>
+  }
+  loading={false}
+  thumbnailElement={
+    <img
+      alt=""
+      height="70"
+      src="https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/073315_1_large.jpg"
+      width="70"
+    />
+  }
+  title="Shirt Red Valentino red (ABCD1234)"
+/>
+`;
+
+exports[`ProductCardRenderer renders with data and disabled 1`] = `
+<div
+  cardDragHandleComponent={null}
+  className="entry-card"
+  contentType="T-shirts"
+  dropdownListElements={
+    <React.Fragment>
+      <Unknown>
+        <Unknown
+          isDisabled={false}
           onClick={[Function]}
         >
           Remove
@@ -128,6 +165,43 @@ exports[`ProductCardRenderer renders with data and sortable 1`] = `
     <React.Fragment>
       <Unknown>
         <Unknown
+          isDisabled={false}
+          onClick={[Function]}
+        >
+          Remove
+        </Unknown>
+        <Unknown
+          href="https://mc.commercetools.com/ivos-personal-project/products/2c7f2de9-d30a-42cd-bbca-5783381efb9c/general"
+          target="_blank"
+        >
+          Open in Merchant Center
+        </Unknown>
+      </Unknown>
+    </React.Fragment>
+  }
+  loading={false}
+  thumbnailElement={
+    <img
+      alt=""
+      height="70"
+      src="https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/073315_1_large.jpg"
+      width="70"
+    />
+  }
+  title="Shirt Red Valentino red (ABCD1234)"
+/>
+`;
+
+exports[`ProductCardRenderer renders with data and sortable and disabled 1`] = `
+<div
+  cardDragHandleComponent={<DragHandle />}
+  className="entry-card"
+  contentType="T-shirts"
+  dropdownListElements={
+    <React.Fragment>
+      <Unknown>
+        <Unknown
+          isDisabled={false}
           onClick={[Function]}
         >
           Remove

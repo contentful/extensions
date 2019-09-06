@@ -13,7 +13,8 @@ const SortableList = SortableContainer(function SortableList({
   items,
   removeItem,
   locale,
-  sortable
+  sortable,
+  isDisabled
 }) {
   return (
     <ol className="product-list">
@@ -27,6 +28,8 @@ const SortableList = SortableContainer(function SortableList({
               removeItem={removeItem}
               locale={locale}
               sortable={sortable}
+              disabled={isDisabled}
+              isDisabled={isDisabled}
             />
           </li>
         );
@@ -48,7 +51,8 @@ export class CommerceToolsField extends React.Component {
 
     this.state = {
       fieldValue: Array.isArray(value) ? value : [value],
-      apolloClient: null
+      apolloClient: null,
+      isDisabled: false
     };
 
     this.onDialogOpen = this.onDialogOpen.bind(this);
@@ -73,11 +77,20 @@ export class CommerceToolsField extends React.Component {
 
       this.setState({ fieldValue: Array.isArray(value) ? value : [value] });
     });
+
+    // Disable editing (e.g. when field is not editable due to R&P).
+    this.unsubscribeOnIsDisabled = extension.field.onIsDisabledChanged(isDisabled => {
+      this.setState({ isDisabled });
+    });
   }
 
   componentWillUnmount() {
     if (this.unsubscribeOnValue) {
       this.unsubscribeOnValue();
+    }
+
+    if (this.unsubscribeOnIsDisabled) {
+      this.unsubscribeOnIsDisabled();
     }
   }
 
@@ -135,21 +148,17 @@ export class CommerceToolsField extends React.Component {
 
   render() {
     const { isSingle, parameters } = this.props;
-    const isDisabled = false;
+    const { fieldValue, isDisabled } = this.state;
 
     if (!this.state.apolloClient) {
       return <Spinner size="large" />;
     }
 
+    const showLinkButtons = !isDisabled && (!isSingle || fieldValue.length === 0);
     let button = null;
-    if (!isSingle || this.state.fieldValue.length === 0) {
+    if (showLinkButtons) {
       button = (
-        <Button
-          icon="ShoppingCart"
-          buttonType="muted"
-          size="small"
-          onClick={this.onDialogOpen}
-          disabled={isDisabled}>
+        <Button icon="ShoppingCart" buttonType="muted" size="small" onClick={this.onDialogOpen}>
           {isSingle ? 'Select Product' : 'Select Products'}
         </Button>
       );
@@ -166,6 +175,7 @@ export class CommerceToolsField extends React.Component {
             locale={parameters.locale}
             onSortEnd={this.onSortEnd}
             sortable={!isSingle}
+            isDisabled={isDisabled}
             useDragHandle
           />
         </ApolloProvider>

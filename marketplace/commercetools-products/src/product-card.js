@@ -31,7 +31,7 @@ function getValueByLocale(nameAllLocales, locale) {
   return val.value;
 }
 
-function ProductCard({ sku, locale, removeItem, index, sortable }) {
+function ProductCard({ sku, locale, removeItem, index, sortable, isDisabled }) {
   return (
     <Query query={GET_PRODUCT_BY_SKU} variables={{ skus: [sku] }}>
       {({ loading, error, data }) => {
@@ -45,6 +45,7 @@ function ProductCard({ sku, locale, removeItem, index, sortable }) {
             index={index}
             removeItem={removeItem}
             sortable={sortable}
+            isDisabled={isDisabled}
           />
         );
       }}
@@ -52,12 +53,18 @@ function ProductCard({ sku, locale, removeItem, index, sortable }) {
   );
 }
 
+ProductCard.defaultProps = {
+  sortable: false,
+  isDisabled: false
+};
+
 ProductCard.propTypes = {
   sku: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   removeItem: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
-  sortable: PropTypes.bool.isRequired
+  sortable: PropTypes.bool,
+  isDisabled: PropTypes.bool
 };
 
 export class ProductCardRenderer extends React.Component {
@@ -73,7 +80,7 @@ export class ProductCardRenderer extends React.Component {
   }
 
   render() {
-    const { loading, error, data, sku, locale, sortable } = this.props;
+    const { loading, error, data, sku, locale, sortable, isDisabled } = this.props;
 
     if (loading) {
       return (
@@ -155,7 +162,9 @@ export class ProductCardRenderer extends React.Component {
           // @todo these leave the viewport in the single item version
           <React.Fragment>
             <DropdownList>
-              <DropdownListItem onClick={this.onRemoveItem}>Remove</DropdownListItem>
+              <DropdownListItem onClick={this.onRemoveItem} isDisabled={isDisabled}>
+                Remove
+              </DropdownListItem>
               <DropdownListItem
                 target="_blank"
                 href={`https://mc.commercetools.com/ivos-personal-project/products/${id}/general`}>
@@ -169,8 +178,14 @@ export class ProductCardRenderer extends React.Component {
   }
 }
 
+ProductCardRenderer.defaultProps = {
+  loading: false,
+  sortable: false,
+  isDisabled: false
+};
+
 ProductCardRenderer.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   error: PropTypes.any,
   data: PropTypes.shape({
     products: PropTypes.shape({
@@ -186,7 +201,8 @@ ProductCardRenderer.propTypes = {
   index: PropTypes.number.isRequired,
   removeItem: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
-  sortable: PropTypes.bool.isRequired
+  sortable: PropTypes.bool,
+  isDisabled: PropTypes.bool
 };
 
 export const SortableProductCard = SortableElement(function SortableProductCard({
@@ -194,7 +210,8 @@ export const SortableProductCard = SortableElement(function SortableProductCard(
   locale,
   sku,
   itemIndex,
-  sortable
+  sortable,
+  isDisabled
 }) {
   return (
     <ProductCard
@@ -203,6 +220,7 @@ export const SortableProductCard = SortableElement(function SortableProductCard(
       removeItem={removeItem}
       locale={locale}
       sortable={sortable}
+      isDisabled={isDisabled}
     />
   );
 });

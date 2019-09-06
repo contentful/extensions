@@ -15,7 +15,6 @@ Array [
   <div
     buttonType="muted"
     className="button"
-    disabled={false}
     icon="ShoppingCart"
     onClick={[Function]}
     size="small"
@@ -33,7 +32,6 @@ Array [
   <div
     buttonType="muted"
     className="button"
-    disabled={false}
     icon="ShoppingCart"
     onClick={[Function]}
     size="small"
@@ -53,7 +51,9 @@ Array [
     >
       <div
         className="sortable-product-card"
+        disabled={false}
         index={0}
+        isDisabled={false}
         itemIndex={0}
         locale="en"
         removeItem={[Function]}
@@ -66,7 +66,9 @@ Array [
     >
       <div
         className="sortable-product-card"
+        disabled={false}
         index={1}
+        isDisabled={false}
         itemIndex={1}
         locale="en"
         removeItem={[Function]}
@@ -79,7 +81,9 @@ Array [
     >
       <div
         className="sortable-product-card"
+        disabled={false}
         index={2}
+        isDisabled={false}
         itemIndex={2}
         locale="en"
         removeItem={[Function]}
@@ -91,7 +95,6 @@ Array [
   <div
     buttonType="muted"
     className="button"
-    disabled={false}
     icon="ShoppingCart"
     onClick={[Function]}
     size="small"
@@ -110,7 +113,95 @@ exports[`CommerceToolsField Renders with existing values for single product(s) 1
   >
     <div
       className="sortable-product-card"
+      disabled={false}
       index={0}
+      isDisabled={false}
+      itemIndex={0}
+      locale="en"
+      removeItem={[Function]}
+      sku="ABCDE1234"
+      sortable={false}
+    />
+  </li>
+</ol>
+`;
+
+exports[`CommerceToolsField disabled state Renders empty state for multiple product(s) 1`] = `
+<ol
+  className="product-list"
+/>
+`;
+
+exports[`CommerceToolsField disabled state Renders empty state for single product(s) 1`] = `
+<ol
+  className="product-list"
+/>
+`;
+
+exports[`CommerceToolsField disabled state Renders with existing values for multiple product(s) 1`] = `
+<ol
+  className="product-list"
+>
+  <li
+    className="product-list__item"
+  >
+    <div
+      className="sortable-product-card"
+      disabled={true}
+      index={0}
+      isDisabled={true}
+      itemIndex={0}
+      locale="en"
+      removeItem={[Function]}
+      sku="ABCDE1234"
+      sortable={true}
+    />
+  </li>
+  <li
+    className="product-list__item"
+  >
+    <div
+      className="sortable-product-card"
+      disabled={true}
+      index={1}
+      isDisabled={true}
+      itemIndex={1}
+      locale="en"
+      removeItem={[Function]}
+      sku="FGHHI1234"
+      sortable={true}
+    />
+  </li>
+  <li
+    className="product-list__item"
+  >
+    <div
+      className="sortable-product-card"
+      disabled={true}
+      index={2}
+      isDisabled={true}
+      itemIndex={2}
+      locale="en"
+      removeItem={[Function]}
+      sku="JKLMN5678"
+      sortable={true}
+    />
+  </li>
+</ol>
+`;
+
+exports[`CommerceToolsField disabled state Renders with existing values for single product(s) 1`] = `
+<ol
+  className="product-list"
+>
+  <li
+    className="product-list__item"
+  >
+    <div
+      className="sortable-product-card"
+      disabled={true}
+      index={0}
+      isDisabled={true}
       itemIndex={0}
       locale="en"
       removeItem={[Function]}
