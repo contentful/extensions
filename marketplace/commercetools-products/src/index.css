@@ -16,6 +16,17 @@ html {
   line-height: 1.5;
 }
 
+body {
+  overflow: hidden;
+}
+
 .picker-container {
   height: 100vh;
 }
+
+.picker-controls {
+  margin-top: -100px;
+  height: 40px;
+  padding: calc(1rem * (30 / 16));
+}
+

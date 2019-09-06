@@ -21,12 +21,18 @@ export class CommerceToolsDialog extends React.Component {
       <React.Fragment>
         <div ref={this.pickerContainerRef} className="picker-container" />
 
-        <Button onClick={this.onInsert} buttonType="positive">
-          Insert selected Products
-        </Button>
-        <Button onClick={this.onCancel} buttonType="muted">
-          Cancel
-        </Button>
+        <div className="picker-controls">
+          <Button onClick={this.onInsert} buttonType="positive" style={{ marginRight: 16 }}>
+            Insert selected Products
+          </Button>
+          <Button onClick={this.onCancel} buttonType="muted">
+            Cancel
+          </Button>
+        </div>
+        <div>
+          {/* Horrible hack for making autoresize work as expected. Autoresize doesn't like calc witchcraft */}
+          &nbsp;
+        </div>
       </React.Fragment>
     );
   }

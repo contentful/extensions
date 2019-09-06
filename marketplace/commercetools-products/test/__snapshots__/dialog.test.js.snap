@@ -6,18 +6,30 @@ Array [
     className="picker-container"
   />,
   <div
-    buttonType="positive"
-    className="button"
-    onClick={[Function]}
+    className="picker-controls"
   >
-    Insert selected Products
+    <div
+      buttonType="positive"
+      className="button"
+      onClick={[Function]}
+      style={
+        Object {
+          "marginRight": 16,
+        }
+      }
+    >
+      Insert selected Products
+    </div>
+    <div
+      buttonType="muted"
+      className="button"
+      onClick={[Function]}
+    >
+      Cancel
+    </div>
   </div>,
-  <div
-    buttonType="muted"
-    className="button"
-    onClick={[Function]}
-  >
-    Cancel
+  <div>
+     
   </div>,
 ]
 `;
