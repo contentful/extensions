@@ -30,3 +30,13 @@ body {
   padding: calc(1rem * (30 / 16));
 }
 
+.product-list {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.product-list__item {
+  margin-bottom: 12px;
+}
+

@@ -9,7 +9,9 @@ exports[`CommerceToolsField Renders a spinner while loading ApolloClient 1`] = `
 
 exports[`CommerceToolsField Renders empty state for multiple product(s) 1`] = `
 Array [
-  <div />,
+  <ol
+    className="product-list"
+  />,
   <div
     buttonType="muted"
     className="button"
@@ -25,7 +27,9 @@ Array [
 
 exports[`CommerceToolsField Renders empty state for single product(s) 1`] = `
 Array [
-  <div />,
+  <ol
+    className="product-list"
+  />,
   <div
     buttonType="muted"
     className="button"
@@ -41,35 +45,49 @@ Array [
 
 exports[`CommerceToolsField Renders with existing values for multiple product(s) 1`] = `
 Array [
-  <div>
-    <div
-      className="sortable-product-card"
-      index={0}
-      itemIndex={0}
-      locale="en"
-      removeItem={[Function]}
-      sku="ABCDE1234"
-      sortable={true}
-    />
-    <div
-      className="sortable-product-card"
-      index={1}
-      itemIndex={1}
-      locale="en"
-      removeItem={[Function]}
-      sku="FGHHI1234"
-      sortable={true}
-    />
-    <div
-      className="sortable-product-card"
-      index={2}
-      itemIndex={2}
-      locale="en"
-      removeItem={[Function]}
-      sku="JKLMN5678"
-      sortable={true}
-    />
-  </div>,
+  <ol
+    className="product-list"
+  >
+    <li
+      className="product-list__item"
+    >
+      <div
+        className="sortable-product-card"
+        index={0}
+        itemIndex={0}
+        locale="en"
+        removeItem={[Function]}
+        sku="ABCDE1234"
+        sortable={true}
+      />
+    </li>
+    <li
+      className="product-list__item"
+    >
+      <div
+        className="sortable-product-card"
+        index={1}
+        itemIndex={1}
+        locale="en"
+        removeItem={[Function]}
+        sku="FGHHI1234"
+        sortable={true}
+      />
+    </li>
+    <li
+      className="product-list__item"
+    >
+      <div
+        className="sortable-product-card"
+        index={2}
+        itemIndex={2}
+        locale="en"
+        removeItem={[Function]}
+        sku="JKLMN5678"
+        sortable={true}
+      />
+    </li>
+  </ol>,
   <div
     buttonType="muted"
     className="button"
@@ -84,15 +102,21 @@ Array [
 `;
 
 exports[`CommerceToolsField Renders with existing values for single product(s) 1`] = `
-<div>
-  <div
-    className="sortable-product-card"
-    index={0}
-    itemIndex={0}
-    locale="en"
-    removeItem={[Function]}
-    sku="ABCDE1234"
-    sortable={false}
-  />
-</div>
+<ol
+  className="product-list"
+>
+  <li
+    className="product-list__item"
+  >
+    <div
+      className="sortable-product-card"
+      index={0}
+      itemIndex={0}
+      locale="en"
+      removeItem={[Function]}
+      sku="ABCDE1234"
+      sortable={false}
+    />
+  </li>
+</ol>
 `;

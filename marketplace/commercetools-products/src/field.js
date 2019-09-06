@@ -16,21 +16,22 @@ const SortableList = SortableContainer(function SortableList({
   sortable
 }) {
   return (
-    <div>
+    <ol className="product-list">
       {items.map((sku, index) => {
         return (
-          <SortableProductCard
-            sku={sku}
-            index={index}
-            itemIndex={index}
-            key={index}
-            removeItem={removeItem}
-            locale={locale}
-            sortable={sortable}
-          />
+          <li key={index} className="product-list__item">
+            <SortableProductCard
+              sku={sku}
+              index={index}
+              itemIndex={index}
+              removeItem={removeItem}
+              locale={locale}
+              sortable={sortable}
+            />
+          </li>
         );
       })}
-    </div>
+    </ol>
   );
 });
 
