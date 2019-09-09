@@ -107,7 +107,7 @@ setup({
   name: 'Cloudinary',
   logo,
   description:
-    'The Cloudinary app is a widget that allows editors to select media from their Cloudinary account. Simply click Select or upload a file on Cloudinary and select the assets you want to be referenced from your entry.',
+    'The Cloudinary app is a widget that allows editors to select media from their Cloudinary account. Select or upload a file on Cloudinary and designate the assets that you want your entry to reference.',
   color: '#F4B21B',
   parameterDefinitions: descriptor.parameters.installation,
   makeThumbnail,
