@@ -97,7 +97,7 @@ setup({
   logo,
   color: '#0af',
   description:
-    "Bynder's digital asset management solution improves your digital asset flow from creation to approval, to deliver consistent content across all of your channels.",
+    'The Bynder app is a widget that allows editors to select media from their Bynder account. Select or upload a file on Bynder and designate the assets that you want your entry to reference.',
   parameterDefinitions: descriptor.parameters.installation,
   makeThumbnail,
   renderDialog,
