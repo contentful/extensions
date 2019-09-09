@@ -221,8 +221,8 @@ export default class AppConfig extends React.Component<Props, State> {
           <Heading>Assign to fields</Heading>
           {contentTypes.length > 0 ? (
             <Paragraph>
-              This app can be used only with <strong>JSON object</strong> fields. Select for which
-              ones you want to enable this app.
+              This app can only be used with <strong>JSON object</strong> fields. Select which ones
+              you’d like to enable this app.
             </Paragraph>
           ) : (
             <>
