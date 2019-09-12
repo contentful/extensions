@@ -1,0 +1,8 @@
+{
+  "id": "image-metadata",
+  "name": "image-metadata",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": [
+    "Object"
+  ]
+}
