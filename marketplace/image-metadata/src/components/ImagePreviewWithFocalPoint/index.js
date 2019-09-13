@@ -1,0 +1,1 @@
+export { ImagePreviewWithFocalPoint } from './ImagePreviewWithFocalPoint';
