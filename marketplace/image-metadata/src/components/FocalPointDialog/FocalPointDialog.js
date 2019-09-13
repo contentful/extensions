@@ -49,12 +49,12 @@ export class FocalPointDialog extends Component {
     };
   };
 
-  onImageClick = ({ clientX, clientY, target }) => {
+  onImageClick = e => {
     const { file } = this.props;
 
-    const rect = target.getBoundingClientRect();
-    const x = clientX - rect.left; //x position within the element.
-    const y = clientY - rect.top; //y position within the element.
+    const rect = e.target.getBoundingClientRect();
+    const x = e.pageX - rect.left; //x position within the element.
+    const y = e.pageY - rect.top; //y position within the element.
 
     const { width, height } = file.details.image;
 
@@ -78,17 +78,21 @@ export class FocalPointDialog extends Component {
         <Modal.Header title="Focal point preview" onClose={this.props.onClose} />
         <Modal.Content>
           <div className={styles.modalContent}>
-            <div className={styles.previewWrapper}>
-              <img
-                ref={this.imgRef}
-                src={file.url}
-                className={styles.previewWrapperImg}
-                onClick={this.onImageClick}
-              />
-              {imgElementRect && <FocalPoint focalPoint={this.getAdjustedFocalPointForUI()} />}
+            <div>
+              <Heading>Set a focal point</Heading>
+              <div className={styles.previewWrapper}>
+                <img
+                  ref={this.imgRef}
+                  src={file.url}
+                  className={styles.previewWrapperImg}
+                  onClick={this.onImageClick}
+                />
+                {imgElementRect && <FocalPoint focalPoint={this.getAdjustedFocalPointForUI()} />}
+              </div>
             </div>
             <div className={styles.focalPointDemo}>
-              <div style={{ marginBottom: '5px' }}>
+              <Heading>Preview</Heading>
+              <div>
                 <ImagePreviewWithFocalPoint file={file} focalPoint={focalPoint} />
                 <ImagePreviewWithFocalPoint
                   file={file}
@@ -97,7 +101,7 @@ export class FocalPointDialog extends Component {
                   wrapperHeight={225}
                 />
               </div>
-              <div>
+              <div className={styles.spacingTop}>
                 <ImagePreviewWithFocalPoint file={file} focalPoint={focalPoint} />
                 <ImagePreviewWithFocalPoint file={file} focalPoint={focalPoint} zoom={2} />
                 <ImagePreviewWithFocalPoint file={file} focalPoint={focalPoint} zoom={3} />

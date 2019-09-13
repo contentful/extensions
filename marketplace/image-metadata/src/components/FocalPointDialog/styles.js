@@ -19,12 +19,15 @@ export const styles = {
   focalPointDemo: css({
     display: 'flex',
     flexDirection: 'column',
+    marginLeft: tokens.spacing2Xl,
     '& > div': {
-      marginLeft: '25px',
       display: 'flex',
       '& > div ~ div': {
-        marginLeft: '5px'
+        marginLeft: tokens.spacingXs
       }
     }
+  }),
+  spacingTop: css({
+    marginTop: tokens.spacingXs
   })
 };

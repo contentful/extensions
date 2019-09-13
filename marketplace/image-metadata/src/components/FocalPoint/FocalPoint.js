@@ -8,7 +8,7 @@ export const FocalPoint = ({ focalPoint }) => (
     style={{
       width: '32px',
       height: '32px',
-      transform: `translate3d(${focalPoint.x - 16}px, ${focalPoint.y - 16}px, 0)`,
+      transform: `translate3d(${focalPoint.x - 18}px, ${focalPoint.y - 18}px, 0)`,
       top: 0,
       left: 0
     }}

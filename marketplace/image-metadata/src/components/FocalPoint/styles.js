@@ -6,7 +6,6 @@ const { red, green, blue } = hexRgb(tokens.colorElementMid);
 
 export const styles = {
   focalPoint: css({
-    // backgroundColor: tokens.colorElementMid,
     backgroundColor: `rgba(${red}, ${green}, ${blue}, 0.5)`,
     borderRadius: '50%',
     border: `2px solid ${tokens.colorElementDarkest}`,
