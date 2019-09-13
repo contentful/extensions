@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { styles } from './styles';
+
 export const FocalPoint = ({ focalPoint }) => (
   <div
     style={{
-      width: '8px',
-      height: '8px',
-      borderRadius: '50%',
-      backgroundColor: 'red',
-      border: '1px solid grey',
-      top: `${focalPoint.y - 4}px`,
-      left: `${focalPoint.x - 4}px`,
-      position: 'absolute'
+      width: '32px',
+      height: '32px',
+      transform: `translate3d(${focalPoint.x - 16}px, ${focalPoint.y - 16}px, 0)`,
+      top: 0,
+      left: 0
     }}
+    className={styles.focalPoint}
   />
 );
 
