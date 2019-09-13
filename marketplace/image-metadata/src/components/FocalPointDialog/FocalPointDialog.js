@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Heading, Modal } from '@contentful/forma-36-react-components';
 
-import './FocalPointDialog.css';
 import { FocalPoint } from '../FocalPoint';
-// import { FocalPointPreviewImage } from './FocalPointPreviewImage';
+import { ImagePreviewWithFocalPoint } from '../ImagePreviewWithFocalPoint';
+
+import { styles } from './styles';
+
 export class FocalPointDialog extends Component {
   static propTypes = {
     file: PropTypes.object.isRequired,
@@ -75,28 +77,33 @@ export class FocalPointDialog extends Component {
       <>
         <Modal.Header title="Focal point preview" onClose={this.props.onClose} />
         <Modal.Content>
-          <div className="modal-content">
-            <div className="preview-wrapper">
-              <img ref={this.imgRef} src={file.url} onClick={this.onImageClick} />
+          <div className={styles.modalContent}>
+            <div className={styles.previewWrapper}>
+              <img
+                ref={this.imgRef}
+                src={file.url}
+                className={styles.previewWrapperImg}
+                onClick={this.onImageClick}
+              />
               {imgElementRect && <FocalPoint focalPoint={this.getAdjustedFocalPointForUI()} />}
             </div>
+            <div className={styles.focalPointDemo}>
+              <div>
+                <ImagePreviewWithFocalPoint file={file} focalPoint={focalPoint} />
+                <ImagePreviewWithFocalPoint
+                  file={file}
+                  focalPoint={focalPoint}
+                  wrapperWidth={300}
+                  wrapperHeight={112.5}
+                />
+              </div>
+              <div>
+                <ImagePreviewWithFocalPoint file={file} focalPoint={focalPoint} />
+                <ImagePreviewWithFocalPoint file={file} focalPoint={focalPoint} zoom={2} />
+                <ImagePreviewWithFocalPoint file={file} focalPoint={focalPoint} zoom={3} />
+              </div>
+            </div>
           </div>
-          {/* <Heading element="h1">Aspect ratio demo</Heading>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <FocalPointPreviewImage file={file} focalPoint={focalPoint} />
-        <FocalPointPreviewImage
-          file={file}
-          focalPoint={focalPoint}
-          wrapperWidth={590}
-          wrapperHeight={375}
-        />
-      </div>
-      <Heading element="h1">Zoom demo</Heading>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <FocalPointPreviewImage file={file} focalPoint={focalPoint} />
-        <FocalPointPreviewImage file={file} focalPoint={focalPoint} zoom={2} />
-        <FocalPointPreviewImage file={file} focalPoint={focalPoint} zoom={3} />
-      </div> */}
         </Modal.Content>
         <Modal.Controls>
           <Button onClick={() => this.props.onSave(this.state.focalPoint)} buttonType="positive">
