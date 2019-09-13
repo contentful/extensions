@@ -1,49 +1,61 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import tokens from '@contentful/forma-36-tokens';
+import { clamp } from '../../utils';
 
-export const ImagePreviewWithFocalPoint = props => {
-  const {
-    file: {
-      url,
-      fileName,
-      details: {
-        image: { width: actualImgWidth, height: actualImgHeight }
-      }
-    },
-    focalPoint,
-    zoom
-  } = props;
-
-  const maxWidth = props.wrapperWidth || 150;
+export const ImagePreviewWithFocalPoint = ({
+  file: {
+    url,
+    fileName,
+    details: {
+      image: { width: actualImgWidth, height: actualImgHeight }
+    }
+  },
+  zoom,
+  ...otherProps
+}) => {
+  const maxWidth = otherProps.wrapperWidth || 150;
   const sizingRatio = actualImgWidth / maxWidth;
 
-  const imgWidth = Math.min(actualImgWidth, maxWidth);
-  const imgHeight = actualImgHeight / sizingRatio;
-  const wrapperWidth = props.wrapperWidth || imgWidth;
-  const wrapperHeight = props.wrapperHeight || imgHeight;
+  const width = Math.min(actualImgWidth, maxWidth);
+  const height = actualImgHeight / sizingRatio;
+  const imgWidth = width * zoom;
+  const imgHeight = height * zoom;
+  const wrapperWidth = otherProps.wrapperWidth || width;
+  const wrapperHeight = otherProps.wrapperHeight || height;
 
-  const xPos = ((focalPoint.x / actualImgWidth) * 100).toFixed(2);
-  const yPos = ((focalPoint.y / actualImgHeight) * 100).toFixed(2);
-  const imgStyles = {
-    backgroundImage: `url(${url})`,
-    backgroundSize: `${imgWidth * zoom}px ${imgHeight * zoom}px`,
-    backgroundPosition: `${xPos}% ${yPos}%`,
-    transition: 'background-position 350ms ease-in',
-    willChange: 'background-position'
+  const widthRatio = actualImgWidth / imgWidth;
+  const heightRatio = actualImgHeight / imgHeight;
+
+  const focalPoint = {
+    x: otherProps.focalPoint.x / widthRatio,
+    y: otherProps.focalPoint.y / heightRatio
   };
+
+  const xMin = imgWidth - wrapperWidth;
+  const yMin = imgHeight - wrapperHeight;
+  const translateX = clamp(-focalPoint.x + wrapperWidth / 2, -xMin, 0);
+  const translateY = clamp(-focalPoint.y + wrapperHeight / 2, -yMin, 0);
 
   return (
     <div>
       <div
-        role="image"
-        aria-label="fileName"
         style={{
-          ...imgStyles,
           width: wrapperWidth,
-          height: wrapperHeight
-        }}
-      />
-      <p>Zoom: x{zoom}</p>
+          height: wrapperHeight,
+          overflow: 'hidden',
+          position: 'relative'
+        }}>
+        <img
+          src={url}
+          style={{
+            width: `${imgWidth}px`,
+            height: `${imgHeight}px`,
+            transform: `translate3d(${translateX}px, ${translateY}px, 0)`,
+            transition: `transform ${tokens.transitionDurationLong} ${tokens.transitionEasingCubicBezier}`
+          }}
+        />
+      </div>
     </div>
   );
 };

@@ -88,13 +88,13 @@ export class FocalPointDialog extends Component {
               {imgElementRect && <FocalPoint focalPoint={this.getAdjustedFocalPointForUI()} />}
             </div>
             <div className={styles.focalPointDemo}>
-              <div>
+              <div style={{ marginBottom: '5px' }}>
                 <ImagePreviewWithFocalPoint file={file} focalPoint={focalPoint} />
                 <ImagePreviewWithFocalPoint
                   file={file}
                   focalPoint={focalPoint}
-                  wrapperWidth={300}
-                  wrapperHeight={112.5}
+                  wrapperWidth={305}
+                  wrapperHeight={225}
                 />
               </div>
               <div>
