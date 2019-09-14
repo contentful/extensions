@@ -14,7 +14,8 @@ const SortableList = SortableContainer(function SortableList({
   removeItem,
   locale,
   sortable,
-  isDisabled
+  isDisabled,
+  projectKey
 }) {
   return (
     <ol className="product-list">
@@ -30,6 +31,7 @@ const SortableList = SortableContainer(function SortableList({
               sortable={sortable}
               disabled={isDisabled}
               isDisabled={isDisabled}
+              projectKey={projectKey}
             />
           </li>
         );
@@ -149,6 +151,7 @@ export class CommerceToolsField extends React.Component {
   render() {
     const { isSingle, parameters } = this.props;
     const { fieldValue, isDisabled } = this.state;
+    const { locale, projectKey } = parameters;
 
     if (!this.state.apolloClient) {
       return <Spinner size="large" />;
@@ -172,10 +175,11 @@ export class CommerceToolsField extends React.Component {
             lockAxis="y"
             items={this.state.fieldValue}
             removeItem={this.onRemoveItem}
-            locale={parameters.locale}
+            locale={locale}
             onSortEnd={this.onSortEnd}
             sortable={!isSingle}
             isDisabled={isDisabled}
+            projectKey={projectKey}
             useDragHandle
           />
         </ApolloProvider>

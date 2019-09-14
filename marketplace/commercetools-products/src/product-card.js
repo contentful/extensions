@@ -31,7 +31,7 @@ function getValueByLocale(nameAllLocales, locale) {
   return val.value;
 }
 
-function ProductCard({ sku, locale, removeItem, index, sortable, isDisabled }) {
+function ProductCard({ sku, locale, removeItem, index, sortable, isDisabled, projectKey }) {
   return (
     <Query query={GET_PRODUCT_BY_SKU} variables={{ skus: [sku] }}>
       {({ loading, error, data }) => {
@@ -46,6 +46,7 @@ function ProductCard({ sku, locale, removeItem, index, sortable, isDisabled }) {
             removeItem={removeItem}
             sortable={sortable}
             isDisabled={isDisabled}
+            projectKey={projectKey}
           />
         );
       }}
@@ -64,7 +65,8 @@ ProductCard.propTypes = {
   removeItem: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   sortable: PropTypes.bool,
-  isDisabled: PropTypes.bool
+  isDisabled: PropTypes.bool,
+  projectKey: PropTypes.string.isRequired
 };
 
 export class ProductCardRenderer extends React.Component {
@@ -80,7 +82,7 @@ export class ProductCardRenderer extends React.Component {
   }
 
   render() {
-    const { loading, error, data, sku, locale, sortable, isDisabled } = this.props;
+    const { loading, error, data, sku, locale, sortable, isDisabled, projectKey } = this.props;
 
     if (loading) {
       return (
@@ -167,7 +169,7 @@ export class ProductCardRenderer extends React.Component {
               </DropdownListItem>
               <DropdownListItem
                 target="_blank"
-                href={`https://mc.commercetools.com/ivos-personal-project/products/${id}/general`}>
+                href={`https://mc.commercetools.com/${projectKey}/products/${id}/general`}>
                 Open in Merchant Center
               </DropdownListItem>
             </DropdownList>
@@ -202,7 +204,8 @@ ProductCardRenderer.propTypes = {
   removeItem: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   sortable: PropTypes.bool,
-  isDisabled: PropTypes.bool
+  isDisabled: PropTypes.bool,
+  projectKey: PropTypes.string.isRequired
 };
 
 export const SortableProductCard = SortableElement(function SortableProductCard({
@@ -211,7 +214,8 @@ export const SortableProductCard = SortableElement(function SortableProductCard(
   sku,
   itemIndex,
   sortable,
-  isDisabled
+  isDisabled,
+  projectKey
 }) {
   return (
     <ProductCard
@@ -221,6 +225,7 @@ export const SortableProductCard = SortableElement(function SortableProductCard(
       locale={locale}
       sortable={sortable}
       isDisabled={isDisabled}
+      projectKey={projectKey}
     />
   );
 });

@@ -35,6 +35,7 @@ describe('SortableProductCard', function() {
           removeItem={() => {}}
           locale="en"
           sortable={true}
+          projectKey="a-cool-project"
         />
       )
       .toJSON();
@@ -52,6 +53,7 @@ describe('ProductCardRenderer', function() {
           index={0}
           removeItem={() => {}}
           locale="en"
+          projectKey="a-cool-project"
         />
       )
       .toJSON();
@@ -68,6 +70,7 @@ describe('ProductCardRenderer', function() {
           removeItem={() => {}}
           locale="en"
           sortable={true}
+          projectKey="a-cool-project"
         />
       )
       .toJSON();
@@ -86,6 +89,7 @@ describe('ProductCardRenderer', function() {
           removeItem={() => {}}
           locale="en"
           sortable={true}
+          projectKey="a-cool-project"
         />
       )
       .toJSON();
@@ -152,6 +156,7 @@ describe('ProductCardRenderer', function() {
             locale="en"
             sortable={sortable}
             disabled={disabled}
+            projectKey="a-cool-project"
           />
         )
         .toJSON();

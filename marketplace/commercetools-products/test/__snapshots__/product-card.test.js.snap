@@ -99,7 +99,7 @@ exports[`ProductCardRenderer renders with data  1`] = `
           Remove
         </Unknown>
         <Unknown
-          href="https://mc.commercetools.com/ivos-personal-project/products/2c7f2de9-d30a-42cd-bbca-5783381efb9c/general"
+          href="https://mc.commercetools.com/a-cool-project/products/2c7f2de9-d30a-42cd-bbca-5783381efb9c/general"
           target="_blank"
         >
           Open in Merchant Center
@@ -135,7 +135,7 @@ exports[`ProductCardRenderer renders with data and disabled 1`] = `
           Remove
         </Unknown>
         <Unknown
-          href="https://mc.commercetools.com/ivos-personal-project/products/2c7f2de9-d30a-42cd-bbca-5783381efb9c/general"
+          href="https://mc.commercetools.com/a-cool-project/products/2c7f2de9-d30a-42cd-bbca-5783381efb9c/general"
           target="_blank"
         >
           Open in Merchant Center
@@ -171,7 +171,7 @@ exports[`ProductCardRenderer renders with data and sortable 1`] = `
           Remove
         </Unknown>
         <Unknown
-          href="https://mc.commercetools.com/ivos-personal-project/products/2c7f2de9-d30a-42cd-bbca-5783381efb9c/general"
+          href="https://mc.commercetools.com/a-cool-project/products/2c7f2de9-d30a-42cd-bbca-5783381efb9c/general"
           target="_blank"
         >
           Open in Merchant Center
@@ -207,7 +207,7 @@ exports[`ProductCardRenderer renders with data and sortable and disabled 1`] = `
           Remove
         </Unknown>
         <Unknown
-          href="https://mc.commercetools.com/ivos-personal-project/products/2c7f2de9-d30a-42cd-bbca-5783381efb9c/general"
+          href="https://mc.commercetools.com/a-cool-project/products/2c7f2de9-d30a-42cd-bbca-5783381efb9c/general"
           target="_blank"
         >
           Open in Merchant Center

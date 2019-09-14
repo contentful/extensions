@@ -29,6 +29,15 @@ jest.mock('../src/apollo.js', () => ({
 const { CommerceToolsField } = require('./../src/field.js');
 
 describe('CommerceToolsField', function() {
+  const parameters = {
+    projectKey: 'a-project-key',
+    clientId: '',
+    clientSecret: '',
+    apiUri: '',
+    authUri: '',
+    locale: 'en'
+  };
+
   test('Renders a spinner while loading ApolloClient', function() {
     const extension = {
       field: {
@@ -38,14 +47,6 @@ describe('CommerceToolsField', function() {
         onValueChanged() {},
         onIsDisabledChanged() {}
       }
-    };
-    const parameters = {
-      projectKey: '',
-      clientId: '',
-      clientSecret: '',
-      apiUri: '',
-      authUri: '',
-      locale: 'en'
     };
 
     const tree = renderer
@@ -65,14 +66,6 @@ describe('CommerceToolsField', function() {
           onValueChanged() {},
           onIsDisabledChanged() {}
         }
-      };
-      const parameters = {
-        projectKey: '',
-        clientId: '',
-        clientSecret: '',
-        apiUri: '',
-        authUri: '',
-        locale: 'en'
       };
 
       const component = renderer.create(
@@ -95,14 +88,6 @@ describe('CommerceToolsField', function() {
         onValueChanged() {},
         onIsDisabledChanged() {}
       }
-    };
-    const parameters = {
-      projectKey: '',
-      clientId: '',
-      clientSecret: '',
-      apiUri: '',
-      authUri: '',
-      locale: 'en'
     };
 
     const component = renderer.create(
@@ -127,14 +112,6 @@ describe('CommerceToolsField', function() {
             }
           }
         };
-        const parameters = {
-          projectKey: '',
-          clientId: '',
-          clientSecret: '',
-          apiUri: '',
-          authUri: '',
-          locale: 'en'
-        };
 
         const component = renderer.create(
           <CommerceToolsField extension={extension} parameters={parameters} isSingle={isSingle} />
@@ -158,14 +135,6 @@ describe('CommerceToolsField', function() {
             fn(true);
           }
         }
-      };
-      const parameters = {
-        projectKey: '',
-        clientId: '',
-        clientSecret: '',
-        apiUri: '',
-        authUri: '',
-        locale: 'en'
       };
 
       const component = renderer.create(
