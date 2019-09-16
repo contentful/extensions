@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Heading, Modal } from '@contentful/forma-36-react-components';
+import { Button, Subheading, Modal } from '@contentful/forma-36-react-components';
 
 import { FocalPoint } from '../FocalPoint';
 import { ImagePreviewWithFocalPoint } from '../ImagePreviewWithFocalPoint';
 
-import { styles } from './styles';
+import { MAX_PREVIEW_WRAPPER_SIZE, styles } from './styles';
 
 export class FocalPointDialog extends Component {
   static propTypes = {
@@ -37,12 +37,12 @@ export class FocalPointDialog extends Component {
     const widthRatio = width / imgElementRect.width;
     const heightRatio = height / imgElementRect.height;
 
-    const marginLeft = parseInt(getComputedStyle(this.imgRef.current).marginLeft);
-    const marginTop = parseInt(getComputedStyle(this.imgRef.current).marginTop);
+    const marginLeft = Math.max((MAX_PREVIEW_WRAPPER_SIZE - imgElementRect.width) / 2, 0);
+    const marginTop = Math.max((MAX_PREVIEW_WRAPPER_SIZE - imgElementRect.height) / 2, 0);
 
     return {
-      x: Math.round(focalPoint.x / widthRatio) + marginLeft,
-      y: Math.round(focalPoint.y / heightRatio) + marginTop
+      x: Math.round(focalPoint.x / widthRatio + marginLeft),
+      y: Math.round(focalPoint.y / heightRatio + marginTop)
     };
   };
 
@@ -79,11 +79,11 @@ export class FocalPointDialog extends Component {
 
     return (
       <>
-        <Modal.Header title="Focal point preview" onClose={this.props.onClose} />
+        <Modal.Header title="Focal point metadata" onClose={this.props.onClose} />
         <Modal.Content>
           <div className={styles.modalContent}>
             <div>
-              <Heading>Set a focal point</Heading>
+              <Subheading>Set a focal point</Subheading>
               <div className={styles.previewWrapper}>
                 <img
                   ref={this.imgRef}
@@ -98,7 +98,7 @@ export class FocalPointDialog extends Component {
               </div>
             </div>
             <div className={styles.focalPointDemo}>
-              <Heading>Preview</Heading>
+              <Subheading>Preview example for different displays</Subheading>
               <div>
                 <ImagePreviewWithFocalPoint
                   file={file}

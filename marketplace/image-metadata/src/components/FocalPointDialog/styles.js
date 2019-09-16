@@ -1,15 +1,20 @@
 import { css } from 'emotion';
 import tokens from '@contentful/forma-36-tokens';
 
+export const MAX_PREVIEW_WRAPPER_SIZE = 300;
+
 export const styles = {
   modalContent: css({
     display: 'flex'
   }),
   previewWrapper: css({
     backgroundColor: tokens.colorElementLight,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
     position: 'relative',
-    minWidth: '300px',
-    height: '300px'
+    minWidth: `${MAX_PREVIEW_WRAPPER_SIZE}px`,
+    height: `${MAX_PREVIEW_WRAPPER_SIZE}px`
   }),
   previewWrapperImg: css({
     cursor: 'crosshair',
