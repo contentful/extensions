@@ -19,7 +19,7 @@ export class App extends React.Component {
     super(props);
     this.state = {
       value: props.sdk.field.getValue() || {
-        focalPoint: {}
+        focalPoint: { x: 0, y: 0 }
       }
     };
   }
