@@ -95,9 +95,11 @@ export class App extends React.Component {
   };
 
   render() {
-    const { x, y } = this.state.value.focalPoint;
     return (
-      <FocalPointView showFocalPointDialog={this.showFocalPointDialog} focalPoint={{ x, y }} />
+      <FocalPointView
+        showFocalPointDialog={this.showFocalPointDialog}
+        focalPoint={this.state.value.focalPoint}
+      />
     );
   }
 }
