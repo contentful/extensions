@@ -11,6 +11,7 @@ export const ImagePreviewWithFocalPoint = ({
       image: { width: actualImgWidth, height: actualImgHeight }
     }
   },
+  subtitle,
   zoom,
   ...otherProps
 }) => {
@@ -56,6 +57,7 @@ export const ImagePreviewWithFocalPoint = ({
           }}
         />
       </div>
+      {subtitle && <p>{subtitle}</p>}
     </div>
   );
 };
@@ -75,11 +77,13 @@ ImagePreviewWithFocalPoint.propTypes = {
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired
   }).isRequired,
+  subtitle: PropTypes.string,
   wrapperWidth: PropTypes.number,
   wrapperHeight: PropTypes.number,
   zoom: PropTypes.number
 };
 
 ImagePreviewWithFocalPoint.defaultProps = {
+  subtitle: '',
   zoom: 1
 };

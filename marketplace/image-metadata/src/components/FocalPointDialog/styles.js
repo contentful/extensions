@@ -6,7 +6,9 @@ export const styles = {
     display: 'flex'
   }),
   previewWrapper: css({
+    backgroundColor: tokens.colorElementLight,
     position: 'relative',
+    minWidth: '300px',
     height: '300px'
   }),
   previewWrapperImg: css({
@@ -26,6 +28,9 @@ export const styles = {
         marginLeft: tokens.spacingXs
       }
     }
+  }),
+  previewHeading: css({
+    marginTop: tokens.spacingM
   }),
   spacingTop: css({
     marginTop: tokens.spacingXs

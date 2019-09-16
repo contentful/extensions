@@ -29,12 +29,6 @@ export class FocalPointDialog extends Component {
     imgElementRect: null
   };
 
-  componentDidMount() {
-    this.setState({
-      imgElementRect: this.imgRef.current.getBoundingClientRect()
-    });
-  }
-
   getAdjustedFocalPointForUI = () => {
     const { file } = this.props;
     const { focalPoint, imgElementRect } = this.state;
@@ -43,9 +37,12 @@ export class FocalPointDialog extends Component {
     const widthRatio = width / imgElementRect.width;
     const heightRatio = height / imgElementRect.height;
 
+    const marginLeft = parseInt(getComputedStyle(this.imgRef.current).marginLeft);
+    const marginTop = parseInt(getComputedStyle(this.imgRef.current).marginTop);
+
     return {
-      x: Math.round(focalPoint.x / widthRatio),
-      y: Math.round(focalPoint.y / heightRatio)
+      x: Math.round(focalPoint.x / widthRatio) + marginLeft,
+      y: Math.round(focalPoint.y / heightRatio) + marginTop
     };
   };
 
@@ -53,8 +50,8 @@ export class FocalPointDialog extends Component {
     const { file } = this.props;
 
     const rect = e.target.getBoundingClientRect();
-    const x = e.pageX - rect.left; //x position within the element.
-    const y = e.pageY - rect.top; //y position within the element.
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
     const { width, height } = file.details.image;
 
@@ -69,9 +66,16 @@ export class FocalPointDialog extends Component {
     });
   };
 
+  onImageLoad = e => {
+    this.setState({
+      imgElementRect: e.target.getBoundingClientRect()
+    });
+  };
+
   render() {
     const { file, sdk } = this.props;
     const { focalPoint, imgElementRect } = this.state;
+    const shouldRenderFocalPoint = !!focalPoint && !!imgElementRect;
 
     return (
       <>
@@ -86,25 +90,40 @@ export class FocalPointDialog extends Component {
                   src={file.url}
                   className={styles.previewWrapperImg}
                   onClick={this.onImageClick}
+                  onLoad={this.onImageLoad}
                 />
-                {imgElementRect && <FocalPoint focalPoint={this.getAdjustedFocalPointForUI()} />}
+                {shouldRenderFocalPoint && (
+                  <FocalPoint focalPoint={this.getAdjustedFocalPointForUI()} />
+                )}
               </div>
             </div>
             <div className={styles.focalPointDemo}>
               <Heading>Preview</Heading>
               <div>
-                <ImagePreviewWithFocalPoint file={file} focalPoint={focalPoint} />
                 <ImagePreviewWithFocalPoint
                   file={file}
                   focalPoint={focalPoint}
-                  wrapperWidth={305}
-                  wrapperHeight={225}
+                  wrapperWidth={120}
+                  wrapperHeight={180}
+                  zoom={2}
+                  subtitle="Mobile"
+                />
+                <ImagePreviewWithFocalPoint
+                  file={file}
+                  focalPoint={focalPoint}
+                  wrapperWidth={280}
+                  wrapperHeight={180}
+                  subtitle="Tablet"
                 />
               </div>
-              <div className={styles.spacingTop}>
-                <ImagePreviewWithFocalPoint file={file} focalPoint={focalPoint} />
-                <ImagePreviewWithFocalPoint file={file} focalPoint={focalPoint} zoom={2} />
-                <ImagePreviewWithFocalPoint file={file} focalPoint={focalPoint} zoom={3} />
+              <div>
+                <ImagePreviewWithFocalPoint
+                  file={file}
+                  focalPoint={focalPoint}
+                  wrapperWidth={410}
+                  wrapperHeight={180}
+                  subtitle="Desktop"
+                />
               </div>
             </div>
           </div>
