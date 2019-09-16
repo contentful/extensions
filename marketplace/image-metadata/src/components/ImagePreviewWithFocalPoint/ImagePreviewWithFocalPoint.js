@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import tokens from '@contentful/forma-36-tokens';
 import { clamp } from '../../utils';
 
-function getZoomToFitFactor(imgWidth, imgHeight, wrapperWidth, wrapperHeight) {
+function getZoomFactor(imgWidth, imgHeight, wrapperWidth, wrapperHeight) {
   const widthFactor = Math.max(wrapperWidth / imgWidth, 1);
   const heightFactor = Math.max(wrapperHeight / imgHeight, 1);
   return Math.max(widthFactor, heightFactor);
@@ -18,22 +18,19 @@ export const ImagePreviewWithFocalPoint = ({
     }
   },
   subtitle,
-  zoomToFit,
   ...otherProps
 }) => {
-  const maxWidth = otherProps.wrapperWidth || 150;
-  const sizingRatio = actualImgWidth / maxWidth;
-
-  const width = Math.min(actualImgWidth, maxWidth);
+  const width = otherProps.wrapperWidth || 150;
+  const sizingRatio = actualImgWidth / width;
   const height = actualImgHeight / sizingRatio;
 
   const wrapperWidth = otherProps.wrapperWidth || width;
   const wrapperHeight = otherProps.wrapperHeight || height;
 
-  const zoom = zoomToFit ? getZoomToFitFactor(width, height, wrapperWidth, wrapperHeight) : 1;
+  const zoom = getZoomFactor(width, height, wrapperWidth, wrapperHeight);
 
-  const imgWidth = width * zoom;
-  const imgHeight = height * zoom;
+  const imgWidth = Math.round(width * zoom);
+  const imgHeight = Math.round(height * zoom);
 
   const widthRatio = actualImgWidth / imgWidth;
   const heightRatio = actualImgHeight / imgHeight;
@@ -89,11 +86,9 @@ ImagePreviewWithFocalPoint.propTypes = {
   }).isRequired,
   subtitle: PropTypes.string,
   wrapperWidth: PropTypes.number,
-  wrapperHeight: PropTypes.number,
-  zoomToFit: PropTypes.bool
+  wrapperHeight: PropTypes.number
 };
 
 ImagePreviewWithFocalPoint.defaultProps = {
-  subtitle: '',
-  zoomToFit: false
+  subtitle: ''
 };
