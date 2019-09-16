@@ -105,8 +105,8 @@ export class FocalPointDialog extends Component {
                   focalPoint={focalPoint}
                   wrapperWidth={120}
                   wrapperHeight={180}
-                  zoom={2}
                   subtitle="Mobile"
+                  zoomToFit
                 />
                 <ImagePreviewWithFocalPoint
                   file={file}
@@ -114,6 +114,7 @@ export class FocalPointDialog extends Component {
                   wrapperWidth={280}
                   wrapperHeight={180}
                   subtitle="Tablet"
+                  zoomToFit
                 />
               </div>
               <div>
@@ -123,6 +124,7 @@ export class FocalPointDialog extends Component {
                   wrapperWidth={410}
                   wrapperHeight={180}
                   subtitle="Desktop"
+                  zoomToFit
                 />
               </div>
             </div>

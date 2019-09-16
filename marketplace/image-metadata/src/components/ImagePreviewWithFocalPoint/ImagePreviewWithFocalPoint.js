@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import tokens from '@contentful/forma-36-tokens';
 import { clamp } from '../../utils';
 
+function getZoomToFitFactor(imgWidth, imgHeight, wrapperWidth, wrapperHeight) {
+  const widthFactor = Math.max(wrapperWidth / imgWidth, 1);
+  const heightFactor = Math.max(wrapperHeight / imgHeight, 1);
+  return Math.max(widthFactor, heightFactor);
+}
+
 export const ImagePreviewWithFocalPoint = ({
   file: {
     url,
@@ -12,7 +18,7 @@ export const ImagePreviewWithFocalPoint = ({
     }
   },
   subtitle,
-  zoom,
+  zoomToFit,
   ...otherProps
 }) => {
   const maxWidth = otherProps.wrapperWidth || 150;
@@ -20,10 +26,14 @@ export const ImagePreviewWithFocalPoint = ({
 
   const width = Math.min(actualImgWidth, maxWidth);
   const height = actualImgHeight / sizingRatio;
-  const imgWidth = width * zoom;
-  const imgHeight = height * zoom;
+
   const wrapperWidth = otherProps.wrapperWidth || width;
   const wrapperHeight = otherProps.wrapperHeight || height;
+
+  const zoom = zoomToFit ? getZoomToFitFactor(width, height, wrapperWidth, wrapperHeight) : 1;
+
+  const imgWidth = width * zoom;
+  const imgHeight = height * zoom;
 
   const widthRatio = actualImgWidth / imgWidth;
   const heightRatio = actualImgHeight / imgHeight;
@@ -80,10 +90,10 @@ ImagePreviewWithFocalPoint.propTypes = {
   subtitle: PropTypes.string,
   wrapperWidth: PropTypes.number,
   wrapperHeight: PropTypes.number,
-  zoom: PropTypes.number
+  zoomToFit: PropTypes.bool
 };
 
 ImagePreviewWithFocalPoint.defaultProps = {
   subtitle: '',
-  zoom: 1
+  zoomToFit: false
 };
