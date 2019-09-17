@@ -2,7 +2,16 @@
   "id": "image-metadata",
   "name": "image-metadata",
   "srcdoc": "./build/index.html",
-  "fieldTypes": [
-    "Object"
-  ]
+  "fieldTypes": ["Object"],
+  "parameters": {
+    "instance": [
+      {
+        "id": "imageFieldId",
+        "type": "Symbol",
+        "name": "ID of image field",
+        "description": "Provide the ID of your image field",
+        "required": true
+      }
+    ]
+  }
 }

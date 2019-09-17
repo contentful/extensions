@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
+import { Note } from '@contentful/forma-36-react-components';
 import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
 
 import { FocalPointView } from './components/FocalPointView';
 import { FocalPointDialog } from './components/FocalPointDialog';
+import { getField, isCompatibleImageField } from './utils';
 
 export class App extends React.Component {
   static propTypes = {
@@ -25,10 +27,12 @@ export class App extends React.Component {
   }
 
   componentDidMount() {
-    this.props.sdk.window.startAutoResizer();
+    const { sdk } = this.props;
+
+    sdk.window.startAutoResizer();
 
     // Handler for external field value changes (e.g. when multiple authors are working on the same entry).
-    this.detachExternalChangeHandler = this.props.sdk.field.onValueChanged(this.onExternalChange);
+    this.detachExternalChangeHandler = sdk.field.onValueChanged(this.onExternalChange);
   }
 
   componentWillUnmount() {
@@ -70,32 +74,69 @@ export class App extends React.Component {
 
   showFocalPointDialog = async () => {
     const {
-      sdk: { space, entry }
+      sdk: {
+        notifier,
+        space,
+        entry,
+        parameters: { instance }
+      }
     } = this.props;
 
-    const asset = await space.getAsset(entry.fields.articleImg.getValue().sys.id);
-    const file = asset.fields.file[this.findProperLocale()];
+    try {
+      const imageField = entry.fields[instance.imageFieldId];
+      const asset = await space.getAsset(imageField.getValue().sys.id);
+      const file = asset.fields.file[this.findProperLocale()];
+      const imageUrl = file.url;
+      const isOfImageMimeType = /image\/.*/.test(file.contentType);
 
-    const focalPoint = await this.props.sdk.dialogs.openExtension({
-      id: 'image-metadata',
-      width: 1000,
-      parameters: {
-        file,
-        focalPoint: this.state.value.focalPoint
+      if (!isOfImageMimeType) {
+        notifier.error('The uploaded asset must be an image');
+        return;
       }
-    });
 
-    if (focalPoint) {
-      this.setFocalPoint(focalPoint);
+      if (!imageUrl) {
+        notifier.error('Add an image to the entry first');
+        return;
+      }
+
+      const focalPoint = await this.props.sdk.dialogs.openExtension({
+        id: 'image-metadata',
+        width: 1000,
+        parameters: {
+          file,
+          focalPoint: this.state.value.focalPoint
+        }
+      });
+
+      if (focalPoint) {
+        this.setFocalPoint(focalPoint);
+      }
+    } catch (e) {
+      notifier.error('Add an image to the entry first');
+      return;
     }
   };
 
   render() {
+    const { sdk } = this.props;
+    const { imageFieldId } = sdk.parameters.instance;
+    const imageField = getField(sdk.contentType, imageFieldId);
+    const isImageField = isCompatibleImageField(imageField);
+    const hasValidConfig = !!imageFieldId && isImageField;
+
+    if (hasValidConfig) {
+      return (
+        <FocalPointView
+          showFocalPointDialog={this.showFocalPointDialog}
+          focalPoint={this.state.value.focalPoint}
+        />
+      );
+    }
+
     return (
-      <FocalPointView
-        showFocalPointDialog={this.showFocalPointDialog}
-        focalPoint={this.state.value.focalPoint}
-      />
+      <Note noteType="negative">
+        Could not find a field of type Asset with the ID "{imageFieldId}"
+      </Note>
     );
   }
 }
