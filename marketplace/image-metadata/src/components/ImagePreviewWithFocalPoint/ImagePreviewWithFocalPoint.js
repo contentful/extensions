@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import tokens from '@contentful/forma-36-tokens';
 import { clamp } from '../../utils';
 
-function getZoomFactor(imgWidth, imgHeight, wrapperWidth, wrapperHeight) {
-  const widthFactor = Math.max(wrapperWidth / imgWidth, 1);
-  const heightFactor = Math.max(wrapperHeight / imgHeight, 1);
-  return Math.max(widthFactor, heightFactor);
+function getZoomFactor(imgHeight, wrapperHeight) {
+  return Math.max(1, wrapperHeight / imgHeight);
+}
+
+function getTranslateValue(coord, wrapperSize, imgSize) {
+  const min = imgSize - wrapperSize;
+  const translate = -coord + wrapperSize / 2;
+  return clamp(translate, -min, 0);
 }
 
 export const ImagePreviewWithFocalPoint = ({
@@ -14,36 +18,33 @@ export const ImagePreviewWithFocalPoint = ({
     url,
     fileName,
     details: {
-      image: { width: actualImgWidth, height: actualImgHeight }
+      image: { width: originalImgWidth, height: originalImgHeight }
     }
   },
   subtitle,
+  wrapperWidth,
   ...otherProps
 }) => {
-  const width = otherProps.wrapperWidth || 150;
-  const sizingRatio = actualImgWidth / width;
-  const height = actualImgHeight / sizingRatio;
+  const sizingRatio = originalImgWidth / wrapperWidth;
+  const baseImgHeight = originalImgHeight / sizingRatio;
 
-  const wrapperWidth = otherProps.wrapperWidth || width;
-  const wrapperHeight = otherProps.wrapperHeight || height;
+  const wrapperHeight = otherProps.wrapperHeight || baseImgHeight;
 
-  const zoom = getZoomFactor(width, height, wrapperWidth, wrapperHeight);
+  const zoom = getZoomFactor(baseImgHeight, wrapperHeight);
 
-  const imgWidth = Math.round(width * zoom);
-  const imgHeight = Math.round(height * zoom);
+  const imgWidth = Math.round(wrapperWidth * zoom);
+  const imgHeight = Math.round(baseImgHeight * zoom);
 
-  const widthRatio = actualImgWidth / imgWidth;
-  const heightRatio = actualImgHeight / imgHeight;
+  const widthRatio = originalImgWidth / imgWidth;
+  const heightRatio = originalImgHeight / imgHeight;
 
   const focalPoint = {
     x: otherProps.focalPoint.x / widthRatio,
     y: otherProps.focalPoint.y / heightRatio
   };
 
-  const xMin = imgWidth - wrapperWidth;
-  const yMin = imgHeight - wrapperHeight;
-  const translateX = clamp(-focalPoint.x + wrapperWidth / 2, -xMin, 0);
-  const translateY = clamp(-focalPoint.y + wrapperHeight / 2, -yMin, 0);
+  const translateX = getTranslateValue(focalPoint.x, wrapperWidth, imgWidth);
+  const translateY = getTranslateValue(focalPoint.y, wrapperHeight, imgHeight);
 
   return (
     <div>
@@ -84,11 +85,12 @@ ImagePreviewWithFocalPoint.propTypes = {
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired
   }).isRequired,
-  subtitle: PropTypes.string,
+  wrapperHeight: PropTypes.number,
   wrapperWidth: PropTypes.number,
-  wrapperHeight: PropTypes.number
+  subtitle: PropTypes.string
 };
 
 ImagePreviewWithFocalPoint.defaultProps = {
+  wrapperWidth: 150,
   subtitle: ''
 };

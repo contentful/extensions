@@ -60,16 +60,12 @@ export class App extends React.Component {
   }
 
   setFocalPoint = focalPoint => {
-    this.setState({
-      value: {
-        ...this.state.value,
-        focalPoint
-      }
-    });
-    this.props.sdk.field.setValue({
+    const value = {
       ...this.state.value,
       focalPoint
-    });
+    };
+    this.setState({ value });
+    this.props.sdk.field.setValue(value);
   };
 
   showFocalPointDialog = async () => {

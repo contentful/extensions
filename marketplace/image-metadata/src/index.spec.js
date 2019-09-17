@@ -1,5 +1,6 @@
 import React from 'react';
-import { App } from './index';
+import { locations } from 'contentful-ui-extensions-sdk';
+import { App, renderDialog } from './index';
 import { render, fireEvent, cleanup, configure } from '@testing-library/react';
 
 configure({
@@ -30,33 +31,17 @@ describe('App', () => {
   afterEach(cleanup);
 
   it('should read a value from field.getValue() and subscribe for external changes', () => {
-    sdk.field.getValue.mockImplementation(() => 'initial-value');
+    const initialValue = 'x: 0px / y: 0px';
+    sdk.field.getValue.mockImplementation(() => initialValue);
     const { getByTestId } = renderComponent(sdk);
 
     expect(sdk.field.getValue).toHaveBeenCalled();
     expect(sdk.field.onValueChanged).toHaveBeenCalled();
-    expect(getByTestId('my-field').value).toEqual('initial-value');
+    expect(getByTestId('focal-point').value).toEqual(initialValue);
   });
 
-  it('should call starstartAutoResizer', () => {
+  it('should call startAutoResizer', () => {
     renderComponent(sdk);
     expect(sdk.window.startAutoResizer).toHaveBeenCalled();
-  });
-
-  it('should call setValue on every change in input and removeValue when input gets empty', () => {
-    const { getByTestId } = renderComponent(sdk);
-
-    fireEvent.change(getByTestId('my-field'), {
-      target: { value: 'new-value' }
-    });
-
-    expect(sdk.field.setValue).toHaveBeenCalledWith('new-value');
-
-    fireEvent.change(getByTestId('my-field'), {
-      target: { value: '' }
-    });
-
-    expect(sdk.field.setValue).toHaveBeenCalledTimes(1);
-    expect(sdk.field.removeValue).toHaveBeenCalledTimes(1);
   });
 });
