@@ -24,7 +24,9 @@ export default {
       }
     },
     parameters: {
-      instance: {},
+      instance: {
+        imageFieldId: 'imgFieldId'
+      },
       installation: {},
       invocation: {
         file: {
@@ -40,6 +42,84 @@ export default {
       available: ['en-US'],
       default: 'en-US',
       names: { 'en-US': 'English (United States)' }
+    },
+
+    contentType: {
+      sys: {
+        space: { sys: { type: 'Link', linkType: 'Space', id: 'l4rl0espspta' } },
+        id: 'article',
+        type: 'ContentType',
+        createdAt: '2019-09-03T12:19:45.454Z',
+        updatedAt: '2019-09-17T14:10:53.642Z',
+        environment: { sys: { id: 'master', type: 'Link', linkType: 'Environment' } },
+        revision: 22
+      },
+      name: 'Article',
+      description: 'User written articles.',
+      displayField: 'title',
+      fields: [
+        {
+          id: 'title',
+          name: 'Title',
+          type: 'Symbol',
+          localized: false,
+          required: false,
+          validations: [],
+          disabled: false,
+          omitted: false
+        },
+        {
+          id: 'createdAt',
+          name: 'Created at',
+          type: 'Date',
+          localized: false,
+          required: false,
+          validations: [],
+          disabled: false,
+          omitted: false
+        },
+        {
+          id: 'meta',
+          name: 'Meta',
+          type: 'Object',
+          localized: false,
+          required: false,
+          validations: [],
+          disabled: false,
+          omitted: false
+        },
+        {
+          id: 'person',
+          name: 'Person',
+          type: 'Object',
+          localized: false,
+          required: false,
+          validations: [],
+          disabled: false,
+          omitted: false
+        },
+        {
+          id: 'articleImg',
+          name: 'Article Image',
+          type: 'Link',
+          localized: false,
+          required: false,
+          validations: [],
+          disabled: false,
+          omitted: false,
+          linkType: 'Asset'
+        },
+        {
+          id: 'articleImageFocalPoint',
+          name: 'Article Image Focal Point',
+          type: 'Object',
+          localized: false,
+          required: false,
+          validations: [],
+          disabled: false,
+          omitted: false
+        }
+      ]
     },
     space: {},
     dialogs: {},

@@ -3,15 +3,10 @@ import { locations } from 'contentful-ui-extensions-sdk';
 import { App, renderDialog } from './index';
 import { render, fireEvent, cleanup, configure } from '@testing-library/react';
 
-configure({
-  testIdAttribute: 'data-test-id'
-});
-
-function renderComponent(sdk) {
-  return render(<App sdk={sdk} />);
-}
+import mockProps from './test/mockProps';
 
 const sdk = {
+  ...mockProps.sdk,
   field: {
     getValue: jest.fn(),
     onValueChanged: jest.fn(),
@@ -22,6 +17,19 @@ const sdk = {
     startAutoResizer: jest.fn()
   }
 };
+
+jest.mock('./utils', () => ({
+  getField: jest.fn(),
+  isCompatibleImageField: () => true
+}));
+
+configure({
+  testIdAttribute: 'data-test-id'
+});
+
+function renderComponent(sdk) {
+  return render(<App sdk={sdk} />);
+}
 
 describe('App', () => {
   beforeEach(() => {
@@ -43,5 +51,24 @@ describe('App', () => {
   it('should call startAutoResizer', () => {
     renderComponent(sdk);
     expect(sdk.window.startAutoResizer).toHaveBeenCalled();
+  });
+
+  describe('#render', () => {
+    describe('when there is a valid config', () => {
+      it('should render the extension field view', () => {
+        const { container } = renderComponent(sdk);
+        expect(container).toMatchSnapshot();
+      });
+    });
+
+    describe('when there is an invalid config', () => {
+      it('should render the error message', () => {
+        const { container } = renderComponent({
+          ...sdk,
+          parameters: { instance: {} }
+        });
+        expect(container).toMatchSnapshot();
+      });
+    });
   });
 });
