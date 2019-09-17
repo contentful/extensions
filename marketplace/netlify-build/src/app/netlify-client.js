@@ -90,9 +90,22 @@ export function getAccessTokenWithTicket(ticketId, cb) {
 // Actions requiring a Netlify access token:
 
 export async function listSites(accessToken) {
-  const sites = await get('/sites?page=1&per_page=100', accessToken);
+  // Get all accounts the user has access to.
+  const accounts = await get('/accounts', accessToken);
 
-  // We can only build sites with build configuration:
+  // Get sites for each account.
+  const sitesForAccounts = await Promise.all(
+    accounts.map(account => {
+      return get(`/${account.slug}/sites?page=1&per_page=100`, accessToken);
+    })
+  );
+
+  // Flatten sites to a single list (site names are globally unique).
+  const sites = sitesForAccounts.reduce((acc, accountSites) => {
+    return [...acc, ...accountSites];
+  }, []);
+
+  // Filter out sites with no build configuration.
   const buildable = sites.filter(site => {
     const settings = site.build_settings;
     return null !== settings && typeof settings === 'object';
