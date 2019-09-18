@@ -25,7 +25,10 @@ export class FocalPointDialog extends Component {
   }
 
   state = {
-    focalPoint: this.props.focalPoint || { x: 0, y: 0 },
+    focalPoint: this.props.focalPoint || {
+      x: this.props.file.details.image.width / 2,
+      y: this.props.file.details.image.height / 2
+    },
     imgElementRect: null
   };
 
