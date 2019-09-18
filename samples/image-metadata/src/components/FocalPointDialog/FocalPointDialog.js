@@ -19,12 +19,7 @@ export class FocalPointDialog extends Component {
     sdk: PropTypes.object.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.imgRef = React.createRef();
-    this.onWindowResize = () =>
-      this.setState({ imgElementRect: this.imgRef.current.getBoundingClientRect() });
-  }
+  imgRef = React.createRef();
 
   state = {
     focalPoint: this.props.focalPoint || {
@@ -79,11 +74,15 @@ export class FocalPointDialog extends Component {
     });
   };
 
-  onImageLoad = e => {
+  onImageLoad = e =>
     this.setState({
       imgElementRect: e.target.getBoundingClientRect()
     });
-  };
+
+  onWindowResize = () =>
+    this.setState({
+      imgElementRect: this.imgRef.current.getBoundingClientRect()
+    });
 
   render() {
     const { file, sdk } = this.props;
