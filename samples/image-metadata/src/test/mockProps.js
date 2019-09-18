@@ -46,7 +46,7 @@ export default {
 
     contentType: {
       sys: {
-        space: { sys: { type: 'Link', linkType: 'Space', id: 'l4rl0espspta' } },
+        space: { sys: { type: 'Link', linkType: 'Space', id: 'x2rb1es2s3ta' } },
         id: 'article',
         type: 'ContentType',
         createdAt: '2019-09-03T12:19:45.454Z',

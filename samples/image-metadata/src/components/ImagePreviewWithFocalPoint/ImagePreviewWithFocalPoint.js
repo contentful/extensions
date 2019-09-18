@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import tokens from '@contentful/forma-36-tokens';
+import { styles } from './styles';
 import { clamp } from '../../utils';
 
 function getZoomFactor(imgHeight, wrapperHeight) {
@@ -14,6 +15,7 @@ function getTranslateValue(coord, wrapperSize, imgSize) {
 }
 
 export const ImagePreviewWithFocalPoint = ({
+  className,
   file: {
     url,
     fileName,
@@ -47,7 +49,7 @@ export const ImagePreviewWithFocalPoint = ({
   const translateY = getTranslateValue(focalPoint.y, wrapperHeight, imgHeight);
 
   return (
-    <div>
+    <div className={className}>
       <div
         style={{
           width: wrapperWidth,
@@ -65,12 +67,13 @@ export const ImagePreviewWithFocalPoint = ({
           }}
         />
       </div>
-      {subtitle && <p>{subtitle}</p>}
+      {subtitle && <p className={styles.device}>{subtitle}</p>}
     </div>
   );
 };
 
 ImagePreviewWithFocalPoint.propTypes = {
+  className: PropTypes.string,
   file: PropTypes.shape({
     url: PropTypes.string.isRequired,
     fileName: PropTypes.string.isRequired,
@@ -91,6 +94,7 @@ ImagePreviewWithFocalPoint.propTypes = {
 };
 
 ImagePreviewWithFocalPoint.defaultProps = {
+  className: '',
   wrapperWidth: 150,
   subtitle: ''
 };

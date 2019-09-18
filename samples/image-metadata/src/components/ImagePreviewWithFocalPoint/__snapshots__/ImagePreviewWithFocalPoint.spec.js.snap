@@ -2,7 +2,9 @@
 
 exports[`ImagePreviewWithFocalPoint should render the image preview with a focal point 1`] = `
 <div>
-  <div>
+  <div
+    class=""
+  >
     <div
       style="width: 320px; height: 180px; overflow: hidden; position: relative;"
     >
@@ -11,7 +13,9 @@ exports[`ImagePreviewWithFocalPoint should render the image preview with a focal
         style="width: 320px; height: 215px; transform: translate3d(0px, 0px, 0); transition: transform 0.3s cubic-bezier(0.13, 0.62, 0.11, 0.99);"
       />
     </div>
-    <p>
+    <p
+      class="css-qslnu8"
+    >
       Desktop
     </p>
   </div>

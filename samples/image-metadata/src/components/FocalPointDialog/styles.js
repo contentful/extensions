@@ -26,18 +26,18 @@ export const styles = {
   focalPointDemo: css({
     display: 'flex',
     flexDirection: 'column',
-    marginLeft: tokens.spacing2Xl,
-    '& > div': {
-      display: 'flex',
-      '& > div ~ div': {
-        marginLeft: tokens.spacingXs
-      }
-    }
+    marginLeft: tokens.spacing2Xl
+  }),
+  displayFlex: css({
+    display: 'flex'
+  }),
+  spacingLeftXs: css({
+    marginLeft: tokens.spacingXs
   }),
   previewHeading: css({
     marginTop: tokens.spacingM
   }),
-  spacingTop: css({
-    marginTop: tokens.spacingXs
+  subheading: css({
+    marginBottom: tokens.spacingXs
   })
 };

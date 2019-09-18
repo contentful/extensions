@@ -79,11 +79,11 @@ export class FocalPointDialog extends Component {
 
     return (
       <>
-        <Modal.Header title="Focal point metadata" onClose={this.props.onClose} />
+        <Modal.Header title="Set focal point" onClose={this.props.onClose} />
         <Modal.Content>
           <div className={styles.modalContent}>
             <div>
-              <Subheading>Set a focal point</Subheading>
+              <Subheading className={styles.subheading}>Select position of focal point</Subheading>
               <div className={styles.previewWrapper}>
                 <img
                   ref={this.imgRef}
@@ -98,15 +98,19 @@ export class FocalPointDialog extends Component {
               </div>
             </div>
             <div className={styles.focalPointDemo}>
-              <Subheading>Preview example for different displays</Subheading>
-              <div>
+              <Subheading className={styles.subheading}>
+                Preview for different screen sizes
+              </Subheading>
+              <div className={styles.displayFlex}>
                 <ImagePreviewWithFocalPoint
                   file={file}
                   focalPoint={focalPoint}
-                  wrapperWidth={120}
+                  wrapperWidth={410}
                   wrapperHeight={180}
-                  subtitle="Mobile"
+                  subtitle="Desktop"
                 />
+              </div>
+              <div className={styles.displayFlex}>
                 <ImagePreviewWithFocalPoint
                   file={file}
                   focalPoint={focalPoint}
@@ -114,14 +118,13 @@ export class FocalPointDialog extends Component {
                   wrapperHeight={180}
                   subtitle="Tablet"
                 />
-              </div>
-              <div>
                 <ImagePreviewWithFocalPoint
+                  className={styles.spacingLeftXs}
                   file={file}
                   focalPoint={focalPoint}
-                  wrapperWidth={410}
+                  wrapperWidth={120}
                   wrapperHeight={180}
-                  subtitle="Desktop"
+                  subtitle="Mobile"
                 />
               </div>
             </div>

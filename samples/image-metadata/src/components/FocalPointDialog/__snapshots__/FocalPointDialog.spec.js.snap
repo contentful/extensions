@@ -9,7 +9,7 @@ exports[`FocalPointDialog should render the focal point dialog 1`] = `
     <h1
       class="ModalHeader__ModalHeader__title___3IuOy"
     >
-      Focal point metadata
+      Set focal point
     </h1>
     <button
       class="IconButton__IconButton___1_XeU a11y__focus-outline--default___2hwb1 IconButton__IconButton--muted___22_IZ"
@@ -53,10 +53,10 @@ exports[`FocalPointDialog should render the focal point dialog 1`] = `
     >
       <div>
         <h2
-          class="Subheading__Subheading___2mA9j"
+          class="Subheading__Subheading___2mA9j css-cet0rr"
           data-test-id="cf-ui-subheading"
         >
-          Set a focal point
+          Select position of focal point
         </h2>
         <div
           class="css-krxy3d"
@@ -68,44 +68,20 @@ exports[`FocalPointDialog should render the focal point dialog 1`] = `
         </div>
       </div>
       <div
-        class="css-1u2vmv0"
+        class="css-1p7lqom"
       >
         <h2
-          class="Subheading__Subheading___2mA9j"
+          class="Subheading__Subheading___2mA9j css-cet0rr"
           data-test-id="cf-ui-subheading"
         >
-          Preview example for different displays
+          Preview for different screen sizes
         </h2>
-        <div>
-          <div>
-            <div
-              style="width: 120px; height: 180px; overflow: hidden; position: relative;"
-            >
-              <img
-                src="https://mycdn.com/some_image.png"
-                style="width: 268px; height: 180px; transform: translate3d(0px, 0px, 0); transition: transform 0.3s cubic-bezier(0.13, 0.62, 0.11, 0.99);"
-              />
-            </div>
-            <p>
-              Mobile
-            </p>
-          </div>
-          <div>
-            <div
-              style="width: 280px; height: 180px; overflow: hidden; position: relative;"
-            >
-              <img
-                src="https://mycdn.com/some_image.png"
-                style="width: 280px; height: 188px; transform: translate3d(0px, 0px, 0); transition: transform 0.3s cubic-bezier(0.13, 0.62, 0.11, 0.99);"
-              />
-            </div>
-            <p>
-              Tablet
-            </p>
-          </div>
-        </div>
-        <div>
-          <div>
+        <div
+          class="css-k008qs"
+        >
+          <div
+            class=""
+          >
             <div
               style="width: 410px; height: 180px; overflow: hidden; position: relative;"
             >
@@ -114,8 +90,48 @@ exports[`FocalPointDialog should render the focal point dialog 1`] = `
                 style="width: 410px; height: 276px; transform: translate3d(0px, -28.72524590163934px, 0); transition: transform 0.3s cubic-bezier(0.13, 0.62, 0.11, 0.99);"
               />
             </div>
-            <p>
+            <p
+              class="css-qslnu8"
+            >
               Desktop
+            </p>
+          </div>
+        </div>
+        <div
+          class="css-k008qs"
+        >
+          <div
+            class=""
+          >
+            <div
+              style="width: 280px; height: 180px; overflow: hidden; position: relative;"
+            >
+              <img
+                src="https://mycdn.com/some_image.png"
+                style="width: 280px; height: 188px; transform: translate3d(0px, 0px, 0); transition: transform 0.3s cubic-bezier(0.13, 0.62, 0.11, 0.99);"
+              />
+            </div>
+            <p
+              class="css-qslnu8"
+            >
+              Tablet
+            </p>
+          </div>
+          <div
+            class="css-1f2k2gl"
+          >
+            <div
+              style="width: 120px; height: 180px; overflow: hidden; position: relative;"
+            >
+              <img
+                src="https://mycdn.com/some_image.png"
+                style="width: 268px; height: 180px; transform: translate3d(0px, 0px, 0); transition: transform 0.3s cubic-bezier(0.13, 0.62, 0.11, 0.99);"
+              />
+            </div>
+            <p
+              class="css-qslnu8"
+            >
+              Mobile
             </p>
           </div>
         </div>
