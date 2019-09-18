@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { styles } from './styles';
+import { BORDER_SIZE, styles } from './styles';
+
+const SIZE = 32;
 
 export const FocalPoint = ({ focalPoint }) => (
   <div
     style={{
-      width: '32px',
-      height: '32px',
-      transform: `translate3d(${focalPoint.x - 18}px, ${focalPoint.y - 18}px, 0)`,
+      width: `${SIZE}px`,
+      height: `${SIZE}px`,
+      transform: `translate3d(${focalPoint.x - (SIZE / 2 + BORDER_SIZE)}px, ${focalPoint.y -
+        (SIZE / 2 + BORDER_SIZE)}px, 0)`,
       top: 0,
       left: 0
     }}
