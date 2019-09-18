@@ -22,6 +22,8 @@ export class FocalPointDialog extends Component {
   constructor(props) {
     super(props);
     this.imgRef = React.createRef();
+    this.onWindowResize = () =>
+      this.setState({ imgElementRect: this.imgRef.current.getBoundingClientRect() });
   }
 
   state = {
@@ -31,6 +33,14 @@ export class FocalPointDialog extends Component {
     },
     imgElementRect: null
   };
+
+  componentDidMount() {
+    window.addEventListener('resize', this.onWindowResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onWindowResize);
+  }
 
   getAdjustedFocalPointForUI = () => {
     const { file } = this.props;
