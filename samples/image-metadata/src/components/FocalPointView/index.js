@@ -1,0 +1,1 @@
+export { FocalPointView } from './FocalPointView';
