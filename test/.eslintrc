@@ -4,6 +4,8 @@
   },
   "extends": [
     "../.eslintrc.js",
+    "plugin:jest/recommended",
+    "plugin:jest/style",
     "plugin:node/recommended"
   ],
   "plugins": ["node"],
