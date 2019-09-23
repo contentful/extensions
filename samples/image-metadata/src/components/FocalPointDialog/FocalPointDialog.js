@@ -15,8 +15,7 @@ export class FocalPointDialog extends Component {
       y: PropTypes.number.isRequired
     }),
     onClose: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired,
-    sdk: PropTypes.object.isRequired
+    onSave: PropTypes.func.isRequired
   };
 
   imgRef = React.createRef();
@@ -55,6 +54,11 @@ export class FocalPointDialog extends Component {
   };
 
   onImageClick = e => {
+    const imageWasClicked = this.imgRef.current === e.target;
+    if (!imageWasClicked) {
+      return;
+    }
+
     const { file } = this.props;
 
     const rect = e.target.getBoundingClientRect();
@@ -85,7 +89,7 @@ export class FocalPointDialog extends Component {
     });
 
   render() {
-    const { file, sdk } = this.props;
+    const { file } = this.props;
     const { focalPoint, imgElementRect } = this.state;
     const shouldRenderFocalPoint = !!focalPoint && !!imgElementRect;
 
@@ -97,13 +101,19 @@ export class FocalPointDialog extends Component {
             <div>
               <Subheading className={styles.subheading}>Select position of focal point</Subheading>
               <div className={styles.previewWrapper}>
-                <img
-                  ref={this.imgRef}
-                  src={file.url}
-                  className={styles.previewWrapperImg}
+                <div
+                  className={styles.previewImg}
+                  role="button"
+                  tabIndex={-1}
                   onClick={this.onImageClick}
-                  onLoad={this.onImageLoad}
-                />
+                  onKeyDown={() => {}}>
+                  <img
+                    ref={this.imgRef}
+                    src={file.url}
+                    onLoad={this.onImageLoad}
+                    alt="focal point preview"
+                  />
+                </div>
                 {shouldRenderFocalPoint && (
                   <FocalPoint focalPoint={this.getAdjustedFocalPointForUI()} />
                 )}

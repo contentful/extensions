@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import camelCase from 'lodash.camelcase';
-import { Heading, Typography, Paragraph, TextField } from '@contentful/forma-36-react-components';
+import { Heading, Typography, Paragraph } from '@contentful/forma-36-react-components';
 
 import { ConfigurationContent } from './ConfigurationContent';
 import { InstallationContent } from './InstallationContent';
@@ -29,6 +29,8 @@ export class AppView extends Component {
     const allContentTypes = await sdk.space.getContentTypes();
     const allContentTypesIds = allContentTypes.items.map(({ sys: { id } }) => id);
 
+    // Following eslint error is caused due to using async/await
+    // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({ appIsInstalled, allContentTypesIds });
 
     if (!appIsInstalled) {
@@ -81,14 +83,14 @@ export class AppView extends Component {
           }
         ]
       })
-      .catch(e =>
+      .catch(() =>
         this.props.sdk.notifier.error(`Failed to create content type "${demoContentTypeName}"`)
       );
 
     // Set the newly created content type's state to "Published"
     await sdk.space
       .updateContentType(contentType)
-      .catch(e =>
+      .catch(() =>
         this.props.sdk.notifier.error(`Failed to publish content type "${demoContentTypeName}"`)
       );
 
@@ -151,7 +153,7 @@ export class AppView extends Component {
           </div>
         </div>
         <div className={styles.logo}>
-          <img src="https://image.flaticon.com/icons/svg/189/189089.svg" />
+          <img src="https://image.flaticon.com/icons/svg/189/189089.svg" alt="logo" />
         </div>
       </>
     );

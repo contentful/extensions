@@ -1,7 +1,6 @@
 import React from 'react';
-import { locations } from 'contentful-ui-extensions-sdk';
-import { App, renderDialog } from './index';
-import { render, fireEvent, cleanup, configure } from '@testing-library/react';
+import { App } from './index';
+import { render, cleanup, configure } from '@testing-library/react';
 
 import mockProps from './test/mockProps';
 

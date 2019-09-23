@@ -18,7 +18,6 @@ export const ImagePreviewWithFocalPoint = ({
   className,
   file: {
     url,
-    fileName,
     details: {
       image: { width: originalImgWidth, height: originalImgHeight }
     }
@@ -58,6 +57,7 @@ export const ImagePreviewWithFocalPoint = ({
           position: 'relative'
         }}>
         <img
+          alt="Preview with cropping applied"
           src={url}
           style={{
             width: `${imgWidth}px`,

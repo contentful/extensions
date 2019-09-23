@@ -5,9 +5,7 @@ import { Button, TextInput } from '@contentful/forma-36-react-components';
 import { styles } from './styles';
 
 const FocalPointView = ({ focalPoint, showFocalPointDialog }) => {
-  const value = !!focalPoint
-    ? `x: ${focalPoint.x}px / y: ${focalPoint.y}px`
-    : 'Focal point not set';
+  const value = focalPoint ? `x: ${focalPoint.x}px / y: ${focalPoint.y}px` : 'Focal point not set';
 
   return (
     <div className={styles.container}>

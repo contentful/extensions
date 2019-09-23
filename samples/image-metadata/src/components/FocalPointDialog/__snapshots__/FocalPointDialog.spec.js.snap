@@ -59,12 +59,18 @@ exports[`FocalPointDialog should render the focal point dialog 1`] = `
           Select position of focal point
         </h2>
         <div
-          class="css-krxy3d"
+          class="css-y836as"
         >
-          <img
-            class="css-14tvutr"
-            src="https://mycdn.com/some_image.png"
-          />
+          <div
+            class="css-1njnee2"
+            role="button"
+            tabindex="-1"
+          >
+            <img
+              alt="focal point preview"
+              src="https://mycdn.com/some_image.png"
+            />
+          </div>
         </div>
       </div>
       <div
@@ -86,6 +92,7 @@ exports[`FocalPointDialog should render the focal point dialog 1`] = `
               style="width: 410px; height: 180px; overflow: hidden; position: relative;"
             >
               <img
+                alt="Preview with cropping applied"
                 src="https://mycdn.com/some_image.png"
                 style="width: 410px; height: 276px; transform: translate3d(0px, -28.72524590163934px, 0); transition: transform 0.3s cubic-bezier(0.13, 0.62, 0.11, 0.99);"
               />
@@ -107,6 +114,7 @@ exports[`FocalPointDialog should render the focal point dialog 1`] = `
               style="width: 280px; height: 180px; overflow: hidden; position: relative;"
             >
               <img
+                alt="Preview with cropping applied"
                 src="https://mycdn.com/some_image.png"
                 style="width: 280px; height: 188px; transform: translate3d(0px, 0px, 0); transition: transform 0.3s cubic-bezier(0.13, 0.62, 0.11, 0.99);"
               />
@@ -124,6 +132,7 @@ exports[`FocalPointDialog should render the focal point dialog 1`] = `
               style="width: 120px; height: 180px; overflow: hidden; position: relative;"
             >
               <img
+                alt="Preview with cropping applied"
                 src="https://mycdn.com/some_image.png"
                 style="width: 268px; height: 180px; transform: translate3d(0px, 0px, 0); transition: transform 0.3s cubic-bezier(0.13, 0.62, 0.11, 0.99);"
               />

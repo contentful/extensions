@@ -14,7 +14,7 @@ exports[`App #render when there is a valid config should render the extension fi
         disabled=""
         id="focal-point"
         type="text"
-        value="x: 0px / y: 0px"
+        value="Focal point not set"
       />
     </div>
     <button

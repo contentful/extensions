@@ -65,12 +65,15 @@ export class App extends React.Component {
   }
 
   setFocalPoint = focalPoint => {
-    const value = {
-      ...this.state.value,
-      focalPoint
-    };
-    this.setState({ value });
-    this.props.sdk.field.setValue(value);
+    this.setState(
+      oldState => ({
+        value: {
+          ...oldState.value,
+          focalPoint
+        }
+      }),
+      () => this.props.sdk.field.setValue(this.state.value)
+    );
   };
 
   showFocalPointDialog = async () => {
@@ -135,7 +138,7 @@ export class App extends React.Component {
 
     return (
       <Note noteType="negative">
-        Could not find a field of type Asset with the ID "{imageFieldId}"
+        Could not find a field of type Asset with the ID &quot;{imageFieldId}&quot;
       </Note>
     );
   }
