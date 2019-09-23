@@ -3,7 +3,16 @@ import PropTypes from 'prop-types';
 import { Heading, Paragraph, TextField } from '@contentful/forma-36-react-components';
 import { styles } from './styles';
 
-export function InstallationContent({ demoContentTypeName, setDemoContentTypeName }) {
+export function InstallationContent({
+  allContentTypesIds,
+  demoContentTypeId,
+  demoContentTypeName,
+  setDemoContentTypeName
+}) {
+  const validationMessage = allContentTypesIds.includes(demoContentTypeId)
+    ? `A content type with id "${demoContentTypeId}" already exists. Try a different name for the demo content type.`
+    : null;
+
   return (
     <>
       <Heading className={styles.heading}>Configuration</Heading>
@@ -23,6 +32,7 @@ export function InstallationContent({ demoContentTypeName, setDemoContentTypeNam
         value={demoContentTypeName}
         onChange={setDemoContentTypeName}
         id="demo-content-type-name"
+        validationMessage={validationMessage}
         required
       />
     </>
@@ -30,6 +40,8 @@ export function InstallationContent({ demoContentTypeName, setDemoContentTypeNam
 }
 
 InstallationContent.propTypes = {
+  allContentTypesIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  demoContentTypeId: PropTypes.string.isRequired,
   demoContentTypeName: PropTypes.string.isRequired,
   setDemoContentTypeName: PropTypes.func.isRequired
 };

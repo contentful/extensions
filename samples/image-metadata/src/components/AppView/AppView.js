@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import camelCase from 'lodash.camelcase';
 import { Heading, Typography, Paragraph, TextField } from '@contentful/forma-36-react-components';
 
 import { ConfigurationContent } from './ConfigurationContent';
@@ -13,16 +14,22 @@ export class AppView extends Component {
   };
 
   state = {
+    allContentTypesIds: [],
     appIsInstalled: null,
-    demoContentTypeName: ''
+    demoContentTypeId: camelCase('Image Wrapper'),
+    demoContentTypeName: 'Image Wrapper'
   };
 
   async componentDidMount() {
-    const { app } = this.props.sdk.platformAlpha;
+    const { sdk } = this.props;
+    const { app } = sdk.platformAlpha;
 
     const appIsInstalled = await app.isInstalled();
 
-    this.setState({ appIsInstalled });
+    const allContentTypes = await sdk.space.getContentTypes();
+    const allContentTypesIds = allContentTypes.items.map(({ sys: { id } }) => id);
+
+    this.setState({ appIsInstalled, allContentTypesIds });
 
     if (!appIsInstalled) {
       app.onConfigure(this.installApp);
@@ -30,41 +37,60 @@ export class AppView extends Component {
   }
 
   installApp = async () => {
-    const { demoContentTypeName } = this.state;
+    const { allContentTypesIds, demoContentTypeId, demoContentTypeName } = this.state;
 
     if (!demoContentTypeName) {
-      this.props.sdk.notifier.error('Provide a name for the demo content type');
+      this.props.sdk.notifier.error('Provide a name for the demo content type.');
+      return false;
+    }
+
+    const isContentTypeIdTaken = allContentTypesIds.includes(demoContentTypeId);
+    if (isContentTypeIdTaken) {
+      this.props.sdk.notifier.error(
+        `Id "${demoContentTypeId}" is taken. Try a different name for the demo content type`
+      );
       return false;
     }
 
     const { sdk } = this.props;
-    const contentType = await sdk.space.createContentType({
-      name: this.state.demoContentTypeName,
-      fields: [
-        {
-          id: 'title',
-          name: 'Title',
-          required: true,
-          type: 'Symbol'
+    const contentType = await sdk.space
+      .createContentType({
+        sys: {
+          id: demoContentTypeId
         },
-        {
-          id: 'image',
-          name: 'Image',
-          required: true,
-          type: 'Link',
-          linkType: 'Asset'
-        },
-        {
-          id: 'imageMetadata',
-          name: 'Image metadata',
-          required: true,
-          type: 'Object'
-        }
-      ]
-    });
+        name: demoContentTypeName,
+        fields: [
+          {
+            id: 'title',
+            name: 'Title',
+            required: true,
+            type: 'Symbol'
+          },
+          {
+            id: 'image',
+            name: 'Image',
+            required: true,
+            type: 'Link',
+            linkType: 'Asset'
+          },
+          {
+            id: 'imageMetadata',
+            name: 'Image metadata',
+            required: true,
+            type: 'Object'
+          }
+        ]
+      })
+      .catch(e =>
+        this.props.sdk.notifier.error(`Failed to create content type "${demoContentTypeName}"`)
+      );
 
     // Set the newly created content type's state to "Published"
-    await sdk.space.updateContentType(contentType);
+    await sdk.space
+      .updateContentType(contentType)
+      .catch(e =>
+        this.props.sdk.notifier.error(`Failed to publish content type "${demoContentTypeName}"`)
+      );
 
     this.setState({ appIsInstalled: true });
 
@@ -86,10 +112,19 @@ export class AppView extends Component {
     };
   };
 
-  setDemoContentTypeName = evt => this.setState({ demoContentTypeName: evt.target.value });
+  setDemoContentTypeName = ({ target: { value } }) =>
+    this.setState({
+      demoContentTypeId: camelCase(value),
+      demoContentTypeName: value
+    });
 
   render() {
-    const { appIsInstalled } = this.state;
+    const {
+      appIsInstalled,
+      allContentTypesIds,
+      demoContentTypeId,
+      demoContentTypeName
+    } = this.state;
 
     return (
       <>
@@ -106,7 +141,9 @@ export class AppView extends Component {
               {appIsInstalled && <ConfigurationContent />}
               {!appIsInstalled && (
                 <InstallationContent
-                  demoContentTypeName={this.state.demoContentTypeName}
+                  allContentTypesIds={allContentTypesIds}
+                  demoContentTypeId={demoContentTypeId}
+                  demoContentTypeName={demoContentTypeName}
                   setDemoContentTypeName={this.setDemoContentTypeName}
                 />
               )}
