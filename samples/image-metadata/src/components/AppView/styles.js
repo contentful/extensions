@@ -37,6 +37,11 @@ export const styles = {
     justifyContent: 'center',
     marginTop: tokens.spacingXl,
     marginBottom: tokens.spacingXl
+  }),
+  heading: css({
+    marginBottom: tokens.spacingM
+  }),
+  input: css({
+    marginTop: tokens.spacingM
   })
 };
-
