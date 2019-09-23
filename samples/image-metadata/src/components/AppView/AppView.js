@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Heading, Typography, Paragraph, TextField } from '@contentful/forma-36-react-components';
 
+import { ConfigurationContent } from './ConfigurationContent';
+import { InstallationContent } from './InstallationContent';
 import { Divider } from '../Divider';
 import { styles } from './styles';
 
@@ -64,6 +66,8 @@ export class AppView extends Component {
     // Set the newly created content type's state to "Published"
     await sdk.space.updateContentType(contentType);
 
+    this.setState({ appIsInstalled: true });
+
     return {
       targetState: {
         EditorInterface: {
@@ -99,26 +103,13 @@ export class AppView extends Component {
                 with them (e.g. a focal point for better cropping, tags, alt text).
               </Paragraph>
               <Divider />
-              <Heading className={styles.heading}>Configuration</Heading>
-              <Paragraph>
-                To help you get started, we are going to create a demo content type for you. This
-                wrapper content type will have a title field, an image field and a focal point
-                field. You can later enrich this content type with new fields as needed, or use it
-                as is.
-              </Paragraph>
-              <TextField
-                className={styles.input}
-                labelText="Demo content type name"
-                name="demoContentTypeName"
-                textInputProps={{
-                  placeholder: 'e.g. Image Wrapper'
-                }}
-                helpText="Provide a name for the content type to be created during the installation"
-                value={this.state.demoContentTypeName}
-                onChange={this.setDemoContentTypeName}
-                id="demo-content-type-name"
-                required
-              />
+              {appIsInstalled && <ConfigurationContent />}
+              {!appIsInstalled && (
+                <InstallationContent
+                  demoContentTypeName={this.state.demoContentTypeName}
+                  setDemoContentTypeName={this.setDemoContentTypeName}
+                />
+              )}
             </Typography>
           </div>
         </div>

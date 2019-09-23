@@ -43,5 +43,8 @@ export const styles = {
   }),
   input: css({
     marginTop: tokens.spacingM
+  }),
+  paragraph: css({
+    marginTop: tokens.spacingXs
   })
 };
