@@ -6,6 +6,7 @@ import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
 
+import { AppView } from './components/AppView';
 import { FocalPointView } from './components/FocalPointView';
 import { FocalPointDialog } from './components/FocalPointDialog';
 import { getField, isCompatibleImageField } from './utils';
@@ -42,7 +43,9 @@ export class App extends React.Component {
   }
 
   onExternalChange = value => {
-    this.setState({ value });
+    if (value) {
+      this.setState({ value });
+    }
   };
 
   onChange = e => {
@@ -100,7 +103,6 @@ export class App extends React.Component {
       }
 
       const focalPoint = await this.props.sdk.dialogs.openExtension({
-        id: 'image-metadata',
         width: 1000,
         parameters: {
           file,
@@ -165,6 +167,8 @@ function renderDialog(sdk) {
 init(sdk => {
   if (sdk.location.is(locations.LOCATION_DIALOG)) {
     renderDialog(sdk);
+  } else if (sdk.location.is(locations.LOCATION_APP)) {
+    ReactDOM.render(<AppView sdk={sdk} />, document.getElementById('root'));
   } else {
     ReactDOM.render(<App sdk={sdk} />, document.getElementById('root'));
   }
