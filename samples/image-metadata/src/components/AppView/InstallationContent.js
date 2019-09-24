@@ -5,32 +5,32 @@ import { styles } from './styles';
 
 export function InstallationContent({
   allContentTypesIds,
-  demoContentTypeId,
-  demoContentTypeName,
-  setDemoContentTypeName
+  contentTypeId,
+  contentTypeName,
+  setContentTypeName
 }) {
-  const validationMessage = allContentTypesIds.includes(demoContentTypeId)
-    ? `A content type with id "${demoContentTypeId}" already exists. Try a different name for the demo content type.`
+  const validationMessage = allContentTypesIds.includes(contentTypeId)
+    ? `A content type with id "${contentTypeId}" already exists. Try a different name for the demo content type.`
     : null;
 
   return (
     <>
       <Heading className={styles.heading}>Configuration</Heading>
       <Paragraph>
-        To help you get started, we are going to create a demo content type for you. This wrapper
-        content type will have a title field, an image field and a focal point field. You can later
-        enrich this content type with new fields as needed, or use it as is.
+        To help you get started, we are going to create a demo content type for you. It will have a
+        title field, an image field and a focal point field. You can later enrich it with new fields
+        as needed, or use it as is.
       </Paragraph>
       <TextField
         className={styles.input}
-        labelText="Demo content type name"
-        name="demoContentTypeName"
+        labelText="Content type name"
+        name="contentTypeName"
         textInputProps={{
           placeholder: 'e.g. Image Wrapper'
         }}
         helpText="Provide a name for the content type to be created during the installation"
-        value={demoContentTypeName}
-        onChange={setDemoContentTypeName}
+        value={contentTypeName}
+        onChange={setContentTypeName}
         id="demo-content-type-name"
         validationMessage={validationMessage}
         required
@@ -41,7 +41,7 @@ export function InstallationContent({
 
 InstallationContent.propTypes = {
   allContentTypesIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  demoContentTypeId: PropTypes.string.isRequired,
-  demoContentTypeName: PropTypes.string.isRequired,
-  setDemoContentTypeName: PropTypes.func.isRequired
+  contentTypeId: PropTypes.string.isRequired,
+  contentTypeName: PropTypes.string.isRequired,
+  setContentTypeName: PropTypes.func.isRequired
 };

@@ -16,8 +16,8 @@ export class AppView extends Component {
   state = {
     allContentTypesIds: [],
     appIsInstalled: null,
-    demoContentTypeId: camelCase('Image Wrapper'),
-    demoContentTypeName: 'Image Wrapper'
+    contentTypeId: camelCase('Image Wrapper'),
+    contentTypeName: 'Image Wrapper'
   };
 
   async componentDidMount() {
@@ -39,17 +39,17 @@ export class AppView extends Component {
   }
 
   installApp = async () => {
-    const { allContentTypesIds, demoContentTypeId, demoContentTypeName } = this.state;
+    const { allContentTypesIds, contentTypeId, contentTypeName } = this.state;
 
-    if (!demoContentTypeName) {
-      this.props.sdk.notifier.error('Provide a name for the demo content type.');
+    if (!contentTypeName) {
+      this.props.sdk.notifier.error('Provide a name for the content type.');
       return false;
     }
 
-    const isContentTypeIdTaken = allContentTypesIds.includes(demoContentTypeId);
+    const isContentTypeIdTaken = allContentTypesIds.includes(contentTypeId);
     if (isContentTypeIdTaken) {
       this.props.sdk.notifier.error(
-        `Id "${demoContentTypeId}" is taken. Try a different name for the demo content type`
+        `Id "${contentTypeId}" is taken. Try a different name for the content type`
       );
       return false;
     }
@@ -58,9 +58,9 @@ export class AppView extends Component {
     const contentType = await sdk.space
       .createContentType({
         sys: {
-          id: demoContentTypeId
+          id: contentTypeId
         },
-        name: demoContentTypeName,
+        name: contentTypeName,
         fields: [
           {
             id: 'title',
@@ -84,14 +84,14 @@ export class AppView extends Component {
         ]
       })
       .catch(() =>
-        this.props.sdk.notifier.error(`Failed to create content type "${demoContentTypeName}"`)
+        this.props.sdk.notifier.error(`Failed to create content type "${contentTypeName}"`)
       );
 
     // Set the newly created content type's state to "Published"
     await sdk.space
       .updateContentType(contentType)
       .catch(() =>
-        this.props.sdk.notifier.error(`Failed to publish content type "${demoContentTypeName}"`)
+        this.props.sdk.notifier.error(`Failed to publish content type "${contentTypeName}"`)
       );
 
     this.setState({ appIsInstalled: true });
@@ -114,19 +114,14 @@ export class AppView extends Component {
     };
   };
 
-  setDemoContentTypeName = ({ target: { value } }) =>
+  setContentTypeName = ({ target: { value } }) =>
     this.setState({
-      demoContentTypeId: camelCase(value),
-      demoContentTypeName: value
+      contentTypeId: camelCase(value),
+      contentTypeName: value
     });
 
   render() {
-    const {
-      appIsInstalled,
-      allContentTypesIds,
-      demoContentTypeId,
-      demoContentTypeName
-    } = this.state;
+    const { appIsInstalled, allContentTypesIds, contentTypeId, contentTypeName } = this.state;
 
     return (
       <>
@@ -144,9 +139,9 @@ export class AppView extends Component {
               {!appIsInstalled && (
                 <InstallationContent
                   allContentTypesIds={allContentTypesIds}
-                  demoContentTypeId={demoContentTypeId}
-                  demoContentTypeName={demoContentTypeName}
-                  setDemoContentTypeName={this.setDemoContentTypeName}
+                  contentTypeId={contentTypeId}
+                  contentTypeName={contentTypeName}
+                  setContentTypeName={this.setContentTypeName}
                 />
               )}
             </Typography>
