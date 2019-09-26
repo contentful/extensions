@@ -68,8 +68,9 @@ export class AppView extends Component {
     }
 
     const { sdk } = this.props;
-    const contentType = await sdk.space
-      .createContentType({
+    let contentType = null;
+    try {
+      contentType = await sdk.space.createContentType({
         sys: {
           id: contentTypeId
         },
@@ -95,17 +96,19 @@ export class AppView extends Component {
             type: 'Object'
           }
         ]
-      })
-      .catch(() =>
-        this.props.sdk.notifier.error(`Failed to create content type "${contentTypeName}"`)
-      );
+      });
+    } catch (error) {
+      this.props.sdk.notifier.error(`Failed to create content type "${contentTypeName}"`);
+      return false;
+    }
 
     // Set the newly created content type's state to "Published"
-    await sdk.space
-      .updateContentType(contentType)
-      .catch(() =>
-        this.props.sdk.notifier.error(`Failed to publish content type "${contentTypeName}"`)
-      );
+    try {
+      await sdk.space.updateContentType(contentType);
+    } catch (error) {
+      this.props.sdk.notifier.error(`Failed to publish content type "${contentTypeName}"`);
+      return false;
+    }
 
     // TODO: hack that determines when the app has been successfully installed.
     // To be done away with once the post installation hook is implemented.
