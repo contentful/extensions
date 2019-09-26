@@ -8,6 +8,16 @@ import { InstallationContent } from './InstallationContent';
 import { Divider } from '../Divider';
 import { styles } from './styles';
 
+const APP_INSTALLATION_STATE = {
+  LOADING: 'LOADING',
+  INSTALLED: 'INSTALLED',
+  NOT_INSTALLED: 'NOT_INSTALLED'
+};
+
+function convertToAppInstallationState(appIsInstalled) {
+  return appIsInstalled ? APP_INSTALLATION_STATE.INSTALLED : APP_INSTALLATION_STATE.NOT_INSTALLED;
+}
+
 export class AppView extends Component {
   static propTypes = {
     sdk: PropTypes.object.isRequired
@@ -15,7 +25,7 @@ export class AppView extends Component {
 
   state = {
     allContentTypesIds: [],
-    appIsInstalled: null,
+    appInstallationState: APP_INSTALLATION_STATE.LOADING,
     contentTypeId: camelCase('Image Wrapper'),
     contentTypeName: 'Image Wrapper'
   };
@@ -31,7 +41,10 @@ export class AppView extends Component {
 
     // Following eslint error is caused due to using async/await
     // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({ appIsInstalled, allContentTypesIds });
+    this.setState({
+      appInstallationState: convertToAppInstallationState(appIsInstalled),
+      allContentTypesIds
+    });
 
     if (!appIsInstalled) {
       app.onConfigure(this.installApp);
@@ -94,7 +107,19 @@ export class AppView extends Component {
         this.props.sdk.notifier.error(`Failed to publish content type "${contentTypeName}"`)
       );
 
-    this.setState({ appIsInstalled: true });
+    // TODO: hack that determines when the app has been successfully installed.
+    // To be done away with once the post installation hook is implemented.
+    const appIsInstalledInterval = setInterval(async () => {
+      const appIsInstalled = await sdk.platformAlpha.app.isInstalled();
+
+      if (
+        appIsInstalled &&
+        this.state.appInstallationState === APP_INSTALLATION_STATE.NOT_INSTALLED
+      ) {
+        this.setState({ appInstallationState: convertToAppInstallationState(appIsInstalled) });
+        clearInterval(appIsInstalledInterval);
+      }
+    }, 100);
 
     return {
       targetState: {
@@ -121,7 +146,7 @@ export class AppView extends Component {
     });
 
   render() {
-    const { appIsInstalled, allContentTypesIds, contentTypeId, contentTypeName } = this.state;
+    const { appInstallationState, allContentTypesIds, contentTypeId, contentTypeName } = this.state;
 
     return (
       <>
@@ -135,8 +160,10 @@ export class AppView extends Component {
                 with them (e.g. a focal point for better cropping, tags, alt text).
               </Paragraph>
               <Divider />
-              {appIsInstalled && <ConfigurationContent />}
-              {!appIsInstalled && (
+              {appInstallationState === APP_INSTALLATION_STATE.INSTALLED && (
+                <ConfigurationContent />
+              )}
+              {appInstallationState === APP_INSTALLATION_STATE.NOT_INSTALLED && (
                 <InstallationContent
                   allContentTypesIds={allContentTypesIds}
                   contentTypeId={contentTypeId}
