@@ -10,7 +10,7 @@ export function InstallationContent({
   setContentTypeName
 }) {
   const validationMessage = allContentTypesIds.includes(contentTypeId)
-    ? `A content type with id "${contentTypeId}" already exists. Try a different name for the demo content type.`
+    ? `A content type with ID "${contentTypeId}" already exists. Try a different name for the demo content type.`
     : null;
 
   return (

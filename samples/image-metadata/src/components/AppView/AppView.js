@@ -62,7 +62,7 @@ export class AppView extends Component {
     const isContentTypeIdTaken = allContentTypesIds.includes(contentTypeId);
     if (isContentTypeIdTaken) {
       this.props.sdk.notifier.error(
-        `Id "${contentTypeId}" is taken. Try a different name for the content type`
+        `ID "${contentTypeId}" is taken. Try a different name for the content type`
       );
       return false;
     }

@@ -13,7 +13,7 @@ export const ConfigurationContent = () => (
     </Paragraph>
     <Paragraph className={styles.paragraph}>
       The metadata field is a plain Object type field with its appearance set to be that of the
-      current app and the image field id parameter pointing to the image field, as the data it holds
+      current app and the image field ID parameter pointing to the image field, as the data it holds
       is connected to that image.
     </Paragraph>
     <Paragraph className={styles.paragraph}>
