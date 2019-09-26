@@ -152,27 +152,23 @@ export class AppView extends Component {
       <>
         <div className={styles.background} />
         <div className={styles.body}>
-          <div>
-            <Typography>
-              <Heading className={styles.heading}>About Image Wrapper</Heading>
-              <Paragraph>
-                This app assists you in managing image uploads that need to have metadata associated
-                with them (e.g. a focal point for better cropping, tags, alt text).
-              </Paragraph>
-              <Divider />
-              {appInstallationState === APP_INSTALLATION_STATE.INSTALLED && (
-                <ConfigurationContent />
-              )}
-              {appInstallationState === APP_INSTALLATION_STATE.NOT_INSTALLED && (
-                <InstallationContent
-                  allContentTypesIds={allContentTypesIds}
-                  contentTypeId={contentTypeId}
-                  contentTypeName={contentTypeName}
-                  setContentTypeName={this.setContentTypeName}
-                />
-              )}
-            </Typography>
-          </div>
+          <Typography>
+            <Heading className={styles.heading}>About Image Wrapper</Heading>
+            <Paragraph>
+              This app assists you in managing image uploads that need to have metadata associated
+              with them (e.g. a focal point for better cropping, tags, alt text).
+            </Paragraph>
+            <Divider />
+            {appInstallationState === APP_INSTALLATION_STATE.INSTALLED && <ConfigurationContent />}
+            {appInstallationState === APP_INSTALLATION_STATE.NOT_INSTALLED && (
+              <InstallationContent
+                allContentTypesIds={allContentTypesIds}
+                contentTypeId={contentTypeId}
+                contentTypeName={contentTypeName}
+                setContentTypeName={this.setContentTypeName}
+              />
+            )}
+          </Typography>
         </div>
         <div className={styles.logo}>
           <img src="https://image.flaticon.com/icons/svg/189/189089.svg" alt="logo" />
