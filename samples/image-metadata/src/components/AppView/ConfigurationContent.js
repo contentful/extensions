@@ -7,7 +7,7 @@ export const ConfigurationContent = () => (
   <>
     <Heading className={styles.heading}>Getting started</Heading>
     <Paragraph>
-      The Image Wrapper app is now installed. We have set up a demo content type for you with a
+      The Image Wrapper app is installed. We have set up a demo content type for you with a
       title field, an image field and a metadata field (currently only able to hold focal point
       data).
     </Paragraph>
