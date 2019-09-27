@@ -94,7 +94,7 @@ export class AppView extends Component {
           },
           {
             id: 'focalPoint',
-            name: 'Image metadata',
+            name: 'Focal point',
             required: true,
             type: 'Object'
           }
