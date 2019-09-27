@@ -160,8 +160,8 @@ export class AppView extends Component {
           <Typography>
             <Heading className={styles.heading}>About Image Focal Point</Heading>
             <Paragraph>
-              This app assists you in managing image uploads that need to have metadata associated
-              with them (e.g. a focal point for better cropping, tags, alt text).
+              The Image Focal Point app allows you to associate focal point data with uploaded image
+              assets, to achieve better cropping amongst different devices and screen sizes.
             </Paragraph>
             <Divider />
             {appInstallationState === APP_INSTALLATION_STATE.INSTALLED && <ConfigurationContent />}

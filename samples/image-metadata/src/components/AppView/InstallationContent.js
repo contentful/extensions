@@ -10,16 +10,15 @@ export function InstallationContent({
   setContentTypeName
 }) {
   const validationMessage = allContentTypesIds.includes(contentTypeId)
-    ? `A content type with ID "${contentTypeId}" already exists. Try a different name for the demo content type.`
+    ? `A content type with ID "${contentTypeId}" already exists. Try a different name.`
     : null;
 
   return (
     <>
       <Heading className={styles.heading}>Configuration</Heading>
       <Paragraph>
-        To help you get started, we are going to create a demo content type for you. It will have a
-        title field, an image field and a focal point field. You can later enrich it with new fields
-        as needed, or use it as is.
+        To help you get started, we are going to create a content type for you with a title field,
+        an image field and a focal point field.
       </Paragraph>
       <TextField
         className={styles.input}
@@ -28,10 +27,10 @@ export function InstallationContent({
         textInputProps={{
           placeholder: 'e.g. Image Wrapper'
         }}
-        helpText="Provide a name for the content type to be created during the installation"
+        helpText="You can use this content type to wrap images with focal point data"
         value={contentTypeName}
         onChange={setContentTypeName}
-        id="demo-content-type-name"
+        id="content-type-name"
         validationMessage={validationMessage}
         required
       />
