@@ -29,7 +29,8 @@ export class AppView extends Component {
     allContentTypesIds: [],
     appInstallationState: APP_INSTALLATION_STATE.LOADING,
     contentTypeId: camelCase('Image Wrapper'),
-    contentTypeName: 'Image Wrapper'
+    contentTypeName: 'Image Wrapper',
+    isContentTypeIdPristine: true
   };
 
   async componentDidMount() {
@@ -144,10 +145,16 @@ export class AppView extends Component {
     };
   };
 
-  setContentTypeName = ({ target: { value } }) =>
-    this.setState({
-      contentTypeId: camelCase(value),
+  onContentTypeNameChange = ({ target: { value } }) =>
+    this.setState(oldState => ({
+      ...(oldState.isContentTypeIdPristine && { contentTypeId: camelCase(value) }),
       contentTypeName: value
+    }));
+
+  onContentTypeIdChange = ({ target: { value } }) =>
+    this.setState({
+      isContentTypeIdPristine: false,
+      contentTypeId: value
     });
 
   render() {
@@ -170,7 +177,8 @@ export class AppView extends Component {
                 allContentTypesIds={allContentTypesIds}
                 contentTypeId={contentTypeId}
                 contentTypeName={contentTypeName}
-                setContentTypeName={this.setContentTypeName}
+                onContentTypeNameChange={this.onContentTypeNameChange}
+                onContentTypeIdChange={this.onContentTypeIdChange}
               />
             )}
           </Typography>

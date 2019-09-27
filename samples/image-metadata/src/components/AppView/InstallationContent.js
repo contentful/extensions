@@ -7,10 +7,15 @@ export function InstallationContent({
   allContentTypesIds,
   contentTypeId,
   contentTypeName,
-  setContentTypeName
+  onContentTypeNameChange,
+  onContentTypeIdChange
 }) {
-  const validationMessage = allContentTypesIds.includes(contentTypeId)
+  const validationMessageName = allContentTypesIds.includes(contentTypeId)
     ? `A content type with ID "${contentTypeId}" already exists. Try a different name.`
+    : null;
+
+  const validationMessageId = allContentTypesIds.includes(contentTypeId)
+    ? `A content type with ID "${contentTypeId}" already exists. Try a different ID.`
     : null;
 
   return (
@@ -29,9 +34,20 @@ export function InstallationContent({
         }}
         helpText="You can use this content type to wrap images with focal point data"
         value={contentTypeName}
-        onChange={setContentTypeName}
+        onChange={onContentTypeNameChange}
         id="content-type-name"
-        validationMessage={validationMessage}
+        validationMessage={validationMessageName}
+        required
+      />
+      <TextField
+        className={styles.input}
+        labelText="Content type ID"
+        name="contentTypeId"
+        helpText="The ID is generated from the name, you can also set it manually"
+        value={contentTypeId}
+        onChange={onContentTypeIdChange}
+        id="content-type-id"
+        validationMessage={validationMessageId}
         required
       />
     </>
@@ -42,5 +58,6 @@ InstallationContent.propTypes = {
   allContentTypesIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   contentTypeId: PropTypes.string.isRequired,
   contentTypeName: PropTypes.string.isRequired,
-  setContentTypeName: PropTypes.func.isRequired
+  onContentTypeNameChange: PropTypes.func.isRequired,
+  onContentTypeIdChange: PropTypes.func.isRequired
 };
