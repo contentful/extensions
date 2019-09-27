@@ -21,7 +21,7 @@ export const styles = {
     top: '0',
     width: '100%',
     height: '300px',
-    backgroundColor: tokens.colorGreenDark
+    backgroundColor: '#599ded' // corresponds to logo
   }),
   featuresListItem: css({
     listStyleType: 'disc',
