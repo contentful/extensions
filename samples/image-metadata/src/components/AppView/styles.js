@@ -36,7 +36,10 @@ export const styles = {
     display: 'flex',
     justifyContent: 'center',
     marginTop: tokens.spacingXl,
-    marginBottom: tokens.spacingXl
+    marginBottom: tokens.spacingXl,
+    '& > img': css({
+      width: '80px'
+    })
   }),
   heading: css({
     marginBottom: tokens.spacingM

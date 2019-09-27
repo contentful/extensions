@@ -8,6 +8,8 @@ import { InstallationContent } from './InstallationContent';
 import { Divider } from '../Divider';
 import { styles } from './styles';
 
+import appLogo from './app-logo.svg';
+
 const APP_INSTALLATION_STATE = {
   LOADING: 'LOADING',
   INSTALLED: 'INSTALLED',
@@ -90,7 +92,7 @@ export class AppView extends Component {
             linkType: 'Asset'
           },
           {
-            id: 'imageMetadata',
+            id: 'focalPoint',
             name: 'Image metadata',
             required: true,
             type: 'Object'
@@ -130,7 +132,7 @@ export class AppView extends Component {
           [contentType.sys.id]: {
             controls: [
               {
-                fieldId: 'imageMetadata',
+                fieldId: 'focalPoint',
                 settings: {
                   imageFieldId: 'image'
                 }
@@ -156,7 +158,7 @@ export class AppView extends Component {
         <div className={styles.background} />
         <div className={styles.body}>
           <Typography>
-            <Heading className={styles.heading}>About Image Wrapper</Heading>
+            <Heading className={styles.heading}>About Image Focal Point</Heading>
             <Paragraph>
               This app assists you in managing image uploads that need to have metadata associated
               with them (e.g. a focal point for better cropping, tags, alt text).
@@ -174,7 +176,7 @@ export class AppView extends Component {
           </Typography>
         </div>
         <div className={styles.logo}>
-          <img src="https://image.flaticon.com/icons/svg/189/189089.svg" alt="logo" />
+          <img src={appLogo} alt="logo" />
         </div>
       </>
     );
