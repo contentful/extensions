@@ -1,32 +1,53 @@
 import React from 'react';
-import { Heading, Paragraph } from '@contentful/forma-36-react-components';
+import { List, ListItem, Heading, Paragraph } from '@contentful/forma-36-react-components';
 import { Divider } from '../Divider';
 import { styles } from './styles';
 
 export const ConfigurationContent = () => (
   <>
     <Heading className={styles.heading}>Getting started</Heading>
-    <Paragraph>
-      The Image Wrapper app is installed. We have set up a demo content type for you with a
-      title field, an image field and a metadata field (currently only able to hold focal point
-      data).
-    </Paragraph>
+    <Paragraph>Follow the next steps to create a new image entry with focal point data:</Paragraph>
+    <List className={styles.list}>
+      <ListItem>Go to the &quot;Content&quot; page.</ListItem>
+      <ListItem>
+        Create a new entry of type &quot;Image Wrapper&quot; (or the name you chose during the
+        installation).
+      </ListItem>
+      <ListItem>Fill in the required fields and publish it.</ListItem>
+    </List>
     <Paragraph className={styles.paragraph}>
-      The metadata field is a plain Object type field with its appearance set to be that of the
-      current app and the image field ID parameter pointing to the image field, as the data it holds
-      is connected to that image.
+      Follow the next steps to reference the newly created image wrapper entry in another content
+      type:
     </Paragraph>
-    <Paragraph className={styles.paragraph}>
-      To create a new image with focal point data, simply create a new entry for the content type we
-      set up for you in the Content tab. Then create a Reference field in your other Content Model
-      that needs to reference this image and make it point to the entry you just created.
-    </Paragraph>
+    <List className={styles.list}>
+      <ListItem>Go to the &quot;Content model&quot; page.</ListItem>
+      <ListItem>Edit the content type that needs to reference the image wraper.</ListItem>
+      <ListItem>Create a new field of type &quot;Reference&quot;.</ListItem>
+      <ListItem>
+        Optionally set the appearance of the new reference field to &quot;Entry Card&quot; in its
+        settings.
+      </ListItem>
+      <ListItem>Go back to the &quot;Content&quot; page</ListItem>
+      <ListItem>Create/edit an entry of the content type referencing the image wrapper.</ListItem>
+      <ListItem>Set the reference field you added to point to the image wrapper entry.</ListItem>
+    </List>
     <Divider />
-    <Heading className={styles.heading}>Uninstallation &amp; Cleanup</Heading>
+    <Heading className={styles.heading}>Uninstallation and cleanup</Heading>
     <Paragraph>
-      Please note that if you decide to uninstall this app you will have to take care of deleting
-      the demo content type we set up for you during the installation process. This might require
-      you to delete any entries for that content type you have created first.
+      If you uninstall the Image Focal Point app you will have to manually clean up the content type
+      we created for you during the installation. To do that follow the next steps:
     </Paragraph>
+    <List className={styles.list}>
+      <ListItem>Go to the &quot;Content&quot; page.</ListItem>
+      <ListItem>
+        Delete any entries of type &quot;Image Wrapper&quot; (or the name you chose during
+        installation).
+      </ListItem>
+      <ListItem>Go to the &quot;Content model&quot; page.</ListItem>
+      <ListItem>
+        Edit the content type the app created, select &quot;Actions&quot; from the top menu and
+        &quot;Delete&quot;.
+      </ListItem>
+    </List>
   </>
 );

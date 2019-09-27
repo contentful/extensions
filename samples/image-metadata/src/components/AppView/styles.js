@@ -41,13 +41,16 @@ export const styles = {
       width: '80px'
     })
   }),
+  paragraph: css({
+    marginTop: tokens.spacingM
+  }),
   heading: css({
     marginBottom: tokens.spacingM
   }),
   input: css({
     marginTop: tokens.spacingM
   }),
-  paragraph: css({
+  list: css({
     marginTop: tokens.spacingXs
   })
 };
