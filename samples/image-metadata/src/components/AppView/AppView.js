@@ -28,8 +28,8 @@ export class AppView extends Component {
   state = {
     allContentTypesIds: [],
     appInstallationState: APP_INSTALLATION_STATE.LOADING,
-    contentTypeId: camelCase('Image Wrapper'),
-    contentTypeName: 'Image Wrapper',
+    contentTypeId: camelCase('Image with Focal Point'),
+    contentTypeName: 'Image with Focal Point',
     isContentTypeIdPristine: true
   };
 

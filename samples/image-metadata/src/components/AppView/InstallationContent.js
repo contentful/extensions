@@ -30,7 +30,7 @@ export function InstallationContent({
         labelText="Content type name"
         name="contentTypeName"
         textInputProps={{
-          placeholder: 'e.g. Image Wrapper'
+          placeholder: 'e.g. Image with Focal Point'
         }}
         helpText="You can use this content type to wrap images with focal point data"
         value={contentTypeName}
