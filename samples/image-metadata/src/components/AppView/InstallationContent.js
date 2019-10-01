@@ -30,11 +30,13 @@ export function InstallationContent({
         labelText="Content type name"
         name="contentTypeName"
         textInputProps={{
-          placeholder: 'e.g. Image with Focal Point'
+          placeholder: 'e.g. Image with Focal Point',
+          testId: 'content-type-name-input'
         }}
         helpText="You can use this content type to wrap images with focal point data"
         value={contentTypeName}
         onChange={onContentTypeNameChange}
+        testId="content-type-name"
         id="content-type-name"
         validationMessage={validationMessageName}
         required
@@ -47,6 +49,8 @@ export function InstallationContent({
         value={contentTypeId}
         onChange={onContentTypeIdChange}
         id="content-type-id"
+        testId="content-type-id"
+        textInputProps={{ testId: 'content-type-id-input' }}
         validationMessage={validationMessageId}
         required
       />
