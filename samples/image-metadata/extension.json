@@ -1,6 +1,6 @@
 {
-  "id": "image-metadata",
-  "name": "image-metadata",
+  "id": "image-focal-point",
+  "name": "image-focal-point",
   "srcdoc": "./build/index.html",
   "fieldTypes": ["Object"],
   "parameters": {

@@ -126,7 +126,7 @@ export default {
     navigator: {},
     notifier: {},
     ids: {
-      extension: 'image-metadata',
+      extension: 'image-focal-point',
       space: 'cyu19ucaypb9',
       environment: 'master',
       user: '2userId252'
