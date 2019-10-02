@@ -6,6 +6,7 @@ import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
 
+import { AppView } from './components/AppView';
 import { FocalPointView } from './components/FocalPointView';
 import { FocalPointDialog } from './components/FocalPointDialog';
 import { getField, isCompatibleImageField } from './utils';
@@ -20,9 +21,7 @@ export class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.sdk.field.getValue() || {
-        focalPoint: { x: 0, y: 0 }
-      }
+      value: props.sdk.field.getValue() || { focalPoint: null }
     };
   }
 
@@ -42,7 +41,9 @@ export class App extends React.Component {
   }
 
   onExternalChange = value => {
-    this.setState({ value });
+    if (value) {
+      this.setState({ value });
+    }
   };
 
   onChange = e => {
@@ -64,12 +65,15 @@ export class App extends React.Component {
   }
 
   setFocalPoint = focalPoint => {
-    const value = {
-      ...this.state.value,
-      focalPoint
-    };
-    this.setState({ value });
-    this.props.sdk.field.setValue(value);
+    this.setState(
+      oldState => ({
+        value: {
+          ...oldState.value,
+          focalPoint
+        }
+      }),
+      () => this.props.sdk.field.setValue(this.state.value)
+    );
   };
 
   showFocalPointDialog = async () => {
@@ -100,7 +104,6 @@ export class App extends React.Component {
       }
 
       const focalPoint = await this.props.sdk.dialogs.openExtension({
-        id: 'image-metadata',
         width: 1000,
         parameters: {
           file,
@@ -135,7 +138,7 @@ export class App extends React.Component {
 
     return (
       <Note noteType="negative">
-        Could not find a field of type Asset with the ID "{imageFieldId}"
+        Could not find a field of type Asset with the ID &quot;{imageFieldId}&quot;
       </Note>
     );
   }
@@ -165,6 +168,8 @@ function renderDialog(sdk) {
 init(sdk => {
   if (sdk.location.is(locations.LOCATION_DIALOG)) {
     renderDialog(sdk);
+  } else if (sdk.location.is(locations.LOCATION_APP)) {
+    ReactDOM.render(<AppView sdk={sdk} />, document.getElementById('root'));
   } else {
     ReactDOM.render(<App sdk={sdk} />, document.getElementById('root'));
   }

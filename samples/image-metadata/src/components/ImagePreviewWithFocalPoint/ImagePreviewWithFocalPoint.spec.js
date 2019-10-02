@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import mockProps from '../../test/mockProps';
 import { ImagePreviewWithFocalPoint } from './ImagePreviewWithFocalPoint';

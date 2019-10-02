@@ -1,7 +1,7 @@
 import { css } from 'emotion';
 import tokens from '@contentful/forma-36-tokens';
 
-export const MAX_PREVIEW_WRAPPER_SIZE = 300;
+export const MAX_PREVIEW_WRAPPER_SIZE = 350;
 
 export const styles = {
   modalContent: css({
@@ -13,15 +13,18 @@ export const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     position: 'relative',
-    minWidth: `${MAX_PREVIEW_WRAPPER_SIZE}px`,
+    width: `${MAX_PREVIEW_WRAPPER_SIZE}px`,
     height: `${MAX_PREVIEW_WRAPPER_SIZE}px`
   }),
-  previewWrapperImg: css({
-    cursor: 'crosshair',
-    display: 'block',
-    margin: '0 auto',
-    maxWidth: '100%',
-    maxHeight: '100%'
+  previewImg: css({
+    '&, & > img': {
+      cursor: 'crosshair',
+      display: 'block',
+      margin: '0 auto',
+      maxWidth: '100%',
+      maxHeight: '100%',
+      outline: 0
+    }
   }),
   focalPointDemo: css({
     display: 'flex',
