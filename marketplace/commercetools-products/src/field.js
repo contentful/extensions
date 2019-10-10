@@ -101,7 +101,7 @@ export class CommerceToolsField extends React.Component {
 
     extension.dialogs
       .openExtension({
-        id: 'commercetools-products', // @todo Check with the team how to make this work with Marketplace installs
+        id: extension.ids.extension,
         position: 'center',
         title: isSingle ? 'Select Product' : 'Select Products',
         shouldCloseOnOverlayClick: true,
