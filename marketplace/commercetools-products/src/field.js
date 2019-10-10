@@ -6,8 +6,8 @@ import { ApolloProvider } from '@apollo/react-components';
 import { SortableContainer } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 
-import { getApolloClient } from './apollo.js';
-import { SortableProductCard } from './product-card.js';
+import { getApolloClient } from './apollo';
+import { SortableProductCard } from './product-card';
 
 const SortableList = SortableContainer(function SortableList({
   items,

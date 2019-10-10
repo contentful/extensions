@@ -8,8 +8,8 @@ import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
 import { init, locations } from 'contentful-ui-extensions-sdk';
 
-import { CommerceToolsField } from './field.js';
-import { CommerceToolsDialog } from './dialog.js';
+import { CommerceToolsField } from './field';
+import { CommerceToolsDialog } from './dialog';
 
 init(extension => {
   const installationParameters = extension.parameters.installation;
