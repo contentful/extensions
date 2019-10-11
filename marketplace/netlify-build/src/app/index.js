@@ -64,14 +64,17 @@ export default class NetlifyAppConfig extends React.Component {
 
     const ticketId = await NetlifyClient.createTicket();
 
-    this.setState({
-      ready: true,
-      config,
-      enabledContentTypes,
-      contentTypes: contentTypesResponse.items.map(ct => [ct.sys.id, ct.name]),
-      netlifySites: uniqBy(netlifySites, s => s.id),
-      ticketId
-    });
+    this.setState(
+      {
+        ready: true,
+        config,
+        enabledContentTypes,
+        contentTypes: contentTypesResponse.items.map(ct => [ct.sys.id, ct.name]),
+        netlifySites: uniqBy(netlifySites, s => s.id),
+        ticketId
+      },
+      app.setReady
+    );
   };
 
   onAppConfigure = async () => {
