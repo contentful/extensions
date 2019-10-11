@@ -121,13 +121,16 @@ export default class AppConfig extends React.Component<Props, State> {
       return fields && fields.length > 0;
     });
 
-    this.setState({
-      ready: true,
-      contentTypes: filteredContentTypes,
-      compatibleFields,
-      selectedFields: currentStateToSelectedFields(currentState || {}),
-      parameters: toInputParameters(this.props.parameterDefinitions, parameters)
-    });
+    this.setState(
+      {
+        ready: true,
+        contentTypes: filteredContentTypes,
+        compatibleFields,
+        selectedFields: currentStateToSelectedFields(currentState || {}),
+        parameters: toInputParameters(this.props.parameterDefinitions, parameters)
+      },
+      (platformAlpha.app as any).setReady
+    );
   };
 
   onAppConfigure = () => {
