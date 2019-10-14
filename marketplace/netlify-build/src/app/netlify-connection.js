@@ -44,7 +44,6 @@ const styles = {
 
 export default class NetlifyConnection extends React.Component {
   static propTypes = {
-    ready: PropTypes.bool.isRequired,
     connected: PropTypes.bool.isRequired,
     hasConfig: PropTypes.bool.isRequired,
     email: PropTypes.string,
@@ -82,10 +81,7 @@ export default class NetlifyConnection extends React.Component {
           Web App.
         </Paragraph>
         <div className={styles.auth}>
-          <button
-            disabled={!this.props.ready}
-            onClick={this.props.onConnectClick}
-            className={styles.button}>
+          <button onClick={this.props.onConnectClick} className={styles.button}>
             Connect account
           </button>
         </div>

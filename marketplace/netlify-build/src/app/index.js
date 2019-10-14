@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import uniqBy from 'lodash.uniqby';
-import { SkeletonContainer, SkeletonBodyText } from '@contentful/forma-36-react-components';
 import {
   currentStateToEnabledContentTypes,
   enabledContentTypesToTargetState
@@ -23,7 +22,12 @@ export default class NetlifyAppConfig extends React.Component {
   };
 
   state = {
-    ready: false
+    config: {
+      sites: []
+    },
+    netlifySites: [],
+    contentTypes: [],
+    enabledContentTypes: []
   };
 
   componentDidMount() {
@@ -66,7 +70,6 @@ export default class NetlifyAppConfig extends React.Component {
 
     this.setState(
       {
-        ready: true,
         config,
         enabledContentTypes,
         contentTypes: contentTypesResponse.items.map(ct => [ct.sys.id, ct.name]),
@@ -174,39 +177,33 @@ export default class NetlifyAppConfig extends React.Component {
 
   render() {
     const disabled = !this.state.token;
+    console.log('config', this.state.config);
     return (
       <>
         <div className={styles.background} />
         <div className={styles.body}>
           <NetlifyConnection
-            ready={this.state.ready}
             connected={!disabled}
             hasConfig={!!this.state.config}
             email={this.state.email}
             netlifyCounts={this.state.netlifyCounts}
             onConnectClick={this.onConnectClick}
           />
-          {this.state.ready ? (
-            <div className={styles.relative}>
-              {disabled && <div className={styles.configurationProtector} />}
-              <NetlifyConfigEditor
-                disabled={disabled}
-                siteConfigs={this.state.config.sites}
-                netlifySites={this.state.netlifySites}
-                onSiteConfigsChange={this.onSiteConfigsChange}
-              />
-              <NetlifyContentTypes
-                disabled={disabled}
-                contentTypes={this.state.contentTypes}
-                enabledContentTypes={this.state.enabledContentTypes}
-                onEnabledContentTypesChange={this.onEnabledContentTypesChange}
-              />
-            </div>
-          ) : (
-            <SkeletonContainer width="100%">
-              <SkeletonBodyText numberOfLines={3} offsetTop={55} />
-            </SkeletonContainer>
-          )}
+          <div className={styles.relative}>
+            {disabled && <div className={styles.configurationProtector} />}
+            <NetlifyConfigEditor
+              disabled={disabled}
+              siteConfigs={this.state.config.sites}
+              netlifySites={this.state.netlifySites}
+              onSiteConfigsChange={this.onSiteConfigsChange}
+            />
+            <NetlifyContentTypes
+              disabled={disabled}
+              contentTypes={this.state.contentTypes}
+              enabledContentTypes={this.state.enabledContentTypes}
+              onEnabledContentTypesChange={this.onEnabledContentTypesChange}
+            />
+          </div>
         </div>
         <div className={styles.icon}>
           <NetlifyIcon />
