@@ -90,7 +90,7 @@ export default class AppPage extends React.Component {
             : prevState.optimizelyProjectId
         }
       }),
-      app.setReady
+      () => app.setReady()
     );
 
     app.onConfigure(this.configureApp);
