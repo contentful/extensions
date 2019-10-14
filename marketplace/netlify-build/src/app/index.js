@@ -76,7 +76,7 @@ export default class NetlifyAppConfig extends React.Component {
         netlifySites: uniqBy(netlifySites, s => s.id),
         ticketId
       },
-      app.setReady
+      () => app.setReady()
     );
   };
 
