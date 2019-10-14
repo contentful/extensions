@@ -125,7 +125,7 @@ export default class AppConfig extends React.Component<Props, State> {
         parameters: toInputParameters(this.props.parameterDefinitions, parameters)
       },
       // TODO: update typing to allow for setReady
-      (platformAlpha.app as any).setReady
+      () => (platformAlpha.app as any).setReady()
     );
   };
 
