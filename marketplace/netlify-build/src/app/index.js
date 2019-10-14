@@ -177,7 +177,6 @@ export default class NetlifyAppConfig extends React.Component {
 
   render() {
     const disabled = !this.state.token;
-    console.log('config', this.state.config);
     return (
       <>
         <div className={styles.background} />
