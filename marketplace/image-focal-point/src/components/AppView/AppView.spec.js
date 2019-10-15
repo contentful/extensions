@@ -17,7 +17,8 @@ const props = {
     platformAlpha: {
       app: {
         onConfigure: jest.fn(),
-        isInstalled: jest.fn()
+        isInstalled: jest.fn(),
+        setReady: jest.fn()
       }
     }
   }

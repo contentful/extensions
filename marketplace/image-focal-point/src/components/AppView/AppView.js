@@ -44,10 +44,15 @@ export class AppView extends Component {
 
     // Following eslint error is caused due to using async/await
     // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({
-      appInstallationState: convertToAppInstallationState(appIsInstalled),
-      allContentTypesIds
-    });
+    this.setState(
+      {
+        appInstallationState: convertToAppInstallationState(appIsInstalled),
+        allContentTypesIds
+      },
+      () => {
+        sdk.platformAlpha.app.setReady();
+      }
+    );
 
     if (!appIsInstalled) {
       app.onConfigure(this.installApp);
