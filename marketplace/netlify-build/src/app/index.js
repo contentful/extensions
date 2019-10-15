@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import uniqBy from 'lodash.uniqby';
-import { SkeletonContainer, SkeletonBodyText } from '@contentful/forma-36-react-components';
 import {
   currentStateToEnabledContentTypes,
   enabledContentTypesToTargetState
@@ -23,7 +22,12 @@ export default class NetlifyAppConfig extends React.Component {
   };
 
   state = {
-    ready: false
+    config: {
+      sites: []
+    },
+    netlifySites: [],
+    contentTypes: [],
+    enabledContentTypes: []
   };
 
   componentDidMount() {
@@ -64,14 +68,16 @@ export default class NetlifyAppConfig extends React.Component {
 
     const ticketId = await NetlifyClient.createTicket();
 
-    this.setState({
-      ready: true,
-      config,
-      enabledContentTypes,
-      contentTypes: contentTypesResponse.items.map(ct => [ct.sys.id, ct.name]),
-      netlifySites: uniqBy(netlifySites, s => s.id),
-      ticketId
-    });
+    this.setState(
+      {
+        config,
+        enabledContentTypes,
+        contentTypes: contentTypesResponse.items.map(ct => [ct.sys.id, ct.name]),
+        netlifySites: uniqBy(netlifySites, s => s.id),
+        ticketId
+      },
+      () => app.setReady()
+    );
   };
 
   onAppConfigure = async () => {
@@ -176,34 +182,27 @@ export default class NetlifyAppConfig extends React.Component {
         <div className={styles.background} />
         <div className={styles.body}>
           <NetlifyConnection
-            ready={this.state.ready}
             connected={!disabled}
             hasConfig={!!this.state.config}
             email={this.state.email}
             netlifyCounts={this.state.netlifyCounts}
             onConnectClick={this.onConnectClick}
           />
-          {this.state.ready ? (
-            <div className={styles.relative}>
-              {disabled && <div className={styles.configurationProtector} />}
-              <NetlifyConfigEditor
-                disabled={disabled}
-                siteConfigs={this.state.config.sites}
-                netlifySites={this.state.netlifySites}
-                onSiteConfigsChange={this.onSiteConfigsChange}
-              />
-              <NetlifyContentTypes
-                disabled={disabled}
-                contentTypes={this.state.contentTypes}
-                enabledContentTypes={this.state.enabledContentTypes}
-                onEnabledContentTypesChange={this.onEnabledContentTypesChange}
-              />
-            </div>
-          ) : (
-            <SkeletonContainer width="100%">
-              <SkeletonBodyText numberOfLines={3} offsetTop={55} />
-            </SkeletonContainer>
-          )}
+          <div className={styles.relative}>
+            {disabled && <div className={styles.configurationProtector} />}
+            <NetlifyConfigEditor
+              disabled={disabled}
+              siteConfigs={this.state.config.sites}
+              netlifySites={this.state.netlifySites}
+              onSiteConfigsChange={this.onSiteConfigsChange}
+            />
+            <NetlifyContentTypes
+              disabled={disabled}
+              contentTypes={this.state.contentTypes}
+              enabledContentTypes={this.state.enabledContentTypes}
+              onEnabledContentTypesChange={this.onEnabledContentTypesChange}
+            />
+          </div>
         </div>
         <div className={styles.icon}>
           <NetlifyIcon />
