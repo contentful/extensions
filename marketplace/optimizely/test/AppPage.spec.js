@@ -30,7 +30,8 @@ describe('AppPage', () => {
         getParameters: jest.fn(() => Promise.resolve({ optimizelyProjectId: '123' })),
         onConfigure: jest.fn(fn => {
           configFunc = fn;
-        })
+        }),
+        setReady: jest.fn()
       }
     };
 
