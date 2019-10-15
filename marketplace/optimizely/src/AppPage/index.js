@@ -80,15 +80,18 @@ export default class AppPage extends React.Component {
     const enabledContentTypes = this.findEnabledContentTypes(allContentTypes);
 
     // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState(prevState => ({
-      allContentTypes,
-      config: {
-        contentTypes: enabledContentTypes,
-        optimizelyProjectId: currentParameters
-          ? currentParameters.optimizelyProjectId
-          : prevState.optimizelyProjectId
-      }
-    }));
+    this.setState(
+      prevState => ({
+        allContentTypes,
+        config: {
+          contentTypes: enabledContentTypes,
+          optimizelyProjectId: currentParameters
+            ? currentParameters.optimizelyProjectId
+            : prevState.optimizelyProjectId
+        }
+      }),
+      () => app.setReady()
+    );
 
     app.onConfigure(this.configureApp);
   }
