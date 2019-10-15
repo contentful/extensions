@@ -83,6 +83,7 @@ export class AppView extends Component {
           id: contentTypeId
         },
         name: contentTypeName,
+        displayField: 'title',
         fields: [
           {
             id: 'title',
