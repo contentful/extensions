@@ -35,7 +35,8 @@ const makeSdkMock = () => ({
     app: {
       getParameters: jest.fn().mockResolvedValue(null),
       getCurrentState: jest.fn().mockResolvedValue(null),
-      onConfigure: jest.fn().mockReturnValue(undefined)
+      onConfigure: jest.fn().mockReturnValue(undefined),
+      setReady: jest.fn()
     }
   }
 });

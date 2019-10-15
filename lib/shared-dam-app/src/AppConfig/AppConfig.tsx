@@ -6,9 +6,7 @@ import {
   Paragraph,
   Typography,
   TextField,
-  Form,
-  SkeletonContainer,
-  SkeletonBodyText
+  Form
 } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import { css } from 'emotion';
@@ -39,7 +37,6 @@ interface Props {
 }
 
 interface State {
-  ready: boolean;
   contentTypes: ContentType[];
   compatibleFields: CompatibleFields;
   selectedFields: SelectedFields;
@@ -92,7 +89,6 @@ const styles = {
 
 export default class AppConfig extends React.Component<Props, State> {
   state = {
-    ready: false,
     contentTypes: [] as ContentType[],
     compatibleFields: ({} as any) as CompatibleFields,
     selectedFields: ({} as any) as SelectedFields,
@@ -121,13 +117,16 @@ export default class AppConfig extends React.Component<Props, State> {
       return fields && fields.length > 0;
     });
 
-    this.setState({
-      ready: true,
-      contentTypes: filteredContentTypes,
-      compatibleFields,
-      selectedFields: currentStateToSelectedFields(currentState || {}),
-      parameters: toInputParameters(this.props.parameterDefinitions, parameters)
-    });
+    this.setState(
+      {
+        contentTypes: filteredContentTypes,
+        compatibleFields,
+        selectedFields: currentStateToSelectedFields(currentState || {}),
+        parameters: toInputParameters(this.props.parameterDefinitions, parameters)
+      },
+      // TODO: update typing to allow for setReady
+      () => (platformAlpha.app as any).setReady()
+    );
   };
 
   onAppConfigure = () => {
@@ -155,20 +154,12 @@ export default class AppConfig extends React.Component<Props, State> {
             <Paragraph>{this.props.description}</Paragraph>
             <hr className={styles.splitter} />
           </Typography>
-          {this.state.ready ? this.renderApp() : this.renderLoader()}
+          {this.renderApp()}
         </div>
         <div className={styles.icon}>
           <img src={this.props.logo} alt="App logo" />
         </div>
       </>
-    );
-  }
-
-  renderLoader() {
-    return (
-      <SkeletonContainer width="100%">
-        <SkeletonBodyText numberOfLines={3} />
-      </SkeletonContainer>
     );
   }
 
