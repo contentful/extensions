@@ -54,7 +54,7 @@
 
         // Get the field value from the UI Extension SDK
         var value = api.field.getValue() || ''
-        document.getElementById('editor').innerText = value
+        document.getElementById('editor').textContent = value
 
         // Configure Ace editor
         var editor = ace.edit('editor')
