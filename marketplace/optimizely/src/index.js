@@ -33,7 +33,7 @@ if (window.location.hash) {
   const { access_token = null, expires_in = null } = parseHash(window.location.hash);
   const expireTime = getTokenExpirationTime(expires_in);
 
-  window.opener.postMessage({ token: access_token, expires: expireTime });
+  window.opener.postMessage({ token: access_token, expires: expireTime }, '*');
   window.close();
 }
 
