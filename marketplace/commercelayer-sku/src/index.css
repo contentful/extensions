@@ -17,6 +17,14 @@ body {
 	padding: 20px;
 }
 
+div.selected-sku {
+	min-height: 525px;
+	padding: 0 5rem 1.5rem;
+}
+.selected-sku > .name {
+	min-height: 0px;
+}
+
 .sku {
 	cursor: pointer;
 }
