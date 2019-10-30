@@ -11,6 +11,8 @@ import { FocalPointView } from './components/FocalPointView';
 import { FocalPointDialog } from './components/FocalPointDialog';
 import { getField, isCompatibleImageField } from './utils';
 
+const IMAGE_FIELD_ID = 'image';
+
 export class App extends React.Component {
   static propTypes = {
     sdk: PropTypes.object.isRequired
@@ -78,16 +80,11 @@ export class App extends React.Component {
 
   showFocalPointDialog = async () => {
     const {
-      sdk: {
-        notifier,
-        space,
-        entry,
-        parameters: { instance }
-      }
+      sdk: { notifier, space, entry }
     } = this.props;
 
     try {
-      const imageField = entry.fields[instance.imageFieldId];
+      const imageField = entry.fields[IMAGE_FIELD_ID];
       const asset = await space.getAsset(imageField.getValue().sys.id);
       const file = asset.fields.file[this.findProperLocale()];
       const imageUrl = file.url;
@@ -122,10 +119,9 @@ export class App extends React.Component {
 
   render() {
     const { sdk } = this.props;
-    const { imageFieldId } = sdk.parameters.instance;
-    const imageField = getField(sdk.contentType, imageFieldId);
+    const imageField = getField(sdk.contentType, IMAGE_FIELD_ID);
     const isImageField = isCompatibleImageField(imageField);
-    const hasValidConfig = !!imageFieldId && isImageField;
+    const hasValidConfig = isImageField;
 
     if (hasValidConfig) {
       return (
@@ -138,7 +134,7 @@ export class App extends React.Component {
 
     return (
       <Note noteType="negative">
-        Could not find a field of type Asset with the ID &quot;{imageFieldId}&quot;
+        Could not find a field of type Asset with the ID &quot;{IMAGE_FIELD_ID}&quot;
       </Note>
     );
   }

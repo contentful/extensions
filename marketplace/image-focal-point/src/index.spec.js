@@ -53,21 +53,9 @@ describe('App', () => {
   });
 
   describe('#render', () => {
-    describe('when there is a valid config', () => {
-      it('should render the extension field view', () => {
-        const { container } = renderComponent(sdk);
-        expect(container).toMatchSnapshot();
-      });
-    });
-
-    describe('when there is an invalid config', () => {
-      it('should render the error message', () => {
-        const { container } = renderComponent({
-          ...sdk,
-          parameters: { instance: {} }
-        });
-        expect(container).toMatchSnapshot();
-      });
+    it('should render the extension field view', () => {
+      const { container } = renderComponent(sdk);
+      expect(container).toMatchSnapshot();
     });
   });
 });
