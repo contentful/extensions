@@ -121,9 +121,8 @@ export class App extends React.Component {
     const { sdk } = this.props;
     const imageField = getField(sdk.contentType, IMAGE_FIELD_ID);
     const isImageField = isCompatibleImageField(imageField);
-    const hasValidConfig = isImageField;
 
-    if (hasValidConfig) {
+    if (isImageField) {
       return (
         <FocalPointView
           showFocalPointDialog={this.showFocalPointDialog}
