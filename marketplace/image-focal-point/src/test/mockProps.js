@@ -24,9 +24,7 @@ export default {
       }
     },
     parameters: {
-      instance: {
-        imageFieldId: 'imgFieldId'
-      },
+      instance: {},
       installation: {},
       invocation: {
         file: {
