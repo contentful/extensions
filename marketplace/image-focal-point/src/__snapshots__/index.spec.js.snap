@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App #render when there is a valid config should render the extension field view 1`] = `
+exports[`App #render should render the extension field view 1`] = `
 <div>
   <div
     class="css-1yp4ln"
@@ -33,42 +33,6 @@ exports[`App #render when there is a valid config should render the extension fi
         </span>
       </span>
     </button>
-  </div>
-</div>
-`;
-
-exports[`App #render when there is an invalid config should render the error message 1`] = `
-<div>
-  <div
-    class="Note__Note___2eSKN Note__Note--negative___3fkwL"
-    data-test-id="cf-ui-note"
-  >
-    <div
-      class="Note__Note__icon___20RqC"
-    >
-      <svg
-        class="Icon__Icon___38Epv Icon__Icon--small___1yGZK Icon__Icon--negative___1dled"
-        data-test-id="cf-ui-icon"
-        height="18"
-        viewBox="0 0 24 24"
-        width="18"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M0 0h24v24H0z"
-          fill="none"
-        />
-        <path
-          d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"
-        />
-      </svg>
-    </div>
-    <div>
-      <div>
-        Could not find a field of type Asset with the ID "
-        "
-      </div>
-    </div>
   </div>
 </div>
 `;

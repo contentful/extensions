@@ -42,11 +42,11 @@ p.help {
 }
 
 .cf-form-field {
-  margin-bottom: 1.928571428571429em;
+	margin-bottom: 1.928571428571429em;
 }
 .cf-form-field > label {
-  display: block;
-  margin-bottom: 0.642857142857143em;
+	display: block;
+	margin-bottom: 0.642857142857143em;
 }
 
 input.cf-form-input {
@@ -80,20 +80,20 @@ input.cf-form-input {
 }
 input.cf-form-input[aria-invalid="true"],
 input.cf-form-input:invalid {
-  background-color: #fff2f1;
+	background-color: #fff2f1;
 }
 input.cf-form-input[aria-disabled="true"],
 input.cf-form-input[disabled],
 input.cf-form-input:disabled {
-  background-color: #f7f9fa;
-  color: #a9b9c0;
-  -webkit-border-image: none;
-  -moz-border-image: none;
-  -o-border-image: none;
-  border-image: none;
+	background-color: #f7f9fa;
+	color: #a9b9c0;
+	-webkit-border-image: none;
+	-moz-border-image: none;
+	-o-border-image: none;
+	border-image: none;
 }
 input.cf-form-input[size] {
-  width: auto;
+	width: auto;
 }
 textarea.cf-form-input {
   font-size: 16px;
@@ -128,17 +128,17 @@ textarea.cf-form-input {
 }
 textarea.cf-form-input[aria-invalid="true"],
 textarea.cf-form-input:invalid {
-  background-color: #fff2f1;
+	background-color: #fff2f1;
 }
 textarea.cf-form-input[aria-disabled="true"],
 textarea.cf-form-input[disabled],
 textarea.cf-form-input:disabled {
-  background-color: #f7f9fa;
-  color: #a9b9c0;
-  -webkit-border-image: none;
-  -moz-border-image: none;
-  -o-border-image: none;
-  border-image: none;
+	background-color: #f7f9fa;
+	color: #a9b9c0;
+	-webkit-border-image: none;
+	-moz-border-image: none;
+	-o-border-image: none;
+	border-image: none;
 }
 select.cf-form-input {
   color: inherit;
@@ -189,30 +189,30 @@ select.cf-form-input {
   background-size: 0.7em;
 }
 select.cf-form-input::-ms-expand {
-  display: none;
+	display: none;
 }
 select.cf-form-input[aria-invalid="true"],
 select.cf-form-input:invalid {
-  background-color: #fff2f1;
+	background-color: #fff2f1;
 }
 select.cf-form-input[aria-disabled="true"],
 select.cf-form-input[disabled],
 select.cf-form-input:disabled {
-  background-color: #f7f9fa;
-  color: #a9b9c0;
-  -webkit-border-image: none;
-  -moz-border-image: none;
-  -o-border-image: none;
-  border-image: none;
+	background-color: #f7f9fa;
+	color: #a9b9c0;
+	-webkit-border-image: none;
+	-moz-border-image: none;
+	-o-border-image: none;
+	border-image: none;
 }
 select.cf-form-input > option {
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  overflow: hidden;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 .cf-form-hint {
-  margin-top: 0.642857142857143em;
-  color: #808080;
-  font-size: 13px;
+	margin-top: 0.642857142857143em;
+	color: #808080;
+	font-size: 13px;
 }
