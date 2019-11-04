@@ -1,0 +1,28 @@
+{
+  "id": "frontify-assets",
+  "name": "Frontify Assets",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": ["Object"],
+  "parameters": {
+    "installation": [
+      {
+        "id": "domain",
+        "type": "Symbol",
+        "name": "Frontify Domain",
+        "description": "Your Frontify domain, e.g. https://weare.frontify.com",
+        "default": "https://weare.frontify.com",
+        "required": true
+      }
+    ],
+    "instance": [
+      {
+        "id": "accessToken",
+        "type": "Symbol",
+        "name": "Access Token",
+        "description": "Your Frontify access token",
+        "default": "",
+        "required": true
+      }
+    ]
+  }
+}
