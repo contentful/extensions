@@ -14,7 +14,7 @@ init(sdk => {
     logo,
     color: '#363D4A',
     description:
-      'The Frontify enables editors to access all digital brand assets in Frontify directly from Contentful.',
+      'The Frontify app enables editors to access all digital brand assets in Frontify directly from Contentful.',
     parameterDefinitions: sdk.parameters.installation,
     makeThumbnail,
     renderDialog,
