@@ -48,27 +48,17 @@ function renderDialog(sdk) {
 
   // cross document messaging
   window.addEventListener('message', e => {
-    if (!e.data || e.data.aborted) {
-      sdk.close([]);
-      return;
-    }
+    if (!e.data) return;
 
     if (e.data.error) {
-      console.error(e.data.error);
-    }
-
-    // The Asset Chooser is fully loaded and now requests the API Access Token.
-    if (e.data.configurationRequested) {
+      sdk.notifier.error('An error occurred while selecting assets.');
+    } else if (e.data.configurationRequested) {
       chooser.postMessage(
         { token: config.accessToken, mode: 'tree', multiSelectionAllowed: true },
         target
       );
-    } else {
-      if (e.data.assetsChosen) {
-        sdk.close(e.data.assetsChosen);
-      } else {
-        sdk.close([]);
-      }
+    } else if (e.data.assetsChosen) {
+      sdk.close(e.data.assetsChosen || []);
     }
   });
 }
