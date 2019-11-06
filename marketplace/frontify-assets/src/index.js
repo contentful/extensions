@@ -1,4 +1,4 @@
-import { setup } from '../../../lib/shared-dam-app';
+import { setup } from 'shared-dam-app';
 
 import logo from './logo.svg';
 import { init } from 'contentful-ui-extensions-sdk';
