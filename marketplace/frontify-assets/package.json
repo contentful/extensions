@@ -1,0 +1,34 @@
+{
+  "name": "frontify-assets",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "@babel/core": "7.3.4",
+    "@babel/plugin-proposal-class-properties": "7.3.4",
+    "@babel/plugin-transform-runtime": "7.3.4",
+    "@babel/preset-env": "7.3.4",
+    "@babel/preset-react": "7.0.0",
+    "@contentful/contentful-extension-scripts": "^0.14.0",
+    "contentful-cli": "^0.36.0"
+  },
+  "dependencies": {
+    "shared-dam-app": "^1.0.0",
+    "contentful-ui-extensions-sdk": "^3.9.2"
+  },
+  "scripts": {
+    "start": "contentful-extension-scripts start --serve-only",
+    "build": "contentful-extension-scripts build",
+    "deploy": "npm run build && contentful extension update --force",
+    "test": "contentful-extension-scripts test --env=jsdom --watch",
+    "test:coverage": "contentful-extension-scripts test --env=jsdom --coverage --passWithNoTests",
+    "login": "contentful login",
+    "configure": "contentful space use && contentful space environment use",
+    "logout": "contentful logout",
+    "help": "contentful-extension-scripts help"
+  },
+  "browserslist": [
+    "last 5 Chrome version",
+    "> 1%",
+    "not ie <= 11"
+  ]
+}
