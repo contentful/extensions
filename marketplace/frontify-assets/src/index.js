@@ -63,13 +63,22 @@ function renderDialog(sdk) {
   });
 }
 
-async function openDialog(sdk, _currentValue) {
+async function openDialog(sdk) {
+  const params = sdk.parameters;
+  // Use per-field access token first, if not provided then default to app config.
+  const accessToken = params.instance.accessToken || params.installation.defaultAccessToken;
+
+  if (typeof accessToken !== 'string' || accessToken.length < 1) {
+    sdk.notifier.error('No valid acccess token found. Update app or field configuration.');
+    return;
+  }
+
   const result = await sdk.dialogs.openExtension({
     position: 'center',
     title: CTA,
     shouldCloseOnOverlayClick: true,
     shouldCloseOnEscapePress: true,
-    parameters: { ...sdk.parameters.installation, ...sdk.parameters.instance },
+    parameters: { domain: params.installation.domain, accessToken },
     width: 1400
   });
 
