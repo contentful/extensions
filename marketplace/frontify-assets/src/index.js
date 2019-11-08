@@ -63,7 +63,7 @@ function renderDialog(sdk) {
   });
 }
 
-async function openDialog(sdk, _currentValue) {
+async function openDialog(sdk) {
   const result = await sdk.dialogs.openExtension({
     position: 'center',
     title: CTA,
