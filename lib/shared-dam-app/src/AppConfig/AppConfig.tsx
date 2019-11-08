@@ -178,42 +178,46 @@ export default class AppConfig extends React.Component<Props, State> {
 
   renderApp() {
     const { contentTypes, compatibleFields, selectedFields, parameters } = this.state;
+    const { parameterDefinitions } = this.props;
+    const hasConfigurationOptions = parameterDefinitions && parameterDefinitions.length > 0;
 
     return (
       <>
-        <Typography>
-          <Heading>Configuration</Heading>
-          <Form>
-            {this.props.parameterDefinitions.map(def => {
-              const key = `config-input-${def.id}`;
+        {hasConfigurationOptions && (
+          <Typography>
+            <Heading>Configuration</Heading>
+            <Form>
+              {parameterDefinitions.map(def => {
+                const key = `config-input-${def.id}`;
 
-              return (
-                <TextField
-                  required={def.required}
-                  key={key}
-                  id={key}
-                  name={key}
-                  labelText={def.name}
-                  textInputProps={{
-                    width: def.type === 'Symbol' ? 'large' : 'medium',
-                    type: def.type === 'Symbol' ? 'text' : 'number',
-                    maxLength: 255
-                  }}
-                  helpText={def.description}
-                  value={parameters[def.id]}
-                  onChange={this.onParameterChange.bind(this, def.id)}
-                />
-              );
-            })}
-          </Form>
-          <hr className={styles.splitter} />
-        </Typography>
+                return (
+                  <TextField
+                    required={def.required}
+                    key={key}
+                    id={key}
+                    name={key}
+                    labelText={def.name}
+                    textInputProps={{
+                      width: def.type === 'Symbol' ? 'large' : 'medium',
+                      type: def.type === 'Symbol' ? 'text' : 'number',
+                      maxLength: 255
+                    }}
+                    helpText={def.description}
+                    value={parameters[def.id]}
+                    onChange={this.onParameterChange.bind(this, def.id)}
+                  />
+                );
+              })}
+            </Form>
+            <hr className={styles.splitter} />
+          </Typography>
+        )}
         <Typography>
           <Heading>Assign to fields</Heading>
           {contentTypes.length > 0 ? (
             <Paragraph>
-              This app can only be used with <strong>JSON object</strong> fields. Select which ones
-              you’d like to enable this app.
+              This app can only be used with <strong>JSON object</strong> fields. Select for which
+              ones you’d like to enable this app.
             </Paragraph>
           ) : (
             <>
