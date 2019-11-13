@@ -1,27 +1,23 @@
 import { setup } from 'shared-dam-app';
 
+import descriptor from '../extension.json';
 import logo from './logo.svg';
-import { init } from 'contentful-ui-extensions-sdk';
 
 const CTA = 'Select files from Frontify';
 
-init(sdk => {
-  sdk.window.startAutoResizer();
-
-  setup({
-    cta: CTA,
-    name: 'Frontify',
-    logo,
-    color: '#363D4A',
-    description:
-      'The Frontify app enables editors to access all digital brand assets in Frontify directly from Contentful.',
-    parameterDefinitions: sdk.parameters.installation,
-    makeThumbnail,
-    renderDialog,
-    openDialog,
-    isDisabled,
-    validateParameters
-  });
+setup({
+  cta: CTA,
+  name: 'Frontify',
+  logo,
+  color: '#363D4A',
+  description:
+    'The Frontify app enables editors to access all digital brand assets in Frontify directly from Contentful.',
+  parameterDefinitions: descriptor.parameters.installation,
+  makeThumbnail,
+  renderDialog,
+  openDialog,
+  isDisabled,
+  validateParameters
 });
 
 function makeThumbnail(resource) {
