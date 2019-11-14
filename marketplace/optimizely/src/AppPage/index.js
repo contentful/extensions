@@ -74,7 +74,7 @@ export default class AppPage extends React.Component {
 
     const [currentParameters, { items: allContentTypes = [] }] = await Promise.all([
       app.getParameters(),
-      this.props.sdk.space.getContentTypes()
+      this.props.sdk.space.getContentTypes({ order: 'name', limit: 1000 })
     ]);
 
     const enabledContentTypes = this.findEnabledContentTypes(allContentTypes);
