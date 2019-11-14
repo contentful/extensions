@@ -82,7 +82,7 @@ const fetchInitialData = async (sdk, client) => {
   const { space, ids, locales } = sdk;
 
   const [contentTypesRes, entriesRes, experiments] = await Promise.all([
-    space.getContentTypes(),
+    space.getContentTypes({ order: 'name', limit: 1000 }),
     space.getEntries({ links_to_entry: ids.entry, skip: 0, limit: 1000 }),
     client.getExperiments()
   ]);
