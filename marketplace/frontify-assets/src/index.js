@@ -30,6 +30,8 @@ function makeThumbnail(resource) {
 function renderDialog(sdk) {
   const config = sdk.parameters.invocation;
 
+  sdk.window.startAutoResizer();
+
   // prepare iframe
   const container = document.createElement('div');
   const iframe = document.createElement('iframe');
