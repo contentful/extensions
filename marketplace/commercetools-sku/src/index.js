@@ -1,4 +1,4 @@
-import { setup } from 'shared-dam-app';
+import { setup } from 'shared-sku-app';
 
 import logo from './logo.svg';
 import descriptor from '../extension.json';
