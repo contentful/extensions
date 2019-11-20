@@ -1,4 +1,4 @@
-import { setup } from 'shared-sku-app';
+import { setup, renderSkuPicker } from 'shared-sku-app';
 
 import logo from './logo.svg';
 import descriptor from '../extension.json';
@@ -12,9 +12,12 @@ function makeThumbnail(resource, config) {
 }
 
 function renderDialog(sdk) {
+  const ID = 'dialog-root';
   const container = document.createElement('div');
-  container.innerHTML = `hello world`;
+  container.id = ID;
   document.body.appendChild(container);
+
+  renderSkuPicker(ID, (search = '') => console.log('fetching stuff...', search));
 
   // sdk.close()
   sdk.window.updateHeight(window.outerHeight);
