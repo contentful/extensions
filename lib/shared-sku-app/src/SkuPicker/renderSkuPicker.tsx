@@ -1,10 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { SkuPicker } from './SkuPicker';
-import { Hash } from '../interfaces';
 
 interface Props {
-  sdk: Hash;
   onSearch: Function;
 }
 

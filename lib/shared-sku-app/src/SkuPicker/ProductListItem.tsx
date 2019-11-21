@@ -1,11 +1,9 @@
 import React from 'react';
-import get from 'lodash/get';
 import tokens from '@contentful/forma-36-tokens';
 import { css } from 'emotion';
 import { Hash } from '../interfaces';
 
 interface Props {
-  locale: string;
   product: Hash;
 }
 
@@ -43,17 +41,12 @@ const styles = {
   })
 };
 
-export const ProductListItem = ({ product, locale }: Props) => {
-  const imgUrl = get(product, ['masterData', 'current', 'masterVariant', 'images', 0, 'url'], '');
-  const name = get(product, ['masterData', 'current', 'name', locale], '');
-  const sku = get(product, ['masterData', 'current', 'masterVariant', 'sku'], '');
-  return (
-    <div className={styles.productWrapper}>
-      <div className={styles.product}>
-        <img src={imgUrl} alt="product preview" className={styles.previewImg} />
-        <p className={styles.name}>{name}</p>
-        <p className={styles.sku}>{sku}</p>
-      </div>
+export const ProductListItem = ({ product }: Props) => (
+  <div className={styles.productWrapper}>
+    <div className={styles.product}>
+      <img src={product.image} alt="product preview" className={styles.previewImg} />
+      <p className={styles.name}>{product.name}</p>
+      <p className={styles.sku}>{product.sku}</p>
     </div>
-  );
-};
+  </div>
+);

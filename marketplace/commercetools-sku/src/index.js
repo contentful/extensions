@@ -1,4 +1,4 @@
-// import { createRequestBuilder } from '@commercetools/api-request-builder';
+import { createRequestBuilder } from '@commercetools/api-request-builder';
 import { createClient } from '@commercetools/sdk-client';
 import { createAuthMiddlewareForClientCredentialsFlow } from '@commercetools/sdk-middleware-auth';
 import { createHttpMiddleware } from '@commercetools/sdk-middleware-http';
@@ -8,6 +8,7 @@ import { setup, renderSkuPicker } from 'shared-sku-app';
 
 import logo from './logo.svg';
 import descriptor from '../extension.json';
+import { dataTransformer } from './dataTransformer';
 
 const CTA = 'Select a Commercetools product';
 
@@ -45,10 +46,7 @@ function makeThumbnail(resource, config) {
 }
 
 async function renderDialog(sdk) {
-  const request = {
-    uri: `/${sdk.parameters.installation.projectKey}/products`,
-    method: 'GET'
-  };
+  const { projectKey, locale } = sdk.parameters.installation;
 
   const client = makeCommerceToolsClient(sdk);
 
@@ -58,13 +56,34 @@ async function renderDialog(sdk) {
   document.body.appendChild(container);
 
   renderSkuPicker(ID, {
-    sdk,
-    onSearch: async search => {
-      console.log('Search:', search);
-      const response = await client.execute(request);
+    onSearch: async (search, { offset }) => {
+      const PER_PAGE = 20;
+      const requestBuilder = createRequestBuilder({
+        projectKey
+      });
+      const uri = requestBuilder.productProjectionsSearch
+        .parse({
+          ...(!!search.length && {
+            text: {
+              language: locale,
+              value: search
+            }
+          }),
+          page: offset / PER_PAGE + 1,
+          perPage: PER_PAGE
+        })
+        .build();
+      const response = await client.execute({ uri, method: 'GET' });
       if (response.statusCode === 200) {
-        console.log('Res:', response);
-        return response.body.results;
+        return {
+          pagination: {
+            count: response.body.count,
+            limit: response.body.limit,
+            total: response.body.total,
+            offset: response.body.offset
+          },
+          products: response.body.results.map(dataTransformer(locale))
+        };
       }
       throw new Error(response.statusCode);
     }

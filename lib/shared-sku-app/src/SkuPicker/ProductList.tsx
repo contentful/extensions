@@ -5,7 +5,6 @@ import { Hash } from '../interfaces';
 import { ProductListItem } from './ProductListItem';
 
 interface Props {
-  locale: string;
   products: Hash[];
 }
 
@@ -18,10 +17,10 @@ const styles = {
   })
 };
 
-export const ProductList = ({ locale, products }: Props) => (
+export const ProductList = ({ products }: Props) => (
   <div className={styles.productList}>
     {products.map(product => (
-      <ProductListItem key={product.id} product={product} locale={locale} />
+      <ProductListItem key={product.id} product={product} />
     ))}
   </div>
 );
