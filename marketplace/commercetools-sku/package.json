@@ -13,6 +13,11 @@
     "cssnano": "4.1.10"
   },
   "dependencies": {
+    "@commercetools/api-request-builder": "^5.4.0",
+    "@commercetools/sdk-client": "^2.1.1",
+    "@commercetools/sdk-middleware-auth": "^6.0.1",
+    "@commercetools/sdk-middleware-http": "^6.0.1",
+    "@commercetools/sdk-middleware-queue": "^2.1.1",
     "core-js": "3.4.1",
     "shared-sku-app": "^1.0.0"
   },

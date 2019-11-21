@@ -1,8 +1,14 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { SkuPicker } from './SkuPicker';
+import { Hash } from '../interfaces';
 
-export function renderSkuPicker(elementId: string, onSearch: Function): void {
+interface Props {
+  sdk: Hash;
+  onSearch: Function;
+}
+
+export function renderSkuPicker(elementId: string, props: Props): void {
   const root = document.getElementById(elementId);
-  render(<SkuPicker onSearch={onSearch} />, root);
+  render(<SkuPicker {...props} />, root);
 }
