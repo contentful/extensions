@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import tokens from '@contentful/forma-36-tokens';
+import noop from 'lodash/noop';
+import { SkeletonContainer, SkeletonImage } from '@contentful/forma-36-react-components';
 import { css } from 'emotion';
 import { Hash } from '../interfaces';
 
 interface Props {
   product: Hash;
+  selectProduct: (sku: string) => void;
+  isSelected: boolean;
 }
 
 const styles = {
@@ -16,13 +20,29 @@ const styles = {
   product: css({
     border: '1px solid',
     borderColor: tokens.colorElementLight,
+    borderRadius: '3px',
+    boxShadow: '0px 0px 0px 1px inset rgba(48, 114, 190, 0), 0 1px 3px rgba(0, 0, 0, 0)',
     display: 'flex',
     flexDirection: 'column',
     padding: tokens.spacingS,
+    outline: 0,
     textAlign: 'center',
-    transition: `border-color ${tokens.transitionDurationDefault} ${tokens.transitionEasingDefault}`,
+    transition: `all ${tokens.transitionDurationDefault} ${tokens.transitionEasingDefault}`,
     '&:hover': {
       borderColor: tokens.colorElementDark,
+      cursor: 'pointer'
+    },
+    width: '100%',
+    // Force hardware acceleration for non-accelerated
+    // animated props box-shadow and border-color
+    transform: 'translateZ(0)',
+    willChange: 'box-shadow, border-color'
+  }),
+  selectedProduct: css({
+    borderColor: 'rgba(48, 114, 190, 1)',
+    boxShadow: '0px 0px 0px 1px inset rgba(48, 114, 190, 1), 0 1px 3px rgba(0, 0, 0, 0.08)',
+    '&:hover': {
+      borderColor: 'rgba(48, 114, 190, 1)',
       cursor: 'pointer'
     }
   }),
@@ -38,15 +58,41 @@ const styles = {
     flex: '0 1 auto',
     color: tokens.colorContrastLight,
     fontSize: tokens.fontSizeS
+  }),
+  skeletonImage: css({
+    width: '100%',
+    height: '400px'
   })
 };
 
-export const ProductListItem = ({ product }: Props) => (
-  <div className={styles.productWrapper}>
-    <div className={styles.product}>
-      <img src={product.image} alt="product preview" className={styles.previewImg} />
-      <p className={styles.name}>{product.name}</p>
-      <p className={styles.sku}>{product.sku}</p>
+export const ProductListItem = (props: Props) => {
+  const { product, isSelected, selectProduct } = props;
+  const [imageHasLoaded, setImageHasLoaded] = useState(false);
+
+  return (
+    <div className={styles.productWrapper}>
+      <div
+        role="switch"
+        aria-checked={isSelected}
+        tabIndex={-1}
+        className={`${styles.product} ${isSelected ? styles.selectedProduct : ''}`}
+        onKeyUp={noop}
+        onClick={() => selectProduct(product.sku)}>
+        {!imageHasLoaded && (
+          <SkeletonContainer className={styles.skeletonImage}>
+            <SkeletonImage width={400} height={400} />
+          </SkeletonContainer>
+        )}
+        <img
+          onLoad={() => setImageHasLoaded(true)}
+          style={{ display: imageHasLoaded ? 'block' : 'none' }}
+          src={product.image}
+          alt="product preview"
+          className={styles.previewImg}
+        />
+        <p className={styles.name}>{product.name}</p>
+        <p className={styles.sku}>{product.sku}</p>
+      </div>
     </div>
-  </div>
-);
+  );
+};

@@ -19,26 +19,32 @@ interface State {
   search: string;
   pagination: Pagination;
   products: Hash[];
+  selectedProducts: string[];
 }
 
-const SEARCH_DELAY = 150;
+const SEARCH_DELAY = 250;
 
 const styles = {
   header: css({
     padding: tokens.spacingL
   }),
   body: css({
+    height: 'calc(100vh - 226px)',
+    overflowY: 'auto',
     padding: tokens.spacingL
   }),
   footer: css({
-    padding: tokens.spacingL,
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: `${tokens.spacingL} ${tokens.spacingL} 0 ${tokens.spacingL}`,
     textAlign: 'right'
   }),
-  paginatorTop: css({
-    padding: `${tokens.spacingL} ${tokens.spacingL} 0 ${tokens.spacingL}`
+  footerButton: css({
+    marginLeft: 'auto',
+    marginRight: tokens.spacingM
   }),
   paginatorBottom: css({
-    padding: `0 ${tokens.spacingL} ${tokens.spacingL} ${tokens.spacingL}`
+    padding: `0 ${tokens.spacingL} ${tokens.spacingL} 0`
   })
 };
 
@@ -52,18 +58,21 @@ export class SkuPicker extends Component<Props, State> {
       offset: 0,
       total: 0
     },
-    products: []
+    products: [],
+    selectedProducts: []
   };
 
   componentDidMount() {
     this.setSearchResults();
   }
 
+  setSearchCallback = debounce(() => {
+    this.setActivePage(1);
+    this.setSearchResults();
+  }, SEARCH_DELAY);
+
   setSearch = (search: string): void => {
-    this.setState({ search }, () => {
-      this.setActivePage(1);
-      this.setSearchResults();
-    });
+    this.setState({ search }, this.setSearchCallback);
   };
 
   setSearchResults = async (): Promise<void> => {
@@ -85,9 +94,20 @@ export class SkuPicker extends Component<Props, State> {
     });
   };
 
+  selectProduct = (sku: string) => {
+    if (this.state.selectedProducts.includes(sku)) {
+      this.setState(({ selectedProducts }) => ({
+        selectedProducts: selectedProducts.filter(productSku => productSku !== sku)
+      }));
+    } else {
+      this.setState(({ selectedProducts }) => ({
+        selectedProducts: [...selectedProducts, sku]
+      }));
+    }
+  };
+
   render() {
-    const { search, pagination, products } = this.state;
-    const debouncedSetSearch = debounce(this.setSearch, SEARCH_DELAY);
+    const { search, pagination, products, selectedProducts } = this.state;
     const pageCount = Math.ceil(pagination.total / pagination.limit);
 
     return (
@@ -101,28 +121,33 @@ export class SkuPicker extends Component<Props, State> {
             testId="sku-search"
             width="medium"
             value={search}
-            onChange={event => debouncedSetSearch((event.target as HTMLInputElement).value)}
+            onChange={event => this.setSearch((event.target as HTMLInputElement).value)}
           />
         </header>
         <Divider />
-        <Paginator
-          activePage={this.state.activePage}
-          className={styles.paginatorTop}
-          pageCount={pageCount}
-          setActivePage={this.setActivePage}
-        />
         <section className={styles.body}>
-          <ProductList products={products} />
+          <ProductList
+            products={products}
+            selectProduct={this.selectProduct}
+            selectedProducts={selectedProducts}
+          />
         </section>
-        <Paginator
-          activePage={this.state.activePage}
-          className={styles.paginatorBottom}
-          pageCount={pageCount}
-          setActivePage={this.setActivePage}
-        />
         <Divider />
         <footer className={styles.footer}>
-          <Button buttonType="positive">Save</Button>
+          {products.length > 0 && (
+            <Paginator
+              activePage={this.state.activePage}
+              className={styles.paginatorBottom}
+              pageCount={pageCount}
+              setActivePage={this.setActivePage}
+            />
+          )}
+          <Button
+            className={styles.footerButton}
+            buttonType="positive"
+            disabled={selectedProducts.length === 0}>
+            Save
+          </Button>
         </footer>
       </>
     );

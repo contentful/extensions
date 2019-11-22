@@ -53,6 +53,8 @@ async function renderDialog(sdk) {
   const ID = 'dialog-root';
   const container = document.createElement('div');
   container.id = ID;
+  container.style.display = 'flex';
+  container.style.flexDirection = 'column';
   document.body.appendChild(container);
 
   renderSkuPicker(ID, {

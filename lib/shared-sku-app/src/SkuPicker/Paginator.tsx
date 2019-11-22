@@ -54,7 +54,7 @@ export function Paginator({ activePage, className, pageCount, setActivePage }: P
         <Button
           onClick={() => setActivePage(pageIndex + 1)}
           className={styles.button}
-          buttonType={pageIndex + 1 === activePage ? 'positive' : 'muted'}
+          buttonType={pageIndex + 1 === activePage ? 'primary' : 'muted'}
           key={pageIndex}>
           {pageIndex + 1}
         </Button>
