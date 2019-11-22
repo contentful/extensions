@@ -19,6 +19,7 @@
       extension.window.startAutoResizer();
 
       var inputEl = document.querySelector('.cf-form-input');
+      inputEl.value = extension.field.getValue() || '';
 
       var detachValueChangeHandler = extension.field.onValueChanged(valueChangeHandler);
 
@@ -26,29 +27,41 @@
       window.addEventListener('onbeforeunload', unloadHandler);
 
       var defaultColor = extension.parameters.instance.defaultColor;
-      document.querySelector('.default-value').appendChild(document.createTextNode(defaultColor))
+      var defaultColorText = document.createTextNode(defaultColor || 'none');
+      document.querySelector('.default-value').appendChild(defaultColorText);
 
-      if (extension.entry.getSys().version == 1 && extension.field.getValue() === undefined) {
-        extension.field.setValue(defaultColor);
+      var isNewlyCreated = extension.entry.getSys().version < 2;
+      var hasNoValue = typeof extension.field.getValue() === 'undefined';
+
+      if (isNewlyCreated && hasNoValue) {
+        extension.field.setValue(defaultColor || '');
       }
 
       function valueChangeHandler(value) {
-        inputEl.value = value;
-        extension.field.setInvalid(isInvalidColor(value));
-        document.querySelector(".cf-form-field").style.borderLeft = "5px solid " + value;
+        value = value || '';
+
+        if (value !== inputEl.value) {
+          inputEl.value = value;
+        }
+
+        if (/^#([a-f0-9]{3}){1,2}$/i.test(value)) {
+          extension.field.setInvalid(false);
+          document.querySelector(".cf-form-field").style.borderLeft = "5px solid " + value;
+        } else {
+          extension.field.setInvalid(true);
+          document.querySelector(".cf-form-field").style.borderLeft = "0";
+        }
       }
 
       function keyboardInputHandler() {
         var value = inputEl.value;
-        if (typeof value !== 'string' || value === '') {
-          extension.field.removeValue();
-        } else {
-          extension.field.setValue(value);
-        }
-      }
 
-      function isInvalidColor(value) {
-        return value === undefined || value.match(/#([a-f0-9]{3}){1,2}\b/i) === null;
+        if (typeof value === 'string' && value.length > 0) {
+          extension.field.setValue(value);
+        } else {
+          extension.field.removeValue();
+          inputEl.value = '';
+        }
       }
 
       function unloadHandler() {
