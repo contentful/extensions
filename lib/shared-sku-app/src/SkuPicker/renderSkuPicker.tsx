@@ -1,9 +1,11 @@
 import React from 'react';
+import { AppExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { render } from 'react-dom';
 import { SkuPicker } from './SkuPicker';
 
 interface Props {
-  onSearch: Function;
+  sdk: AppExtensionSDK;
+  fetchProducts: Function;
 }
 
 export function renderSkuPicker(elementId: string, props: Props): void {

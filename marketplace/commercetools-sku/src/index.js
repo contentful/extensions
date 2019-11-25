@@ -39,8 +39,17 @@ function makeCommerceToolsClient({
   });
 }
 
-function makeThumbnail(resource, config) {
-  console.log('GOT', resource, config);
+async function makeThumbnail(sku, config) {
+  const client = makeCommerceToolsClient({ parameters: { installation: config } });
+  const requestBuilder = createRequestBuilder({ projectKey: config.projectKey });
+  const uri = requestBuilder.productProjectionsSearch
+    .parse({ filter: [`variants.sku:"${sku}"`] })
+    .build();
+  const response = await client.execute({ uri, method: 'GET' });
+  if (response.statusCode === 200) {
+    const [product] = response.body.results.map(dataTransformer(config.locale));
+    return [product.image, 'Product'];
+  }
 
   return ['', ''];
 }
@@ -58,11 +67,10 @@ async function renderDialog(sdk) {
   document.body.appendChild(container);
 
   renderSkuPicker(ID, {
-    onSearch: async (search, { offset }) => {
+    sdk,
+    fetchProducts: async (search, { offset }) => {
       const PER_PAGE = 20;
-      const requestBuilder = createRequestBuilder({
-        projectKey
-      });
+      const requestBuilder = createRequestBuilder({ projectKey });
       const uri = requestBuilder.productProjectionsSearch
         .parse({
           ...(!!search.length && {
@@ -91,14 +99,13 @@ async function renderDialog(sdk) {
     }
   });
 
-  // sdk.close()
   sdk.window.updateHeight(window.outerHeight);
 }
 
 async function openDialog(sdk, currentValue, config) {
   const maxFiles = config.maxFiles - currentValue.length;
 
-  const result = await sdk.dialogs.openExtension({
+  const skus = await sdk.dialogs.openExtension({
     position: 'center',
     title: CTA,
     shouldCloseOnOverlayClick: true,
@@ -107,11 +114,7 @@ async function openDialog(sdk, currentValue, config) {
     width: 1400
   });
 
-  if (result && Array.isArray(result.assets)) {
-    return result.assets;
-  } else {
-    return [];
-  }
+  return Array.isArray(skus) ? skus : [];
 }
 
 function isDisabled(/* currentValue, config */) {

@@ -3,6 +3,7 @@ import debounce from 'lodash/debounce';
 import clamp from 'lodash/clamp';
 import { Button, TextInput } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
+import { AppExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { css } from 'emotion';
 import { Divider } from '../Divider';
 import { ProductList } from './ProductList';
@@ -11,7 +12,8 @@ import { Hash } from '../interfaces';
 import { Pagination } from './interfaces';
 
 interface Props {
-  onSearch: Function;
+  sdk: AppExtensionSDK;
+  fetchProducts: Function;
 }
 
 interface State {
@@ -82,7 +84,7 @@ export class SkuPicker extends Component<Props, State> {
       search
     } = this.state;
     const offset = (activePage - 1) * limit;
-    const { pagination, products } = await this.props.onSearch(search, { offset });
+    const { pagination, products } = await this.props.fetchProducts(search, { offset });
     this.setState({ pagination, products });
   };
 
@@ -145,6 +147,7 @@ export class SkuPicker extends Component<Props, State> {
           <Button
             className={styles.footerButton}
             buttonType="positive"
+            onClick={() => (this.props.sdk as any).close(selectedProducts)}
             disabled={selectedProducts.length === 0}>
             Save
           </Button>
