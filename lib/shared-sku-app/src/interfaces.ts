@@ -3,7 +3,7 @@ import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 export type Hash = Record<string, any>;
 
 export type ValidateParametersFn = (parameters: Record<string, string>) => string | null;
-export type ThumbnailFn = (resource: Hash, config: Hash) => (string | undefined)[];
+export type ProductPreviewFn = (resource: Hash, config: Hash) => Promise<(string)[]>;
 export type DeleteFn = (index: number) => void;
 export type OpenDialogFn = (
   sdk: FieldExtensionSDK,
@@ -20,7 +20,7 @@ export interface Integration {
   description: string;
   parameterDefinitions: Hash[];
   validateParameters: ValidateParametersFn;
-  makeThumbnail: ThumbnailFn;
+  fetchProductPreview: ProductPreviewFn;
   renderDialog: Function;
   openDialog: OpenDialogFn;
   isDisabled: DisabledPredicateFn;

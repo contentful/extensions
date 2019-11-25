@@ -4,13 +4,13 @@ import tokens from '@contentful/forma-36-tokens';
 import { css } from 'emotion';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { SortableComponent } from './SortableComponent';
-import { ThumbnailFn, OpenDialogFn, DisabledPredicateFn, Hash } from '../interfaces';
+import { ProductPreviewFn, OpenDialogFn, DisabledPredicateFn, Hash } from '../interfaces';
 
 interface Props {
   sdk: FieldExtensionSDK;
   cta: string;
   logo: string;
-  makeThumbnail: ThumbnailFn;
+  fetchProductPreview: ProductPreviewFn;
   openDialog: OpenDialogFn;
   isDisabled: DisabledPredicateFn;
 }
@@ -120,7 +120,7 @@ export default class Field extends React.Component<Props, State> {
               resources={value}
               onChange={this.updateStateValue}
               config={config}
-              makeThumbnail={this.props.makeThumbnail}
+              fetchProductPreview={this.props.fetchProductPreview}
             />
           </div>
         )}

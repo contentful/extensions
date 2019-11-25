@@ -39,7 +39,7 @@ function makeCommerceToolsClient({
   });
 }
 
-async function makeThumbnail(sku, config) {
+async function fetchProductPreview(sku, config) {
   const client = makeCommerceToolsClient({ parameters: { installation: config } });
   const requestBuilder = createRequestBuilder({ projectKey: config.projectKey });
   const uri = requestBuilder.productProjectionsSearch
@@ -157,7 +157,7 @@ setup({
     'The Commercetools app is a widget that allows editors to select products from their Commercetools account. Select a product from Commercetools that you want your entry to reference.',
   color: '#213C45',
   parameterDefinitions: descriptor.parameters.installation,
-  makeThumbnail,
+  fetchProductPreview,
   renderDialog,
   openDialog,
   isDisabled,

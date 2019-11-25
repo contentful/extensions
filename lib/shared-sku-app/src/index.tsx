@@ -33,7 +33,7 @@ export function setup(integration: Integration) {
           sdk={sdk as FieldExtensionSDK}
           cta={integration.cta}
           logo={integration.logo}
-          makeThumbnail={integration.makeThumbnail}
+          fetchProductPreview={integration.fetchProductPreview}
           openDialog={integration.openDialog}
           isDisabled={integration.isDisabled}
         />,
