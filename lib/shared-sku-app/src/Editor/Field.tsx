@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Button, Note, TextLink } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
+import isNil from 'lodash/isNil';
 import { css } from 'emotion';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { SortableComponent } from './SortableComponent';
-import { ProductPreviewFn, OpenDialogFn, DisabledPredicateFn, Hash } from '../interfaces';
+import { ProductPreviewFn, OpenDialogFn, DisabledPredicateFn } from '../interfaces';
 
 interface Props {
   sdk: FieldExtensionSDK;
@@ -16,7 +17,7 @@ interface Props {
 }
 
 interface State {
-  value: Hash[];
+  value: string[] | string;
   valid: boolean;
   editingDisabled: boolean;
 }
@@ -36,22 +37,27 @@ const styles = {
   })
 };
 
-const isObject = (o: any) => typeof o === 'object' && o !== null && !Array.isArray(o);
+function getEmptyValue(sdk: FieldExtensionSDK) {
+  const isArray = sdk.field.type === 'Array';
+  return isArray ? [] : '';
+}
 
 export default class Field extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
     const value = props.sdk.field.getValue();
-    const validListOfObjects = Array.isArray(value) && value.every(isObject);
+    const isValidFieldType =
+      typeof value === 'string' ||
+      (Array.isArray(value) && value.every(v => typeof v === 'string'));
 
     // `valid` is `true` if the app can render/write the value safely.
     // If for example there is an object stored we don't want to override
     // it without a user explicitly telling us to do so.
-    const valid = typeof value === 'undefined' || value === null || validListOfObjects;
+    const valid = isNil(value) || isValidFieldType;
 
     this.state = {
-      value: Array.isArray(value) ? value : [],
+      value: value || getEmptyValue(this.props.sdk),
       valid,
       editingDisabled: false
     };
@@ -61,8 +67,8 @@ export default class Field extends React.Component<Props, State> {
     this.props.sdk.window.startAutoResizer();
 
     // Handle external changes (e.g. when multiple authors are working on the same entry).
-    this.props.sdk.field.onValueChanged((value?: Hash[]) => {
-      this.setState({ value: Array.isArray(value) ? value : [] });
+    this.props.sdk.field.onValueChanged((value?: string[] | string) => {
+      this.setState({ value: value || getEmptyValue(this.props.sdk) });
     });
 
     // Disable editing (e.g. when field is not editable due to R&P).
@@ -71,7 +77,7 @@ export default class Field extends React.Component<Props, State> {
     });
   }
 
-  updateStateValue = async (value: Hash[]) => {
+  updateStateValue = async (value: string[] | string) => {
     this.setState({ value });
     if (value.length > 0) {
       await this.props.sdk.field.setValue(value);
@@ -83,12 +89,20 @@ export default class Field extends React.Component<Props, State> {
   onDialogOpen = async () => {
     const currentValue = this.state.value;
     const config = this.props.sdk.parameters.installation;
-    const result = await this.props.openDialog(this.props.sdk, currentValue, config);
-
-    if (result.length > 0) {
-      const newValue = [...(this.state.value || []), ...result];
-
+    const isArray = this.props.sdk.field.type === 'Array';
+    if (isArray) {
+      const result = await this.props.openDialog(this.props.sdk, currentValue, {
+        ...config,
+        fieldType: this.props.sdk.field.type
+      });
+      const newValue = [...((this.state.value as string[]) || []), ...result] as string[];
       await this.updateStateValue(newValue);
+    } else {
+      const [result] = await this.props.openDialog(this.props.sdk, currentValue, {
+        ...config,
+        fieldType: this.props.sdk.field.type
+      });
+      await this.updateStateValue(result);
     }
   };
 
@@ -109,7 +123,8 @@ export default class Field extends React.Component<Props, State> {
 
     const hasItems = value.length > 0;
     const config = this.props.sdk.parameters.installation;
-    const isDisabled = editingDisabled || this.props.isDisabled(value, config);
+    const resources = (Array.isArray(value) ? value : [value]) as string[];
+    const isDisabled = editingDisabled || this.props.isDisabled(resources as any, config);
 
     return (
       <>
@@ -117,7 +132,7 @@ export default class Field extends React.Component<Props, State> {
           <div className={styles.sortable}>
             <SortableComponent
               disabled={editingDisabled}
-              resources={value}
+              resources={resources}
               onChange={this.updateStateValue}
               config={config}
               fetchProductPreview={this.props.fetchProductPreview}

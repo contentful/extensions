@@ -97,13 +97,16 @@ export class SkuPicker extends Component<Props, State> {
   };
 
   selectProduct = (sku: string) => {
+    const { fieldType } = this.props.sdk.parameters.invocation as any;
+    const onlyOneProductCanBeSelected = fieldType === 'Symbol';
+
     if (this.state.selectedProducts.includes(sku)) {
       this.setState(({ selectedProducts }) => ({
         selectedProducts: selectedProducts.filter(productSku => productSku !== sku)
       }));
     } else {
       this.setState(({ selectedProducts }) => ({
-        selectedProducts: [...selectedProducts, sku]
+        selectedProducts: onlyOneProductCanBeSelected ? [sku] : [...selectedProducts, sku]
       }));
     }
   };

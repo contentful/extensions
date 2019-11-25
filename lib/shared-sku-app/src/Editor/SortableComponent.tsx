@@ -6,9 +6,9 @@ import { Hash, ProductPreviewFn } from '../interfaces';
 
 interface Props {
   disabled: boolean;
-  onChange: (data: Hash[]) => void;
+  onChange: (data: string[] | string) => void;
   config: Hash;
-  resources: Hash[];
+  resources: string[];
   fetchProductPreview: ProductPreviewFn;
 }
 

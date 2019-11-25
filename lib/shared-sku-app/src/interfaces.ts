@@ -3,13 +3,13 @@ import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 export type Hash = Record<string, any>;
 
 export type ValidateParametersFn = (parameters: Record<string, string>) => string | null;
-export type ProductPreviewFn = (resource: Hash, config: Hash) => Promise<(string)[]>;
+export type ProductPreviewFn = (resource: string, config: Hash) => Promise<(string)[]>;
 export type DeleteFn = (index: number) => void;
 export type OpenDialogFn = (
   sdk: FieldExtensionSDK,
-  currentValue: Hash[],
+  currentValue: string[] | string,
   config: Hash
-) => Promise<Hash[]>;
+) => Promise<string[]>;
 export type DisabledPredicateFn = (currentValue: Hash[], config: Hash) => boolean;
 
 export interface Integration {
