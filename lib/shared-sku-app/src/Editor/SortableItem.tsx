@@ -24,24 +24,30 @@ interface SortableElementProps {
 }
 
 const styles = {
-  card: (disabled: boolean) =>
-    css({
-      display: 'flex',
-      padding: 0,
-      position: 'relative',
-      '& ~ &': css({
-        marginTop: tokens.spacingXs
-      }),
-      '> img': css({
-        cursor: disabled ? 'move' : 'pointer',
-        display: 'block',
-        maxWidth: '150px',
-        maxHeight: '100px',
-        margin: 'auto 0 auto auto',
-        padding: `${tokens.spacingL} ${tokens.spacingM} ${tokens.spacingM} ${tokens.spacingM}`,
-        userSelect: 'none' // Image selection sometimes makes drag and drop ugly.
-      })
-    }),
+  card: css({
+    display: 'flex',
+    padding: 0,
+    position: 'relative',
+    '& ~ &': css({
+      marginTop: tokens.spacingXs
+    })
+  }),
+  imageWrapper: css({
+    width: '48px',
+    height: '48px',
+    overflow: 'hidden',
+    margin: tokens.spacingM,
+    position: 'relative',
+    '> img': css({
+      display: 'block',
+      width: '100%',
+      userSelect: 'none',
+      position: 'absolute',
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%, -50%)'
+    })
+  }),
   dragHandle: css({
     height: 'auto'
   }),
@@ -52,16 +58,19 @@ const styles = {
   }),
   description: css({
     flex: '1 0 auto',
-    padding: `${tokens.spacingM} ${tokens.spacingM} 0 ${tokens.spacingM}`
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
   }),
   name: css({
     fontSize: tokens.fontSizeL,
-    marginBottom: tokens.spacingXs,
+    marginBottom: tokens.spacing2Xs,
     textTransform: 'capitalize'
   }),
   sku: css({
     color: tokens.colorElementDarkest,
-    fontSize: tokens.fontSizeS
+    fontSize: tokens.fontSizeS,
+    marginBottom: 0
   }),
   dropdownLink: css({
     textDecoration: 'none',
@@ -87,27 +96,30 @@ export const SortableItem = SortableElement<SortableElementProps>(
     const [imageHasLoaded, setImageLoaded] = useState(false);
 
     return (
-      <Card className={styles.card(disabled)}>
+      <Card className={styles.card}>
         {product.image ? (
           <>
             {isSortable && <CardDragHandle />}
+
+            {!imageHasLoaded && (
+              <SkeletonContainer className={styles.skeletonImage}>
+                <SkeletonImage width={100} height={100} />
+              </SkeletonContainer>
+            )}
+            <div className={styles.imageWrapper}>
+              <img
+                style={{ display: imageHasLoaded ? 'block' : 'none' }}
+                onLoad={() => setImageLoaded(true)}
+                src={product.image}
+                alt={product.name}
+              />
+            </div>
             <section className={styles.description}>
               <Typography>
                 <Heading className={styles.name}>{product.name}</Heading>
                 <Subheading className={styles.sku}>{product.sku}</Subheading>
               </Typography>
             </section>
-            {!imageHasLoaded && (
-              <SkeletonContainer className={styles.skeletonImage}>
-                <SkeletonImage width={100} height={120} />
-              </SkeletonContainer>
-            )}
-            <img
-              style={{ display: imageHasLoaded ? 'block' : 'none' }}
-              onLoad={() => setImageLoaded(true)}
-              src={product.image}
-              alt={product.name}
-            />
           </>
         ) : (
           <div>Product not available</div>

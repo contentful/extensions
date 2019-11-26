@@ -10,7 +10,7 @@ import logo from './logo.svg';
 import descriptor from '../extension.json';
 import { dataTransformer } from './dataTransformer';
 
-const CTA = 'Select a Commercetools product';
+const CTA = 'Select product';
 
 function makeCommerceToolsClient({
   parameters: {
