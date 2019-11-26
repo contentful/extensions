@@ -7,6 +7,7 @@ export interface Product {
   image: string;
   id: string;
   name: string;
+  externalLink?: string;
 }
 
 export type ValidateParametersFn = (parameters: Record<string, string>) => string | null;

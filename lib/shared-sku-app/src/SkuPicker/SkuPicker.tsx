@@ -8,7 +8,7 @@ import { css } from 'emotion';
 import { Divider } from '../Divider';
 import { ProductList } from './ProductList';
 import { Paginator } from './Paginator';
-import { Hash } from '../interfaces';
+import { Product } from '../interfaces';
 import { Pagination } from './interfaces';
 
 interface Props {
@@ -20,7 +20,7 @@ interface State {
   activePage: number;
   search: string;
   pagination: Pagination;
-  products: Hash[];
+  products: Product[];
   selectedProducts: string[];
 }
 

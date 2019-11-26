@@ -1,11 +1,11 @@
 import React from 'react';
 import tokens from '@contentful/forma-36-tokens';
 import { css } from 'emotion';
-import { Hash } from '../interfaces';
+import { Product } from '../interfaces';
 import { ProductListItem } from './ProductListItem';
 
-interface Props {
-  products: Hash[];
+export interface Props {
+  products: Product[];
   selectProduct: (sku: string) => void;
   selectedProducts: string[];
 }

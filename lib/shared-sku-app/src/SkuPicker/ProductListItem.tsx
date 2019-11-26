@@ -3,10 +3,10 @@ import tokens from '@contentful/forma-36-tokens';
 import noop from 'lodash/noop';
 import { SkeletonContainer, SkeletonImage } from '@contentful/forma-36-react-components';
 import { css } from 'emotion';
-import { Hash } from '../interfaces';
+import { Product } from '../interfaces';
 
-interface Props {
-  product: Hash;
+export interface Props {
+  product: Product;
   selectProduct: (sku: string) => void;
   isSelected: boolean;
 }

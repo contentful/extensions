@@ -59,6 +59,12 @@ const styles = {
   sku: css({
     color: tokens.colorElementDarkest,
     fontSize: tokens.fontSizeS
+  }),
+  dropdownLink: css({
+    textDecoration: 'none',
+    '&, &:hover, &:visited, &:active': {
+      color: '#536171'
+    }
   })
 };
 
@@ -89,6 +95,11 @@ export const SortableItem = SortableElement<SortableElementProps>(
             <DropdownList>
               <DropdownListItem isTitle>Actions</DropdownListItem>
               <DropdownListItem onClick={onDelete}>Remove</DropdownListItem>
+              {product.externalLink && (
+                <DropdownListItem {...{ target: '_blank' }} href={product.externalLink}>
+                  Go to external link
+                </DropdownListItem>
+              )}
             </DropdownList>
           </CardActions>
         )}

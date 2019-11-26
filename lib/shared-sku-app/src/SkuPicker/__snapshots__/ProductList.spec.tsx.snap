@@ -1,0 +1,637 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductListItem should render successfully 1`] = `
+<div>
+  <div
+    class="css-almiqb"
+  >
+    <div
+      class="css-rjsqim"
+    >
+      <div
+        aria-checked="false"
+        class="css-1n7zoyo "
+        role="switch"
+        tabindex="-1"
+      >
+        <svg
+          aria-label="Loading component..."
+          class="SkeletonContainer__SkeletonContainer___23jiu css-2z7te8"
+          data-test-id="cf-ui-skeleton-form"
+          height="100%"
+          preserveAspectRatio="xMidYMid meet"
+          role="img"
+          width="100%"
+        >
+          <title>
+            Loading component...
+          </title>
+          <rect
+            clip-path="url(#cf-ui-skeleton-clip-id)"
+            height="100%"
+            style="fill: url(#cf-ui-skeleton-clip-gradient);"
+            width="100%"
+            x="0"
+            y="0"
+          />
+          <defs>
+            <clippath
+              id="cf-ui-skeleton-clip-id"
+            >
+              <rect
+                height="400"
+                rx="0"
+                ry="0"
+                width="400"
+              />
+            </clippath>
+            <lineargradient
+              id="cf-ui-skeleton-clip-gradient"
+            >
+              <stop
+                offset="0%"
+                stop-color="#e5ebed"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  dur="2s"
+                  id="animation1"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+              <stop
+                offset="50%"
+                stop-color="#f7f9fa"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  begin="animation1.begin+0.25s"
+                  dur="2s"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+              <stop
+                offset="100%"
+                stop-color="#e5ebed"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  begin="animation1.begin+0.5s"
+                  dur="2s"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+            </lineargradient>
+          </defs>
+        </svg>
+        <img
+          alt="product preview"
+          class="css-8atqhb"
+          src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-1.jpg"
+          style="display: none;"
+        />
+        <p
+          class="css-182natc"
+        >
+          Dress Twin-Set rose
+        </p>
+        <p
+          class="css-13zy297"
+        >
+          M0E20130820E90Z
+        </p>
+      </div>
+    </div>
+    <div
+      class="css-rjsqim"
+    >
+      <div
+        aria-checked="false"
+        class="css-1n7zoyo "
+        role="switch"
+        tabindex="-1"
+      >
+        <svg
+          aria-label="Loading component..."
+          class="SkeletonContainer__SkeletonContainer___23jiu css-2z7te8"
+          data-test-id="cf-ui-skeleton-form"
+          height="100%"
+          preserveAspectRatio="xMidYMid meet"
+          role="img"
+          width="100%"
+        >
+          <title>
+            Loading component...
+          </title>
+          <rect
+            clip-path="url(#cf-ui-skeleton-clip-id)"
+            height="100%"
+            style="fill: url(#cf-ui-skeleton-clip-gradient);"
+            width="100%"
+            x="0"
+            y="0"
+          />
+          <defs>
+            <clippath
+              id="cf-ui-skeleton-clip-id"
+            >
+              <rect
+                height="400"
+                rx="0"
+                ry="0"
+                width="400"
+              />
+            </clippath>
+            <lineargradient
+              id="cf-ui-skeleton-clip-gradient"
+            >
+              <stop
+                offset="0%"
+                stop-color="#e5ebed"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  dur="2s"
+                  id="animation1"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+              <stop
+                offset="50%"
+                stop-color="#f7f9fa"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  begin="animation1.begin+0.25s"
+                  dur="2s"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+              <stop
+                offset="100%"
+                stop-color="#e5ebed"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  begin="animation1.begin+0.5s"
+                  dur="2s"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+            </lineargradient>
+          </defs>
+        </svg>
+        <img
+          alt="product preview"
+          class="css-8atqhb"
+          src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-2.jpg"
+          style="display: none;"
+        />
+        <p
+          class="css-182natc"
+        >
+          Michael Kors – Shopper “Jet Set Travel”
+        </p>
+        <p
+          class="css-13zy297"
+        >
+          A0E2300FX102203
+        </p>
+      </div>
+    </div>
+    <div
+      class="css-rjsqim"
+    >
+      <div
+        aria-checked="false"
+        class="css-1n7zoyo "
+        role="switch"
+        tabindex="-1"
+      >
+        <svg
+          aria-label="Loading component..."
+          class="SkeletonContainer__SkeletonContainer___23jiu css-2z7te8"
+          data-test-id="cf-ui-skeleton-form"
+          height="100%"
+          preserveAspectRatio="xMidYMid meet"
+          role="img"
+          width="100%"
+        >
+          <title>
+            Loading component...
+          </title>
+          <rect
+            clip-path="url(#cf-ui-skeleton-clip-id)"
+            height="100%"
+            style="fill: url(#cf-ui-skeleton-clip-gradient);"
+            width="100%"
+            x="0"
+            y="0"
+          />
+          <defs>
+            <clippath
+              id="cf-ui-skeleton-clip-id"
+            >
+              <rect
+                height="400"
+                rx="0"
+                ry="0"
+                width="400"
+              />
+            </clippath>
+            <lineargradient
+              id="cf-ui-skeleton-clip-gradient"
+            >
+              <stop
+                offset="0%"
+                stop-color="#e5ebed"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  dur="2s"
+                  id="animation1"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+              <stop
+                offset="50%"
+                stop-color="#f7f9fa"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  begin="animation1.begin+0.25s"
+                  dur="2s"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+              <stop
+                offset="100%"
+                stop-color="#e5ebed"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  begin="animation1.begin+0.5s"
+                  dur="2s"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+            </lineargradient>
+          </defs>
+        </svg>
+        <img
+          alt="product preview"
+          class="css-8atqhb"
+          src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-3.jpg"
+          style="display: none;"
+        />
+        <p
+          class="css-182natc"
+        >
+          Shirt “Jenny“ Polo Ralph Lauren white
+        </p>
+        <p
+          class="css-13zy297"
+        >
+          M0E21300900DZN7
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ProductListItem should render successfully with selected items 1`] = `
+<div>
+  <div
+    class="css-almiqb"
+  >
+    <div
+      class="css-rjsqim"
+    >
+      <div
+        aria-checked="false"
+        class="css-1n7zoyo "
+        role="switch"
+        tabindex="-1"
+      >
+        <svg
+          aria-label="Loading component..."
+          class="SkeletonContainer__SkeletonContainer___23jiu css-2z7te8"
+          data-test-id="cf-ui-skeleton-form"
+          height="100%"
+          preserveAspectRatio="xMidYMid meet"
+          role="img"
+          width="100%"
+        >
+          <title>
+            Loading component...
+          </title>
+          <rect
+            clip-path="url(#cf-ui-skeleton-clip-id)"
+            height="100%"
+            style="fill: url(#cf-ui-skeleton-clip-gradient);"
+            width="100%"
+            x="0"
+            y="0"
+          />
+          <defs>
+            <clippath
+              id="cf-ui-skeleton-clip-id"
+            >
+              <rect
+                height="400"
+                rx="0"
+                ry="0"
+                width="400"
+              />
+            </clippath>
+            <lineargradient
+              id="cf-ui-skeleton-clip-gradient"
+            >
+              <stop
+                offset="0%"
+                stop-color="#e5ebed"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  dur="2s"
+                  id="animation1"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+              <stop
+                offset="50%"
+                stop-color="#f7f9fa"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  begin="animation1.begin+0.25s"
+                  dur="2s"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+              <stop
+                offset="100%"
+                stop-color="#e5ebed"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  begin="animation1.begin+0.5s"
+                  dur="2s"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+            </lineargradient>
+          </defs>
+        </svg>
+        <img
+          alt="product preview"
+          class="css-8atqhb"
+          src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-1.jpg"
+          style="display: none;"
+        />
+        <p
+          class="css-182natc"
+        >
+          Dress Twin-Set rose
+        </p>
+        <p
+          class="css-13zy297"
+        >
+          M0E20130820E90Z
+        </p>
+      </div>
+    </div>
+    <div
+      class="css-rjsqim"
+    >
+      <div
+        aria-checked="true"
+        class="css-1n7zoyo css-1rtg1va"
+        role="switch"
+        tabindex="-1"
+      >
+        <svg
+          aria-label="Loading component..."
+          class="SkeletonContainer__SkeletonContainer___23jiu css-2z7te8"
+          data-test-id="cf-ui-skeleton-form"
+          height="100%"
+          preserveAspectRatio="xMidYMid meet"
+          role="img"
+          width="100%"
+        >
+          <title>
+            Loading component...
+          </title>
+          <rect
+            clip-path="url(#cf-ui-skeleton-clip-id)"
+            height="100%"
+            style="fill: url(#cf-ui-skeleton-clip-gradient);"
+            width="100%"
+            x="0"
+            y="0"
+          />
+          <defs>
+            <clippath
+              id="cf-ui-skeleton-clip-id"
+            >
+              <rect
+                height="400"
+                rx="0"
+                ry="0"
+                width="400"
+              />
+            </clippath>
+            <lineargradient
+              id="cf-ui-skeleton-clip-gradient"
+            >
+              <stop
+                offset="0%"
+                stop-color="#e5ebed"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  dur="2s"
+                  id="animation1"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+              <stop
+                offset="50%"
+                stop-color="#f7f9fa"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  begin="animation1.begin+0.25s"
+                  dur="2s"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+              <stop
+                offset="100%"
+                stop-color="#e5ebed"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  begin="animation1.begin+0.5s"
+                  dur="2s"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+            </lineargradient>
+          </defs>
+        </svg>
+        <img
+          alt="product preview"
+          class="css-8atqhb"
+          src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-2.jpg"
+          style="display: none;"
+        />
+        <p
+          class="css-182natc"
+        >
+          Michael Kors – Shopper “Jet Set Travel”
+        </p>
+        <p
+          class="css-13zy297"
+        >
+          A0E2300FX102203
+        </p>
+      </div>
+    </div>
+    <div
+      class="css-rjsqim"
+    >
+      <div
+        aria-checked="false"
+        class="css-1n7zoyo "
+        role="switch"
+        tabindex="-1"
+      >
+        <svg
+          aria-label="Loading component..."
+          class="SkeletonContainer__SkeletonContainer___23jiu css-2z7te8"
+          data-test-id="cf-ui-skeleton-form"
+          height="100%"
+          preserveAspectRatio="xMidYMid meet"
+          role="img"
+          width="100%"
+        >
+          <title>
+            Loading component...
+          </title>
+          <rect
+            clip-path="url(#cf-ui-skeleton-clip-id)"
+            height="100%"
+            style="fill: url(#cf-ui-skeleton-clip-gradient);"
+            width="100%"
+            x="0"
+            y="0"
+          />
+          <defs>
+            <clippath
+              id="cf-ui-skeleton-clip-id"
+            >
+              <rect
+                height="400"
+                rx="0"
+                ry="0"
+                width="400"
+              />
+            </clippath>
+            <lineargradient
+              id="cf-ui-skeleton-clip-gradient"
+            >
+              <stop
+                offset="0%"
+                stop-color="#e5ebed"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  dur="2s"
+                  id="animation1"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+              <stop
+                offset="50%"
+                stop-color="#f7f9fa"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  begin="animation1.begin+0.25s"
+                  dur="2s"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+              <stop
+                offset="100%"
+                stop-color="#e5ebed"
+                stop-opacity="1"
+              >
+                <animate
+                  attributeName="stop-color"
+                  begin="animation1.begin+0.5s"
+                  dur="2s"
+                  repeatCount="indefinite"
+                  values="#e5ebed; #f7f9fa; #e5ebed"
+                />
+              </stop>
+            </lineargradient>
+          </defs>
+        </svg>
+        <img
+          alt="product preview"
+          class="css-8atqhb"
+          src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-3.jpg"
+          style="display: none;"
+        />
+        <p
+          class="css-182natc"
+        >
+          Shirt “Jenny“ Polo Ralph Lauren white
+        </p>
+        <p
+          class="css-13zy297"
+        >
+          M0E21300900DZN7
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

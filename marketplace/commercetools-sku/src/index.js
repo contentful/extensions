@@ -47,11 +47,11 @@ async function fetchProductPreview(sku, config) {
     .build();
   const response = await client.execute({ uri, method: 'GET' });
   if (response.statusCode === 200) {
-    const [product] = response.body.results.map(dataTransformer(config.locale));
+    const [product] = response.body.results.map(dataTransformer(config));
     return product;
   }
 
-  return dataTransformer('en'); // return empty product
+  return dataTransformer({}); // return empty product
 }
 
 async function renderDialog(sdk) {
@@ -92,7 +92,7 @@ async function renderDialog(sdk) {
             total: response.body.total,
             offset: response.body.offset
           },
-          products: response.body.results.map(dataTransformer(locale))
+          products: response.body.results.map(dataTransformer(sdk.parameters.installation))
         };
       }
       throw new Error(response.statusCode);
