@@ -3,7 +3,7 @@
 exports[`ProductListItem should render successfully 1`] = `
 <div>
   <div
-    class="css-rjsqim"
+    class="css-zkv16y"
   >
     <div
       aria-checked="false"
@@ -18,13 +18,18 @@ exports[`ProductListItem should render successfully 1`] = `
         src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-1.jpg"
         style="display: block;"
       />
+      <img
+        alt="check"
+        class="css-1imdisq"
+        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iIzMwNzJCRSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGZpbGwtb3BhY2l0eT0iLjEiIGN4PSIyMiIgY3k9IjIyIiByPSIyMiIvPjxwYXRoIGQ9Ik0zMS42ODkgMTYuNjE0TDI5LjU1NSAxNC41IDE5LjAyNCAyNS4yNzVsLTQuNjItNC40MDYtMi4wOTIgMi4xNTMgNi43NSA2LjQ3OCAxMi42MjctMTIuODg2eiIgZmlsbC1ydWxlPSJub256ZXJvIi8+PC9nPjwvc3ZnPg=="
+      />
       <p
         class="css-182natc"
       >
         Dress Twin-Set rose
       </p>
       <p
-        class="css-13zy297"
+        class="css-3f8mvo"
       >
         M0E20130820E90Z
       </p>
@@ -36,7 +41,7 @@ exports[`ProductListItem should render successfully 1`] = `
 exports[`ProductListItem should render successfully the isSelected variation 1`] = `
 <div>
   <div
-    class="css-rjsqim"
+    class="css-zkv16y"
   >
     <div
       aria-checked="true"
@@ -51,13 +56,18 @@ exports[`ProductListItem should render successfully the isSelected variation 1`]
         src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-1.jpg"
         style="display: block;"
       />
+      <img
+        alt="check"
+        class="css-1bpg4ef"
+        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iIzMwNzJCRSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGZpbGwtb3BhY2l0eT0iLjEiIGN4PSIyMiIgY3k9IjIyIiByPSIyMiIvPjxwYXRoIGQ9Ik0zMS42ODkgMTYuNjE0TDI5LjU1NSAxNC41IDE5LjAyNCAyNS4yNzVsLTQuNjItNC40MDYtMi4wOTIgMi4xNTMgNi43NSA2LjQ3OCAxMi42MjctMTIuODg2eiIgZmlsbC1ydWxlPSJub256ZXJvIi8+PC9nPjwvc3ZnPg=="
+      />
       <p
         class="css-182natc"
       >
         Dress Twin-Set rose
       </p>
       <p
-        class="css-13zy297"
+        class="css-3f8mvo"
       >
         M0E20130820E90Z
       </p>
@@ -69,7 +79,7 @@ exports[`ProductListItem should render successfully the isSelected variation 1`]
 exports[`ProductListItem should render successfully the loading variation 1`] = `
 <div>
   <div
-    class="css-rjsqim"
+    class="css-zkv16y"
   >
     <div
       aria-checked="false"
@@ -160,13 +170,18 @@ exports[`ProductListItem should render successfully the loading variation 1`] = 
         src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-1.jpg"
         style="display: none;"
       />
+      <img
+        alt="check"
+        class="css-1imdisq"
+        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iIzMwNzJCRSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGZpbGwtb3BhY2l0eT0iLjEiIGN4PSIyMiIgY3k9IjIyIiByPSIyMiIvPjxwYXRoIGQ9Ik0zMS42ODkgMTYuNjE0TDI5LjU1NSAxNC41IDE5LjAyNCAyNS4yNzVsLTQuNjItNC40MDYtMi4wOTIgMi4xNTMgNi43NSA2LjQ3OCAxMi42MjctMTIuODg2eiIgZmlsbC1ydWxlPSJub256ZXJvIi8+PC9nPjwvc3ZnPg=="
+      />
       <p
         class="css-182natc"
       >
         Dress Twin-Set rose
       </p>
       <p
-        class="css-13zy297"
+        class="css-3f8mvo"
       >
         M0E20130820E90Z
       </p>

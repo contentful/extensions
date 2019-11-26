@@ -15,7 +15,11 @@ exports[`Paginator renders successfully 1`] = `
         <span
           class="Button__Button__label___3tcOj"
         >
-          «
+          <img
+            alt="right"
+            class="css-1t0k538"
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMCAwaDE4djE4SDB6Ii8+PHBhdGggZD0iTTEzLjIyMSA0LjVMOC43MjEgOWw0LjUgNC41IDEuMDU4LTEuMDU3TDEwLjg0NCA5bDMuNDM1LTMuNDQyTDEzLjIyIDQuNXptLTUgMEwzLjcyMSA5bDQuNSA0LjUgMS4wNTgtMS4wNTdMNS44NDQgOWwzLjQzNS0zLjQ0Mkw4LjIyIDQuNXoiIGZpbGw9IiMwMDAiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48L3N2Zz4="
+          />
         </span>
       </span>
     </button>
@@ -165,7 +169,11 @@ exports[`Paginator renders successfully 1`] = `
         <span
           class="Button__Button__label___3tcOj"
         >
-          »
+          <img
+            alt="right"
+            class="css-11hf54p"
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMCAwaDE4djE4SDB6Ii8+PHBhdGggZD0iTTEzLjIyMSA0LjVMOC43MjEgOWw0LjUgNC41IDEuMDU4LTEuMDU3TDEwLjg0NCA5bDMuNDM1LTMuNDQyTDEzLjIyIDQuNXptLTUgMEwzLjcyMSA5bDQuNSA0LjUgMS4wNTgtMS4wNTdMNS44NDQgOWwzLjQzNS0zLjQ0Mkw4LjIyIDQuNXoiIGZpbGw9IiMwMDAiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48L3N2Zz4="
+          />
         </span>
       </span>
     </button>

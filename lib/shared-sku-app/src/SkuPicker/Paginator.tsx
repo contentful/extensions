@@ -3,6 +3,7 @@ import { Button } from '@contentful/forma-36-react-components';
 import { css } from 'emotion';
 import clamp from 'lodash/clamp';
 import range from 'lodash/range';
+import { doubleChevron } from './iconsInBase64';
 
 export interface Props {
   activePage: number;
@@ -18,6 +19,15 @@ const styles = {
     span: {
       overflow: 'visible !important'
     }
+  }),
+  chevronLeft: css({
+    display: 'flex',
+    opacity: 0.6
+  }),
+  chevronRight: css({
+    display: 'flex',
+    transform: 'rotate(180deg)',
+    opacity: 0.6
   })
 };
 
@@ -44,7 +54,7 @@ export function Paginator(props: Props) {
         buttonType="muted"
         disabled={pageCount === 1 || activePage === 1}
         onClick={() => setActivePage(1)}>
-        &laquo;
+        <img className={styles.chevronLeft} src={doubleChevron} alt="right" />
       </Button>
       <Button
         icon="ChevronLeft"
@@ -78,7 +88,7 @@ export function Paginator(props: Props) {
         className={styles.button}
         disabled={pageCount === 1 || activePage === pageCount}
         onClick={() => setActivePage(pageCount)}>
-        &raquo;
+        <img className={styles.chevronRight} src={doubleChevron} alt="right" />
       </Button>
     </div>
   );
