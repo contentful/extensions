@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { css } from 'emotion';
 import {
@@ -9,7 +9,9 @@ import {
   CardActions,
   Heading,
   Subheading,
-  Typography
+  Typography,
+  SkeletonContainer,
+  SkeletonImage
 } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import { Product } from '../interfaces';
@@ -49,7 +51,8 @@ const styles = {
     right: tokens.spacingXs
   }),
   description: css({
-    padding: tokens.spacingM
+    flex: '1 0 auto',
+    padding: `${tokens.spacingM} ${tokens.spacingM} 0 ${tokens.spacingM}`
   }),
   name: css({
     fontSize: tokens.fontSizeL,
@@ -65,6 +68,13 @@ const styles = {
     '&, &:hover, &:visited, &:active': {
       color: '#536171'
     }
+  }),
+  skeletonImage: css({
+    width: '100px',
+    height: '120px',
+    paddingRight: tokens.spacingM,
+    paddingBottom: tokens.spacingM,
+    paddingTop: tokens.spacingXl
   })
 };
 
@@ -74,6 +84,8 @@ const CardDragHandle = SortableHandle(() => (
 
 export const SortableItem = SortableElement<SortableElementProps>(
   ({ product, disabled, isSortable, onDelete }: SortableElementProps) => {
+    const [imageHasLoaded, setImageLoaded] = useState(false);
+
     return (
       <Card className={styles.card(disabled)}>
         {product.image ? (
@@ -85,7 +97,17 @@ export const SortableItem = SortableElement<SortableElementProps>(
                 <Subheading className={styles.sku}>{product.sku}</Subheading>
               </Typography>
             </section>
-            <img src={product.image} alt={product.name} />
+            {!imageHasLoaded && (
+              <SkeletonContainer className={styles.skeletonImage}>
+                <SkeletonImage width={100} height={120} />
+              </SkeletonContainer>
+            )}
+            <img
+              style={{ display: imageHasLoaded ? 'block' : 'none' }}
+              onLoad={() => setImageLoaded(true)}
+              src={product.image}
+              alt={product.name}
+            />
           </>
         ) : (
           <div>Product not available</div>
