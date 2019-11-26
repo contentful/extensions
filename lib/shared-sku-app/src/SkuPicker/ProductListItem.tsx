@@ -89,6 +89,7 @@ export const ProductListItem = (props: Props) => {
           src={product.image}
           alt="product preview"
           className={styles.previewImg}
+          data-test-id="image"
         />
         <p className={styles.name}>{product.name}</p>
         <p className={styles.sku}>{product.sku}</p>

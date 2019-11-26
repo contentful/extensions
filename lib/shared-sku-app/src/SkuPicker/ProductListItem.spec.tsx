@@ -1,5 +1,5 @@
 import React from 'react';
-import { configure, render, cleanup } from '@testing-library/react';
+import { fireEvent, configure, render, cleanup } from '@testing-library/react';
 import { Props, ProductListItem } from './ProductListItem';
 import productPreviews from './__mocks__/productPreviews';
 
@@ -22,11 +22,18 @@ describe('ProductListItem', () => {
 
   it('should render successfully', async () => {
     const component = renderComponent(defaultProps);
+    fireEvent(component.getByTestId('image'), new Event('load'));
     expect(component.container).toMatchSnapshot();
   });
 
   it('should render successfully the isSelected variation', () => {
     const component = renderComponent({ ...defaultProps, isSelected: true });
+    fireEvent(component.getByTestId('image'), new Event('load'));
+    expect(component.container).toMatchSnapshot();
+  });
+
+  it('should render successfully the loading variation', () => {
+    const component = renderComponent(defaultProps);
     expect(component.container).toMatchSnapshot();
   });
 });

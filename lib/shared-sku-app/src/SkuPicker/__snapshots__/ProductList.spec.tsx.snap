@@ -93,6 +93,7 @@ exports[`ProductListItem should render successfully 1`] = `
         <img
           alt="product preview"
           class="css-8atqhb"
+          data-test-id="image"
           src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-1.jpg"
           style="display: none;"
         />
@@ -196,6 +197,7 @@ exports[`ProductListItem should render successfully 1`] = `
         <img
           alt="product preview"
           class="css-8atqhb"
+          data-test-id="image"
           src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-2.jpg"
           style="display: none;"
         />
@@ -299,6 +301,7 @@ exports[`ProductListItem should render successfully 1`] = `
         <img
           alt="product preview"
           class="css-8atqhb"
+          data-test-id="image"
           src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-3.jpg"
           style="display: none;"
         />
@@ -411,6 +414,7 @@ exports[`ProductListItem should render successfully with selected items 1`] = `
         <img
           alt="product preview"
           class="css-8atqhb"
+          data-test-id="image"
           src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-1.jpg"
           style="display: none;"
         />
@@ -514,6 +518,7 @@ exports[`ProductListItem should render successfully with selected items 1`] = `
         <img
           alt="product preview"
           class="css-8atqhb"
+          data-test-id="image"
           src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-2.jpg"
           style="display: none;"
         />
@@ -617,6 +622,7 @@ exports[`ProductListItem should render successfully with selected items 1`] = `
         <img
           alt="product preview"
           class="css-8atqhb"
+          data-test-id="image"
           src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-3.jpg"
           style="display: none;"
         />
