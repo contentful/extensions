@@ -2,8 +2,15 @@ import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 
 export type Hash = Record<string, any>;
 
+export interface Product {
+  sku: string;
+  image: string;
+  id: string;
+  name: string;
+}
+
 export type ValidateParametersFn = (parameters: Record<string, string>) => string | null;
-export type ProductPreviewFn = (resource: string, config: Hash) => Promise<(string)[]>;
+export type ProductPreviewFn = (resource: string, config: Hash) => Promise<Product>;
 export type DeleteFn = (index: number) => void;
 export type OpenDialogFn = (
   sdk: FieldExtensionSDK,

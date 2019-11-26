@@ -48,10 +48,10 @@ async function fetchProductPreview(sku, config) {
   const response = await client.execute({ uri, method: 'GET' });
   if (response.statusCode === 200) {
     const [product] = response.body.results.map(dataTransformer(config.locale));
-    return [product.image, 'Product'];
+    return product;
   }
 
-  return ['', ''];
+  return dataTransformer('en'); // return empty product
 }
 
 async function renderDialog(sdk) {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import arrayMove from 'array-move';
 import isEqual from 'lodash/isEqual';
 import { SortableList } from './SortableList';
-import { Hash, ProductPreviewFn } from '../interfaces';
+import { Hash, ProductPreviewFn, Product } from '../interfaces';
 
 interface Props {
   disabled: boolean;
@@ -13,7 +13,7 @@ interface Props {
 }
 
 interface State {
-  productPreviews: string[][];
+  productPreviews: Product[];
 }
 
 export class SortableComponent extends React.Component<Props, State> {
