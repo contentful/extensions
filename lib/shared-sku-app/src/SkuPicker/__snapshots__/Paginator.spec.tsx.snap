@@ -1,0 +1,174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Paginator renders successfully 1`] = `
+<div>
+  <div>
+    <button
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-fedt8m Button__Button--muted___2Wair"
+      data-test-id="cf-ui-button"
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <span
+          class="Button__Button__label___3tcOj"
+        >
+          «
+        </span>
+      </span>
+    </button>
+    <button
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-fedt8m Button__Button--muted___2Wair"
+      data-test-id="cf-ui-button"
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <svg
+          class="Icon__Icon___38Epv Button__Button__icon___2YX5- Icon__Icon--small___1yGZK Icon__Icon--secondary___1ztcw"
+          data-test-id="cf-ui-icon"
+          height="18"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+      </span>
+    </button>
+    <button
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-fedt8m Button__Button--muted___2Wair"
+      data-test-id="inactive-1"
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <span
+          class="Button__Button__label___3tcOj"
+        >
+          1
+        </span>
+      </span>
+    </button>
+    <button
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-fedt8m Button__Button--muted___2Wair"
+      data-test-id="inactive-2"
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <span
+          class="Button__Button__label___3tcOj"
+        >
+          2
+        </span>
+      </span>
+    </button>
+    <button
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-fedt8m Button__Button--primary___JImeO"
+      data-test-id="active"
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <span
+          class="Button__Button__label___3tcOj"
+        >
+          3
+        </span>
+      </span>
+    </button>
+    <button
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-fedt8m Button__Button--muted___2Wair"
+      data-test-id="inactive-4"
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <span
+          class="Button__Button__label___3tcOj"
+        >
+          4
+        </span>
+      </span>
+    </button>
+    <button
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-fedt8m Button__Button--muted___2Wair"
+      data-test-id="inactive-5"
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <span
+          class="Button__Button__label___3tcOj"
+        >
+          5
+        </span>
+      </span>
+    </button>
+    <button
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-fedt8m Button__Button--muted___2Wair"
+      data-test-id="cf-ui-button"
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <svg
+          class="Icon__Icon___38Epv Button__Button__icon___2YX5- Icon__Icon--small___1yGZK Icon__Icon--secondary___1ztcw"
+          data-test-id="cf-ui-icon"
+          height="18"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+      </span>
+    </button>
+    <button
+      class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-fedt8m Button__Button--muted___2Wair"
+      data-test-id="cf-ui-button"
+      type="button"
+    >
+      <span
+        class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+        tabindex="-1"
+      >
+        <span
+          class="Button__Button__label___3tcOj"
+        >
+          »
+        </span>
+      </span>
+    </button>
+  </div>
+</div>
+`;

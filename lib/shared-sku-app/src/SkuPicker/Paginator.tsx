@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button } from '@contentful/forma-36-react-components';
 import { css } from 'emotion';
+import clamp from 'lodash/clamp';
 import range from 'lodash/range';
 
-interface Props {
+export interface Props {
   activePage: number;
   className?: string;
   pageCount: number;
@@ -20,7 +21,7 @@ const styles = {
   })
 };
 
-function getPagesRange(page: number, total: number, neighboursCount = 2): number[] {
+export function getPagesRange(page: number, total: number, neighboursCount = 2): number[] {
   if (total < neighboursCount * 2 + 1) {
     return range(0, total);
   }
@@ -33,7 +34,9 @@ function getPagesRange(page: number, total: number, neighboursCount = 2): number
   return range(page - neighboursCount - 1, page + neighboursCount);
 }
 
-export function Paginator({ activePage, className, pageCount, setActivePage }: Props) {
+export function Paginator(props: Props) {
+  const { className, pageCount, setActivePage } = props;
+  const activePage = clamp(props.activePage, 1, pageCount);
   return (
     <div className={className}>
       <Button
@@ -50,15 +53,19 @@ export function Paginator({ activePage, className, pageCount, setActivePage }: P
         disabled={pageCount === 1 || activePage === 1}
         onClick={() => setActivePage(activePage - 1)}
       />
-      {getPagesRange(activePage, pageCount).map(pageIndex => (
-        <Button
-          onClick={() => setActivePage(pageIndex + 1)}
-          className={styles.button}
-          buttonType={pageIndex + 1 === activePage ? 'primary' : 'muted'}
-          key={pageIndex}>
-          {pageIndex + 1}
-        </Button>
-      ))}
+      {getPagesRange(activePage, pageCount).map(pageIndex => {
+        const page = pageIndex + 1;
+        return (
+          <Button
+            onClick={() => setActivePage(page)}
+            className={styles.button}
+            buttonType={page === activePage ? 'primary' : 'muted'}
+            testId={page === activePage ? 'active' : `inactive-${page}`}
+            key={pageIndex}>
+            {page}
+          </Button>
+        );
+      })}
       <Button
         icon="ChevronRight"
         buttonType="muted"
