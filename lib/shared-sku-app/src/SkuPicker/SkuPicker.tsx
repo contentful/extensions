@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import debounce from 'lodash/debounce';
+import get from 'lodash/get';
 import clamp from 'lodash/clamp';
 import { Button, TextInput } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
@@ -28,27 +29,45 @@ const SEARCH_DELAY = 250;
 
 const styles = {
   header: css({
+    display: 'flex',
+    justifyContent: 'space-between',
     padding: tokens.spacingL
   }),
   body: css({
-    height: 'calc(100vh - 226px)',
+    height: 'calc(100vh - 145px)',
     overflowY: 'auto',
-    padding: tokens.spacingL
+    padding: `${tokens.spacingL} ${tokens.spacingL} 0 ${tokens.spacingL}`
   }),
-  footer: css({
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: `${tokens.spacingL} ${tokens.spacingL} 0 ${tokens.spacingL}`,
-    textAlign: 'right'
+  total: css({
+    fontSize: tokens.fontSizeM,
+    color: tokens.colorTextLight,
+    display: 'block',
+    marginTop: tokens.spacingS
   }),
-  footerButton: css({
+  saveBtn: css({
     marginLeft: 'auto',
     marginRight: tokens.spacingM
   }),
-  paginatorBottom: css({
-    padding: `0 ${tokens.spacingL} ${tokens.spacingL} 0`
+  paginator: css({
+    margin: `${tokens.spacingM} auto ${tokens.spacingL} auto`,
+    textAlign: 'center'
   })
 };
+
+function getSaveBtnText(selectedProducts: string | string[]): string {
+  if (typeof selectedProducts === 'string') {
+    return 'Save product';
+  }
+
+  switch (selectedProducts.length) {
+    case 0:
+      return 'Save products';
+    case 1:
+      return 'Save 1 product';
+    default:
+      return `Save ${selectedProducts.length} products`;
+  }
+}
 
 export class SkuPicker extends Component<Props, State> {
   state: State = {
@@ -61,23 +80,23 @@ export class SkuPicker extends Component<Props, State> {
       total: 0
     },
     products: [],
-    selectedProducts: []
+    selectedProducts: get(this.props, ['sdk', 'parameters', 'invocation', 'fieldValue'], [])
   };
 
   componentDidMount() {
-    this.setSearchResults();
+    this.updateProducts();
   }
 
   setSearchCallback = debounce(() => {
     this.setActivePage(1);
-    this.setSearchResults();
+    this.updateProducts();
   }, SEARCH_DELAY);
 
   setSearch = (search: string): void => {
     this.setState({ search }, this.setSearchCallback);
   };
 
-  setSearchResults = async (): Promise<void> => {
+  updateProducts = async (): Promise<void> => {
     const {
       activePage,
       pagination: { limit },
@@ -92,7 +111,7 @@ export class SkuPicker extends Component<Props, State> {
     const { pagination } = this.state;
     const pageCount = Math.ceil(pagination.total / pagination.limit);
     this.setState({ activePage: clamp(activePage, 1, pageCount) }, () => {
-      this.setSearchResults();
+      this.updateProducts();
     });
   };
 
@@ -118,16 +137,26 @@ export class SkuPicker extends Component<Props, State> {
     return (
       <>
         <header className={styles.header}>
-          <TextInput
-            placeholder="Search for a product..."
-            type="search"
-            name="sku-search"
-            id="sku-search"
-            testId="sku-search"
-            width="medium"
-            value={search}
-            onChange={event => this.setSearch((event.target as HTMLInputElement).value)}
-          />
+          <div>
+            <TextInput
+              placeholder="Search for a product..."
+              type="search"
+              name="sku-search"
+              id="sku-search"
+              testId="sku-search"
+              width="medium"
+              value={search}
+              onChange={event => this.setSearch((event.target as HTMLInputElement).value)}
+            />
+            <span className={styles.total}>Total results: {pagination.total.toLocaleString()}</span>
+          </div>
+          <Button
+            className={styles.saveBtn}
+            buttonType="primary"
+            onClick={() => (this.props.sdk as any).close(selectedProducts)}
+            disabled={selectedProducts.length === 0}>
+            {getSaveBtnText(selectedProducts)}
+          </Button>
         </header>
         <Divider />
         <section className={styles.body}>
@@ -136,25 +165,15 @@ export class SkuPicker extends Component<Props, State> {
             selectProduct={this.selectProduct}
             selectedProducts={selectedProducts}
           />
-        </section>
-        <Divider />
-        <footer className={styles.footer}>
           {products.length > 0 && (
             <Paginator
               activePage={this.state.activePage}
-              className={styles.paginatorBottom}
+              className={styles.paginator}
               pageCount={pageCount}
               setActivePage={this.setActivePage}
             />
           )}
-          <Button
-            className={styles.footerButton}
-            buttonType="positive"
-            onClick={() => (this.props.sdk as any).close(selectedProducts)}
-            disabled={selectedProducts.length === 0}>
-            Save
-          </Button>
-        </footer>
+        </section>
       </>
     );
   }

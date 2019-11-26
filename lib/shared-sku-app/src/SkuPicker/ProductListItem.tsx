@@ -3,6 +3,7 @@ import tokens from '@contentful/forma-36-tokens';
 import noop from 'lodash/noop';
 import { SkeletonContainer, SkeletonImage } from '@contentful/forma-36-react-components';
 import { css } from 'emotion';
+import { activeProductCheck } from './iconsInBase64';
 import { Product } from '../interfaces';
 
 export interface Props {
@@ -15,7 +16,8 @@ const styles = {
   productWrapper: css({
     display: 'flex',
     flex: `0 0 calc(25% - ${parseFloat(tokens.spacingS) * 2}rem)`,
-    padding: tokens.spacingS
+    padding: tokens.spacingS,
+    position: 'relative'
   }),
   product: css({
     border: '1px solid',
@@ -56,13 +58,21 @@ const styles = {
   }),
   sku: css({
     flex: '0 1 auto',
-    color: tokens.colorContrastLight,
+    color: tokens.colorTextLight,
     fontSize: tokens.fontSizeS
   }),
   skeletonImage: css({
     width: '100%',
     height: '400px'
-  })
+  }),
+  check: (isSelected: boolean) =>
+    css({
+      opacity: isSelected ? 1 : 0,
+      position: 'absolute',
+      top: tokens.spacingL,
+      right: tokens.spacingL,
+      transition: `opacity ${tokens.transitionDurationDefault} ${tokens.transitionEasingDefault}`
+    })
 };
 
 export const ProductListItem = (props: Props) => {
@@ -91,6 +101,7 @@ export const ProductListItem = (props: Props) => {
           className={styles.previewImg}
           data-test-id="image"
         />
+        <img className={styles.check(isSelected)} src={activeProductCheck} alt="check" />
         <p className={styles.name}>{product.name}</p>
         <p className={styles.sku}>{product.sku}</p>
       </div>

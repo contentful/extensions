@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button, Note, TextLink } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
+import get from 'lodash/get';
 import isNil from 'lodash/isNil';
 import { css } from 'emotion';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
@@ -93,16 +94,22 @@ export default class Field extends React.Component<Props, State> {
     if (isArray) {
       const result = await this.props.openDialog(this.props.sdk, currentValue, {
         ...config,
+        fieldValue: this.props.sdk.field.getValue(),
         fieldType: this.props.sdk.field.type
       });
-      const newValue = [...((this.state.value as string[]) || []), ...result] as string[];
-      await this.updateStateValue(newValue);
+      if (result.length) {
+        await this.updateStateValue(result);
+      }
     } else {
-      const [result] = await this.props.openDialog(this.props.sdk, currentValue, {
+      const result = await this.props.openDialog(this.props.sdk, currentValue, {
         ...config,
+        fieldValue: this.props.sdk.field.getValue(),
         fieldType: this.props.sdk.field.type
       });
-      await this.updateStateValue(result);
+      const product = get(result, ['0'], null);
+      if (product) {
+        await this.updateStateValue(product);
+      }
     }
   };
 
