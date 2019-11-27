@@ -84,12 +84,6 @@ const styles = {
     fontSize: tokens.fontSizeS,
     marginBottom: 0
   }),
-  dropdownLink: css({
-    textDecoration: 'none',
-    '&, &:hover, &:visited, &:active': {
-      color: '#536171'
-    }
-  }),
   skeletonImage: css({
     width: '100px',
     height: '120px',
@@ -140,7 +134,7 @@ export const SortableItem = SortableElement<SortableElementProps>(
           <div className={styles.actions}>
             {product.externalLink && (
               <a target="_blank" rel="noopener noreferrer" href={product.externalLink}>
-                <Icon icon="Link" color="muted" />
+                <Icon icon="ExternalLink" color="muted" />
               </a>
             )}
             <IconButton

@@ -1,11 +1,7 @@
 import React from 'react';
-import { configure, render, cleanup } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import { Props, ProductList } from './ProductList';
 import productPreviews from './__mocks__/productPreviews';
-
-configure({
-  testIdAttribute: 'data-test-id'
-});
 
 const defaultProps: Props = {
   products: productPreviews,
@@ -17,7 +13,7 @@ const renderComponent = (props: Props) => {
   return render(<ProductList {...props} />);
 };
 
-describe('ProductListItem', () => {
+describe('ProductList', () => {
   afterEach(cleanup);
 
   it('should render successfully', async () => {
