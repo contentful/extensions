@@ -28,7 +28,7 @@ const styles = {
     flexDirection: 'column',
     padding: tokens.spacingS,
     outline: 0,
-    textAlign: 'center',
+    // textAlign: 'center',
     transition: `all ${tokens.transitionDurationDefault} ${tokens.transitionEasingDefault}`,
     '&:hover': {
       borderColor: tokens.colorElementDark,
@@ -48,8 +48,20 @@ const styles = {
       cursor: 'pointer'
     }
   }),
+  imgWrapper: (imageHasLoaded: boolean) =>
+    css({
+      width: '290px',
+      height: `${imageHasLoaded ? 290 : 0}px`,
+      position: 'relative',
+      overflow: 'hidden'
+    }),
   previewImg: css({
-    width: '100%'
+    height: '290px',
+    minWidth: 'auto',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
   }),
   name: css({
     flex: '1 0 auto',
@@ -59,11 +71,13 @@ const styles = {
   sku: css({
     flex: '0 1 auto',
     color: tokens.colorTextLight,
-    fontSize: tokens.fontSizeS
+    fontSize: tokens.fontSizeS,
+    marginTop: 0,
+    marginBottom: 0
   }),
   skeletonImage: css({
     width: '100%',
-    height: '400px'
+    height: '290px'
   }),
   check: (isSelected: boolean) =>
     css({
@@ -90,18 +104,20 @@ export const ProductListItem = (props: Props) => {
         onClick={() => selectProduct(product.sku)}>
         {!imageHasLoaded && (
           <SkeletonContainer className={styles.skeletonImage}>
-            <SkeletonImage width={400} height={400} />
+            <SkeletonImage width={400} height={290} />
           </SkeletonContainer>
         )}
-        <img
-          onLoad={() => setImageHasLoaded(true)}
-          style={{ display: imageHasLoaded ? 'block' : 'none' }}
-          src={product.image}
-          alt="product preview"
-          className={styles.previewImg}
-          data-test-id="image"
-        />
-        <img className={styles.check(isSelected)} src={activeProductCheck} alt="check" />
+        <div className={styles.imgWrapper(imageHasLoaded)}>
+          <img
+            onLoad={() => setImageHasLoaded(true)}
+            style={{ display: imageHasLoaded ? 'block' : 'none' }}
+            src={product.image}
+            alt="product preview"
+            className={styles.previewImg}
+            data-test-id="image"
+          />
+          <img className={styles.check(isSelected)} src={activeProductCheck} alt="check" />
+        </div>
         <p className={styles.name}>{product.name}</p>
         <p className={styles.sku}>{product.sku}</p>
       </div>

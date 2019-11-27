@@ -10,7 +10,7 @@ configure({
 const defaultProps: Props = {
   products: productPreviews,
   selectProduct: jest.fn(),
-  selectedProducts: []
+  selectedSKUs: []
 };
 
 const renderComponent = (props: Props) => {
@@ -28,7 +28,7 @@ describe('ProductListItem', () => {
   it('should render successfully with selected items', () => {
     const component = renderComponent({
       ...defaultProps,
-      selectedProducts: [productPreviews[1].sku]
+      selectedSKUs: [productPreviews[1].sku]
     });
     expect(component.container).toMatchSnapshot();
   });

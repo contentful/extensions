@@ -149,7 +149,7 @@ export default class Field extends React.Component<Props, State> {
         <div className={styles.container}>
           <img src={this.props.logo} alt="Logo" className={styles.logo} />
           <Button
-            icon="Asset"
+            icon="ShoppingCart"
             buttonType="muted"
             size="small"
             onClick={this.onDialogOpen}

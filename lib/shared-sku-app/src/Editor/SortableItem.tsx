@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { css } from 'emotion';
 import {
-  DropdownList,
-  DropdownListItem,
   Card,
   CardDragHandle as FormaCardDragHandle,
-  CardActions,
   Heading,
-  Subheading,
-  Typography,
+  Icon,
+  IconButton,
   SkeletonContainer,
-  SkeletonImage
+  SkeletonImage,
+  Subheading,
+  Typography
 } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import { Product } from '../interfaces';
@@ -40,7 +39,8 @@ const styles = {
     position: 'relative',
     '> img': css({
       display: 'block',
-      width: '100%',
+      height: '48px',
+      minWidth: 'auto',
       userSelect: 'none',
       position: 'absolute',
       left: '50%',
@@ -54,7 +54,19 @@ const styles = {
   actions: css({
     position: 'absolute',
     top: tokens.spacingXs,
-    right: tokens.spacingXs
+    right: tokens.spacingXs,
+    a: css({
+      display: 'inline-block',
+      marginRight: tokens.spacingXs,
+      svg: css({
+        transition: `fill ${tokens.transitionDurationDefault} ${tokens.transitionEasingDefault}`
+      }),
+      '&:hover': {
+        svg: css({
+          fill: tokens.colorContrastDark
+        })
+      }
+    })
   }),
   description: css({
     flex: '1 0 auto',
@@ -125,17 +137,21 @@ export const SortableItem = SortableElement<SortableElementProps>(
           <div>Product not available</div>
         )}
         {!disabled && (
-          <CardActions className={styles.actions}>
-            <DropdownList>
-              <DropdownListItem isTitle>Actions</DropdownListItem>
-              <DropdownListItem onClick={onDelete}>Remove</DropdownListItem>
-              {product.externalLink && (
-                <DropdownListItem {...{ target: '_blank' }} href={product.externalLink}>
-                  Go to external link
-                </DropdownListItem>
-              )}
-            </DropdownList>
-          </CardActions>
+          <div className={styles.actions}>
+            {product.externalLink && (
+              <a target="_blank" rel="noopener noreferrer" href={product.externalLink}>
+                <Icon icon="Link" color="muted" />
+              </a>
+            )}
+            <IconButton
+              label="Delete"
+              iconProps={{ icon: 'Close' }}
+              {...{
+                buttonType: 'muted',
+                onClick: onDelete
+              }}
+            />
+          </div>
         )}
       </Card>
     );

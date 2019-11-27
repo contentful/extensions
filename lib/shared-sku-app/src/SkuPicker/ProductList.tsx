@@ -7,7 +7,7 @@ import { ProductListItem } from './ProductListItem';
 export interface Props {
   products: Product[];
   selectProduct: (sku: string) => void;
-  selectedProducts: string[];
+  selectedSKUs: string[];
 }
 
 const styles = {
@@ -19,13 +19,13 @@ const styles = {
   })
 };
 
-export const ProductList = ({ selectProduct, selectedProducts, products }: Props) => (
+export const ProductList = ({ selectProduct, selectedSKUs, products }: Props) => (
   <div className={styles.productList}>
     {products.map(product => (
       <ProductListItem
         key={product.id}
         product={product}
-        isSelected={selectedProducts.includes(product.sku)}
+        isSelected={selectedSKUs.includes(product.sku)}
         selectProduct={selectProduct}
       />
     ))}

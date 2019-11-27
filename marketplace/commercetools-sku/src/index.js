@@ -68,6 +68,7 @@ async function renderDialog(sdk) {
 
   renderSkuPicker(ID, {
     sdk,
+    fetchProductPreview,
     fetchProducts: async (search, { offset }) => {
       const PER_PAGE = 20;
       const requestBuilder = createRequestBuilder({ projectKey });
