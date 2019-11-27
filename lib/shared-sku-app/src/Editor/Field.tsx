@@ -65,6 +65,7 @@ export default class Field extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    console.log(JSON.stringify(this.props.sdk));
     this.props.sdk.window.startAutoResizer();
 
     // Handle external changes (e.g. when multiple authors are working on the same entry).

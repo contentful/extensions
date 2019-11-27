@@ -12,7 +12,7 @@ import { Pagination } from './interfaces';
 import { ProductSelectionList } from './ProductSelectionList';
 import { styles } from './styles';
 
-interface Props {
+export interface Props {
   sdk: AppExtensionSDK;
   fetchProductPreview: Function;
   fetchProducts: Function;

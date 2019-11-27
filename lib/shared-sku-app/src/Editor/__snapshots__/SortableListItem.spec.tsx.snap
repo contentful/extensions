@@ -107,7 +107,7 @@ exports[`SortableListItem should render successfully the loading variation 1`] =
   >
     <svg
       aria-label="Loading component..."
-      class="SkeletonContainer__SkeletonContainer___23jiu css-xwqo7g"
+      class="SkeletonContainer__SkeletonContainer___23jiu css-eiov7n"
       data-test-id="cf-ui-skeleton-form"
       height="100%"
       preserveAspectRatio="xMidYMid meet"
@@ -130,10 +130,10 @@ exports[`SortableListItem should render successfully the loading variation 1`] =
           id="cf-ui-skeleton-clip-id"
         >
           <rect
-            height="100"
+            height="48"
             rx="0"
             ry="0"
-            width="100"
+            width="48"
           />
         </clippath>
         <lineargradient

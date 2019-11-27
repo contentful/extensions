@@ -85,11 +85,9 @@ const styles = {
     marginBottom: 0
   }),
   skeletonImage: css({
-    width: '100px',
-    height: '120px',
-    paddingRight: tokens.spacingM,
-    paddingBottom: tokens.spacingM,
-    paddingTop: tokens.spacingXl
+    width: '48px',
+    height: '48px',
+    padding: tokens.spacingM
   })
 };
 
@@ -108,7 +106,7 @@ export const SortableListItem = SortableElement<Props>(
             {isSortable && <CardDragHandle />}
             {!imageHasLoaded && (
               <SkeletonContainer className={styles.skeletonImage}>
-                <SkeletonImage width={100} height={100} />
+                <SkeletonImage width={48} height={48} />
               </SkeletonContainer>
             )}
             <div className={styles.imageWrapper}>
