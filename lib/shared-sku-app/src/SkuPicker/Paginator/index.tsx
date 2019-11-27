@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button } from '@contentful/forma-36-react-components';
-import { css } from 'emotion';
 import clamp from 'lodash/clamp';
 import range from 'lodash/range';
-import { doubleChevron } from './iconsInBase64';
+import { doubleChevron } from '../iconsInBase64';
+import { styles } from './styles';
 
 export interface Props {
   activePage: number;
@@ -11,25 +11,6 @@ export interface Props {
   pageCount: number;
   setActivePage: Function;
 }
-
-const styles = {
-  button: css({
-    borderRadius: 0,
-    maxWidth: '45px',
-    span: {
-      overflow: 'visible !important'
-    }
-  }),
-  chevronLeft: css({
-    display: 'flex',
-    opacity: 0.6
-  }),
-  chevronRight: css({
-    display: 'flex',
-    transform: 'rotate(180deg)',
-    opacity: 0.6
-  })
-};
 
 export function getPagesRange(page: number, total: number, neighboursCount = 2): number[] {
   if (total < neighboursCount * 2 + 1) {

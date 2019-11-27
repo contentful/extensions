@@ -48,16 +48,6 @@ const styles = {
     minWidth: 'auto',
     height: '40px'
   }),
-  name: css({
-    flex: '1 0 auto',
-    fontWeight: 'bold',
-    textTransform: 'capitalize'
-  }),
-  sku: css({
-    flex: '0 1 auto',
-    color: tokens.colorTextLight,
-    fontSize: tokens.fontSizeS
-  }),
   removeIcon: css({
     backgroundColor: 'rgba(0,0,0,.65)',
     borderRadius: '50%',
@@ -76,15 +66,7 @@ const styles = {
       left: '50%',
       transform: 'translate(-50%, -50%)'
     })
-  }),
-  check: (isSelected: boolean) =>
-    css({
-      opacity: isSelected ? 1 : 0,
-      position: 'absolute',
-      top: tokens.spacingL,
-      right: tokens.spacingL,
-      transition: `opacity ${tokens.transitionDurationDefault} ${tokens.transitionEasingDefault}`
-    })
+  })
 };
 
 export const ProductSelectionListItem = (props: Props) => {

@@ -15,7 +15,7 @@ import {
 import tokens from '@contentful/forma-36-tokens';
 import { Product } from '../interfaces';
 
-interface SortableElementProps {
+export interface Props {
   product: Product;
   disabled: boolean;
   onDelete: () => void;
@@ -97,8 +97,8 @@ const CardDragHandle = SortableHandle(() => (
   <FormaCardDragHandle className={styles.dragHandle}>Reorder product</FormaCardDragHandle>
 ));
 
-export const SortableItem = SortableElement<SortableElementProps>(
-  ({ product, disabled, isSortable, onDelete }: SortableElementProps) => {
+export const SortableListItem = SortableElement<Props>(
+  ({ product, disabled, isSortable, onDelete }: Props) => {
     const [imageHasLoaded, setImageLoaded] = useState(false);
 
     return (
@@ -106,7 +106,6 @@ export const SortableItem = SortableElement<SortableElementProps>(
         {product.image ? (
           <>
             {isSortable && <CardDragHandle />}
-
             {!imageHasLoaded && (
               <SkeletonContainer className={styles.skeletonImage}>
                 <SkeletonImage width={100} height={100} />
@@ -118,6 +117,7 @@ export const SortableItem = SortableElement<SortableElementProps>(
                 onLoad={() => setImageLoaded(true)}
                 src={product.image}
                 alt={product.name}
+                data-test-id="image"
               />
             </div>
             <section className={styles.description}>

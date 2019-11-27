@@ -3,8 +3,8 @@ import tokens from '@contentful/forma-36-tokens';
 import noop from 'lodash/noop';
 import { SkeletonContainer, SkeletonImage } from '@contentful/forma-36-react-components';
 import { css } from 'emotion';
-import { activeProductCheck } from './iconsInBase64';
-import { Product } from '../interfaces';
+import { activeProductCheck } from '../iconsInBase64';
+import { Product } from '../../interfaces';
 
 export interface Props {
   product: Product;
@@ -28,7 +28,6 @@ const styles = {
     flexDirection: 'column',
     padding: tokens.spacingS,
     outline: 0,
-    // textAlign: 'center',
     transition: `all ${tokens.transitionDurationDefault} ${tokens.transitionEasingDefault}`,
     '&:hover': {
       borderColor: tokens.colorElementDark,

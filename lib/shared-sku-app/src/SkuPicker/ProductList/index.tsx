@@ -1,7 +1,7 @@
 import React from 'react';
 import tokens from '@contentful/forma-36-tokens';
 import { css } from 'emotion';
-import { Product } from '../interfaces';
+import { Product } from '../../interfaces';
 import { ProductListItem } from './ProductListItem';
 
 export interface Props {

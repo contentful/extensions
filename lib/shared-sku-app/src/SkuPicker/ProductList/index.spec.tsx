@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import { Props, ProductList } from './ProductList';
-import productPreviews from './__mocks__/productPreviews';
+import { Props, ProductList } from '.';
+import productPreviews from '../../__mocks__/productPreviews';
 
 const defaultProps: Props = {
   products: productPreviews,

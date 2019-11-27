@@ -1,22 +1,22 @@
 import * as React from 'react';
 import { SortableContainer } from 'react-sortable-hoc';
 import { DeleteFn, Product } from '../interfaces';
-import { SortableItem } from './SortableItem';
+import { SortableListItem } from './SortableListItem';
 
-interface SortableContainerProps {
+export interface Props {
   disabled: boolean;
   productPreviews: Product[];
   deleteFn: DeleteFn;
 }
 
-export const SortableList = SortableContainer<SortableContainerProps>(
-  ({ disabled, deleteFn, productPreviews }: SortableContainerProps) => {
+export const SortableList = SortableContainer<Props>(
+  ({ disabled, deleteFn, productPreviews }: Props) => {
     const itemsAreSortable = productPreviews.length > 1;
     return (
       <div>
         {productPreviews.map((product, index) => {
           return (
-            <SortableItem
+            <SortableListItem
               disabled={disabled}
               key={`${product.image}-${index}`}
               product={product}

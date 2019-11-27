@@ -3,15 +3,14 @@ import get from 'lodash/get';
 import clamp from 'lodash/clamp';
 import debounce from 'lodash/debounce';
 import { Button, TextInput, Icon } from '@contentful/forma-36-react-components';
-import tokens from '@contentful/forma-36-tokens';
 import { AppExtensionSDK } from 'contentful-ui-extensions-sdk';
-import { css } from 'emotion';
 import { Divider } from '../Divider';
 import { ProductList } from './ProductList';
 import { Paginator } from './Paginator';
 import { Product } from '../interfaces';
 import { Pagination } from './interfaces';
 import { ProductSelectionList } from './ProductSelectionList';
+import { styles } from './styles';
 
 interface Props {
   sdk: AppExtensionSDK;
@@ -29,50 +28,6 @@ interface State {
 }
 
 const SEARCH_DELAY = 250;
-
-const styles = {
-  header: css({
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: tokens.spacingL
-  }),
-  body: css({
-    height: 'calc(100vh - 139px)',
-    overflowY: 'auto',
-    padding: `${tokens.spacingL} ${tokens.spacingL} 0 ${tokens.spacingL}`
-  }),
-  total: css({
-    fontSize: tokens.fontSizeS,
-    color: tokens.colorTextLight,
-    display: 'block',
-    marginTop: tokens.spacingS
-  }),
-  saveBtn: css({
-    marginRight: tokens.spacingM
-  }),
-  paginator: css({
-    margin: `${tokens.spacingM} auto ${tokens.spacingL} auto`,
-    textAlign: 'center'
-  }),
-  leftsideControls: css({
-    position: 'relative',
-    zIndex: 0,
-    svg: css({
-      zIndex: 1,
-      position: 'absolute',
-      top: '10px',
-      left: '10px'
-    }),
-    input: css({
-      paddingLeft: '35px'
-    })
-  }),
-  rightsideControls: css({
-    justifyContent: 'flex-end',
-    flexGrow: 1,
-    display: 'flex'
-  })
-};
 
 function getSaveBtnText(selectedSKUs: string | string[]): string {
   if (typeof selectedSKUs === 'string') {
@@ -119,22 +74,32 @@ export class SkuPicker extends Component<Props, State> {
   };
 
   updateProducts = async () => {
-    const {
-      activePage,
-      pagination: { limit },
-      search
-    } = this.state;
-    const offset = (activePage - 1) * limit;
-    const { pagination, products } = await this.props.fetchProducts(search, { offset });
-    this.setState({ pagination, products });
+    try {
+      const {
+        activePage,
+        pagination: { limit },
+        search
+      } = this.state;
+      const offset = (activePage - 1) * limit;
+      const { pagination, products } = await this.props.fetchProducts(search, { offset });
+      this.setState({ pagination, products });
+    } catch (error) {
+      this.props.sdk.notifier.error('There was an error fetching the product list.');
+    }
   };
 
   updateSelectedProducts = async () => {
-    const selectedProductsPromises = this.state.selectedSKUs.map(sku =>
-      this.props.fetchProductPreview(sku, this.props.sdk.parameters.installation)
-    );
-    const selectedProducts = await Promise.all(selectedProductsPromises);
-    this.setState({ selectedProducts });
+    try {
+      const selectedProductsPromises = this.state.selectedSKUs.map(sku =>
+        this.props.fetchProductPreview(sku, this.props.sdk.parameters.installation)
+      );
+      const selectedProducts = await Promise.all(selectedProductsPromises);
+      this.setState({ selectedProducts });
+    } catch (error) {
+      this.props.sdk.notifier.error(
+        'There was an error fetching the data for the selected products.'
+      );
+    }
   };
 
   setActivePage = (activePage: number) => {

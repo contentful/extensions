@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, configure, render, cleanup } from '@testing-library/react';
 import { Props, ProductListItem } from './ProductListItem';
-import productPreviews from './__mocks__/productPreviews';
+import productPreviews from '../../__mocks__/productPreviews';
 
 configure({
   testIdAttribute: 'data-test-id'
