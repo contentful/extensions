@@ -95,6 +95,7 @@ export const ProductListItem = (props: Props) => {
   return (
     <div className={styles.productWrapper}>
       <div
+        data-test-id={`product-preview-${product.sku}`}
         role="switch"
         aria-checked={isSelected}
         tabIndex={-1}

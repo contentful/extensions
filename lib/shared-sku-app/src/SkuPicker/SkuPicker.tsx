@@ -59,9 +59,9 @@ export class SkuPicker extends Component<Props, State> {
     selectedSKUs: get(this.props, ['sdk', 'parameters', 'invocation', 'fieldValue'], [])
   };
 
-  componentDidMount() {
-    this.updateProducts();
-    this.updateSelectedProducts();
+  async componentDidMount() {
+    await this.updateProducts();
+    await this.updateSelectedProducts();
   }
 
   setSearchCallback = debounce(() => {

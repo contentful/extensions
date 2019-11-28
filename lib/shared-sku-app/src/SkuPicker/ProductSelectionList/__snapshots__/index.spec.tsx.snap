@@ -11,6 +11,7 @@ exports[`ProductSelectionList should render successfully 1`] = `
       <div
         aria-checked="true"
         class="css-4gm53r"
+        data-test-id="selection-preview-M0E20130820E90Z"
         role="switch"
         tabindex="-1"
       >
@@ -52,6 +53,7 @@ exports[`ProductSelectionList should render successfully 1`] = `
       <div
         aria-checked="true"
         class="css-4gm53r"
+        data-test-id="selection-preview-A0E2300FX102203"
         role="switch"
         tabindex="-1"
       >
@@ -93,6 +95,7 @@ exports[`ProductSelectionList should render successfully 1`] = `
       <div
         aria-checked="true"
         class="css-4gm53r"
+        data-test-id="selection-preview-M0E21300900DZN7"
         role="switch"
         tabindex="-1"
       >

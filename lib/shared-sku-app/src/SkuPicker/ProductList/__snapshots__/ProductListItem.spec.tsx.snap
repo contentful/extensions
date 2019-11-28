@@ -8,6 +8,7 @@ exports[`ProductListItem should render successfully 1`] = `
     <div
       aria-checked="false"
       class="css-1qso258 "
+      data-test-id="product-preview-M0E20130820E90Z"
       role="switch"
       tabindex="-1"
     >
@@ -50,6 +51,7 @@ exports[`ProductListItem should render successfully the isSelected variation 1`]
     <div
       aria-checked="true"
       class="css-1qso258 css-1rtg1va"
+      data-test-id="product-preview-M0E20130820E90Z"
       role="switch"
       tabindex="-1"
     >
@@ -92,6 +94,7 @@ exports[`ProductListItem should render successfully the loading variation 1`] = 
     <div
       aria-checked="false"
       class="css-1qso258 "
+      data-test-id="product-preview-M0E20130820E90Z"
       role="switch"
       tabindex="-1"
     >
