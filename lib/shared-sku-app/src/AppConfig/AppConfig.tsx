@@ -216,17 +216,19 @@ export default class AppConfig extends React.Component<Props, State> {
           <Heading>Assign to fields</Heading>
           {contentTypes.length > 0 ? (
             <Paragraph>
-              This app can only be used with <strong>JSON object</strong> fields. Select which JSON
-              fields you’d like to enable for this app.
+              This app can only be used with <strong>Short text</strong> or{' '}
+              <strong>Short text list</strong> fields. Select which fields you’d like to enable for
+              this app.
             </Paragraph>
           ) : (
             <>
               <Paragraph>
-                This app can be used only with <strong>JSON object</strong> fields.
+                This app can only be used with <strong>Short text</strong> or{' '}
+                <strong>Short text list</strong> fields.
               </Paragraph>
               <Paragraph>
-                There are <strong>no content types with JSON object</strong> fields in this
-                environment. You can add one here later.
+                There are <strong>no content types with Short text or Short text list</strong>{' '}
+                fields in this environment. You can add one here later.
               </Paragraph>
             </>
           )}

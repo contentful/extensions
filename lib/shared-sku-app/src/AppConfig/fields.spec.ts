@@ -13,12 +13,20 @@ const contentTypes = [
   {
     sys: { id: 'ct2' },
     name: 'CT2',
-    fields: [{ id: 'foo', name: 'FOO', type: 'Text' }]
+    fields: [
+      { id: 'foo', name: 'FOO', type: 'Text' },
+      { id: 'z', name: 'Z', type: 'Array', items: { type: 'Symbol' } }
+    ]
   },
   {
     sys: { id: 'ct3' },
     name: 'CT3',
-    fields: [{ id: 'bar', name: 'BAR', type: 'Object' }, { id: 'baz', name: 'BAZ', type: 'Object' }]
+    fields: [
+      { id: 'bar', name: 'BAR', type: 'Object' },
+      { id: 'baz', name: 'BAZ', type: 'Object' },
+      { id: 'd', name: 'D', type: 'Array', items: { type: 'Symbol' } },
+      { id: 'a', name: 'A', type: 'Symbol' }
+    ]
   }
 ];
 
@@ -28,11 +36,11 @@ describe('fields', () => {
       const result = getCompatibleFields(contentTypes);
 
       expect(result).toEqual({
-        ct1: [{ id: 'y', name: 'Y', type: 'Object' }],
-        ct2: [],
+        ct1: [{ id: 'x', name: 'X', type: 'Symbol' }],
+        ct2: [{ id: 'z', name: 'Z', type: 'Array', items: { type: 'Symbol' } }],
         ct3: [
-          { id: 'bar', name: 'BAR', type: 'Object' },
-          { id: 'baz', name: 'BAZ', type: 'Object' }
+          { id: 'd', name: 'D', type: 'Array', items: { type: 'Symbol' } },
+          { id: 'a', name: 'A', type: 'Symbol' }
         ]
       });
     });
@@ -49,19 +57,19 @@ describe('fields', () => {
       const result = currentStateToSelectedFields({
         EditorInterface: {
           ct1: {
-            controls: [{ fieldId: 'foo' }]
+            controls: [{ fieldId: 'x' }]
           },
           ct2: { controls: [] },
           ct3: {},
           ct4: {
-            controls: [{ fieldId: 'bar' }, { fieldId: 'baz' }]
+            controls: [{ fieldId: 'a' }, { fieldId: 'd' }]
           }
         }
       });
 
       expect(result).toEqual({
-        ct1: ['foo'],
-        ct4: ['bar', 'baz']
+        ct1: ['x'],
+        ct4: ['a', 'd']
       });
     });
   });
@@ -69,15 +77,15 @@ describe('fields', () => {
   describe('selectedFieldsToTargetState', () => {
     it('converts selected field map to target state', () => {
       const result = selectedFieldsToTargetState(contentTypes, {
-        ct1: ['y'],
-        ct3: ['bar']
+        ct1: ['x'],
+        ct3: ['a']
       });
 
       expect(result).toEqual({
         EditorInterface: {
-          ct1: { controls: [{ fieldId: 'y' }] },
+          ct1: { controls: [{ fieldId: 'x' }] },
           ct2: {},
-          ct3: { controls: [{ fieldId: 'bar' }] }
+          ct3: { controls: [{ fieldId: 'a' }] }
         }
       });
     });

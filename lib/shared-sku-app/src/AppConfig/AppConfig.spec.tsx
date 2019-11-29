@@ -9,20 +9,25 @@ import { definitions } from './parameters.spec';
 const contentTypes = [
   {
     sys: { id: 'ct1' },
-    name: 'CT no 1',
-    fields: [{ id: 'obj', name: 'Some object', type: 'Object' }]
+    name: 'CT1',
+    fields: [{ id: 'x', name: 'X', type: 'Symbol' }, { id: 'y', name: 'Y', type: 'Object' }]
   },
   {
     sys: { id: 'ct2' },
-    name: 'CT no 2',
-    fields: [{ id: 'txt', name: 'Some text', type: 'Text' }]
+    name: 'CT2',
+    fields: [
+      { id: 'foo', name: 'FOO', type: 'Text' },
+      { id: 'z', name: 'Z', type: 'Array', items: { type: 'Symbol' } }
+    ]
   },
   {
     sys: { id: 'ct3' },
-    name: 'CT no 3',
+    name: 'CT3',
     fields: [
-      { id: 'txt', name: 'Some other text', type: 'Text' },
-      { id: 'obj', name: 'Some other object', type: 'Object' }
+      { id: 'bar', name: 'BAR', type: 'Object' },
+      { id: 'baz', name: 'BAZ', type: 'Object' },
+      { id: 'd', name: 'D', type: 'Array', items: { type: 'Symbol' } },
+      { id: 'a', name: 'A', type: 'Symbol' }
     ]
   }
 ];
@@ -63,16 +68,21 @@ describe('AppConfig', () => {
   it('renders app before installation', async () => {
     const sdk = makeSdkMock();
     const { getByLabelText } = renderComponent(sdk);
-    await wait(() => getByLabelText(/Cloud name/));
+    await wait(() => getByLabelText(/Commercetools Project Key/));
 
-    [[/Cloud name/, ''], [/API key/, ''], [/Max number of files/, '10']].forEach(
-      ([labelRe, expected]) => {
-        const configInput = getByLabelText(labelRe) as HTMLInputElement;
-        expect(configInput.value).toEqual(expected);
-      }
-    );
+    [
+      [/Commercetools Project Key/, ''],
+      [/Client ID/, ''],
+      [/Client Secret/, ''],
+      [/^API Endpoint/, ''],
+      [/Auth API Endpoint/, ''],
+      [/Commercetools data locale/, '']
+    ].forEach(([labelRe, expected]) => {
+      const configInput = getByLabelText(labelRe) as HTMLInputElement;
+      expect(configInput.value).toEqual(expected);
+    });
 
-    [/Some object/, /Some other object/].forEach(labelRe => {
+    [/X$/, /D$/].forEach(labelRe => {
       const fieldCheckbox = getByLabelText(labelRe) as HTMLInputElement;
       expect(fieldCheckbox.checked).toBe(false);
     });
@@ -81,31 +91,37 @@ describe('AppConfig', () => {
   it('renders app after installation', async () => {
     const sdk = makeSdkMock();
     sdk.platformAlpha.app.getParameters.mockResolvedValueOnce({
-      cloudName: 'test-cloud',
-      apiKey: 'test-api-key',
-      maxFiles: 12
+      projectKey: 'some-key',
+      clientId: '12345',
+      clientSecret: 'some-secret',
+      apiEndpoint: 'some-endpoint',
+      authApiEndpoint: 'some-auth-endpoint',
+      locale: 'en'
     });
     sdk.platformAlpha.app.getCurrentState.mockResolvedValueOnce({
       EditorInterface: {
         ct3: {
-          controls: [{ fieldId: 'obj' }]
+          controls: [{ fieldId: 'a' }, { fieldId: 'd' }]
         }
       }
     });
 
     const { getByLabelText } = renderComponent(sdk);
-    await wait(() => getByLabelText(/Cloud name/));
+    await wait(() => getByLabelText(/Commercetools Project Key/));
 
     [
-      [/Cloud name/, 'test-cloud'],
-      [/API key/, 'test-api-key'],
-      [/Max number of files/, '12']
+      [/Commercetools Project Key/, 'some-key'],
+      [/Client ID/, '12345'],
+      [/Client Secret/, 'some-secret'],
+      [/^API Endpoint/, 'some-endpoint'],
+      [/Auth API Endpoint/, 'some-auth-endpoint'],
+      [/Commercetools data locale/, 'en']
     ].forEach(([labelRe, expected]) => {
       const configInput = getByLabelText(labelRe as RegExp) as HTMLInputElement;
       expect(configInput.value).toEqual(expected);
     });
 
-    [[/Some object/, false], [/Some other object/, true]].forEach(([labelRe, expected]) => {
+    [[/X$/, false], [/D$/, true]].forEach(([labelRe, expected]) => {
       const fieldCheckbox = getByLabelText(labelRe as RegExp) as HTMLInputElement;
       expect(fieldCheckbox.checked).toBe(expected);
     });
@@ -114,17 +130,20 @@ describe('AppConfig', () => {
   it('updates configuration', async () => {
     const sdk = makeSdkMock();
     const { getByLabelText } = renderComponent(sdk);
-    await wait(() => getByLabelText(/Cloud name/));
+    await wait(() => getByLabelText(/Commercetools Project Key/));
     [
-      [/Cloud name/, 'test-cloud'],
-      [/API key/, 'test-api-key'],
-      [/Max number of files/, '12']
+      [/Commercetools Project Key/, 'some-key'],
+      [/Client ID/, '12345'],
+      [/Client Secret/, 'some-secret'],
+      [/^API Endpoint/, 'some-endpoint'],
+      [/Auth API Endpoint/, 'some-auth-endpoint'],
+      [/Commercetools data locale/, 'en']
     ].forEach(([labelRe, value]) => {
       const configInput = getByLabelText(labelRe as RegExp) as HTMLInputElement;
       fireEvent.change(configInput, { target: { value } });
     });
 
-    const fieldCheckbox = getByLabelText(/Some other object/) as HTMLInputElement;
+    const fieldCheckbox = getByLabelText(/D$/) as HTMLInputElement;
     fireEvent.click(fieldCheckbox);
 
     const onConfigure = sdk.platformAlpha.app.onConfigure.mock.calls[0][0];
@@ -132,14 +151,18 @@ describe('AppConfig', () => {
 
     expect(configurationResult).toEqual({
       parameters: {
-        cloudName: 'test-cloud',
-        apiKey: 'test-api-key',
-        maxFiles: 12
+        projectKey: 'some-key',
+        clientId: '12345',
+        clientSecret: 'some-secret',
+        apiEndpoint: 'some-endpoint',
+        authApiEndpoint: 'some-auth-endpoint',
+        locale: 'en'
       },
       targetState: {
         EditorInterface: {
           ct1: {},
-          ct3: { controls: [{ fieldId: 'obj' }] }
+          ct2: {},
+          ct3: { controls: [{ fieldId: 'd' }] }
         }
       }
     });

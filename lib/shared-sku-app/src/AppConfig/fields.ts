@@ -1,9 +1,14 @@
 import get from 'lodash.get';
 
+interface FieldItems {
+  type: string;
+}
+
 interface Field {
   id: string;
   name: string;
   type: string;
+  items?: FieldItems;
 }
 
 export interface ContentType {
@@ -16,11 +21,16 @@ export type CompatibleFields = Record<string, Field[]>;
 export type SelectedFields = Record<string, string[] | undefined>;
 type EditorInterfaceState = { controls?: { fieldId: string }[] };
 
+function isCompatibleField(field: Field) {
+  const isArray = field.type === 'Array';
+  return field.type === 'Symbol' || (isArray && (field.items as FieldItems).type === 'Symbol');
+}
+
 export function getCompatibleFields(contentTypes: ContentType[]): CompatibleFields {
   return contentTypes.reduce((acc, ct) => {
     return {
       ...acc,
-      [ct.sys.id]: (ct.fields || []).filter(field => field.type === 'Object')
+      [ct.sys.id]: (ct.fields || []).filter(isCompatibleField)
     };
   }, {});
 }

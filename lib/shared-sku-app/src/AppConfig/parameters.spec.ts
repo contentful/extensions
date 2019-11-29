@@ -2,26 +2,46 @@ import { toInputParameters, toExtensionParameters } from './parameters';
 
 export const definitions = [
   {
-    id: 'cloudName',
-    name: 'Cloud name',
-    description: 'The cloud_name of the account to access.',
+    id: 'projectKey',
+    name: 'Commercetools Project Key',
+    description: 'The Commercetools project key',
     type: 'Symbol',
     required: true
   },
   {
-    id: 'apiKey',
-    name: 'API key',
-    description: 'The account API key.',
+    id: 'clientId',
+    name: 'Client ID',
+    description: 'The client ID',
     type: 'Symbol',
     required: true
   },
   {
-    id: 'maxFiles',
-    name: 'Max number of files',
-    description: 'Max number of files that can be added to a single field. Between 1 and 25.',
-    type: 'Number',
-    required: false,
-    default: 10
+    id: 'clientSecret',
+    name: 'Client Secret',
+    description: 'The client secret',
+    type: 'Symbol',
+    required: true
+  },
+  {
+    id: 'apiEndpoint',
+    name: 'API Endpoint',
+    description: 'The Commercetools API endpoint',
+    type: 'Symbol',
+    required: true
+  },
+  {
+    id: 'authApiEndpoint',
+    name: 'Auth API Endpoint',
+    description: 'The auth API endpoint',
+    type: 'Symbol',
+    required: true
+  },
+  {
+    id: 'locale',
+    name: 'Commercetools data locale',
+    description: 'The Commercetools data locale to display',
+    type: 'Symbol',
+    required: true
   }
 ];
 
@@ -31,39 +51,68 @@ describe('parameters', () => {
       const result = toInputParameters(definitions, {});
 
       expect(result).toEqual({
-        cloudName: '',
-        apiKey: '',
-        maxFiles: '10'
+        projectKey: '',
+        clientId: '',
+        clientSecret: '',
+        apiEndpoint: '',
+        authApiEndpoint: '',
+        locale: ''
       });
     });
 
     it('resolves parameters to string values', () => {
       const result = toInputParameters(definitions, {
-        cloudName: 'cloud',
-        apiKey: 'key',
-        maxFiles: 15
+        projectKey: 'some-key',
+        clientId: 12345,
+        clientSecret: 'some-secret',
+        apiEndpoint: 'some-endpoint',
+        authApiEndpoint: 'some-auth-endpoint',
+        locale: 'en'
       });
 
       expect(result).toEqual({
-        cloudName: 'cloud',
-        apiKey: 'key',
-        maxFiles: '15'
+        projectKey: 'some-key',
+        clientId: '12345',
+        clientSecret: 'some-secret',
+        apiEndpoint: 'some-endpoint',
+        authApiEndpoint: 'some-auth-endpoint',
+        locale: 'en'
       });
     });
   });
 
   describe('toExtensionParameters', () => {
     it('converts Number parameters to integers', () => {
-      const result = toExtensionParameters(definitions, {
-        cloudName: 'CLOUD',
-        apiKey: 'KEY',
-        maxFiles: '17'
-      });
+      const result = toExtensionParameters(
+        [
+          ...definitions,
+          {
+            id: 'numParam',
+            name: 'Some number param',
+            description: 'Description',
+            type: 'Number',
+            required: true
+          }
+        ],
+        {
+          projectKey: 'some-key',
+          clientId: '12345',
+          clientSecret: 'some-secret',
+          apiEndpoint: 'some-endpoint',
+          authApiEndpoint: 'some-auth-endpoint',
+          locale: 'en',
+          numParam: '12345'
+        }
+      );
 
       expect(result).toEqual({
-        cloudName: 'CLOUD',
-        apiKey: 'KEY',
-        maxFiles: 17
+        projectKey: 'some-key',
+        clientId: '12345',
+        clientSecret: 'some-secret',
+        apiEndpoint: 'some-endpoint',
+        authApiEndpoint: 'some-auth-endpoint',
+        locale: 'en',
+        numParam: 12345
       });
     });
   });
