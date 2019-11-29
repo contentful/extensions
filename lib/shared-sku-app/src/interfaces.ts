@@ -10,6 +10,7 @@ export interface Product {
   externalLink?: string;
 }
 
+export type MakeCTAFn = (fieldType: string) => string;
 export type ValidateParametersFn = (parameters: Record<string, string>) => string | null;
 export type ProductPreviewFn = (resource: string, config: Hash) => Promise<Product>;
 export type DeleteFn = (index: number) => void;
@@ -21,7 +22,7 @@ export type OpenDialogFn = (
 export type DisabledPredicateFn = (currentValue: Hash[], config: Hash) => boolean;
 
 export interface Integration {
-  cta: string;
+  makeCTA: MakeCTAFn;
   name: string;
   logo: string;
   color: string;

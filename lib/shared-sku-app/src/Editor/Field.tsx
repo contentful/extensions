@@ -6,11 +6,11 @@ import isNil from 'lodash/isNil';
 import { css } from 'emotion';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { SortableComponent } from './SortableComponent';
-import { ProductPreviewFn, OpenDialogFn, DisabledPredicateFn } from '../interfaces';
+import { ProductPreviewFn, OpenDialogFn, DisabledPredicateFn, MakeCTAFn } from '../interfaces';
 
 interface Props {
   sdk: FieldExtensionSDK;
-  cta: string;
+  makeCTA: MakeCTAFn;
   logo: string;
   fetchProductPreview: ProductPreviewFn;
   openDialog: OpenDialogFn;
@@ -154,7 +154,7 @@ export default class Field extends React.Component<Props, State> {
             size="small"
             onClick={this.onDialogOpen}
             disabled={isDisabled}>
-            {this.props.cta}
+            {this.props.makeCTA(this.props.sdk.field.type)}
           </Button>
         </div>
       </>

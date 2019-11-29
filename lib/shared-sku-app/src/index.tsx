@@ -31,7 +31,7 @@ export function setup(integration: Integration) {
       render(
         <Field
           sdk={sdk as FieldExtensionSDK}
-          cta={integration.cta}
+          makeCTA={integration.makeCTA}
           logo={integration.logo}
           fetchProductPreview={integration.fetchProductPreview}
           openDialog={integration.openDialog}

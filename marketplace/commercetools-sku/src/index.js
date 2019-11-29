@@ -10,7 +10,9 @@ import logo from './logo.svg';
 import descriptor from '../extension.json';
 import { dataTransformer } from './dataTransformer';
 
-const CTA = 'Select product(s)';
+function makeCTA(fieldType) {
+  return fieldType === 'Array' ? 'Select products' : 'Select product';
+}
 
 function makeCommerceToolsClient({
   parameters: {
@@ -108,7 +110,7 @@ async function openDialog(sdk, currentValue, config) {
 
   const skus = await sdk.dialogs.openExtension({
     position: 'center',
-    title: CTA,
+    title: makeCTA(sdk.field.type),
     shouldCloseOnOverlayClick: true,
     shouldCloseOnEscapePress: true,
     parameters: { ...config, maxFiles },
@@ -152,7 +154,7 @@ function validateParameters(parameters) {
 }
 
 setup({
-  cta: CTA,
+  makeCTA,
   name: 'Commercetools',
   logo,
   description:
