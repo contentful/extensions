@@ -119,6 +119,7 @@ async function openDialog(sdk, currentValue, config) {
 }
 
 function isDisabled(/* currentValue, config */) {
+  // No restrictions need to be imposed as to when the field is disabled from the app's side
   return false;
 }
 
