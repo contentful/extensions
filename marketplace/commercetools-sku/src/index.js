@@ -1,3 +1,4 @@
+import { memoizePromise } from './memoizePromise';
 import { createRequestBuilder } from '@commercetools/api-request-builder';
 import { createClient } from '@commercetools/sdk-client';
 import { createAuthMiddlewareForClientCredentialsFlow } from '@commercetools/sdk-middleware-auth';
@@ -41,7 +42,7 @@ function makeCommerceToolsClient({
   });
 }
 
-async function fetchProductPreview(sku, config) {
+const fetchProductPreview = memoizePromise(async function fetchProductPreview(sku, config) {
   const client = makeCommerceToolsClient({ parameters: { installation: config } });
   const requestBuilder = createRequestBuilder({ projectKey: config.projectKey });
   const uri = requestBuilder.productProjectionsSearch
@@ -54,7 +55,7 @@ async function fetchProductPreview(sku, config) {
   }
 
   return dataTransformer({}); // return empty product
-}
+});
 
 async function renderDialog(sdk) {
   const { projectKey, locale } = sdk.parameters.installation;
@@ -71,7 +72,7 @@ async function renderDialog(sdk) {
   renderSkuPicker(ID, {
     sdk,
     fetchProductPreview,
-    fetchProducts: async (search, { offset }) => {
+    fetchProducts: memoizePromise(async (search, pagination) => {
       const PER_PAGE = 20;
       const requestBuilder = createRequestBuilder({ projectKey });
       const uri = requestBuilder.productProjectionsSearch
@@ -82,7 +83,7 @@ async function renderDialog(sdk) {
               value: search
             }
           }),
-          page: offset / PER_PAGE + 1,
+          page: pagination.offset / PER_PAGE + 1,
           perPage: PER_PAGE
         })
         .build();
@@ -99,7 +100,7 @@ async function renderDialog(sdk) {
         };
       }
       throw new Error(response.statusCode);
-    }
+    })
   });
 
   sdk.window.updateHeight(window.outerHeight);
