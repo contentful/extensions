@@ -1,4 +1,4 @@
-import { toInputParameters, toExtensionParameters } from './parameters';
+import { toInputParameters, toAppParameters } from './parameters';
 
 export const definitions = [
   {
@@ -81,9 +81,9 @@ describe('parameters', () => {
     });
   });
 
-  describe('toExtensionParameters', () => {
+  describe('toAppParameters', () => {
     it('converts Number parameters to integers', () => {
-      const result = toExtensionParameters(
+      const result = toAppParameters(
         [
           ...definitions,
           {

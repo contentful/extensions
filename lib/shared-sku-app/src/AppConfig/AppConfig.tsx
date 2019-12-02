@@ -13,7 +13,7 @@ import { css } from 'emotion';
 
 import FieldSelector from './FieldSelector';
 
-import { toInputParameters, toExtensionParameters } from './parameters';
+import { toInputParameters, toAppParameters } from './parameters';
 
 import {
   getCompatibleFields,
@@ -124,8 +124,7 @@ export default class AppConfig extends React.Component<Props, State> {
         selectedFields: currentStateToSelectedFields(currentState || {}),
         parameters: toInputParameters(this.props.parameterDefinitions, parameters)
       },
-      // TODO: update typing to allow for setReady
-      () => (platformAlpha.app as any).setReady()
+      () => platformAlpha.app.setReady()
     );
   };
 
@@ -139,7 +138,7 @@ export default class AppConfig extends React.Component<Props, State> {
     }
 
     return {
-      parameters: toExtensionParameters(this.props.parameterDefinitions, parameters),
+      parameters: toAppParameters(this.props.parameterDefinitions, parameters),
       targetState: selectedFieldsToTargetState(contentTypes, selectedFields)
     };
   };

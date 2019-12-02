@@ -15,7 +15,7 @@ export function toInputParameters(
   }, {});
 }
 
-export function toExtensionParameters(
+export function toAppParameters(
   parameterDefinitions: Hash[],
   inputValues: Record<string, string>
 ): Hash {
