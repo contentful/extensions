@@ -12,7 +12,7 @@ export interface Product {
 
 export type MakeCTAFn = (fieldType: string) => string;
 export type ValidateParametersFn = (parameters: Record<string, string>) => string | null;
-export type ProductPreviewFn = (resource: string, config: Hash) => Promise<Product>;
+export type ProductPreviewsFn = (skus: string[], config: Hash) => Promise<Product[]>;
 export type DeleteFn = (index: number) => void;
 export type OpenDialogFn = (
   sdk: FieldExtensionSDK,
@@ -29,7 +29,7 @@ export interface Integration {
   description: string;
   parameterDefinitions: Hash[];
   validateParameters: ValidateParametersFn;
-  fetchProductPreview: ProductPreviewFn;
+  fetchProductPreviews: ProductPreviewsFn;
   renderDialog: Function;
   openDialog: OpenDialogFn;
   isDisabled: DisabledPredicateFn;

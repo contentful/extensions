@@ -25,7 +25,9 @@ const defaultProps: Props = {
       error: jest.fn()
     }
   } as unknown) as AppExtensionSDK,
-  fetchProductPreview: jest.fn(sku => productPreviews.find(preview => preview.sku === sku)),
+  fetchProductPreviews: jest.fn(skus =>
+    productPreviews.filter(preview => skus.includes(preview.sku))
+  ),
   fetchProducts: jest.fn(() => ({
     pagination: {
       count: 3,

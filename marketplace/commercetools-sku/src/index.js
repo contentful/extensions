@@ -42,16 +42,18 @@ function makeCommerceToolsClient({
   });
 }
 
-const fetchProductPreview = memoizePromise(async function fetchProductPreview(sku, config) {
+const fetchProductPreviews = memoizePromise(async function fetchProductPreviews(skus, config) {
   const client = makeCommerceToolsClient({ parameters: { installation: config } });
   const requestBuilder = createRequestBuilder({ projectKey: config.projectKey });
   const uri = requestBuilder.productProjectionsSearch
-    .parse({ filter: [`variants.sku:"${sku}"`] })
+    .parse({
+      filter: [`variants.sku:${skus.map(sku => `"${sku}"`).join(',')}`]
+    })
     .build();
   const response = await client.execute({ uri, method: 'GET' });
   if (response.statusCode === 200) {
-    const [product] = response.body.results.map(dataTransformer(config));
-    return product;
+    const products = response.body.results.map(dataTransformer(config));
+    return products;
   }
 
   return dataTransformer({}); // return empty product
@@ -71,7 +73,7 @@ async function renderDialog(sdk) {
 
   renderSkuPicker(ID, {
     sdk,
-    fetchProductPreview,
+    fetchProductPreviews,
     fetchProducts: memoizePromise(async (search, pagination) => {
       const PER_PAGE = 20;
       const requestBuilder = createRequestBuilder({ projectKey });
@@ -162,7 +164,7 @@ setup({
     'The Commercetools app is a widget that allows editors to select products from their Commercetools account. Select a product from Commercetools that you want your entry to reference.',
   color: '#213C45',
   parameterDefinitions: descriptor.parameters.installation,
-  fetchProductPreview,
+  fetchProductPreviews,
   renderDialog,
   openDialog,
   isDisabled,

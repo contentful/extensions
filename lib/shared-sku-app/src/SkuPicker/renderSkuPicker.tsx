@@ -5,7 +5,7 @@ import { SkuPicker } from './SkuPicker';
 
 interface Props {
   sdk: AppExtensionSDK;
-  fetchProductPreview: Function;
+  fetchProductPreviews: Function;
   fetchProducts: Function;
 }
 

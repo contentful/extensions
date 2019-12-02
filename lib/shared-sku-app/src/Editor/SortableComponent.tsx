@@ -2,14 +2,14 @@ import * as React from 'react';
 import arrayMove from 'array-move';
 import isEqual from 'lodash/isEqual';
 import { SortableList } from './SortableList';
-import { Hash, ProductPreviewFn, Product } from '../interfaces';
+import { Hash, ProductPreviewsFn, Product } from '../interfaces';
 
 interface Props {
   disabled: boolean;
   onChange: (data: string[] | string) => void;
   config: Hash;
   resources: string[];
-  fetchProductPreview: ProductPreviewFn;
+  fetchProductPreviews: ProductPreviewsFn;
 }
 
 interface State {
@@ -32,9 +32,8 @@ export class SortableComponent extends React.Component<Props, State> {
   }
 
   updateProductPreviews = async () => {
-    const { fetchProductPreview, resources, config } = this.props;
-    const previewPromises = resources.map(resource => fetchProductPreview(resource, config));
-    const productPreviews = await Promise.all(previewPromises);
+    const { fetchProductPreviews, resources, config } = this.props;
+    const productPreviews = await fetchProductPreviews(resources, config);
     this.setState({ productPreviews });
   };
 

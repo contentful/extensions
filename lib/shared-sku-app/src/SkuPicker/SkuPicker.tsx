@@ -14,7 +14,7 @@ import { styles } from './styles';
 
 export interface Props {
   sdk: AppExtensionSDK;
-  fetchProductPreview: Function;
+  fetchProductPreviews: Function;
   fetchProducts: Function;
 }
 
@@ -90,10 +90,9 @@ export class SkuPicker extends Component<Props, State> {
 
   updateSelectedProducts = async () => {
     try {
-      const selectedProductsPromises = this.state.selectedSKUs.map(sku =>
-        this.props.fetchProductPreview(sku, this.props.sdk.parameters.installation)
-      );
-      const selectedProducts = await Promise.all(selectedProductsPromises);
+      const { selectedSKUs } = this.state;
+      const config = this.props.sdk.parameters.installation;
+      const selectedProducts = await this.props.fetchProductPreviews(selectedSKUs, config);
       this.setState({ selectedProducts });
     } catch (error) {
       this.props.sdk.notifier.error(

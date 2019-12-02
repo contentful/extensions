@@ -5,13 +5,13 @@ import get from 'lodash/get';
 import { css } from 'emotion';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { SortableComponent } from './SortableComponent';
-import { ProductPreviewFn, OpenDialogFn, DisabledPredicateFn, MakeCTAFn } from '../interfaces';
+import { ProductPreviewsFn, OpenDialogFn, DisabledPredicateFn, MakeCTAFn } from '../interfaces';
 
 interface Props {
   sdk: FieldExtensionSDK;
   makeCTA: MakeCTAFn;
   logo: string;
-  fetchProductPreview: ProductPreviewFn;
+  fetchProductPreviews: ProductPreviewsFn;
   openDialog: OpenDialogFn;
   isDisabled: DisabledPredicateFn;
 }
@@ -114,7 +114,7 @@ export default class Field extends React.Component<Props, State> {
               resources={resources}
               onChange={this.updateStateValue}
               config={config}
-              fetchProductPreview={this.props.fetchProductPreview}
+              fetchProductPreviews={this.props.fetchProductPreviews}
             />
           </div>
         )}
