@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import tokens from '@contentful/forma-36-tokens';
 import noop from 'lodash/noop';
 import { Tooltip, Icon } from '@contentful/forma-36-react-components';
@@ -43,11 +43,13 @@ const styles = {
       }
     }
   }),
-  previewImg: css({
-    margin: '0 auto',
-    minWidth: 'auto',
-    height: '40px'
-  }),
+  previewImg: (imageHasLoaded: boolean) =>
+    css({
+      display: imageHasLoaded ? 'block' : 'none',
+      margin: '0 auto',
+      minWidth: 'auto',
+      height: '40px'
+    }),
   removeIcon: css({
     backgroundColor: 'rgba(0,0,0,.65)',
     borderRadius: '50%',
@@ -66,11 +68,31 @@ const styles = {
       left: '50%',
       transform: 'translate(-50%, -50%)'
     })
+  }),
+  errorImage: css({
+    backgroundColor: tokens.colorElementLightest,
+    width: '100%',
+    height: '40px',
+    position: 'relative',
+    zIndex: -1,
+    svg: css({
+      fill: tokens.colorTextLight,
+      width: '100%',
+      height: '50%',
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)'
+    })
   })
 };
 
 export const ProductSelectionListItem = (props: Props) => {
+  const [imageHasLoaded, setImageHasLoaded] = useState(false);
+  const [imageHasErrored, setImageHasErrored] = useState(false);
   const { product, selectProduct } = props;
+  const productIsMissing = !product.name;
+
   return (
     <div className={styles.productWrapper}>
       <div
@@ -81,16 +103,25 @@ export const ProductSelectionListItem = (props: Props) => {
         onKeyUp={noop}
         data-test-id={`selection-preview-${product.sku}`}
         onClick={() => selectProduct(product.sku)}>
-        <Tooltip content={product.name} place="bottom">
+        <Tooltip content={productIsMissing ? 'Product missing' : product.name} place="bottom">
           <div className={styles.removeIcon}>
             <Icon color="white" icon="Close" />
           </div>
-          <img
-            src={product.image}
-            alt="product preview"
-            className={styles.previewImg}
-            data-test-id="image"
-          />
+          {imageHasErrored && (
+            <div className={styles.errorImage}>
+              <Icon icon={productIsMissing ? 'ErrorCircle' : 'Asset'} />
+            </div>
+          )}
+          {!imageHasErrored && (
+            <img
+              alt="product preview"
+              className={styles.previewImg(imageHasLoaded)}
+              data-test-id="image"
+              onError={() => setImageHasErrored(true)}
+              onLoad={() => setImageHasLoaded(true)}
+              src={product.image}
+            />
+          )}
         </Tooltip>
       </div>
     </div>

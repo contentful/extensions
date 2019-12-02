@@ -84,7 +84,7 @@ const styles = {
     height: '290px',
     position: 'relative',
     svg: css({
-      fill: tokens.colorElementLight,
+      fill: tokens.colorTextLight,
       width: '100%',
       height: '50%',
       position: 'absolute',

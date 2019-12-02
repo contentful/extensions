@@ -40,7 +40,7 @@ exports[`ProductSelectionList should render successfully 1`] = `
           </div>
           <img
             alt="product preview"
-            class="css-gilq3g"
+            class="css-1ilamao"
             data-test-id="image"
             src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-1.jpg"
           />
@@ -82,7 +82,7 @@ exports[`ProductSelectionList should render successfully 1`] = `
           </div>
           <img
             alt="product preview"
-            class="css-gilq3g"
+            class="css-1ilamao"
             data-test-id="image"
             src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-2.jpg"
           />
@@ -124,7 +124,7 @@ exports[`ProductSelectionList should render successfully 1`] = `
           </div>
           <img
             alt="product preview"
-            class="css-gilq3g"
+            class="css-1ilamao"
             data-test-id="image"
             src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-3.jpg"
           />
