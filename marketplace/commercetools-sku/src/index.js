@@ -12,7 +12,7 @@ import descriptor from '../extension.json';
 import { dataTransformer } from './dataTransformer';
 
 function makeCTA(fieldType) {
-  return fieldType === 'Array' ? 'Select products' : 'Select product';
+  return fieldType === 'Array' ? 'Select products' : 'Select a product';
 }
 
 function makeCommerceToolsClient({
