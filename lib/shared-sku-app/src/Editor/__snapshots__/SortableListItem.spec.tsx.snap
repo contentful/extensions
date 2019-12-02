@@ -132,7 +132,7 @@ exports[`SortableListItem should render successfully the error variation for mis
       </span>
     </div>
     <div
-      class="css-svqrun"
+      class="css-1rmpyga"
     >
       <svg
         class="Icon__Icon___38Epv Icon__Icon--small___1yGZK undefined"
@@ -246,28 +246,23 @@ exports[`SortableListItem should render successfully the error variation for mis
     data-test-id="cf-ui-card"
   >
     <div
-      class="css-svqrun"
+      class="css-1rmpyga"
     >
       <svg
         class="Icon__Icon___38Epv Icon__Icon--small___1yGZK undefined"
         data-test-id="cf-ui-icon"
-        height="24"
+        height="18"
         viewBox="0 0 24 24"
-        width="24"
+        width="18"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M0 0h24v24H0V0z"
+          d="M0 0h24v24H0z"
           fill="none"
         />
-        <g>
-          <path
-            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-          />
-          <path
-            d="M14.14 11.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"
-          />
-        </g>
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+        />
       </svg>
     </div>
     <section
@@ -281,14 +276,14 @@ exports[`SortableListItem should render successfully the error variation for mis
           class="Heading__Heading___83D3K css-by3awh f36-margin-bottom--m"
           data-test-id="cf-ui-heading"
         >
-          Product missing or inaccessible
-        </h1>
-        <h2
-          class="Subheading__Subheading___2mA9j css-1b5bj2l f36-margin-bottom--m"
-          data-test-id="cf-ui-subheading"
-        >
           M0E20130820E90Z
-        </h2>
+        </h1>
+        <div
+          class="Tag__Tag___Y-myd Tag__Tag--negative___12luW"
+          data-test-id="cf-ui-tag"
+        >
+          Product missing
+        </div>
       </div>
     </section>
     <div

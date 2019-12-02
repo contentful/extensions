@@ -80,7 +80,6 @@ const styles = {
   }),
   errorImage: css({
     backgroundColor: tokens.colorElementLightest,
-    borderRadius: '3px',
     width: '100%',
     height: '290px',
     position: 'relative',

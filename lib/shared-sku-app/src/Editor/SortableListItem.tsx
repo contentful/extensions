@@ -10,6 +10,7 @@ import {
   SkeletonContainer,
   SkeletonImage,
   Subheading,
+  Tag,
   Typography
 } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
@@ -99,7 +100,7 @@ const styles = {
     height: '48px',
     position: 'relative',
     svg: css({
-      fill: tokens.colorElementLight,
+      fill: tokens.colorTextLight,
       width: '100%',
       height: '50%',
       position: 'absolute',
@@ -118,6 +119,7 @@ export const SortableListItem = SortableElement<Props>(
   ({ product, disabled, isSortable, onDelete }: Props) => {
     const [imageHasLoaded, setImageLoaded] = useState(false);
     const [imageHasErrored, setImageHasErrored] = useState(false);
+    const productIsMissing = !product.name;
 
     return (
       <Card className={styles.card}>
@@ -130,7 +132,7 @@ export const SortableListItem = SortableElement<Props>(
           )}
           {imageHasErrored && (
             <div className={styles.errorImage}>
-              <Icon icon="Asset" />
+              <Icon icon={productIsMissing ? 'ErrorCircle' : 'Asset'} />
             </div>
           )}
           {!imageHasErrored && (
@@ -148,9 +150,13 @@ export const SortableListItem = SortableElement<Props>(
           <section className={styles.description}>
             <Typography>
               <Heading className={styles.name(product.name)}>
-                {product.name || 'Product missing or inaccessible'}
+                {productIsMissing ? product.sku : product.name}
               </Heading>
-              <Subheading className={styles.sku}>{product.sku}</Subheading>
+              {productIsMissing ? (
+                <Tag tagType="negative">Product missing</Tag>
+              ) : (
+                <Subheading className={styles.sku}>{product.sku}</Subheading>
+              )}
             </Typography>
           </section>
         </>
