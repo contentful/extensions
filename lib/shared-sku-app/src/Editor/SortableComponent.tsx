@@ -1,6 +1,7 @@
 import * as React from 'react';
 import arrayMove from 'array-move';
 import isEqual from 'lodash/isEqual';
+import { mapSort } from '../utils';
 import { SortableList } from './SortableList';
 import { Hash, ProductPreviewsFn, Product } from '../interfaces';
 
@@ -33,7 +34,8 @@ export class SortableComponent extends React.Component<Props, State> {
 
   updateProductPreviews = async () => {
     const { fetchProductPreviews, resources, config } = this.props;
-    const productPreviews = await fetchProductPreviews(resources, config);
+    const productPreviewsUnsorted = await fetchProductPreviews(resources, config);
+    const productPreviews = mapSort(productPreviewsUnsorted, resources, 'sku');
     this.setState({ productPreviews });
   };
 

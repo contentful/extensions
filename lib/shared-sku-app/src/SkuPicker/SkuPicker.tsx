@@ -11,6 +11,7 @@ import { Product } from '../interfaces';
 import { Pagination } from './interfaces';
 import { ProductSelectionList } from './ProductSelectionList';
 import { styles } from './styles';
+import { mapSort } from '../utils';
 
 export interface Props {
   sdk: AppExtensionSDK;
@@ -92,7 +93,8 @@ export class SkuPicker extends Component<Props, State> {
     try {
       const { selectedSKUs } = this.state;
       const config = this.props.sdk.parameters.installation;
-      const selectedProducts = await this.props.fetchProductPreviews(selectedSKUs, config);
+      const selectedProductsUnsorted = await this.props.fetchProductPreviews(selectedSKUs, config);
+      const selectedProducts = mapSort(selectedProductsUnsorted, selectedSKUs, 'sku');
       this.setState({ selectedProducts });
     } catch (error) {
       this.props.sdk.notifier.error(
