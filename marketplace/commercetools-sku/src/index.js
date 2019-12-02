@@ -166,7 +166,7 @@ setup({
   name: 'Commercetools',
   logo,
   description:
-    'The Commercetools app is a widget that allows editors to select products from their Commercetools account. Select a product from Commercetools that you want your entry to reference.',
+    'The Commercetools app allows editors to select products from their Commercetools account and reference them inside of Contentful entries.
   color: '#213C45',
   parameterDefinitions: descriptor.parameters.installation,
   fetchProductPreviews,
