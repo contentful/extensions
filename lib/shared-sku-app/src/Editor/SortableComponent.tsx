@@ -28,13 +28,15 @@ export class SortableComponent extends React.Component<Props, State> {
 
   componentDidUpdate({ resources: prevResources }: Props) {
     if (!isEqual(this.props.resources, prevResources)) {
-      this.updateProductPreviews();
+      this.updateProductPreviews(this.props.resources.length !== prevResources.length);
     }
   }
 
-  updateProductPreviews = async () => {
+  updateProductPreviews = async (shouldRefetch: boolean = true) => {
     const { fetchProductPreviews, resources, config } = this.props;
-    const productPreviewsUnsorted = await fetchProductPreviews(resources, config);
+    const productPreviewsUnsorted = shouldRefetch
+      ? await fetchProductPreviews(resources, config)
+      : this.state.productPreviews;
     const productPreviews = mapSort(productPreviewsUnsorted, resources, 'sku');
     this.setState({ productPreviews });
   };
