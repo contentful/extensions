@@ -7,8 +7,7 @@ import get from 'lodash/get';
 export const dataTransformer = ({ projectKey, locale }) => item => {
   const id = get(item, ['id'], '');
   const externalLink =
-    (projectKey && locale && `https://mc.commercetools.com/${projectKey}/products/${id}/general`) ||
-    '';
+    (projectKey && id && `https://mc.commercetools.com/${projectKey}/products/${id}/general`) || '';
   return {
     id,
     image: get(item, ['masterVariant', 'images', 0, 'url'], ''),
