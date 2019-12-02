@@ -23,6 +23,8 @@ export interface Props {
   isSortable: boolean;
 }
 
+const IMAGE_SIZE = 48;
+
 const styles = {
   card: css({
     display: 'flex',
@@ -34,14 +36,14 @@ const styles = {
   }),
   imageWrapper: (imageHasLoaded: boolean) =>
     css({
-      width: imageHasLoaded ? '48px' : 0,
-      height: imageHasLoaded ? '48px' : 0,
+      width: imageHasLoaded ? `${IMAGE_SIZE}px` : 0,
+      height: imageHasLoaded ? `${IMAGE_SIZE}px` : 0,
       overflow: 'hidden',
       margin: imageHasLoaded ? tokens.spacingM : 0,
       position: 'relative',
       '> img': css({
         display: 'block',
-        height: '48px',
+        height: `${IMAGE_SIZE}px`,
         minWidth: 'auto',
         userSelect: 'none',
         position: 'absolute',
@@ -88,16 +90,16 @@ const styles = {
     marginBottom: 0
   }),
   skeletonImage: css({
-    width: '48px',
-    height: '48px',
+    width: `${IMAGE_SIZE}px`,
+    height: `${IMAGE_SIZE}px`,
     padding: tokens.spacingM
   }),
   errorImage: css({
     backgroundColor: tokens.colorElementLightest,
     borderRadius: '3px',
     margin: tokens.spacingM,
-    width: '48px',
-    height: '48px',
+    width: `${IMAGE_SIZE}px`,
+    height: `${IMAGE_SIZE}px`,
     position: 'relative',
     svg: css({
       fill: tokens.colorTextLight,
@@ -127,7 +129,7 @@ export const SortableListItem = SortableElement<Props>(
           {isSortable && <CardDragHandle />}
           {!imageHasLoaded && !imageHasErrored && (
             <SkeletonContainer className={styles.skeletonImage}>
-              <SkeletonImage width={48} height={48} />
+              <SkeletonImage width={IMAGE_SIZE} height={IMAGE_SIZE} />
             </SkeletonContainer>
           )}
           {imageHasErrored && (
