@@ -44,4 +44,19 @@ describe('SortableListItem', () => {
     const component = renderComponent(defaultProps);
     expect(component.container).toMatchSnapshot();
   });
+
+  it('should render successfully the error variation for missing image', () => {
+    const component = renderComponent({ ...defaultProps, isSortable: true });
+    fireEvent(component.getByTestId('image'), new Event('error'));
+    expect(component.container).toMatchSnapshot();
+  });
+
+  it('should render successfully the error variation for missing product', () => {
+    const component = renderComponent({
+      ...defaultProps,
+      product: { ...productPreviews[0], name: '' }
+    });
+    fireEvent(component.getByTestId('image'), new Event('error'));
+    expect(component.container).toMatchSnapshot();
+  });
 });

@@ -36,4 +36,10 @@ describe('ProductListItem', () => {
     const component = renderComponent(defaultProps);
     expect(component.container).toMatchSnapshot();
   });
+
+  it('should render successfully the error variation', () => {
+    const component = renderComponent({ ...defaultProps, isSelected: true });
+    fireEvent(component.getByTestId('image'), new Event('error'));
+    expect(component.container).toMatchSnapshot();
+  });
 });
