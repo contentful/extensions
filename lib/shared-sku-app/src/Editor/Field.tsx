@@ -61,12 +61,12 @@ export default class Field extends React.Component<Props, State> {
     });
   }
 
-  updateStateValue = async (value: string[] | string) => {
+  updateStateValue = (value: string[] | string) => {
     this.setState({ value });
     if (value.length > 0) {
-      await this.props.sdk.field.setValue(value);
+      this.props.sdk.field.setValue(value);
     } else {
-      await this.props.sdk.field.removeValue();
+      this.props.sdk.field.removeValue();
     }
   };
 
@@ -81,7 +81,7 @@ export default class Field extends React.Component<Props, State> {
         fieldType: this.props.sdk.field.type
       });
       if (result.length) {
-        await this.updateStateValue(result);
+        this.updateStateValue(result);
       }
     } else {
       const fieldValue = this.props.sdk.field.getValue();
@@ -92,7 +92,7 @@ export default class Field extends React.Component<Props, State> {
       });
       const product = get(result, ['0'], null);
       if (product) {
-        await this.updateStateValue(product);
+        this.updateStateValue(product);
       }
     }
   };
