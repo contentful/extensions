@@ -44,7 +44,7 @@ function getEmptyValue(sdk: FieldExtensionSDK) {
 export default class Field extends React.Component<Props, State> {
   state = {
     value: this.props.sdk.field.getValue() || getEmptyValue(this.props.sdk),
-    editingDisabled: false
+    editingDisabled: true
   };
 
   componentDidMount() {
