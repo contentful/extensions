@@ -166,7 +166,6 @@ export default class AppConfig extends React.Component<Props, State> {
     const { value } = e.currentTarget;
 
     this.setState(state => ({
-      ...state,
       parameters: { ...state.parameters, [key]: value }
     }));
   };
