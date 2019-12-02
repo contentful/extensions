@@ -43,6 +43,10 @@ function makeCommerceToolsClient({
 }
 
 const fetchProductPreviews = memoizePromise(async function fetchProductPreviews(skus, config) {
+  if (!skus.length) {
+    return [];
+  }
+
   const client = makeCommerceToolsClient({ parameters: { installation: config } });
   const requestBuilder = createRequestBuilder({ projectKey: config.projectKey });
   const uri = requestBuilder.productProjectionsSearch
