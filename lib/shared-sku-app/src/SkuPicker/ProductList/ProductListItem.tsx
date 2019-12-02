@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import tokens from '@contentful/forma-36-tokens';
 import noop from 'lodash/noop';
-import { SkeletonContainer, SkeletonImage } from '@contentful/forma-36-react-components';
+import { Icon, SkeletonContainer, SkeletonImage } from '@contentful/forma-36-react-components';
 import { css } from 'emotion';
 import { activeProductCheck } from '../iconsInBase64';
 import { Product } from '../../interfaces';
@@ -78,6 +78,22 @@ const styles = {
     width: '100%',
     height: '290px'
   }),
+  errorImage: css({
+    backgroundColor: tokens.colorElementLightest,
+    borderRadius: '3px',
+    width: '100%',
+    height: '290px',
+    position: 'relative',
+    svg: css({
+      fill: tokens.colorElementLight,
+      width: '100%',
+      height: '50%',
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)'
+    })
+  }),
   check: (isSelected: boolean) =>
     css({
       opacity: isSelected ? 1 : 0,
@@ -91,6 +107,7 @@ const styles = {
 export const ProductListItem = (props: Props) => {
   const { product, isSelected, selectProduct } = props;
   const [imageHasLoaded, setImageHasLoaded] = useState(false);
+  const [imageHasErrored, setImageHasErrored] = useState(false);
 
   return (
     <div className={styles.productWrapper}>
@@ -102,14 +119,20 @@ export const ProductListItem = (props: Props) => {
         className={`${styles.product} ${isSelected ? styles.selectedProduct : ''}`}
         onKeyUp={noop}
         onClick={() => selectProduct(product.sku)}>
-        {!imageHasLoaded && (
+        {!imageHasLoaded && !imageHasErrored && (
           <SkeletonContainer className={styles.skeletonImage}>
             <SkeletonImage width={400} height={290} />
           </SkeletonContainer>
         )}
+        {imageHasErrored && (
+          <div className={styles.errorImage}>
+            <Icon icon="Asset" />
+          </div>
+        )}
         <div className={styles.imgWrapper(imageHasLoaded)}>
           <img
             onLoad={() => setImageHasLoaded(true)}
+            onError={() => setImageHasErrored(true)}
             style={{ display: imageHasLoaded ? 'block' : 'none' }}
             src={product.image}
             alt="product preview"

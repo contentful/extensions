@@ -31,23 +31,24 @@ const styles = {
       marginTop: tokens.spacingXs
     })
   }),
-  imageWrapper: css({
-    width: '48px',
-    height: '48px',
-    overflow: 'hidden',
-    margin: tokens.spacingM,
-    position: 'relative',
-    '> img': css({
-      display: 'block',
-      height: '48px',
-      minWidth: 'auto',
-      userSelect: 'none',
-      position: 'absolute',
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)'
-    })
-  }),
+  imageWrapper: (imageHasLoaded: boolean) =>
+    css({
+      width: imageHasLoaded ? '48px' : 0,
+      height: imageHasLoaded ? '48px' : 0,
+      overflow: 'hidden',
+      margin: imageHasLoaded ? tokens.spacingM : 0,
+      position: 'relative',
+      '> img': css({
+        display: 'block',
+        height: '48px',
+        minWidth: 'auto',
+        userSelect: 'none',
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)'
+      })
+    }),
   dragHandle: css({
     height: 'auto'
   }),
@@ -74,11 +75,12 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center'
   }),
-  name: css({
-    fontSize: tokens.fontSizeL,
-    marginBottom: tokens.spacing2Xs,
-    textTransform: 'capitalize'
-  }),
+  name: (name?: string) =>
+    css({
+      fontSize: tokens.fontSizeL,
+      marginBottom: tokens.spacing2Xs,
+      ...(name && { textTransform: 'capitalize' })
+    }),
   sku: css({
     color: tokens.colorElementDarkest,
     fontSize: tokens.fontSizeS,
@@ -88,6 +90,23 @@ const styles = {
     width: '48px',
     height: '48px',
     padding: tokens.spacingM
+  }),
+  errorImage: css({
+    backgroundColor: tokens.colorElementLightest,
+    borderRadius: '3px',
+    margin: tokens.spacingM,
+    width: '48px',
+    height: '48px',
+    position: 'relative',
+    svg: css({
+      fill: tokens.colorElementLight,
+      width: '100%',
+      height: '50%',
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)'
+    })
   })
 };
 
@@ -98,36 +117,43 @@ const CardDragHandle = SortableHandle(() => (
 export const SortableListItem = SortableElement<Props>(
   ({ product, disabled, isSortable, onDelete }: Props) => {
     const [imageHasLoaded, setImageLoaded] = useState(false);
+    const [imageHasErrored, setImageHasErrored] = useState(false);
 
     return (
       <Card className={styles.card}>
-        {product.image ? (
-          <>
-            {isSortable && <CardDragHandle />}
-            {!imageHasLoaded && (
-              <SkeletonContainer className={styles.skeletonImage}>
-                <SkeletonImage width={48} height={48} />
-              </SkeletonContainer>
-            )}
-            <div className={styles.imageWrapper}>
+        <>
+          {isSortable && <CardDragHandle />}
+          {!imageHasLoaded && !imageHasErrored && (
+            <SkeletonContainer className={styles.skeletonImage}>
+              <SkeletonImage width={48} height={48} />
+            </SkeletonContainer>
+          )}
+          {imageHasErrored && (
+            <div className={styles.errorImage}>
+              <Icon icon="Asset" />
+            </div>
+          )}
+          {!imageHasErrored && (
+            <div className={styles.imageWrapper(imageHasLoaded)}>
               <img
                 style={{ display: imageHasLoaded ? 'block' : 'none' }}
                 onLoad={() => setImageLoaded(true)}
+                onError={() => setImageHasErrored(true)}
                 src={product.image}
                 alt={product.name}
                 data-test-id="image"
               />
             </div>
-            <section className={styles.description}>
-              <Typography>
-                <Heading className={styles.name}>{product.name}</Heading>
-                <Subheading className={styles.sku}>{product.sku}</Subheading>
-              </Typography>
-            </section>
-          </>
-        ) : (
-          <div>Product not available</div>
-        )}
+          )}
+          <section className={styles.description}>
+            <Typography>
+              <Heading className={styles.name(product.name)}>
+                {product.name || 'Product missing or inaccessible'}
+              </Heading>
+              <Subheading className={styles.sku}>{product.sku}</Subheading>
+            </Typography>
+          </section>
+        </>
         {!disabled && (
           <div className={styles.actions}>
             {product.externalLink && (
