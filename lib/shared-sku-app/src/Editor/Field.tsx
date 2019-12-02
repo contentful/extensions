@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Button, Note, TextLink } from '@contentful/forma-36-react-components';
+import { Button } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
 import get from 'lodash/get';
-import isNil from 'lodash/isNil';
 import { css } from 'emotion';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { SortableComponent } from './SortableComponent';
@@ -19,7 +18,6 @@ interface Props {
 
 interface State {
   value: string[] | string;
-  valid: boolean;
   editingDisabled: boolean;
 }
 
@@ -44,25 +42,10 @@ function getEmptyValue(sdk: FieldExtensionSDK) {
 }
 
 export default class Field extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    const value = props.sdk.field.getValue();
-    const isValidFieldType =
-      typeof value === 'string' ||
-      (Array.isArray(value) && value.every(v => typeof v === 'string'));
-
-    // `valid` is `true` if the app can render/write the value safely.
-    // If for example there is an object stored we don't want to override
-    // it without a user explicitly telling us to do so.
-    const valid = isNil(value) || isValidFieldType;
-
-    this.state = {
-      value: value || getEmptyValue(this.props.sdk),
-      valid,
-      editingDisabled: false
-    };
-  }
+  state = {
+    value: this.props.sdk.field.getValue() || getEmptyValue(this.props.sdk),
+    editingDisabled: false
+  };
 
   componentDidMount() {
     this.props.sdk.window.startAutoResizer();
@@ -101,9 +84,10 @@ export default class Field extends React.Component<Props, State> {
         await this.updateStateValue(result);
       }
     } else {
+      const fieldValue = this.props.sdk.field.getValue();
       const result = await this.props.openDialog(this.props.sdk, currentValue, {
         ...config,
-        fieldValue: this.props.sdk.field.getValue(),
+        fieldValue: fieldValue && [fieldValue],
         fieldType: this.props.sdk.field.type
       });
       const product = get(result, ['0'], null);
@@ -114,19 +98,7 @@ export default class Field extends React.Component<Props, State> {
   };
 
   render = () => {
-    const { value, valid, editingDisabled } = this.state;
-
-    if (!valid) {
-      return (
-        <Note noteType="warning" title="Field value is incompatibile">
-          The JSON object stored in this field cannot be managed with this App.
-          <TextLink onClick={() => this.setState({ value: [], valid: true })}>
-            I want to override the value using the App
-          </TextLink>
-          .
-        </Note>
-      );
-    }
+    const { value, editingDisabled } = this.state;
 
     const hasItems = value.length > 0;
     const config = this.props.sdk.parameters.installation;
