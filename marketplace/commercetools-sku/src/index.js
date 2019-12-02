@@ -86,7 +86,8 @@ async function renderDialog(sdk) {
             }
           }),
           page: pagination.offset / PER_PAGE + 1,
-          perPage: PER_PAGE
+          perPage: PER_PAGE,
+          sort: [{ by: `name.${locale}`, direction: 'asc' }]
         })
         .build();
       const response = await client.execute({ uri, method: 'GET' });
