@@ -4,7 +4,7 @@ import merge from 'lodash/merge';
 import { fireEvent, configure, render, cleanup } from '@testing-library/react';
 import { Props, SkuPicker } from './SkuPicker';
 import productPreviews from '../__mocks__/productPreviews';
-import { AppExtensionSDK } from 'contentful-ui-extensions-sdk';
+import { DialogExtensionSDK } from 'contentful-ui-extensions-sdk';
 
 configure({
   testIdAttribute: 'data-test-id'
@@ -24,10 +24,10 @@ const defaultProps: Props = {
       success: jest.fn(),
       error: jest.fn()
     }
-  } as unknown) as AppExtensionSDK,
+  } as unknown) as DialogExtensionSDK,
   fetchProductPreviews: jest.fn(skus =>
     productPreviews.filter(preview => skus.includes(preview.sku))
-  ),
+  ) as any,
   fetchProducts: jest.fn(() => ({
     pagination: {
       count: 3,
@@ -36,7 +36,7 @@ const defaultProps: Props = {
       total: 3
     },
     products: productPreviews
-  }))
+  })) as any
 };
 
 const renderComponent = async (props: Props) => {
@@ -56,7 +56,7 @@ jest.mock('react-sortable-hoc', () => ({
 describe('SkuPicker', () => {
   afterEach(cleanup);
 
-  it('should render successfully', async () => {
+  it('should render successfully with no products selected', async () => {
     const { container } = await renderComponent(defaultProps);
     expect(container).toMatchSnapshot();
   });

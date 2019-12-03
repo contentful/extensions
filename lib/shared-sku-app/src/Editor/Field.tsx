@@ -98,6 +98,7 @@ export default class Field extends React.Component<Props, State> {
         {hasItems && (
           <div className={styles.sortable}>
             <SortableComponent
+              sdk={this.props.sdk}
               disabled={editingDisabled}
               skus={selectedSKUs}
               onChange={this.updateStateValue}

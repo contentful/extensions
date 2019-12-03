@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ProductList should render successfully 1`] = `
+exports[`ProductList should render successfully with no items selected 1`] = `
 <div>
   <div
     class="css-almiqb"

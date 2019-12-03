@@ -1,11 +1,13 @@
 import * as React from 'react';
 import arrayMove from 'array-move';
 import isEqual from 'lodash/isEqual';
+import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { mapSort } from '../utils';
 import { SortableList } from './SortableList';
 import { Hash, ProductPreviewsFn, Product } from '../interfaces';
 
 interface Props {
+  sdk: FieldExtensionSDK;
   disabled: boolean;
   onChange: (skus: string[]) => void;
   config: Hash;
@@ -33,12 +35,18 @@ export class SortableComponent extends React.Component<Props, State> {
   }
 
   updateProductPreviews = async (shouldRefetch: boolean = true) => {
-    const { fetchProductPreviews, skus, config } = this.props;
-    const productPreviewsUnsorted = shouldRefetch
-      ? await fetchProductPreviews(skus, config)
-      : this.state.productPreviews;
-    const productPreviews = mapSort(productPreviewsUnsorted, skus, 'sku');
-    this.setState({ productPreviews });
+    try {
+      const { fetchProductPreviews, skus, config } = this.props;
+      const productPreviewsUnsorted = shouldRefetch
+        ? await fetchProductPreviews(skus, config)
+        : this.state.productPreviews;
+      const productPreviews = mapSort(productPreviewsUnsorted, skus, 'sku');
+      this.setState({ productPreviews });
+    } catch {
+      this.props.sdk.notifier.error(
+        'There was an error fetching the data for the selected products.'
+      );
+    }
   };
 
   onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {

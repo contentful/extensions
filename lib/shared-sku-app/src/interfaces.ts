@@ -23,7 +23,7 @@ interface ProductsFnResponse {
 }
 export type ProductsFn = (
   search: string,
-  pagination: Pick<Pagination, 'offset'>
+  pagination: Partial<Pagination>
 ) => Promise<ProductsFnResponse>;
 
 export type MakeCTAFn = (fieldType: string) => string;
