@@ -30,7 +30,7 @@ const styles = {
     display: 'flex',
     padding: 0,
     position: 'relative',
-    '& ~ &': css({
+    ':not(:first-child)': css({
       marginTop: tokens.spacingXs
     })
   }),

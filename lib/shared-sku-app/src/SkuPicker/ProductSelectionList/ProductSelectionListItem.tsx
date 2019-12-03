@@ -14,7 +14,7 @@ const styles = {
   productWrapper: css({
     display: 'flex',
     position: 'relative',
-    '& ~ &': css({
+    ':not(:first-child)': css({
       marginLeft: tokens.spacingXs
     }),
     '&:last-child': css({
