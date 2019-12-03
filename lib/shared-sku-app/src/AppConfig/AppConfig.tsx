@@ -89,7 +89,7 @@ const styles = {
 
 export default class AppConfig extends React.Component<Props, State> {
   state = {
-    contentTypes: [] as ContentType[],
+    contentTypes: [],
     compatibleFields: {},
     selectedFields: {},
     parameters: toInputParameters(this.props.parameterDefinitions, null)
