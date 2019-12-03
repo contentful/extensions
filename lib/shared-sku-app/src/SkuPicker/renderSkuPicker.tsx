@@ -1,15 +1,26 @@
 import React from 'react';
-import { AppExtensionSDK } from 'contentful-ui-extensions-sdk';
+import { DialogExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { render } from 'react-dom';
 import { SkuPicker } from './SkuPicker';
+import { ProductPreviewsFn, ProductsFn } from '../interfaces';
 
 interface Props {
-  sdk: AppExtensionSDK;
-  fetchProductPreviews: Function;
-  fetchProducts: Function;
+  sdk: DialogExtensionSDK;
+  fetchProductPreviews: ProductPreviewsFn;
+  fetchProducts: ProductsFn;
 }
 
-export function renderSkuPicker(elementId: string, props: Props): void {
+export function renderSkuPicker(
+  elementId: string,
+  { sdk, fetchProductPreviews, fetchProducts }: Props
+): void {
   const root = document.getElementById(elementId);
-  render(<SkuPicker {...props} />, root);
+  render(
+    <SkuPicker
+      sdk={sdk}
+      fetchProductPreviews={fetchProductPreviews}
+      fetchProducts={fetchProducts}
+    />,
+    root
+  );
 }

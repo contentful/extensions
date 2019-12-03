@@ -3,20 +3,19 @@ import get from 'lodash/get';
 import clamp from 'lodash/clamp';
 import debounce from 'lodash/debounce';
 import { Button, TextInput, Icon } from '@contentful/forma-36-react-components';
-import { AppExtensionSDK } from 'contentful-ui-extensions-sdk';
+import { DialogExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { Divider } from '../Divider';
 import { ProductList } from './ProductList';
 import { Paginator } from './Paginator';
-import { Product } from '../interfaces';
-import { Pagination } from './interfaces';
+import { Pagination, Product, Hash, ProductPreviewsFn, ProductsFn } from '../interfaces';
 import { ProductSelectionList } from './ProductSelectionList';
 import { styles } from './styles';
 import { mapSort } from '../utils';
 
 export interface Props {
-  sdk: AppExtensionSDK;
-  fetchProductPreviews: Function;
-  fetchProducts: Function;
+  sdk: DialogExtensionSDK;
+  fetchProductPreviews: ProductPreviewsFn;
+  fetchProducts: ProductsFn;
 }
 
 interface State {
@@ -30,11 +29,7 @@ interface State {
 
 const SEARCH_DELAY = 250;
 
-function getSaveBtnText(selectedSKUs: string | string[]): string {
-  if (typeof selectedSKUs === 'string') {
-    return 'Save product';
-  }
-
+function getSaveBtnText(selectedSKUs: string[]): string {
   switch (selectedSKUs.length) {
     case 0:
       return 'Save products';
@@ -112,7 +107,7 @@ export class SkuPicker extends Component<Props, State> {
   };
 
   selectProduct = (sku: string) => {
-    const { fieldType } = this.props.sdk.parameters.invocation as any;
+    const { fieldType } = this.props.sdk.parameters.invocation as Hash;
     const onlyOneProductCanBeSelected = fieldType === 'Symbol';
 
     if (this.state.selectedSKUs.includes(sku)) {
@@ -158,7 +153,7 @@ export class SkuPicker extends Component<Props, State> {
             <Button
               className={styles.saveBtn}
               buttonType="primary"
-              onClick={() => (this.props.sdk as any).close(selectedSKUs)}
+              onClick={() => this.props.sdk.close(selectedSKUs)}
               disabled={selectedSKUs.length === 0}>
               {getSaveBtnText(selectedSKUs)}
             </Button>

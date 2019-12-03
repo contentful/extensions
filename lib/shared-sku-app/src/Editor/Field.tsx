@@ -62,9 +62,11 @@ export default class Field extends React.Component<Props, State> {
     });
   }
 
-  updateStateValue = (value: string[] | string) => {
-    this.setState({ value: fieldValueToState(value) });
-    if (value && value.length > 0) {
+  updateStateValue = (skus: string[]) => {
+    this.setState({ value: skus });
+
+    if (skus.length > 0) {
+      const value = this.props.sdk.field.type === 'Array' ? skus : skus[0];
       this.props.sdk.field.setValue(value);
     } else {
       this.props.sdk.field.removeValue();

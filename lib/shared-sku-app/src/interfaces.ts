@@ -10,6 +10,22 @@ export interface Product {
   externalLink?: string;
 }
 
+export interface Pagination {
+  offset: number;
+  total: number;
+  count: number;
+  limit: number;
+}
+
+interface ProductsFnResponse {
+  pagination: Pagination;
+  products: Product[];
+}
+export type ProductsFn = (
+  search: string,
+  pagination: Pick<Pagination, 'offset'>
+) => Promise<ProductsFnResponse>;
+
 export type MakeCTAFn = (fieldType: string) => string;
 export type ValidateParametersFn = (parameters: Record<string, string>) => string | null;
 export type ProductPreviewsFn = (skus: string[], config: Hash) => Promise<Product[]>;

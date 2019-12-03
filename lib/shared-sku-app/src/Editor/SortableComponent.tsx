@@ -7,7 +7,7 @@ import { Hash, ProductPreviewsFn, Product } from '../interfaces';
 
 interface Props {
   disabled: boolean;
-  onChange: (data: string[] | string) => void;
+  onChange: (skus: string[]) => void;
   config: Hash;
   skus: string[];
   fetchProductPreviews: ProductPreviewsFn;
