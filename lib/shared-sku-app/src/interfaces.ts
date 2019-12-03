@@ -19,7 +19,7 @@ export type OpenDialogFn = (
   currentValue: string[] | string,
   config: Hash
 ) => Promise<string[]>;
-export type DisabledPredicateFn = (currentValue: Hash[], config: Hash) => boolean;
+export type DisabledPredicateFn = (currentValue: string[], config: Hash) => boolean;
 
 export interface Integration {
   makeCTA: MakeCTAFn;

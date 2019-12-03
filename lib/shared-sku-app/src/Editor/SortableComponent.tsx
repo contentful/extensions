@@ -9,7 +9,7 @@ interface Props {
   disabled: boolean;
   onChange: (data: string[] | string) => void;
   config: Hash;
-  resources: string[];
+  skus: string[];
   fetchProductPreviews: ProductPreviewsFn;
 }
 
@@ -26,30 +26,30 @@ export class SortableComponent extends React.Component<Props, State> {
     this.updateProductPreviews();
   }
 
-  componentDidUpdate({ resources: prevResources }: Props) {
-    if (!isEqual(this.props.resources, prevResources)) {
-      this.updateProductPreviews(this.props.resources.length !== prevResources.length);
+  componentDidUpdate({ skus: prevSKUs }: Props) {
+    if (!isEqual(this.props.skus, prevSKUs)) {
+      this.updateProductPreviews(this.props.skus.length !== prevSKUs.length);
     }
   }
 
   updateProductPreviews = async (shouldRefetch: boolean = true) => {
-    const { fetchProductPreviews, resources, config } = this.props;
+    const { fetchProductPreviews, skus, config } = this.props;
     const productPreviewsUnsorted = shouldRefetch
-      ? await fetchProductPreviews(resources, config)
+      ? await fetchProductPreviews(skus, config)
       : this.state.productPreviews;
-    const productPreviews = mapSort(productPreviewsUnsorted, resources, 'sku');
+    const productPreviews = mapSort(productPreviewsUnsorted, skus, 'sku');
     this.setState({ productPreviews });
   };
 
   onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    const resources = arrayMove(this.props.resources, oldIndex, newIndex);
-    this.props.onChange(resources);
+    const skus = arrayMove(this.props.skus, oldIndex, newIndex);
+    this.props.onChange(skus);
   };
 
   deleteItem = (index: number) => {
-    const resources = [...this.props.resources];
-    resources.splice(index, 1);
-    this.props.onChange(resources);
+    const skus = [...this.props.skus];
+    skus.splice(index, 1);
+    this.props.onChange(skus);
   };
 
   render() {

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Button } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
-import get from 'lodash/get';
 import { css } from 'emotion';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { SortableComponent } from './SortableComponent';
@@ -17,7 +16,7 @@ interface Props {
 }
 
 interface State {
-  value: string[] | string;
+  value: string[];
   editingDisabled: boolean;
 }
 
@@ -36,14 +35,16 @@ const styles = {
   })
 };
 
-function getEmptyValue(sdk: FieldExtensionSDK) {
-  const isArray = sdk.field.type === 'Array';
-  return isArray ? [] : '';
+function fieldValueToState(value?: string | string[]): string[] {
+  if (!value) {
+    return [];
+  }
+  return Array.isArray(value) ? value : [value];
 }
 
 export default class Field extends React.Component<Props, State> {
   state = {
-    value: this.props.sdk.field.getValue() || getEmptyValue(this.props.sdk),
+    value: fieldValueToState(this.props.sdk.field.getValue()),
     editingDisabled: true
   };
 
@@ -52,7 +53,7 @@ export default class Field extends React.Component<Props, State> {
 
     // Handle external changes (e.g. when multiple authors are working on the same entry).
     this.props.sdk.field.onValueChanged((value?: string[] | string) => {
-      this.setState({ value: value || getEmptyValue(this.props.sdk) });
+      this.setState({ value: fieldValueToState(value) });
     });
 
     // Disable editing (e.g. when field is not editable due to R&P).
@@ -62,8 +63,8 @@ export default class Field extends React.Component<Props, State> {
   }
 
   updateStateValue = (value: string[] | string) => {
-    this.setState({ value });
-    if (value.length > 0) {
+    this.setState({ value: fieldValueToState(value) });
+    if (value && value.length > 0) {
       this.props.sdk.field.setValue(value);
     } else {
       this.props.sdk.field.removeValue();
@@ -73,37 +74,22 @@ export default class Field extends React.Component<Props, State> {
   onDialogOpen = async () => {
     const currentValue = this.state.value;
     const config = this.props.sdk.parameters.installation;
-    const isArray = this.props.sdk.field.type === 'Array';
-    if (isArray) {
-      const result = await this.props.openDialog(this.props.sdk, currentValue, {
-        ...config,
-        fieldValue: this.props.sdk.field.getValue(),
-        fieldType: this.props.sdk.field.type
-      });
-      if (result.length) {
-        this.updateStateValue(result);
-      }
-    } else {
-      const fieldValue = this.props.sdk.field.getValue();
-      const result = await this.props.openDialog(this.props.sdk, currentValue, {
-        ...config,
-        fieldValue: fieldValue && [fieldValue],
-        fieldType: this.props.sdk.field.type
-      });
-      const product = get(result, ['0'], null);
-      if (product) {
-        this.updateStateValue(product);
-      }
+    const result = await this.props.openDialog(this.props.sdk, currentValue, {
+      ...config,
+      fieldValue: fieldValueToState(this.props.sdk.field.getValue()),
+      fieldType: this.props.sdk.field.type
+    });
+    if (result.length) {
+      this.updateStateValue(result);
     }
   };
 
   render = () => {
-    const { value, editingDisabled } = this.state;
+    const { value: selectedSKUs, editingDisabled } = this.state;
 
-    const hasItems = value.length > 0;
+    const hasItems = selectedSKUs.length > 0;
     const config = this.props.sdk.parameters.installation;
-    const resources = (Array.isArray(value) ? value : [value]) as string[];
-    const isDisabled = editingDisabled || this.props.isDisabled(resources as any, config);
+    const isDisabled = editingDisabled || this.props.isDisabled(selectedSKUs, config);
 
     return (
       <>
@@ -111,7 +97,7 @@ export default class Field extends React.Component<Props, State> {
           <div className={styles.sortable}>
             <SortableComponent
               disabled={editingDisabled}
-              resources={resources}
+              skus={selectedSKUs}
               onChange={this.updateStateValue}
               config={config}
               fetchProductPreviews={this.props.fetchProductPreviews}
