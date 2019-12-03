@@ -128,18 +128,20 @@ export const ProductListItem = (props: Props) => {
             <Icon icon="Asset" />
           </div>
         )}
-        <div className={styles.imgWrapper(imageHasLoaded)}>
-          <img
-            onLoad={() => setImageHasLoaded(true)}
-            onError={() => setImageHasErrored(true)}
-            style={{ display: imageHasLoaded ? 'block' : 'none' }}
-            src={product.image}
-            alt="product preview"
-            className={styles.previewImg}
-            data-test-id="image"
-          />
-          <img className={styles.check(isSelected)} src={activeProductCheck} alt="check" />
-        </div>
+        {!imageHasErrored && (
+          <div className={styles.imgWrapper(imageHasLoaded)}>
+            <img
+              onLoad={() => setImageHasLoaded(true)}
+              onError={() => setImageHasErrored(true)}
+              style={{ display: imageHasLoaded ? 'block' : 'none' }}
+              src={product.image}
+              alt="product preview"
+              className={styles.previewImg}
+              data-test-id="image"
+            />
+            <img className={styles.check(isSelected)} src={activeProductCheck} alt="check" />
+          </div>
+        )}
         <p className={styles.name}>{product.name}</p>
         <p className={styles.sku}>{product.sku}</p>
       </div>
