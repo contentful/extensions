@@ -16,7 +16,7 @@ const renderComponent = (props: Props) => {
 describe('ProductList', () => {
   afterEach(cleanup);
 
-  it('should render successfully', async () => {
+  it('should render successfully with no items selected', async () => {
     const component = renderComponent(defaultProps);
     expect(component.container).toMatchSnapshot();
   });
