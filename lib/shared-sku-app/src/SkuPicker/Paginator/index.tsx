@@ -9,7 +9,7 @@ export interface Props {
   activePage: number;
   className?: string;
   pageCount: number;
-  setActivePage: Function;
+  setActivePage: (page: number) => void;
 }
 
 export function getPagesRange(page: number, total: number, neighboursCount = 2): number[] {
