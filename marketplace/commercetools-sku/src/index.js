@@ -1,4 +1,3 @@
-import { memoizePromise } from './memoizePromise';
 import { createRequestBuilder } from '@commercetools/api-request-builder';
 import { createClient } from '@commercetools/sdk-client';
 import { createAuthMiddlewareForClientCredentialsFlow } from '@commercetools/sdk-middleware-auth';
@@ -42,7 +41,7 @@ function makeCommerceToolsClient({
   });
 }
 
-const fetchProductPreviews = memoizePromise(async function fetchProductPreviews(skus, config) {
+const fetchProductPreviews = async function fetchProductPreviews(skus, config) {
   if (!skus.length) {
     return [];
   }
@@ -61,7 +60,7 @@ const fetchProductPreviews = memoizePromise(async function fetchProductPreviews(
   }
 
   return dataTransformer({}); // return empty product
-});
+};
 
 async function renderDialog(sdk) {
   const { projectKey, locale } = sdk.parameters.installation;
@@ -78,7 +77,7 @@ async function renderDialog(sdk) {
   renderSkuPicker(ID, {
     sdk,
     fetchProductPreviews,
-    fetchProducts: memoizePromise(async (search, pagination) => {
+    fetchProducts: async (search, pagination) => {
       const PER_PAGE = 20;
       const requestBuilder = createRequestBuilder({ projectKey });
       const uri = requestBuilder.productProjectionsSearch
@@ -107,7 +106,7 @@ async function renderDialog(sdk) {
         };
       }
       throw new Error(response.statusCode);
-    })
+    }
   });
 
   sdk.window.updateHeight(window.outerHeight);
@@ -166,7 +165,7 @@ setup({
   name: 'Commercetools',
   logo,
   description:
-    'The Commercetools app allows editors to select products from their Commercetools account and reference them inside of Contentful entries.
+    'The Commercetools app allows editors to select products from their Commercetools account and reference them inside of Contentful entries.',
   color: '#213C45',
   parameterDefinitions: descriptor.parameters.installation,
   fetchProductPreviews,
