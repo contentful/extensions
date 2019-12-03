@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from 'emotion';
 import { Product } from '../../interfaces';
 import { ProductSelectionListItem } from './ProductSelectionListItem';
-import { RestProductsButton } from './RestProductsButton';
+import { OtherProductsCounter } from './OtherProductsCounter';
 
 export interface Props {
   products: Product[];
@@ -23,7 +23,7 @@ export const ProductSelectionList = ({ selectProduct, products }: Props) => (
       <ProductSelectionListItem key={product.id} product={product} selectProduct={selectProduct} />
     ))}
     {products.length > MAX_PRODUCTS && (
-      <RestProductsButton productCount={products.length - MAX_PRODUCTS} />
+      <OtherProductsCounter productCount={products.length - MAX_PRODUCTS} />
     )}
   </div>
 );

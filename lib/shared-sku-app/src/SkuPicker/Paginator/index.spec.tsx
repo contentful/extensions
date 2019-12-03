@@ -19,11 +19,6 @@ const renderComponent = (props: Props) => {
 describe('Paginator', () => {
   afterEach(cleanup);
 
-  it('renders successfully', async () => {
-    const component = renderComponent(defaultProps);
-    expect(component.container).toMatchSnapshot();
-  });
-
   it('renders the last page if active page index is larger than the total count of pages', () => {
     const component = renderComponent({ ...defaultProps, activePage: 14 });
     const button = component.getByTestId('active');

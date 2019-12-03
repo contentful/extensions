@@ -8,7 +8,7 @@ export interface Props {
 }
 
 const styles = {
-  button: css({
+  label: css({
     border: '1px solid',
     borderColor: tokens.colorElementLight,
     borderRadius: '3px',
@@ -36,12 +36,12 @@ const styles = {
   })
 };
 
-export const RestProductsButton = (props: Props) => (
+export const OtherProductsCounter = (props: Props) => (
   <Tooltip
     targetWrapperClassName={styles.tooltip}
     content={`${props.productCount} more`}
     place="bottom">
-    <div className={styles.button}>
+    <div className={styles.label}>
       <span>+{props.productCount}</span>
     </div>
   </Tooltip>

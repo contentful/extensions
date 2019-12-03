@@ -6,7 +6,7 @@ exports[`ProductSelectionList should render successfully 1`] = `
     class="css-k008qs"
   >
     <div
-      class="css-c34ca6"
+      class="css-1uq6b1f"
     >
       <div
         aria-checked="true"
@@ -48,7 +48,7 @@ exports[`ProductSelectionList should render successfully 1`] = `
       </div>
     </div>
     <div
-      class="css-c34ca6"
+      class="css-1uq6b1f"
     >
       <div
         aria-checked="true"
@@ -90,7 +90,7 @@ exports[`ProductSelectionList should render successfully 1`] = `
       </div>
     </div>
     <div
-      class="css-c34ca6"
+      class="css-1uq6b1f"
     >
       <div
         aria-checked="true"

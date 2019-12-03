@@ -4,7 +4,7 @@ exports[`SortableList should render successfully 1`] = `
 <div>
   <div>
     <div
-      class="Card__Card___xXJsT css-1jjtx4v Card__Card--padding-default___b6Brl"
+      class="Card__Card___xXJsT css-pivbrd Card__Card--padding-default___b6Brl"
       data-test-id="cf-ui-card"
     >
       <div
@@ -200,7 +200,7 @@ exports[`SortableList should render successfully 1`] = `
       </div>
     </div>
     <div
-      class="Card__Card___xXJsT css-1jjtx4v Card__Card--padding-default___b6Brl"
+      class="Card__Card___xXJsT css-pivbrd Card__Card--padding-default___b6Brl"
       data-test-id="cf-ui-card"
     >
       <div
@@ -396,7 +396,7 @@ exports[`SortableList should render successfully 1`] = `
       </div>
     </div>
     <div
-      class="Card__Card___xXJsT css-1jjtx4v Card__Card--padding-default___b6Brl"
+      class="Card__Card___xXJsT css-pivbrd Card__Card--padding-default___b6Brl"
       data-test-id="cf-ui-card"
     >
       <div

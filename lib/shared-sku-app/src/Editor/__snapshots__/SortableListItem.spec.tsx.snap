@@ -3,7 +3,7 @@
 exports[`SortableListItem should render successfully 1`] = `
 <div>
   <div
-    class="Card__Card___xXJsT css-1jjtx4v Card__Card--padding-default___b6Brl"
+    class="Card__Card___xXJsT css-pivbrd Card__Card--padding-default___b6Brl"
     data-test-id="cf-ui-card"
   >
     <div
@@ -102,7 +102,7 @@ exports[`SortableListItem should render successfully 1`] = `
 exports[`SortableListItem should render successfully the error variation for missing image 1`] = `
 <div>
   <div
-    class="Card__Card___xXJsT css-1jjtx4v Card__Card--padding-default___b6Brl"
+    class="Card__Card___xXJsT css-pivbrd Card__Card--padding-default___b6Brl"
     data-test-id="cf-ui-card"
   >
     <div
@@ -242,7 +242,7 @@ exports[`SortableListItem should render successfully the error variation for mis
 exports[`SortableListItem should render successfully the error variation for missing product 1`] = `
 <div>
   <div
-    class="Card__Card___xXJsT css-1jjtx4v Card__Card--padding-default___b6Brl"
+    class="Card__Card___xXJsT css-pivbrd Card__Card--padding-default___b6Brl"
     data-test-id="cf-ui-card"
   >
     <div
@@ -351,7 +351,7 @@ exports[`SortableListItem should render successfully the error variation for mis
 exports[`SortableListItem should render successfully the loading variation 1`] = `
 <div>
   <div
-    class="Card__Card___xXJsT css-1jjtx4v Card__Card--padding-default___b6Brl"
+    class="Card__Card___xXJsT css-pivbrd Card__Card--padding-default___b6Brl"
     data-test-id="cf-ui-card"
   >
     <svg
@@ -526,7 +526,7 @@ exports[`SortableListItem should render successfully the loading variation 1`] =
 exports[`SortableListItem should render successfully the sortable variation 1`] = `
 <div>
   <div
-    class="Card__Card___xXJsT css-1jjtx4v Card__Card--padding-default___b6Brl"
+    class="Card__Card___xXJsT css-pivbrd Card__Card--padding-default___b6Brl"
     data-test-id="cf-ui-card"
   >
     <div

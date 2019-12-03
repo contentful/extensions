@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SkuPicker should render successfully 1`] = `
+exports[`SkuPicker should render successfully with no products selected 1`] = `
 <div>
   <header
     class="css-ss1rwp"
