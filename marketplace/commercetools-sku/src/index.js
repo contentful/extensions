@@ -113,14 +113,12 @@ async function renderDialog(sdk) {
 }
 
 async function openDialog(sdk, currentValue, config) {
-  const maxFiles = config.maxFiles - currentValue.length;
-
   const skus = await sdk.dialogs.openExtension({
     position: 'center',
     title: makeCTA(sdk.field.type),
     shouldCloseOnOverlayClick: true,
     shouldCloseOnEscapePress: true,
-    parameters: { ...config, maxFiles },
+    parameters: config,
     width: 1400
   });
 
