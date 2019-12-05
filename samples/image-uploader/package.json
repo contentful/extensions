@@ -9,7 +9,7 @@
     "@babel/preset-env": "7.3.4",
     "@babel/preset-react": "7.0.0",
     "@contentful/contentful-extension-scripts": "0.7.2",
-    "contentful-cli": "0.26.2"
+    "contentful-cli": "1.2.1"
   },
   "dependencies": {
     "@contentful/forma-36-fcss": "^0.0.27",
