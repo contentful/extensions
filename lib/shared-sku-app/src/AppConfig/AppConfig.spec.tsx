@@ -10,7 +10,10 @@ const contentTypes = [
   {
     sys: { id: 'ct1' },
     name: 'CT1',
-    fields: [{ id: 'x', name: 'X', type: 'Symbol' }, { id: 'y', name: 'Y', type: 'Object' }]
+    fields: [
+      { id: 'product_x', name: 'Product X', type: 'Symbol' },
+      { id: 'y', name: 'Y', type: 'Object' }
+    ]
   },
   {
     sys: { id: 'ct2' },
@@ -26,8 +29,8 @@ const contentTypes = [
     fields: [
       { id: 'bar', name: 'BAR', type: 'Object' },
       { id: 'baz', name: 'BAZ', type: 'Object' },
-      { id: 'd', name: 'D', type: 'Array', items: { type: 'Symbol' } },
-      { id: 'a', name: 'A', type: 'Symbol' }
+      { id: 'product_d', name: 'Product D', type: 'Array', items: { type: 'Symbol' } },
+      { id: 'product_a', name: 'Product A', type: 'Symbol' }
     ]
   }
 ];
@@ -82,7 +85,7 @@ describe('AppConfig', () => {
       expect(configInput.value).toEqual(expected);
     });
 
-    [/X$/, /D$/].forEach(labelRe => {
+    [/Product X$/, /Product D$/].forEach(labelRe => {
       const fieldCheckbox = getByLabelText(labelRe) as HTMLInputElement;
       expect(fieldCheckbox.checked).toBe(false);
     });
@@ -101,7 +104,7 @@ describe('AppConfig', () => {
     sdk.platformAlpha.app.getCurrentState.mockResolvedValueOnce({
       EditorInterface: {
         ct3: {
-          controls: [{ fieldId: 'a' }, { fieldId: 'd' }]
+          controls: [{ fieldId: 'product_a' }, { fieldId: 'product_d' }]
         }
       }
     });
@@ -121,7 +124,7 @@ describe('AppConfig', () => {
       expect(configInput.value).toEqual(expected);
     });
 
-    [[/X$/, false], [/D$/, true]].forEach(([labelRe, expected]) => {
+    [[/Product X$/, false], [/Product D$/, true]].forEach(([labelRe, expected]) => {
       const fieldCheckbox = getByLabelText(labelRe as RegExp) as HTMLInputElement;
       expect(fieldCheckbox.checked).toBe(expected);
     });
@@ -143,7 +146,7 @@ describe('AppConfig', () => {
       fireEvent.change(configInput, { target: { value } });
     });
 
-    const fieldCheckbox = getByLabelText(/D$/) as HTMLInputElement;
+    const fieldCheckbox = getByLabelText(/Product D$/) as HTMLInputElement;
     fireEvent.click(fieldCheckbox);
 
     const onConfigure = sdk.platformAlpha.app.onConfigure.mock.calls[0][0];
@@ -162,7 +165,7 @@ describe('AppConfig', () => {
         EditorInterface: {
           ct1: {},
           ct2: {},
-          ct3: { controls: [{ fieldId: 'd' }] }
+          ct3: { controls: [{ fieldId: 'product_d' }] }
         }
       }
     });
