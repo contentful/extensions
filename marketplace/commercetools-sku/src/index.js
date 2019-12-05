@@ -58,8 +58,7 @@ const fetchProductPreviews = async function fetchProductPreviews(skus, config) {
     const products = response.body.results.map(dataTransformer(config));
     return products;
   }
-
-  return dataTransformer({}); // return empty product
+  throw new Error(response.statusCode);
 };
 
 async function renderDialog(sdk) {
