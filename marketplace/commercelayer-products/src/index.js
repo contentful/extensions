@@ -13,6 +13,40 @@ function makeCTA(fieldType) {
   return fieldType === 'Array' ? 'Select products' : 'Select a product';
 }
 
+/**
+ * The Commerce Layer client is currently used to fetch only the previews
+ * for the selected products.
+ *
+ * To fetch all SKUs and to search through them we perform directly an HTTP
+ * request to the corresponding endpoint.
+ *
+ * @see fetchSKUs for a more detailed explanation.
+ */
+async function makeCommerceLayerClient({
+  parameters: {
+    installation: { apiEndpoint, clientId, clientSecret }
+  }
+}) {
+  const auth = await CLayerAuth.integration({
+    clientId,
+    clientSecret,
+    endpoint: apiEndpoint
+  });
+
+  CLayer.init({
+    accessToken: auth.accessToken,
+    host: apiEndpoint.replace(/(https?:\/\/)/g, '')
+  });
+}
+
+/**
+ * This function is needed to make the pagination of Commerce Layer work with the
+ * shared-sku-app library.
+ *
+ * When fetching the SKUs via the Commerce Layer JS SDK the metadata object which
+ * includes the total count of records needed by the shared-sku-picker paginator
+ * is missing. But it is there when fetching the SKUs via a plain HTTP req.
+ */
 async function fetchSKUs({ clientId, clientSecret, apiEndpoint }, search, pagination) {
   const auth = await CLayerAuth.integration({
     clientId: clientId,
@@ -37,23 +71,9 @@ async function fetchSKUs({ clientId, clientSecret, apiEndpoint }, search, pagina
   return result;
 }
 
-async function makeCommerceLayerClient({
-  parameters: {
-    installation: { apiEndpoint, clientId, clientSecret }
-  }
-}) {
-  const auth = await CLayerAuth.integration({
-    clientId,
-    clientSecret,
-    endpoint: apiEndpoint
-  });
-
-  CLayer.init({
-    accessToken: auth.accessToken,
-    host: apiEndpoint.replace(/(https?:\/\/)/g, '')
-  });
-}
-
+/**
+ * Fetches the product previews for the products selected by the user
+ */
 const fetchProductPreviews = async function fetchProductPreviews(skus, config) {
   if (!skus.length) {
     return [];

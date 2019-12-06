@@ -1,6 +1,6 @@
 {
   "id": "commercelayer-products",
-  "name": "Commercelayer",
+  "name": "Commerce Layer",
   "fieldTypes": ["Symbol"],
   "srcdoc": "./build/index.html",
   "parameters": {
@@ -22,7 +22,7 @@
       {
         "id": "apiEndpoint",
         "name": "API Endpoint",
-        "description": "The Commercelayer API endpoint",
+        "description": "The Commerce Layer API endpoint",
         "type": "Symbol",
         "required": true
       }
