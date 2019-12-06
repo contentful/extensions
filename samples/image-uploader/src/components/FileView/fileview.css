@@ -14,8 +14,16 @@
 }
 
 .file-view.image-file header {
-  background:#f2f2f2 no-repeat center center;
+  background: #f2f2f2 no-repeat center center;
   background-size: contain;
+  position: relative;
+}
+
+.file-view.image-file header img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .file-view.non-image-file header .file-type-icon svg {
