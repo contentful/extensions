@@ -13,9 +13,9 @@
         "required": true
       },
       {
-        "id": "clientSecret",
-        "name": "Client Secret",
-        "description": "The client secret",
+        "id": "marketIds",
+        "name": "Market IDs",
+        "description": "The market IDs for which you need read access in a comma delimited list",
         "type": "Symbol",
         "required": true
       },

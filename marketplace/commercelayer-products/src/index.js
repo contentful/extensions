@@ -13,6 +13,22 @@ function makeCTA(fieldType) {
   return fieldType === 'Array' ? 'Select products' : 'Select a product';
 }
 
+function validateParameters(parameters) {
+  if (parameters.clientId.length < 1) {
+    return 'Provide your Commerce Layer client ID.';
+  }
+
+  if (parameters.marketIds.length < 1) {
+    return 'Provide the Commerce Layer market IDs for which you need read access.';
+  }
+
+  if (parameters.apiEndpoint.length < 1) {
+    return 'Provide the Commerce Layer API endpoint.';
+  }
+
+  return null;
+}
+
 /**
  * The Commerce Layer client is currently used to fetch only the previews
  * for the selected products.
@@ -22,15 +38,17 @@ function makeCTA(fieldType) {
  *
  * @see fetchSKUs for a more detailed explanation.
  */
-async function makeCommerceLayerClient({
-  parameters: {
-    installation: { apiEndpoint, clientId, clientSecret }
+async function makeCommerceLayerClient({ parameters: { installation } }) {
+  const validationError = validateParameters(installation);
+  if (validationError) {
+    throw new Error(validationError);
   }
-}) {
-  const auth = await CLayerAuth.integration({
+
+  const { clientId, apiEndpoint, marketIds } = installation;
+  const auth = await CLayerAuth.salesChannel({
     clientId,
-    clientSecret,
-    endpoint: apiEndpoint
+    endpoint: apiEndpoint,
+    scopes: marketIds.split(',').map(id => `market:${id}`)
   });
 
   CLayer.init({
@@ -47,11 +65,17 @@ async function makeCommerceLayerClient({
  * includes the total count of records needed by the shared-sku-picker paginator
  * is missing. But it is there when fetching the SKUs via a plain HTTP req.
  */
-async function fetchSKUs({ clientId, clientSecret, apiEndpoint }, search, pagination) {
-  const auth = await CLayerAuth.integration({
-    clientId: clientId,
-    clientSecret: clientSecret,
-    endpoint: apiEndpoint
+async function fetchSKUs(installationParams, search, pagination) {
+  const validationError = validateParameters(installationParams);
+  if (validationError) {
+    throw new Error(validationError);
+  }
+
+  const { clientId, apiEndpoint, marketIds } = installationParams;
+  const auth = await CLayerAuth.salesChannel({
+    clientId,
+    endpoint: apiEndpoint,
+    scopes: marketIds.split(',').map(id => `market:${id}`)
   });
 
   const URL = `${apiEndpoint}/api/skus?page[size]=${PER_PAGE}&page[number]=${pagination.offset /
@@ -128,22 +152,6 @@ async function openDialog(sdk, currentValue, config) {
 function isDisabled(/* currentValue, config */) {
   // No restrictions need to be imposed as to when the field is disabled from the app's side
   return false;
-}
-
-function validateParameters(parameters) {
-  if (parameters.clientId.length < 1) {
-    return 'Provide your Commerce Layer client ID.';
-  }
-
-  if (parameters.clientSecret.length < 1) {
-    return 'Provide your Commerce Layer client secret.';
-  }
-
-  if (parameters.apiEndpoint.length < 1) {
-    return 'Provide the Commerce Layer API endpoint.';
-  }
-
-  return null;
 }
 
 setup({
