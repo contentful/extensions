@@ -1,30 +1,19 @@
+import get from 'lodash/get';
+
 /**
  * Transforms the API response of CommerceLayer into
  * the product schema expected by the SkuPicker component
  */
-export const dataTransformer = projectUrl => ({
-  id,
-  attributes: { image_url: imageUrl, name, code }
-}) => {
+export const dataTransformer = projectUrl => product => {
+  const { id } = product;
+  const image = get(product, ['imageUrl']) || get(product, ['attributes', 'image_url']);
+  const name = get(product, ['name']) || get(product, ['attributes', 'name']);
+  const sku = get(product, ['code']) || get(product, ['attributes', 'code']);
   return {
     id,
-    image: imageUrl,
+    image,
     name,
-    sku: code,
-    externalLink: `${projectUrl}/admin/skus/${id}/edit`
-  };
-};
-
-/**
- * Transforms the API response of CommerceLayer into
- * the product schema expected by SkuPicker Preview components
- */
-export const previewDataTransformer = projectUrl => ({ id, imageUrl, name, code }) => {
-  return {
-    id,
-    image: imageUrl,
-    name,
-    sku: code,
-    externalLink: `${projectUrl}/admin/skus/${id}/edit`
+    sku,
+    externalLink: `${projectUrl}/admin/products/${id}/edit`
   };
 };

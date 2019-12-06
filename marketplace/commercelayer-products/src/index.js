@@ -5,7 +5,7 @@ import { setup, renderSkuPicker } from 'shared-sku-app';
 
 import logo from './logo.svg';
 import descriptor from '../extension.json';
-import { dataTransformer, previewDataTransformer } from './dataTransformer';
+import { dataTransformer } from './dataTransformer';
 
 const PER_PAGE = 20;
 
@@ -104,7 +104,7 @@ const fetchProductPreviews = async function fetchProductPreviews(skus, config) {
   }
   await makeCommerceLayerClient({ parameters: { installation: config } });
   const result = await CLayer.Sku.where({ code_in: skus.join(',') }).all();
-  return result.toArray().map(previewDataTransformer(config.apiEndpoint));
+  return result.toArray().map(dataTransformer(config.apiEndpoint));
 };
 
 async function renderDialog(sdk) {
