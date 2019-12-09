@@ -14,6 +14,6 @@ export const dataTransformer = projectUrl => product => {
     image,
     name,
     sku,
-    externalLink: `${projectUrl}/admin/products/${id}/edit`
+    externalLink: `${projectUrl}/admin/skus/${id}/edit`
   };
 };
