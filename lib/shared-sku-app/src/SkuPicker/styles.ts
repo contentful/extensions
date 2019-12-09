@@ -8,7 +8,7 @@ export const styles = {
     padding: tokens.spacingL
   }),
   body: css({
-    height: 'calc(100vh - 139px)',
+    height: 'calc(100vh - 140px)',
     overflowY: 'auto',
     padding: `${tokens.spacingL} ${tokens.spacingL} 0 ${tokens.spacingL}`
   }),
