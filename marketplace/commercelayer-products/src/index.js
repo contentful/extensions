@@ -9,6 +9,7 @@ import logo from './logo.svg';
 import descriptor from '../extension.json';
 import { dataTransformer } from './dataTransformer';
 
+const DIALOG_ID = 'dialog-root';
 const PER_PAGE = 20;
 
 function makeCTA(fieldType) {
@@ -92,9 +93,7 @@ async function fetchSKUs(installationParams, search, pagination) {
     method: 'GET'
   });
 
-  const result = await res.json();
-
-  return result;
+  return await res.json();
 }
 
 /**
@@ -124,14 +123,13 @@ const fetchProductPreviews = async function fetchProductPreviews(skus, config) {
 };
 
 async function renderDialog(sdk) {
-  const ID = 'dialog-root';
   const container = document.createElement('div');
-  container.id = ID;
+  container.id = DIALOG_ID;
   container.style.display = 'flex';
   container.style.flexDirection = 'column';
   document.body.appendChild(container);
 
-  renderSkuPicker(ID, {
+  renderSkuPicker(DIALOG_ID, {
     sdk,
     fetchProductPreviews,
     fetchProducts: async (search, pagination) => {

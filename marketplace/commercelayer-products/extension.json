@@ -1,7 +1,7 @@
 {
   "id": "commercelayer-products",
   "name": "Commerce Layer",
-  "fieldTypes": ["Symbol"],
+  "fieldTypes": ["Symbol", "Symbols"],
   "srcdoc": "./build/index.html",
   "parameters": {
     "installation": [
