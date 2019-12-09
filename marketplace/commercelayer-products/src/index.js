@@ -18,8 +18,8 @@ function validateParameters(parameters) {
     return 'Provide your Commerce Layer client ID.';
   }
 
-  if (parameters.marketIds.length < 1) {
-    return 'Provide the Commerce Layer market IDs for which you need read access.';
+  if (parameters.clientSecret.length < 1) {
+    return 'Provide your Commerce Layer client secret.';
   }
 
   if (parameters.apiEndpoint.length < 1) {
@@ -44,11 +44,11 @@ async function makeCommerceLayerClient({ parameters: { installation } }) {
     throw new Error(validationError);
   }
 
-  const { clientId, apiEndpoint, marketIds } = installation;
-  const auth = await CLayerAuth.salesChannel({
+  const { clientId, apiEndpoint, clientSecret } = installation;
+  const auth = await CLayerAuth.integration({
     clientId,
-    endpoint: apiEndpoint,
-    scopes: marketIds.split(',').map(id => `market:${id}`)
+    clientSecret,
+    endpoint: apiEndpoint
   });
 
   CLayer.init({
@@ -71,11 +71,11 @@ async function fetchSKUs(installationParams, search, pagination) {
     throw new Error(validationError);
   }
 
-  const { clientId, apiEndpoint, marketIds } = installationParams;
-  const auth = await CLayerAuth.salesChannel({
+  const { clientId, apiEndpoint, clientSecret } = installationParams;
+  const auth = await CLayerAuth.integration({
     clientId,
-    endpoint: apiEndpoint,
-    scopes: marketIds.split(',').map(id => `market:${id}`)
+    clientSecret,
+    endpoint: apiEndpoint
   });
 
   const URL = `${apiEndpoint}/api/skus?page[size]=${PER_PAGE}&page[number]=${pagination.offset /
