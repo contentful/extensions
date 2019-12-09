@@ -1,5 +1,7 @@
 import CLayerAuth from '@commercelayer/js-auth';
 import CLayer from '@commercelayer/js-sdk';
+import chunk from 'lodash/chunk';
+import flatMap from 'lodash/flatMap';
 
 import { setup, renderSkuPicker } from 'shared-sku-app';
 
@@ -96,15 +98,29 @@ async function fetchSKUs(installationParams, search, pagination) {
 }
 
 /**
- * Fetches the product previews for the products selected by the user
+ * Fetches the product previews for the products selected by the user.
  */
 const fetchProductPreviews = async function fetchProductPreviews(skus, config) {
   if (!skus.length) {
     return [];
   }
   await makeCommerceLayerClient({ parameters: { installation: config } });
-  const result = await CLayer.Sku.where({ code_in: skus.join(',') }).all();
-  return result.toArray().map(dataTransformer(config.apiEndpoint));
+
+  // Commerce Layer's API automatically paginated results for collection endpoints.
+  // Here we account for the edge case where the user has picked more than 25
+  // products, which is the max amount of pagination results. We need to fetch
+  // and compile the complete selection result doing 1 request per 25 items.
+  const PREVIEW_PER_PAGE = 25;
+  const resultPromises = chunk(skus, PREVIEW_PER_PAGE).map((_, index) =>
+    CLayer.Sku.where({ code_in: skus.join(',') })
+      .perPage(PREVIEW_PER_PAGE)
+      .page(index + 1)
+      .all()
+  );
+  const results = await Promise.all(resultPromises);
+  const products = flatMap(results, res => res.toArray()).map(dataTransformer(config.apiEndpoint));
+
+  return products;
 };
 
 async function renderDialog(sdk) {
