@@ -18,7 +18,7 @@ export const SortableList = SortableContainer<Props>(
           return (
             <SortableListItem
               disabled={disabled}
-              key={product.image}
+              key={`${product.image}-${product.sku}`}
               product={product}
               index={index}
               onDelete={() => deleteFn(index)}
