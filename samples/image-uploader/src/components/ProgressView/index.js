@@ -19,8 +19,11 @@ export default function UploadView(props) {
   return (
     <div className="viewport">
       <main className="progress-view" style={progressViewStyles}>
-        {!isSVG && <img className="uploaded-image" src={imageUrl} alt="image being uploaded" />}
-        {isSVG && <Icon color="muted" icon="Asset" size="large" className="uploaded-image" />}
+        {isSVG ? (
+          <Icon color="muted" icon="Asset" size="large" className="uploaded-image" />
+        ) : (
+          <img className="uploaded-image" src={imageUrl} alt="image being uploaded" />
+        )}
         <aside className="bar" style={uploadProgress} />
         <aside className="bar-placeholder" style={uploadProgress} />
         <aside className="overlay" style={uploadProgress} />
