@@ -1,7 +1,7 @@
 {
   "id": "commercetools-sku",
   "name": "Commercetools",
-  "fieldTypes": ["Object"],
+  "fieldTypes": ["Symbol", "Symbols"],
   "srcdoc": "./build/index.html",
   "parameters": {
     "installation": [
