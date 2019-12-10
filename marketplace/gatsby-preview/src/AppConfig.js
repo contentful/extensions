@@ -57,7 +57,7 @@ export default class AppConfig extends React.Component {
         webhookUrl: params.webhookUrl || '',
         authToken: params.authToken || ''
       };
-    });
+    }, app.setReady);
   }
 
   configureApp = async () => {
