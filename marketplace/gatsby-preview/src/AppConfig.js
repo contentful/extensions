@@ -169,7 +169,7 @@ export default class AppConfig extends React.Component {
           <hr className={styles.splitter} />
           <Typography>
             <Heading>Account Details</Heading>
-            <Paragraph>Gatsby Cloud needs a project ID in order to preview projects.</Paragraph>
+            <Paragraph>Gatsby Cloud needs a Site URL in order to preview projects.</Paragraph>
             <TextField
               name="previewUrl"
               id="previewUrl"
