@@ -185,7 +185,9 @@ export class SkuPicker extends Component<Props, State> {
             />
           )}
           {infiniteScrollingPaginationMode && pagination.hasNextPage && (
-            <TextLink onClick={this.loadMoreProducts}>Load more</TextLink>
+            <TextLink testId="infinite-scrolling-pagination" onClick={this.loadMoreProducts}>
+              Load more
+            </TextLink>
           )}
         </section>
       </>

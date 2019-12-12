@@ -5,7 +5,7 @@ import merge from 'lodash/merge';
 import { validateParameters } from '.';
 import { dataTransformer } from './dataTransformer';
 
-const PER_PAGE = 1;
+const PER_PAGE = 20;
 
 async function makeShopifyClient({ parameters: { installation } }) {
   const validationError = validateParameters(installation);
