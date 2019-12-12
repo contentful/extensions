@@ -9,7 +9,7 @@ import descriptor from '../extension.json';
 import { dataTransformer } from './dataTransformer';
 
 const DIALOG_ID = 'dialog-root';
-const PER_PAGE = 1;
+const PER_PAGE = 20;
 
 function makeCTA(fieldType) {
   return fieldType === 'Array' ? 'Select products' : 'Select a product';
