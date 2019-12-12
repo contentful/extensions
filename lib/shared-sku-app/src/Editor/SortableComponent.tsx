@@ -30,7 +30,11 @@ export class SortableComponent extends React.Component<Props, State> {
 
   componentDidUpdate({ skus: prevSKUs }: Props) {
     if (!isEqual(this.props.skus, prevSKUs)) {
-      this.updateProductPreviews(this.props.skus.length !== prevSKUs.length);
+      const lengthHasChanged = this.props.skus.length !== prevSKUs.length;
+      const lengthIsOneAndSKUHasChanged =
+        this.props.skus.length === 1 && prevSKUs.length === 1 && this.props.skus[0] !== prevSKUs[0];
+      const shouldRefetchProducts = lengthHasChanged || lengthIsOneAndSKUHasChanged;
+      this.updateProductPreviews(shouldRefetchProducts);
     }
   }
 
