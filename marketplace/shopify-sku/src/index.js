@@ -1,12 +1,12 @@
 import Client from 'shopify-buy';
+import get from 'lodash/get';
+import merge from 'lodash/merge';
 
 import { setup, renderSkuPicker } from 'shared-sku-app';
 
 import logo from './logo.svg';
 import descriptor from '../extension.json';
 import { dataTransformer } from './dataTransformer';
-
-let activePage = 0;
 
 const DIALOG_ID = 'dialog-root';
 const PER_PAGE = 1;
@@ -50,6 +50,7 @@ const fetchProductPreviews = async function fetchProductPreviews(skus, config) {
   }
   const client = await makeShopifyClient({ parameters: { installation: config } });
   const query = {
+    first: 250,
     query: `variants:['sku:${skus.join(' OR ')}']`
   };
   const products = await client.product.fetchQuery(query);
@@ -69,39 +70,48 @@ async function renderDialog(sdk) {
   renderSkuPicker(DIALOG_ID, {
     sdk,
     fetchProductPreviews,
-    fetchProducts: async (search, pagination) => {
-      activePage = pagination.offset + 1;
-      console.log('RECEIVED', pagination, activePage);
-      const query = {
-        query: `variants:['sku:${search}'] OR title:${search}`
-      };
-      const products = await client.product.fetchQuery({
-        first: PER_PAGE,
-        ...(search.length && query),
-        sortBy: 'TITLE'
-      });
-      console.log('GOT PAGINATED', products[0].nextPageQueryAndPath());
-      return {
-        pagination: {
-          count: PER_PAGE,
-          limit: PER_PAGE,
-          total: 2,
-          offset: (activePage - 1) * PER_PAGE
-        },
-        products: products.map(dataTransformer())
-      };
-      // const result = await fetchSKUs(sdk.parameters.installation, search, pagination);
+    fetchProducts: (function() {
+      const products = [];
+      let prevSearch = '';
 
-      // return {
-      //   pagination: {
-      //     count: PER_PAGE,
-      //     limit: PER_PAGE,
-      //     total: result.meta.record_count,
-      //     offset: pagination.offset
-      //   },
-      //   products: result.data.map(dataTransformer(sdk.parameters.installation.apiEndpoint))
-      // };
-    }
+      return async search => {
+        const productsAreDefined = !!products.length;
+        const searchHasChanged = prevSearch !== search;
+        const shouldFetchNextBatchOfProducts = productsAreDefined && !searchHasChanged;
+
+        if (searchHasChanged) {
+          // If the user has made a new search reset pagination
+          prevSearch = search;
+          products.length = 0;
+        }
+
+        if (shouldFetchNextBatchOfProducts) {
+          // Will get here when the user has clicked on the Load more
+          // button to fetch and render the next batch of products.
+          // This is because of the infinite scrolling type of
+          // pagination Shopify offers.
+          const nextProducts = (await client.fetchNextPage(products)).model;
+          merge(products, nextProducts);
+        } else {
+          const query = { query: `variants:['sku:${search}'] OR title:${search}` };
+          const nextProducts = await client.product.fetchQuery({
+            first: PER_PAGE,
+            sortBy: 'TITLE',
+            ...(search.length && query)
+          });
+          merge(products, nextProducts);
+        }
+
+        // Shopify does not support indexed pagination, only infinite scrolling
+        // @see https://community.shopify.com/c/Shopify-APIs-SDKs/How-to-display-more-than-20-products-in-my-app-when-products-are/td-p/464090 for more details (KarlOffenberger's answer)
+        return {
+          pagination: {
+            hasNextPage: get(products, [products.length - 1, 'hasNextPage'], false)
+          },
+          products: products.map(dataTransformer())
+        };
+      };
+    })()
   });
 
   sdk.window.updateHeight(window.outerHeight);

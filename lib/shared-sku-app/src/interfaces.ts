@@ -15,6 +15,7 @@ export interface Pagination {
   total: number;
   count: number;
   limit: number;
+  hasNextPage?: boolean;
 }
 
 interface ProductsFnResponse {
@@ -23,7 +24,7 @@ interface ProductsFnResponse {
 }
 export type ProductsFn = (
   search: string,
-  pagination: Partial<Pagination>
+  pagination?: Partial<Pagination>
 ) => Promise<ProductsFnResponse>;
 
 export type MakeCTAFn = (fieldType: string) => string;
