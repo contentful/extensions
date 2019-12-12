@@ -158,11 +158,9 @@ export default class AppConfig extends React.Component {
             <Typography>
               <Heading>About Gatsby Cloud</Heading>
               <Paragraph>
-                Gatsby is an open-source, modern website framework based on React to create and
-                deploy websites or web apps with ease. This UI Extension connects to Gatsby Cloud
-                which lets you see updates to your Gatsby site as soon as you change content in
-                Contentful. This makes it easy for content creators to see changes they make to the
-                website before going live.
+                This app connects to Gatsby Cloud which lets you see updates to your Gatsby site as
+                soon as you change content in Contentful. This makes it easy for content creators to
+                see changes they make to the website before going live.
               </Paragraph>
             </Typography>
           </div>
@@ -188,6 +186,7 @@ export default class AppConfig extends React.Component {
                     rel="noopener noreferrer">
                     Gatsby dashboard
                   </TextLink>
+                  .
                 </span>
               }
               validationMessage={
@@ -207,7 +206,7 @@ export default class AppConfig extends React.Component {
               onChange={this.updateWebhookUrl}
               onBlur={this.validateWebhookUrl}
               className={styles.input}
-              helpText="Optional Webhook URL for manually building sites"
+              helpText="Optional Webhook URL for manually building sites."
               validationMessage={
                 !this.state.validWebhook
                   ? 'Please provide a valid URL (It should start with http)'
@@ -224,7 +223,7 @@ export default class AppConfig extends React.Component {
               value={this.state.authToken}
               onChange={this.updateAuthToken}
               className={styles.input}
-              helpText="Optional Authentication token for private Gatsby Cloud sites"
+              helpText="Optional Authentication token for private Gatsby Cloud sites."
               textInputProps={{
                 type: 'password'
               }}
