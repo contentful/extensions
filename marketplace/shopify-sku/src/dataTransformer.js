@@ -1,21 +1,37 @@
 import get from 'lodash/get';
+import flatten from 'lodash/flatten';
 
 /**
  * Transforms the API response of Shopify into
  * the product schema expected by the SkuPicker component
  */
-export const dataTransformer = () => product => {
-  // const { id } = product;
-  // const image = get(product, ['imageUrl']) || get(product, ['attributes', 'image_url']);
-  // const name = get(product, ['name']) || get(product, ['attributes', 'name']);
-  // const sku = get(product, ['code']) || get(product, ['attributes', 'code']);
-  const image = get(product, ['images', 0, 'src'], '');
-  const sku = get(product, ['variants', 0, 'sku'], '');
+export const dataTransformer = (/* { apiEndpoint } */) => product => {
+  const image = get(product, ['image', 'src'], '');
+  const sku = get(product, ['sku'], '');
   return {
     id: product.id,
     image,
     name: product.title,
     sku
-    // externalLink: `${projectUrl}/admin/skus/${id}/edit`
+    // ...(apiEndpoint && { externalLink: `https://${apiEndpoint}/admin/products/${product.id}` })
   };
 };
+
+export const productsToVariantsTransformer = products =>
+  flatten(
+    products.map(product => {
+      const variants = product.variants.map(variant => ({
+        ...variant,
+        productId: product.id,
+        title: product.title,
+        hasNextPage: false
+      }));
+      variants[variants.length - 1].hasNextPage = product.hasNextPage;
+      return variants;
+    })
+  );
+
+export const productPreviewsToVariantsTransformer = (productPreviews, selectedSKUs) =>
+  productsToVariantsTransformer(productPreviews).filter(variant =>
+    selectedSKUs.includes(variant.sku)
+  );

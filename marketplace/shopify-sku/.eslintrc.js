@@ -9,5 +9,8 @@ module.exports = {
   ],
   parserOptions: {
     project: path.resolve('tsconfig.json')
+  },
+  rules: {
+    'you-dont-need-lodash-underscore/last': 'off'
   }
 };

@@ -1,11 +1,8 @@
 import Client from 'shopify-buy';
-import get from 'lodash/get';
-import merge from 'lodash/merge';
+import Pagination from './Pagination';
 
 import { validateParameters } from '.';
-import { dataTransformer } from './dataTransformer';
-
-const PER_PAGE = 20;
+import { dataTransformer, productPreviewsToVariantsTransformer } from './dataTransformer';
 
 async function makeShopifyClient({ parameters: { installation } }) {
   const validationError = validateParameters(installation);
@@ -34,8 +31,9 @@ export const fetchProductPreviews = async (skus, config) => {
     query: `variants:['sku:${skus.join(' OR ')}']`
   };
   const products = await client.product.fetchQuery(query);
+  const variants = productPreviewsToVariantsTransformer(products, skus);
 
-  return products.map(dataTransformer());
+  return variants.map(dataTransformer(config));
 };
 
 /**
@@ -46,42 +44,6 @@ export const fetchProductPreviews = async (skus, config) => {
  */
 export const makeProductSearchResolver = async sdk => {
   const client = await makeShopifyClient(sdk);
-  const products = [];
-  let prevSearch = '';
-
-  return async search => {
-    const productsAreDefined = !!products.length;
-    const searchHasChanged = prevSearch !== search;
-    const shouldFetchNextBatchOfProducts = productsAreDefined && !searchHasChanged;
-
-    if (searchHasChanged) {
-      // If the user has made a new search reset pagination
-      prevSearch = search;
-      products.length = 0;
-    }
-
-    if (shouldFetchNextBatchOfProducts) {
-      // Will get here when the user has clicked on the Load more
-      // button to fetch and render the next batch of products.
-      // This is because of the infinite scrolling type of
-      // pagination Shopify offers.
-      const nextProducts = (await client.fetchNextPage(products)).model;
-      merge(products, nextProducts);
-    } else {
-      const query = { query: `variants:['sku:${search}'] OR title:${search}` };
-      const nextProducts = await client.product.fetchQuery({
-        first: PER_PAGE,
-        sortBy: 'TITLE',
-        ...(search.length && query)
-      });
-      merge(products, nextProducts);
-    }
-
-    return {
-      pagination: {
-        hasNextPage: get(products, [products.length - 1, 'hasNextPage'], false)
-      },
-      products: products.map(dataTransformer())
-    };
-  };
+  const pagination = new Pagination(sdk, client);
+  return search => pagination.fetchNext(search);
 };
