@@ -1,10 +1,10 @@
 import Client from 'shopify-buy';
-import Pagination from './Pagination';
+import makePagination from './Pagination';
 
 import { validateParameters } from '.';
 import { dataTransformer, productPreviewsToVariantsTransformer } from './dataTransformer';
 
-async function makeShopifyClient({ parameters: { installation } }) {
+export async function makeShopifyClient({ parameters: { installation } }) {
   const validationError = validateParameters(installation);
   if (validationError) {
     throw new Error(validationError);
@@ -43,7 +43,6 @@ export const fetchProductPreviews = async (skus, config) => {
  * @see https://community.shopify.com/c/Shopify-APIs-SDKs/How-to-display-more-than-20-products-in-my-app-when-products-are/td-p/464090 for more details (KarlOffenberger's answer)
  */
 export const makeProductSearchResolver = async sdk => {
-  const client = await makeShopifyClient(sdk);
-  const pagination = new Pagination(sdk, client);
+  const pagination = await makePagination(sdk);
   return search => pagination.fetchNext(search);
 };

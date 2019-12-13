@@ -2,10 +2,11 @@ import get from 'lodash/get';
 import merge from 'lodash/merge';
 import last from 'lodash/last';
 import { dataTransformer, productsToVariantsTransformer } from './dataTransformer';
+import { makeShopifyClient } from './productResolvers';
 
 const PER_PAGE = 1;
 
-export default class Pagination {
+class Pagination {
   products = [];
 
   variants = [];
@@ -17,6 +18,10 @@ export default class Pagination {
   constructor(sdk, shopifyClient) {
     this.sdk = sdk;
     this.shopifyClient = shopifyClient;
+  }
+
+  async init() {
+    this.shopifyClient = await makeShopifyClient(this.sdk);
   }
 
   async fetchNext(search) {
@@ -52,7 +57,6 @@ export default class Pagination {
       ? await this._fetchProducts(search)
       : await this._fetchNextPage(this.products);
     const nextVariants = productsToVariantsTransformer(nextProducts);
-
     merge(this.products, nextProducts);
     merge(this.variants, nextVariants);
   }
@@ -78,3 +82,11 @@ export default class Pagination {
     this.paginationEndIndex = PER_PAGE;
   }
 }
+
+const makePagination = async sdk => {
+  const pagination = new Pagination(sdk);
+  await pagination.init();
+  return pagination;
+};
+
+export default makePagination;
