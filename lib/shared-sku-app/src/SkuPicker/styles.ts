@@ -42,5 +42,9 @@ export const styles = {
     justifyContent: 'flex-end',
     flexGrow: 1,
     display: 'flex'
+  }),
+  loadMoreButton: css({
+    width: '100%',
+    marginTop: tokens.spacingXs
   })
 };

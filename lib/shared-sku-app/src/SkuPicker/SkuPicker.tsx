@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import get from 'lodash/get';
 import clamp from 'lodash/clamp';
 import debounce from 'lodash/debounce';
-import { Button, TextInput, TextLink, Icon } from '@contentful/forma-36-react-components';
+import { Button, TextInput, Icon } from '@contentful/forma-36-react-components';
 import { DialogExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { Divider } from '../Divider';
 import { ProductList } from './ProductList';
@@ -185,9 +185,13 @@ export class SkuPicker extends Component<Props, State> {
             />
           )}
           {infiniteScrollingPaginationMode && pagination.hasNextPage && (
-            <TextLink testId="infinite-scrolling-pagination" onClick={this.loadMoreProducts}>
+            <Button
+              className={styles.loadMoreButton}
+              buttonType="naked"
+              testId="infinite-scrolling-pagination"
+              onClick={this.loadMoreProducts}>
               Load more
-            </TextLink>
+            </Button>
           )}
         </section>
       </>
