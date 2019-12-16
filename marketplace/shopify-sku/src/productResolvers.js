@@ -20,6 +20,10 @@ export async function makeShopifyClient({ parameters: { installation } }) {
 
 /**
  * Fetches the product previews for the products selected by the user.
+ *
+ * Note: currently there is no way to cover the edge case where the user
+ *       would have more than 250 products selected. In such a case their
+ *       selection would be cut off after product no. 250.
  */
 export const fetchProductPreviews = async (skus, config) => {
   if (!skus.length) {
