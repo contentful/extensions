@@ -1,6 +1,5 @@
-import get from 'lodash/get';
-import merge from 'lodash/merge';
 import last from 'lodash/last';
+import get from 'lodash/get';
 import { dataTransformer, productsToVariantsTransformer } from './dataTransformer';
 import { makeShopifyClient } from './productResolvers';
 
@@ -13,11 +12,8 @@ class Pagination {
 
   prevSearch = '';
 
-  paginationEndIndex = PER_PAGE;
-
-  constructor(sdk, shopifyClient) {
+  constructor(sdk) {
     this.sdk = sdk;
-    this.shopifyClient = shopifyClient;
   }
 
   async init() {
@@ -27,6 +23,7 @@ class Pagination {
   async fetchNext(search) {
     const searchHasChanged = search !== this.prevSearch;
     if (searchHasChanged) {
+      this.prevSearch = search;
       this._resetPagination();
     }
 
@@ -57,18 +54,18 @@ class Pagination {
       ? await this._fetchProducts(search)
       : await this._fetchNextPage(this.products);
     const nextVariants = productsToVariantsTransformer(nextProducts);
-    merge(this.products, nextProducts);
-    merge(this.variants, nextVariants);
+    this.products = [...this.products, ...nextProducts];
+    this.variants = [...this.variants, ...nextVariants];
   }
 
   async _fetchProducts(search) {
     const query = { query: `variants:['sku:${search}'] OR title:${search}` };
-    const products = await this.shopifyClient.product.fetchQuery({
+    return await this.shopifyClient.product.fetchQuery({
       first: PER_PAGE,
       sortBy: 'TITLE',
+      reverse: true,
       ...(search.length && query)
     });
-    return products;
   }
 
   async _fetchNextPage(products) {
@@ -76,10 +73,8 @@ class Pagination {
   }
 
   _resetPagination() {
-    this.products.length = 0;
-    this.variants.length = 0;
-    this.prevSearch = '';
-    this.paginationEndIndex = PER_PAGE;
+    this.products = [];
+    this.variants = [];
   }
 }
 
