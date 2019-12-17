@@ -47,17 +47,20 @@ export default class AppConfig extends React.Component {
     const params = installationParams || {};
 
     // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState(prevState => {
-      return {
-        checkedContentTypes: items.reduce((acc, ct) => {
-          acc[ct.sys.id] = { name: ct.name, checked: previouslyCheckedTypes.includes(ct.sys.id) };
-          return acc;
-        }, prevState.checkedContentTypes),
-        previewUrl: params.previewUrl || '',
-        webhookUrl: params.webhookUrl || '',
-        authToken: params.authToken || ''
-      };
-    }, app.setReady);
+    this.setState(
+      prevState => {
+        return {
+          checkedContentTypes: items.reduce((acc, ct) => {
+            acc[ct.sys.id] = { name: ct.name, checked: previouslyCheckedTypes.includes(ct.sys.id) };
+            return acc;
+          }, prevState.checkedContentTypes),
+          previewUrl: params.previewUrl || '',
+          webhookUrl: params.webhookUrl || '',
+          authToken: params.authToken || ''
+        };
+      },
+      () => app.setReady()
+    );
   }
 
   configureApp = async () => {
