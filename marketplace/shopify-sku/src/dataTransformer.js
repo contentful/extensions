@@ -5,15 +5,15 @@ import flatten from 'lodash/flatten';
  * Transforms the API response of Shopify into
  * the product schema expected by the SkuPicker component
  */
-export const dataTransformer = (/* { apiEndpoint } */) => product => {
+export const dataTransformer = ({ apiEndpoint }) => product => {
   const image = get(product, ['image', 'src'], '');
   const sku = get(product, ['sku'], '');
   return {
     id: product.id,
     image,
     name: product.title,
-    sku
-    // ...(apiEndpoint && { externalLink: `https://${apiEndpoint}/admin/products/${product.id}` })
+    sku,
+    ...(apiEndpoint && { externalLink: `https://${apiEndpoint}/admin/products?query=${sku}` })
   };
 };
 
