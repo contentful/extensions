@@ -1,6 +1,7 @@
 import * as React from 'react';
 import arrayMove from 'array-move';
 import isEqual from 'lodash/isEqual';
+import difference from 'lodash/difference';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { mapSort } from '../utils';
 import { SortableList } from './SortableList';
@@ -30,7 +31,10 @@ export class SortableComponent extends React.Component<Props, State> {
 
   componentDidUpdate({ skus: prevSKUs }: Props) {
     if (!isEqual(this.props.skus, prevSKUs)) {
-      this.updateProductPreviews(this.props.skus.length !== prevSKUs.length);
+      const lengthHasChanged = this.props.skus.length !== prevSKUs.length;
+      const skusDiffer = difference(this.props.skus, prevSKUs).length > 0;
+      const shouldRefetchProducts = lengthHasChanged || skusDiffer;
+      this.updateProductPreviews(shouldRefetchProducts);
     }
   }
 

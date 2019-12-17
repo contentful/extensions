@@ -98,6 +98,11 @@ export class SkuPicker extends Component<Props, State> {
     }
   };
 
+  loadMoreProducts = async () => {
+    const { pagination, products } = await this.props.fetchProducts(this.state.search);
+    this.setState(oldState => ({ pagination, products: [...oldState.products, ...products] }));
+  };
+
   setActivePage = (activePage: number) => {
     const { pagination } = this.state;
     const pageCount = Math.ceil(pagination.total / pagination.limit);
@@ -129,6 +134,7 @@ export class SkuPicker extends Component<Props, State> {
 
   render() {
     const { search, pagination, products, selectedProducts, selectedSKUs } = this.state;
+    const infiniteScrollingPaginationMode = 'hasNextPage' in pagination;
     const pageCount = Math.ceil(pagination.total / pagination.limit);
 
     return (
@@ -146,7 +152,11 @@ export class SkuPicker extends Component<Props, State> {
               onChange={event => this.setSearch((event.target as HTMLInputElement).value)}
             />
             <Icon color="muted" icon="Search" />
-            <span className={styles.total}>Total results: {pagination.total.toLocaleString()}</span>
+            {!!pagination.total && (
+              <span className={styles.total}>
+                Total results: {pagination.total.toLocaleString()}
+              </span>
+            )}
           </div>
           <div className={styles.rightsideControls}>
             <ProductSelectionList products={selectedProducts} selectProduct={this.selectProduct} />
@@ -166,13 +176,22 @@ export class SkuPicker extends Component<Props, State> {
             selectProduct={this.selectProduct}
             selectedSKUs={selectedSKUs}
           />
-          {products.length > 0 && (
+          {!infiniteScrollingPaginationMode && products.length > 0 && (
             <Paginator
               activePage={this.state.activePage}
               className={styles.paginator}
               pageCount={pageCount}
               setActivePage={this.setActivePage}
             />
+          )}
+          {infiniteScrollingPaginationMode && pagination.hasNextPage && (
+            <Button
+              className={styles.loadMoreButton}
+              buttonType="naked"
+              testId="infinite-scrolling-pagination"
+              onClick={this.loadMoreProducts}>
+              Load more
+            </Button>
           )}
         </section>
       </>
