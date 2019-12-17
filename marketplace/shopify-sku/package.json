@@ -14,8 +14,6 @@
   },
   "dependencies": {
     "core-js": "3.4.1",
-    "install": "^0.13.0",
-    "npm": "^6.13.3",
     "shared-sku-app": "^1.0.0",
     "shopify-buy": "^2.8.1"
   },
