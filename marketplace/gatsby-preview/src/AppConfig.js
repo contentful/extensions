@@ -51,8 +51,10 @@ export default class AppConfig extends React.Component {
       prevState => {
         return {
           checkedContentTypes: items.reduce((acc, ct) => {
-            acc[ct.sys.id] = { name: ct.name, checked: previouslyCheckedTypes.includes(ct.sys.id) };
-            return acc;
+            return {
+              ...acc,
+              [ct.sys.id]: { name: ct.name, checked: previouslyCheckedTypes.includes(ct.sys.id) }
+            };
           }, prevState.checkedContentTypes),
           previewUrl: params.previewUrl || '',
           webhookUrl: params.webhookUrl || '',
