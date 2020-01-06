@@ -61,6 +61,34 @@ describe('SkuPicker', () => {
     expect(container).toMatchSnapshot();
   });
 
+  describe('when it has infinite scrolling mode pagination', () => {
+    it('should render the "Load more" text link if there is a next page', async () => {
+      const { findByTestId } = await renderComponent({
+        ...defaultProps,
+        fetchProducts: jest.fn(() => ({
+          pagination: {
+            hasNextPage: true
+          },
+          products: productPreviews.slice(0, 2)
+        })) as any
+      });
+      expect(await findByTestId('infinite-scrolling-pagination')).toBeTruthy();
+    });
+
+    it('should not render the "Load more" text link if there is no next page', async () => {
+      const { queryByTestId } = await renderComponent({
+        ...defaultProps,
+        fetchProducts: jest.fn(() => ({
+          pagination: {
+            hasNextPage: false
+          },
+          products: productPreviews.slice(0, 2)
+        })) as any
+      });
+      expect(queryByTestId('infinite-scrolling-pagination')).toBeNull();
+    });
+  });
+
   describe('when it is operating on a field of type Symbol', () => {
     it('should allow the user to select only one product', async () => {
       const { queryByTestId, findByTestId } = await renderComponent(defaultProps);

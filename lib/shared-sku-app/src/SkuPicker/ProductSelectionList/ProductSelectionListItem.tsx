@@ -14,6 +14,7 @@ const styles = {
   productWrapper: css({
     display: 'flex',
     position: 'relative',
+    overflow: 'hidden',
     ':not(:first-of-type)': css({
       marginLeft: tokens.spacingXs
     }),
