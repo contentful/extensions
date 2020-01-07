@@ -92,7 +92,7 @@ exports[`ProductList should render successfully with no items selected 1`] = `
           </defs>
         </svg>
         <div
-          class="css-19cpqqr"
+          class="css-nk39el"
         >
           <img
             alt="product preview"
@@ -206,7 +206,7 @@ exports[`ProductList should render successfully with no items selected 1`] = `
           </defs>
         </svg>
         <div
-          class="css-19cpqqr"
+          class="css-nk39el"
         >
           <img
             alt="product preview"
@@ -320,7 +320,7 @@ exports[`ProductList should render successfully with no items selected 1`] = `
           </defs>
         </svg>
         <div
-          class="css-19cpqqr"
+          class="css-nk39el"
         >
           <img
             alt="product preview"
@@ -443,7 +443,7 @@ exports[`ProductList should render successfully with selected items 1`] = `
           </defs>
         </svg>
         <div
-          class="css-19cpqqr"
+          class="css-nk39el"
         >
           <img
             alt="product preview"
@@ -557,7 +557,7 @@ exports[`ProductList should render successfully with selected items 1`] = `
           </defs>
         </svg>
         <div
-          class="css-19cpqqr"
+          class="css-nk39el"
         >
           <img
             alt="product preview"
@@ -671,7 +671,7 @@ exports[`ProductList should render successfully with selected items 1`] = `
           </defs>
         </svg>
         <div
-          class="css-19cpqqr"
+          class="css-nk39el"
         >
           <img
             alt="product preview"
