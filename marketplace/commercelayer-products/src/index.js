@@ -9,7 +9,7 @@ import logo from './logo.svg';
 import descriptor from '../extension.json';
 import { dataTransformer } from './dataTransformer';
 
-const DIALOG_ID = 'dialog-root';
+const DIALOG_ID = 'root';
 const PER_PAGE = 20;
 
 function makeCTA(fieldType) {
@@ -123,11 +123,9 @@ const fetchProductPreviews = async function fetchProductPreviews(skus, config) {
 };
 
 async function renderDialog(sdk) {
-  const container = document.createElement('div');
-  container.id = DIALOG_ID;
+  const container = document.getElementById(DIALOG_ID);
   container.style.display = 'flex';
   container.style.flexDirection = 'column';
-  document.body.appendChild(container);
 
   renderSkuPicker(DIALOG_ID, {
     sdk,
@@ -147,11 +145,12 @@ async function renderDialog(sdk) {
     }
   });
 
-  sdk.window.updateHeight(window.outerHeight);
+  sdk.window.startAutoResizer();
 }
 
 async function openDialog(sdk, currentValue, config) {
   const skus = await sdk.dialogs.openExtension({
+    allowHeightOverflow: true,
     position: 'center',
     title: makeCTA(sdk.field.type),
     shouldCloseOnOverlayClick: true,

@@ -1,6 +1,16 @@
 import { css } from 'emotion';
 import tokens from '@contentful/forma-36-tokens';
 
+/**
+ * Returns the target height of the modal window body in pixels.
+ * Relative units were causing multiple resizings of the iframe.
+ */
+function getBodyHeight() {
+  const HEADER_HEIGHT = 114;
+  const twentyPerc = window.outerHeight * 0.3;
+  return window.outerHeight - twentyPerc - HEADER_HEIGHT;
+}
+
 export const styles = {
   header: css({
     display: 'flex',
@@ -8,8 +18,7 @@ export const styles = {
     padding: tokens.spacingL
   }),
   body: css({
-    height: 'calc(100vh - 140px)',
-    overflowY: 'auto',
+    height: getBodyHeight(),
     padding: `${tokens.spacingL} ${tokens.spacingL} 0 ${tokens.spacingL}`
   }),
   total: css({

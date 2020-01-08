@@ -13,7 +13,7 @@ exports[`ProductListItem should render successfully 1`] = `
       tabindex="-1"
     >
       <div
-        class="css-19gid52"
+        class="css-1dtkwc5"
       >
         <img
           alt="product preview"
@@ -108,7 +108,7 @@ exports[`ProductListItem should render successfully the isSelected variation 1`]
       tabindex="-1"
     >
       <div
-        class="css-19gid52"
+        class="css-1dtkwc5"
       >
         <img
           alt="product preview"
@@ -227,7 +227,7 @@ exports[`ProductListItem should render successfully the loading variation 1`] = 
         </defs>
       </svg>
       <div
-        class="css-19cpqqr"
+        class="css-nk39el"
       >
         <img
           alt="product preview"
