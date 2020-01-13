@@ -49,7 +49,6 @@ const styles = {
   }),
   imgWrapper: (imageHasLoaded: boolean) =>
     css({
-      width: '290px',
       height: `${imageHasLoaded ? 290 : 0}px`,
       position: 'relative',
       overflow: 'hidden'

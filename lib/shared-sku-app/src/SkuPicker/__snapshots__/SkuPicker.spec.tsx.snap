@@ -74,7 +74,7 @@ exports[`SkuPicker should render successfully with no products selected 1`] = `
     class="css-6wso32"
   />
   <section
-    class="css-gj69t3"
+    class="css-nf44ad"
   >
     <div
       class="css-almiqb"
@@ -90,7 +90,7 @@ exports[`SkuPicker should render successfully with no products selected 1`] = `
           tabindex="-1"
         >
           <div
-            class="css-19gid52"
+            class="css-1dtkwc5"
           >
             <img
               alt="product preview"
@@ -128,7 +128,7 @@ exports[`SkuPicker should render successfully with no products selected 1`] = `
           tabindex="-1"
         >
           <div
-            class="css-19gid52"
+            class="css-1dtkwc5"
           >
             <img
               alt="product preview"
@@ -166,7 +166,7 @@ exports[`SkuPicker should render successfully with no products selected 1`] = `
           tabindex="-1"
         >
           <div
-            class="css-19gid52"
+            class="css-1dtkwc5"
           >
             <img
               alt="product preview"
