@@ -1,3 +1,4 @@
+import get from 'lodash.get';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -14,60 +15,70 @@ import {
 import GatsbyIcon from './GatsbyIcon';
 import styles from './styles';
 
+function editorInterfacesToEnabledContentTypes(eis, appId) {
+  const findAppWidget = item => item.widgetNamespace === 'app' && item.widgetId === appId;
+
+  return eis
+    .filter(ei => !!get(ei, ['sidebar'], []).find(findAppWidget))
+    .map(ei => get(ei, ['sys', 'contentType', 'sys', 'id']))
+    .filter(ctId => typeof ctId === 'string' && ctId.length > 0);
+}
+
+function enabledContentTypesToTargetState(contentTypes, enabledContentTypes) {
+  return {
+    EditorInterface: contentTypes.reduce((acc, ct) => {
+      return {
+        ...acc,
+        [ct.sys.id]: enabledContentTypes.includes(ct.sys.id) ? { sidebar: { position: 3 } } : {}
+      };
+    }, {})
+  };
+}
+
 export default class AppConfig extends React.Component {
   static propTypes = {
     sdk: PropTypes.object.isRequired
   };
 
   state = {
+    contentTypes: [],
+    enabledContentTypes: {},
     previewUrl: '',
     webhookUrl: '',
     authToken: '',
-    checkedContentTypes: {},
     validPreview: true,
     validWebhook: true
   };
 
   async componentDidMount() {
-    const { space, app } = this.props.sdk;
-    app.onConfigure(this.configureApp);
+    const { space, app, ids } = this.props.sdk;
 
-    const [installationParams, currentState, { items }] = await Promise.all([
+    const [installationParams, eisRes, contentTypesRes] = await Promise.all([
       app.getParameters(),
-      app.getCurrentState(),
+      space.getEditorInterfaces(),
       space.getContentTypes()
     ]);
-
-    const { EditorInterface = {} } = currentState || {};
-
-    const previouslyCheckedTypes = Object.keys(EditorInterface).filter(
-      ct => EditorInterface[ct].sidebar
-    );
 
     const params = installationParams || {};
 
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState(
-      prevState => {
-        return {
-          checkedContentTypes: items.reduce((acc, ct) => {
-            return {
-              ...acc,
-              [ct.sys.id]: { name: ct.name, checked: previouslyCheckedTypes.includes(ct.sys.id) }
-            };
-          }, prevState.checkedContentTypes),
-          previewUrl: params.previewUrl || '',
-          webhookUrl: params.webhookUrl || '',
-          authToken: params.authToken || ''
-        };
+      {
+        contentTypes: contentTypesRes.items,
+        enabledContentTypes: editorInterfacesToEnabledContentTypes(eisRes.items, ids.app),
+        previewUrl: params.previewUrl || '',
+        webhookUrl: params.webhookUrl || '',
+        authToken: params.authToken || ''
       },
       () => app.setReady()
     );
+
+    app.onConfigure(this.configureApp);
   }
 
   configureApp = async () => {
-    const { app } = this.props.sdk;
-    const { previewUrl, webhookUrl, authToken, checkedContentTypes } = this.state;
+    const { contentTypes, enabledContentTypes, previewUrl, webhookUrl, authToken } = this.state;
+
     this.setState({ validPreview: true, validWebhook: true });
 
     let valid = true;
@@ -93,26 +104,13 @@ export default class AppConfig extends React.Component {
       return false;
     }
 
-    const { EditorInterface = {} } = (await app.getCurrentState()) || {};
-    const sidebarContentTypes = Object.keys(checkedContentTypes).reduce((acc, key) => {
-      if (checkedContentTypes[key].checked) {
-        acc[key] = { sidebar: { position: 3 } };
-      } else {
-        delete (acc[key] || {}).sidebar;
-      }
-
-      return acc;
-    }, EditorInterface);
-
     return {
       parameters: {
         previewUrl,
         webhookUrl,
         authToken
       },
-      targetState: {
-        EditorInterface: sidebarContentTypes
-      }
+      targetState: enabledContentTypesToTargetState(contentTypes, enabledContentTypes)
     };
   };
 
@@ -140,20 +138,23 @@ export default class AppConfig extends React.Component {
     }
   };
 
-  onContentTypeSelect = key => {
+  toggleContentType = (enabledContentTypes, ctId) => {
+    if (enabledContentTypes.includes(ctId)) {
+      return enabledContentTypes.filter(cur => cur !== ctId);
+    } else {
+      return enabledContentTypes.concat([ctId]);
+    }
+  };
+
+  onContentTypeToggle = ctId => {
     this.setState(prevState => ({
-      checkedContentTypes: {
-        ...prevState.checkedContentTypes,
-        [key]: {
-          ...prevState.checkedContentTypes[key],
-          checked: !prevState.checkedContentTypes[key].checked
-        }
-      }
+      ...prevState,
+      enabledContentTypes: this.toggleContentType(prevState.enabledContentTypes, ctId)
     }));
   };
 
   render() {
-    const checkedTypes = Object.keys(this.state.checkedContentTypes);
+    const { contentTypes, enabledContentTypes } = this.state;
 
     return (
       <>
@@ -242,17 +243,17 @@ export default class AppConfig extends React.Component {
             </Paragraph>
             <div className={styles.checks}>
               <FieldGroup>
-                {checkedTypes.length ? (
-                  checkedTypes.map(key => (
+                {contentTypes.length > 0 ? (
+                  contentTypes.map(ct => (
                     <CheckboxField
-                      key={key}
+                      key={ct.sys.id}
                       labelIsLight
-                      labelText={this.state.checkedContentTypes[key].name}
-                      name={this.state.checkedContentTypes[key].name}
-                      checked={this.state.checkedContentTypes[key].checked}
-                      value={key}
-                      onChange={() => this.onContentTypeSelect(key)}
-                      id={key}
+                      labelText={ct.name}
+                      name={ct.name}
+                      checked={enabledContentTypes.includes(ct.sys.id)}
+                      value={ct.sys.id}
+                      onChange={() => this.onContentTypeToggle(ct.sys.id)}
+                      id={ct.sys.id}
                     />
                   ))
                 ) : (
