@@ -17,18 +17,14 @@ const props = {
     app: {
       setReady: jest.fn(),
       isInstalled: jest.fn(),
-      onConfigure: jest.fn()
+      onConfigure: jest.fn(),
+      onConfigurationCompleted: jest.fn()
     }
   }
 };
 
 describe('AppView', () => {
   afterEach(() => cleanup());
-
-  it('should render the loading app view', () => {
-    const { container } = render(<AppView {...props} />);
-    expect(container).toMatchSnapshot();
-  });
 
   describe('when the app is not installed', () => {
     beforeEach(() => props.sdk.app.isInstalled.mockImplementation(() => Promise.resolve(false)));
