@@ -36,13 +36,16 @@ const contentTypes = [
 ];
 
 const makeSdkMock = () => ({
+  ids: {
+    app: 'some-app'
+  },
   space: {
-    getContentTypes: jest.fn().mockResolvedValue({ items: contentTypes })
+    getContentTypes: jest.fn().mockResolvedValue({ items: contentTypes }),
+    getEditorInterfaces: jest.fn().mockResolvedValue({ items: [] })
   },
   app: {
     setReady: jest.fn(),
     getParameters: jest.fn().mockResolvedValue(null),
-    getCurrentState: jest.fn().mockResolvedValue(null),
     onConfigure: jest.fn().mockReturnValue(undefined)
   }
 });
@@ -99,12 +102,17 @@ describe('AppConfig', () => {
       authApiEndpoint: 'some-auth-endpoint',
       locale: 'en'
     });
-    sdk.app.getCurrentState.mockResolvedValueOnce({
-      EditorInterface: {
-        ct3: {
-          controls: [{ fieldId: 'product_a' }, { fieldId: 'product_d' }]
+    sdk.space.getEditorInterfaces.mockResolvedValueOnce({
+      items: [
+        {
+          sys: { contentType: { sys: { id: 'ct3' } } },
+          controls: [
+            { fieldId: 'product_a', widgetNamespace: 'app', widgetId: 'some-app' },
+            { fieldId: 'bar', widgetNamespace: 'app', widgetId: 'some-diff-app' },
+            { fieldId: 'product_d', widgetNamespace: 'app', widgetId: 'some-app' }
+          ]
         }
-      }
+      ]
     });
 
     const { getByLabelText } = renderComponent(sdk);
