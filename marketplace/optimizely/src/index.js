@@ -115,7 +115,7 @@ export default class App extends React.Component {
     const { client } = state;
     const { location, parameters } = sdk;
 
-    if (location.is(locations.LOCATION_APP)) {
+    if (location.is(locations.LOCATION_APP_CONFIG)) {
       return (
         <AppPage
           openAuth={this.openAuth}

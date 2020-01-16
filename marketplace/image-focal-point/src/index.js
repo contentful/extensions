@@ -163,7 +163,7 @@ function renderDialog(sdk) {
 init(sdk => {
   if (sdk.location.is(locations.LOCATION_DIALOG)) {
     renderDialog(sdk);
-  } else if (sdk.location.is(locations.LOCATION_APP)) {
+  } else if (sdk.location.is(locations.LOCATION_APP_CONFIG)) {
     ReactDOM.render(<AppView sdk={sdk} />, document.getElementById('root'));
   } else {
     ReactDOM.render(<App sdk={sdk} />, document.getElementById('root'));
