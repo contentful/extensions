@@ -100,14 +100,14 @@ export default class AppConfig extends React.Component<Props, State> {
   }
 
   init = async () => {
-    const { space, platformAlpha } = this.props.sdk;
+    const { space, app } = this.props.sdk;
 
-    platformAlpha.app.onConfigure(this.onAppConfigure);
+    app.onConfigure(this.onAppConfigure);
 
     const [contentTypesResponse, currentState, parameters] = await Promise.all([
       space.getContentTypes(),
-      platformAlpha.app.getCurrentState(),
-      platformAlpha.app.getParameters()
+      app.getCurrentState(),
+      app.getParameters()
     ]);
 
     const contentTypes = contentTypesResponse.items as ContentType[];
@@ -124,7 +124,7 @@ export default class AppConfig extends React.Component<Props, State> {
         selectedFields: currentStateToSelectedFields(currentState || {}),
         parameters: toInputParameters(this.props.parameterDefinitions, parameters)
       },
-      () => platformAlpha.app.setReady()
+      () => app.setReady()
     );
   };
 

@@ -29,13 +29,13 @@ export default class AppConfig extends React.Component {
   };
 
   async componentDidMount() {
-    const { app } = this.props.sdk.platformAlpha;
+    const { space, app } = this.props.sdk;
     app.onConfigure(this.configureApp);
 
     const [installationParams, currentState, { items }] = await Promise.all([
       app.getParameters(),
       app.getCurrentState(),
-      this.props.sdk.space.getContentTypes()
+      space.getContentTypes()
     ]);
 
     const { EditorInterface = {} } = currentState || {};
@@ -66,7 +66,7 @@ export default class AppConfig extends React.Component {
   }
 
   configureApp = async () => {
-    const { app } = this.props.sdk.platformAlpha;
+    const { app } = this.props.sdk;
     const { previewUrl, webhookUrl, authToken, checkedContentTypes } = this.state;
     this.setState({ validPreview: true, validWebhook: true });
 

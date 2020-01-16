@@ -39,15 +39,14 @@ export default class NetlifyAppConfig extends React.Component {
   }
 
   init = async () => {
-    const { sdk } = this.props;
-    const { app } = sdk.platformAlpha;
+    const { space, app } = this.props.sdk;
 
     app.onConfigure(this.onAppConfigure);
 
     const [parameters, currentState, contentTypesResponse] = await Promise.all([
       app.getParameters(),
       app.getCurrentState(),
-      sdk.space.getContentTypes()
+      space.getContentTypes()
     ]);
 
     const config = parametersToConfig(parameters);
@@ -97,7 +96,7 @@ export default class NetlifyAppConfig extends React.Component {
     }
 
     try {
-      const isInstalled = await this.props.sdk.platformAlpha.app.isInstalled();
+      const isInstalled = await this.props.sdk.app.isInstalled();
       const method = isInstalled ? 'update' : 'install';
       const config = await NetlifyIntegration[method]({
         config: this.state.config, // eslint-disable-line react/no-access-state-in-setstate

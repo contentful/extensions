@@ -31,13 +31,11 @@ const makeSdkMock = () => ({
   space: {
     getContentTypes: jest.fn().mockResolvedValue({ items: contentTypes })
   },
-  platformAlpha: {
-    app: {
-      getParameters: jest.fn().mockResolvedValue(null),
-      getCurrentState: jest.fn().mockResolvedValue(null),
-      onConfigure: jest.fn().mockReturnValue(undefined),
-      setReady: jest.fn()
-    }
+  app: {
+    setReady: jest.fn(),
+    getParameters: jest.fn().mockResolvedValue(null),
+    getCurrentState: jest.fn().mockResolvedValue(null),
+    onConfigure: jest.fn().mockReturnValue(undefined)
   }
 });
 
@@ -80,12 +78,12 @@ describe('AppConfig', () => {
 
   it('renders app after installation', async () => {
     const sdk = makeSdkMock();
-    sdk.platformAlpha.app.getParameters.mockResolvedValueOnce({
+    sdk.app.getParameters.mockResolvedValueOnce({
       cloudName: 'test-cloud',
       apiKey: 'test-api-key',
       maxFiles: 12
     });
-    sdk.platformAlpha.app.getCurrentState.mockResolvedValueOnce({
+    sdk.app.getCurrentState.mockResolvedValueOnce({
       EditorInterface: {
         ct3: {
           controls: [{ fieldId: 'obj' }]
@@ -127,7 +125,7 @@ describe('AppConfig', () => {
     const fieldCheckbox = getByLabelText(/Some other object/) as HTMLInputElement;
     fireEvent.click(fieldCheckbox);
 
-    const onConfigure = sdk.platformAlpha.app.onConfigure.mock.calls[0][0];
+    const onConfigure = sdk.app.onConfigure.mock.calls[0][0];
     const configurationResult = onConfigure();
 
     expect(configurationResult).toEqual({

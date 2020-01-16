@@ -34,12 +34,11 @@ export class AppView extends Component {
   };
 
   async componentDidMount() {
-    const { sdk } = this.props;
-    const { app } = sdk.platformAlpha;
+    const { space, app } = this.props.sdk;
 
     const appIsInstalled = await app.isInstalled();
 
-    const allContentTypes = await sdk.space.getContentTypes();
+    const allContentTypes = await space.getContentTypes();
     const allContentTypesIds = allContentTypes.items.map(({ sys: { id } }) => id);
 
     // Following eslint error is caused due to using async/await
@@ -49,9 +48,7 @@ export class AppView extends Component {
         appInstallationState: convertToAppInstallationState(appIsInstalled),
         allContentTypesIds
       },
-      () => {
-        sdk.platformAlpha.app.setReady();
-      }
+      () => app.setReady()
     );
 
     if (!appIsInstalled) {
@@ -122,7 +119,7 @@ export class AppView extends Component {
     // TODO: hack that determines when the app has been successfully installed.
     // To be done away with once the post installation hook is implemented.
     const appIsInstalledInterval = setInterval(async () => {
-      const appIsInstalled = await sdk.platformAlpha.app.isInstalled();
+      const appIsInstalled = await sdk.app.isInstalled();
 
       if (
         appIsInstalled &&
