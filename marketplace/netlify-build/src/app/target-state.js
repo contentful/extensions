@@ -1,10 +1,12 @@
 import get from 'lodash.get';
 
-export function currentStateToEnabledContentTypes(currentState) {
-  const eiState = get(currentState, ['EditorInterface'], {});
-  const ctIds = Object.keys(eiState);
+export function editorInterfacesToEnabledContentTypes(eis, appId) {
+  const findAppWidget = item => item.widgetNamespace === 'app' && item.widgetId === appId;
 
-  return ctIds.filter(id => !!get(eiState, [id, 'sidebar']));
+  return eis
+    .filter(ei => !!get(ei, ['sidebar'], []).find(findAppWidget))
+    .map(ei => get(ei, ['sys', 'contentType', 'sys', 'id']))
+    .filter(ctId => typeof ctId === 'string' && ctId.length > 0);
 }
 
 export function enabledContentTypesToTargetState(contentTypes, enabledContentTypes) {
