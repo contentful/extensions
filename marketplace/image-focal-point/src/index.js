@@ -100,7 +100,7 @@ export class App extends React.Component {
         return;
       }
 
-      const focalPoint = await this.props.sdk.dialogs.openExtension({
+      const focalPoint = await this.props.sdk.dialogs.openCurrentApp({
         width: 1000,
         parameters: {
           file,
