@@ -1,6 +1,6 @@
 import {
   getCompatibleFields,
-  currentStateToSelectedFields,
+  editorInterfacesToSelectedFields,
   selectedFieldsToTargetState
 } from './fields';
 
@@ -38,26 +38,41 @@ describe('fields', () => {
     });
   });
 
-  describe('currentStateToSelectedFields', () => {
+  describe('editorInterfacesToSelectedFields', () => {
     it('handles lack of editor interfaces gracefully', () => {
-      const result = currentStateToSelectedFields({});
+      const result = editorInterfacesToSelectedFields([], 'some-app');
 
       expect(result).toEqual({});
     });
 
     it('creates a map of selected fields from editor interface data', () => {
-      const result = currentStateToSelectedFields({
-        EditorInterface: {
-          ct1: {
-            controls: [{ fieldId: 'foo' }]
+      const result = editorInterfacesToSelectedFields(
+        [
+          {
+            sys: { contentType: { sys: { id: 'ct1' } } },
+            controls: [
+              { fieldId: 'foo', widgetNamespace: 'app', widgetId: 'some-app' },
+              { fieldId: 'bar', widgetNamespace: 'app', widgetId: 'some-diff-app' }
+            ]
           },
-          ct2: { controls: [] },
-          ct3: {},
-          ct4: {
-            controls: [{ fieldId: 'bar' }, { fieldId: 'baz' }]
+          {
+            sys: { contentType: { sys: { id: 'ct2' } } },
+            controls: []
+          },
+          {
+            sys: { contentType: { sys: { id: 'ct3' } } }
+          },
+          {
+            sys: { contentType: { sys: { id: 'ct4' } } },
+            controls: [
+              { fieldId: 'foo', widgetNamespace: 'builtin', widgetId: 'singleLine' },
+              { fieldId: 'bar', widgetNamespace: 'app', widgetId: 'some-app' },
+              { fieldId: 'baz', widgetNamespace: 'app', widgetId: 'some-app' }
+            ]
           }
-        }
-      });
+        ],
+        'some-app'
+      );
 
       expect(result).toEqual({
         ct1: ['foo'],
