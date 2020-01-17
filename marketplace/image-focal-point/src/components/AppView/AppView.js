@@ -79,7 +79,7 @@ export class AppView extends Component {
     const { isInstalled, allContentTypesIds, contentTypeId, contentTypeName } = this.state;
 
     if (isInstalled) {
-      sdk.notifier.error('Nothing to do: the app is already fully configured.');
+      sdk.notifier.success('The app is already fully configured.');
       return false;
     }
 
