@@ -1,0 +1,6 @@
+{
+  "id": "google-analytics-app",
+  "name": "google-analytics-app",
+  "srcdoc": "./build/index.html",
+  "sidebar": true
+}
