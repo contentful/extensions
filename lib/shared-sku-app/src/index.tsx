@@ -41,7 +41,7 @@ export function setup(integration: Integration) {
       );
     }
 
-    if (sdk.location.is(locations.LOCATION_APP)) {
+    if (sdk.location.is(locations.LOCATION_APP_CONFIG)) {
       render(
         <AppConfig
           name={integration.name}

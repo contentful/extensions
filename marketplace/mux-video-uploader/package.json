@@ -33,7 +33,7 @@
     "@contentful/forma-36-tokens": "^0.4.1",
     "@mux/upchunk": "^1.0.6",
     "@types/hls.js": "^0.12.3",
-    "contentful-ui-extensions-sdk": "3.9.0",
+    "contentful-ui-extensions-sdk": "^3.10.6",
     "core-js": "^3.0.1",
     "hls.js": "^0.12.4",
     "prop-types": "^15.7.2",

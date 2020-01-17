@@ -14,7 +14,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "bulma": "^0.7.5",
-    "contentful-ui-extensions-sdk": "3.9.0",
+    "contentful-ui-extensions-sdk": "^3.10.6",
     "lodash": "^4.17.14",
     "vue": "^2.6.10"
   },

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import uniqBy from 'lodash.uniqby';
 import {
-  currentStateToEnabledContentTypes,
+  editorInterfacesToEnabledContentTypes,
   enabledContentTypesToTargetState
 } from './target-state';
 
@@ -39,19 +39,18 @@ export default class NetlifyAppConfig extends React.Component {
   }
 
   init = async () => {
-    const { sdk } = this.props;
-    const { app } = sdk.platformAlpha;
+    const { space, app, ids } = this.props.sdk;
 
     app.onConfigure(this.onAppConfigure);
 
-    const [parameters, currentState, contentTypesResponse] = await Promise.all([
+    const [parameters, eisResponse, contentTypesResponse] = await Promise.all([
       app.getParameters(),
-      app.getCurrentState(),
-      sdk.space.getContentTypes()
+      space.getEditorInterfaces(),
+      space.getContentTypes()
     ]);
 
     const config = parametersToConfig(parameters);
-    const enabledContentTypes = currentStateToEnabledContentTypes(currentState);
+    const enabledContentTypes = editorInterfacesToEnabledContentTypes(eisResponse.items, ids.app);
 
     // First empty site (so no UI click is needed).
     if (!Array.isArray(config.sites) || config.sites.length < 1) {
@@ -97,7 +96,7 @@ export default class NetlifyAppConfig extends React.Component {
     }
 
     try {
-      const isInstalled = await this.props.sdk.platformAlpha.app.isInstalled();
+      const isInstalled = await this.props.sdk.app.isInstalled();
       const method = isInstalled ? 'update' : 'install';
       const config = await NetlifyIntegration[method]({
         config: this.state.config, // eslint-disable-line react/no-access-state-in-setstate

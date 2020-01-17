@@ -63,7 +63,7 @@ function renderDialog(sdk) {
 async function openDialog(sdk, currentValue, config) {
   const maxFiles = config.maxFiles - currentValue.length;
 
-  const result = await sdk.dialogs.openExtension({
+  const result = await sdk.dialogs.openCurrentApp({
     position: 'center',
     title: CTA,
     shouldCloseOnOverlayClick: true,

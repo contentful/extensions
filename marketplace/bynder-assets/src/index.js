@@ -57,7 +57,7 @@ function renderDialog(sdk) {
 }
 
 async function openDialog(sdk, _currentValue, config) {
-  const result = await sdk.dialogs.openExtension({
+  const result = await sdk.dialogs.openCurrentApp({
     position: 'center',
     title: CTA,
     shouldCloseOnOverlayClick: true,

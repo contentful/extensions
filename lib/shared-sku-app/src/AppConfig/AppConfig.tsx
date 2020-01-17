@@ -17,8 +17,9 @@ import { toInputParameters, toAppParameters } from './parameters';
 
 import {
   getCompatibleFields,
-  currentStateToSelectedFields,
+  editorInterfacesToSelectedFields,
   selectedFieldsToTargetState,
+  EditorInterface,
   ContentType,
   CompatibleFields,
   SelectedFields
@@ -100,17 +101,19 @@ export default class AppConfig extends React.Component<Props, State> {
   }
 
   init = async () => {
-    const { space, platformAlpha } = this.props.sdk;
+    const { space, app, ids } = this.props.sdk;
 
-    platformAlpha.app.onConfigure(this.onAppConfigure);
+    app.onConfigure(this.onAppConfigure);
 
-    const [contentTypesResponse, currentState, parameters] = await Promise.all([
+    const [contentTypesResponse, eisResponse, parameters] = await Promise.all([
       space.getContentTypes(),
-      platformAlpha.app.getCurrentState(),
-      platformAlpha.app.getParameters()
+      space.getEditorInterfaces(),
+      app.getParameters()
     ]);
 
     const contentTypes = contentTypesResponse.items as ContentType[];
+    const editorInterfaces = eisResponse.items as EditorInterface[];
+
     const compatibleFields = getCompatibleFields(contentTypes);
     const filteredContentTypes = contentTypes.filter(ct => {
       const fields = compatibleFields[ct.sys.id];
@@ -121,10 +124,10 @@ export default class AppConfig extends React.Component<Props, State> {
       {
         contentTypes: filteredContentTypes,
         compatibleFields,
-        selectedFields: currentStateToSelectedFields(currentState || {}),
+        selectedFields: editorInterfacesToSelectedFields(editorInterfaces, ids.app),
         parameters: toInputParameters(this.props.parameterDefinitions, parameters)
       },
-      () => platformAlpha.app.setReady()
+      () => app.setReady()
     );
   };
 

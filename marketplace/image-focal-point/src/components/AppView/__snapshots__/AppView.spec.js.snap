@@ -1,45 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppView should render the loading app view 1`] = `
-<div>
-  <div
-    class="css-1cyywdw"
-  />
-  <div
-    class="css-jwwzlh"
-  >
-    <div
-      class="Typography__Typography___1ZUfE"
-      data-test-id="cf-ui-text-container"
-    >
-      <h1
-        class="Heading__Heading___83D3K css-acwcvw f36-margin-bottom--m"
-        data-test-id="cf-ui-heading"
-      >
-        About Image Focal Point
-      </h1>
-      <p
-        class="Paragraph__Paragraph___2aO-9 f36-margin-bottom--m"
-        data-test-id="cf-ui-paragraph"
-      >
-        The Image Focal Point app allows you to associate focal point data with uploaded image assets, to achieve better cropping amongst different devices and screen sizes.
-      </p>
-      <hr
-        class="css-14380qe"
-      />
-    </div>
-  </div>
-  <div
-    class="css-13jvbbd"
-  >
-    <img
-      alt="logo"
-      src="app-logo.svg"
-    />
-  </div>
-</div>
-`;
-
 exports[`AppView when the app is installed should render the app view with configuration screen 1`] = `
 <div>
   <div
