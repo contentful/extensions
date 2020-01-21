@@ -1,5 +1,4 @@
 import CLayerAuth from '@commercelayer/js-auth';
-import CLayer from '@commercelayer/js-sdk';
 import chunk from 'lodash/chunk';
 import flatMap from 'lodash/flatMap';
 
@@ -21,43 +20,11 @@ function validateParameters(parameters) {
     return 'Provide your Commerce Layer client ID.';
   }
 
-  if (parameters.clientSecret.length < 1) {
-    return 'Provide your Commerce Layer client secret.';
-  }
-
   if (parameters.apiEndpoint.length < 1) {
     return 'Provide the Commerce Layer API endpoint.';
   }
 
   return null;
-}
-
-/**
- * The Commerce Layer client is currently used to fetch only the previews
- * for the selected products.
- *
- * To fetch all SKUs and to search through them we perform directly an HTTP
- * request to the corresponding endpoint.
- *
- * @see fetchSKUs for a more detailed explanation.
- */
-async function makeCommerceLayerClient({ parameters: { installation } }) {
-  const validationError = validateParameters(installation);
-  if (validationError) {
-    throw new Error(validationError);
-  }
-
-  const { clientId, apiEndpoint, clientSecret } = installation;
-  const auth = await CLayerAuth.integration({
-    clientId,
-    clientSecret,
-    endpoint: apiEndpoint
-  });
-
-  CLayer.init({
-    accessToken: auth.accessToken,
-    host: apiEndpoint.replace(/(https?:\/\/)/g, '')
-  });
 }
 
 /**
@@ -74,10 +41,10 @@ async function fetchSKUs(installationParams, search, pagination) {
     throw new Error(validationError);
   }
 
-  const { clientId, apiEndpoint, clientSecret } = installationParams;
-  const auth = await CLayerAuth.integration({
+  const { clientId, apiEndpoint } = installationParams;
+  const { accessToken } = await CLayerAuth.getIntegrationToken({
     clientId,
-    clientSecret,
+    clientSecret: '',
     endpoint: apiEndpoint
   });
 
@@ -88,7 +55,7 @@ async function fetchSKUs(installationParams, search, pagination) {
   const res = await fetch(URL, {
     headers: {
       Accept: 'application/vnd.api+json',
-      Authorization: `Bearer ${auth.accessToken}`
+      Authorization: `Bearer ${accessToken}`
     },
     method: 'GET'
   });
@@ -103,23 +70,35 @@ const fetchProductPreviews = async function fetchProductPreviews(skus, config) {
   if (!skus.length) {
     return [];
   }
-  await makeCommerceLayerClient({ parameters: { installation: config } });
+
+  const PREVIEWS_PER_PAGE = 25;
+
+  const { clientId, apiEndpoint } = config;
+  const { accessToken } = await CLayerAuth.getIntegrationToken({
+    clientId: clientId,
+    clientSecret: '',
+    endpoint: apiEndpoint
+  });
 
   // Commerce Layer's API automatically paginated results for collection endpoints.
   // Here we account for the edge case where the user has picked more than 25
   // products, which is the max amount of pagination results. We need to fetch
   // and compile the complete selection result doing 1 request per 25 items.
-  const PREVIEW_PER_PAGE = 25;
-  const resultPromises = chunk(skus, PREVIEW_PER_PAGE).map((_, index) =>
-    CLayer.Sku.where({ code_in: skus.join(',') })
-      .perPage(PREVIEW_PER_PAGE)
-      .page(index + 1)
-      .all()
-  );
-  const results = await Promise.all(resultPromises);
-  const products = flatMap(results, res => res.toArray()).map(dataTransformer(config.apiEndpoint));
+  const resultPromises = chunk(skus, PREVIEWS_PER_PAGE).map(async skusSubset => {
+    const URL = `${apiEndpoint}/api/skus?page[size]=${PREVIEWS_PER_PAGE}&filter[q][code_in]=${skusSubset}`;
+    const res = await fetch(URL, {
+      headers: {
+        Accept: 'application/vnd.api+json',
+        Authorization: `Bearer ${accessToken}`
+      },
+      method: 'GET'
+    });
+    return await res.json();
+  });
 
-  return products;
+  const results = await Promise.all(resultPromises);
+
+  return flatMap(results, ({ data }) => data.map(dataTransformer(config.apiEndpoint)));
 };
 
 async function renderDialog(sdk) {
