@@ -11,6 +11,8 @@ import { dataTransformer } from './dataTransformer';
 const DIALOG_ID = 'root';
 const PER_PAGE = 20;
 
+let accessToken = null;
+
 function makeCTA(fieldType) {
   return fieldType === 'Array' ? 'Select products' : 'Select a product';
 }
@@ -25,6 +27,22 @@ function validateParameters(parameters) {
   }
 
   return null;
+}
+
+async function getAccessToken(clientId, endpoint) {
+  if (!accessToken) {
+    /* eslint-disable-next-line require-atomic-updates */
+    accessToken = (await CLayerAuth.getIntegrationToken({
+      clientId,
+      endpoint,
+      // The empty client secret is needed for legacy reasons, as the
+      // CLayerAuth SDK will throw if not present. By setting to empty
+      // string we prevent the SDK exception and the value is ignored
+      // by the Commerce Layer Auth API.
+      clientSecret: ''
+    })).accessToken;
+  }
+  return accessToken;
 }
 
 /**
@@ -42,11 +60,7 @@ async function fetchSKUs(installationParams, search, pagination) {
   }
 
   const { clientId, apiEndpoint } = installationParams;
-  const { accessToken } = await CLayerAuth.getIntegrationToken({
-    clientId,
-    clientSecret: '',
-    endpoint: apiEndpoint
-  });
+  const accessToken = await getAccessToken(clientId, apiEndpoint);
 
   const URL = `${apiEndpoint}/api/skus?page[size]=${PER_PAGE}&page[number]=${pagination.offset /
     PER_PAGE +
@@ -74,11 +88,7 @@ const fetchProductPreviews = async function fetchProductPreviews(skus, config) {
   const PREVIEWS_PER_PAGE = 25;
 
   const { clientId, apiEndpoint } = config;
-  const { accessToken } = await CLayerAuth.getIntegrationToken({
-    clientId: clientId,
-    clientSecret: '',
-    endpoint: apiEndpoint
-  });
+  const accessToken = await getAccessToken(clientId, apiEndpoint);
 
   // Commerce Layer's API automatically paginated results for collection endpoints.
   // Here we account for the edge case where the user has picked more than 25
