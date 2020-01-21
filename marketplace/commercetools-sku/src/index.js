@@ -109,6 +109,7 @@ async function renderDialog(sdk) {
     },
     mode: 'embedded',
     searchLanguage: locale,
+    selectionMode: sdk.parameters.invocation.fieldType === 'Array' ? 'multiple' : 'single',
     uiLocale: 'en-US',
     displayOptions: {
       showHeader: false,
