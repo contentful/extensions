@@ -72,7 +72,7 @@ const styles = {
     fontSize: tokens.fontSizeS,
     marginTop: 0,
     marginBottom: 0,
-    maxWidth: '290px',
+    maxWidth: '289px',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap'
