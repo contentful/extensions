@@ -30,21 +30,39 @@ export const fetchProductPreviews = async (skus, config) => {
     return [];
   }
 
-  const res = await window.fetch(`https://${config.apiEndpoint}/api/2019-10/graphql`, {
+  const ids = skus.map(sku => `"${sku}"`).join(',');
+
+  const query = `
+  {
+    nodes (ids: [${ids}]) {
+      id,
+      ...on ProductVariant {
+        sku,
+        image {
+          src: originalSrc
+        },
+        title,
+        product {
+          id,
+          title
+        }
+      }
+    }
+  }
+  `;
+
+  const { apiEndpoint, storefrontAccessToken } = config;
+
+  const res = await window.fetch(`https://${apiEndpoint}/api/2019-10/graphql`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'x-shopify-storefront-access-token': config.storefrontAccessToken
+      'x-shopify-storefront-access-token': storefrontAccessToken
     },
-    body: JSON.stringify({
-      query: `{nodes (ids: [${skus
-        .map(sku => `"${sku}"`)
-        .join(
-          ','
-        )}]) { id, __typename ...on ProductVariant { sku, image { src: originalSrc }, title, product { id, title } } }}`
-    })
+    body: JSON.stringify({ query })
   });
+
   const { data } = await res.json();
 
   return data.nodes.map(previewsToVariants(config));
