@@ -25,21 +25,19 @@ describe('AppPage', () => {
   it('should render the Optimizely config and allow for adding content types', async () => {
     let configFunc = null;
 
-    const platformAlpha = {
+    const sdk = {
+      ...basicProps.sdk,
+      space: {
+        getContentTypes: jest.fn(() => Promise.resolve(contentTypesData))
+      },
       app: {
+        setReady: jest.fn(),
         getParameters: jest.fn(() => Promise.resolve({ optimizelyProjectId: '123' })),
         onConfigure: jest.fn(fn => {
           configFunc = fn;
-        }),
-        setReady: jest.fn()
+        })
       }
     };
-
-    const space = {
-      getContentTypes: jest.fn(() => Promise.resolve(contentTypesData))
-    };
-
-    const sdk = { ...basicProps.sdk, platformAlpha, space };
 
     const props = { ...basicProps, accessToken: '123', sdk };
 

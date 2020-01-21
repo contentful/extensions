@@ -55,7 +55,7 @@ export default class Sidebar extends React.Component {
       body: JSON.stringify({})
     }).then(
       () => this.props.sdk.notifier.success('Gatsby Preview updated!'),
-      () => this.props.sdk.notifier.error('Gatsby Preview failed :(')
+      () => this.props.sdk.notifier.error('Updating Gatsby Preview failed.')
     );
   };
 

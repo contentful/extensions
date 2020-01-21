@@ -10,15 +10,34 @@ import { styles } from './styles';
 
 import appLogo from './app-logo.svg';
 
-const APP_INSTALLATION_STATE = {
-  LOADING: 'LOADING',
-  INSTALLED: 'INSTALLED',
-  NOT_INSTALLED: 'NOT_INSTALLED'
-};
-
-function convertToAppInstallationState(appIsInstalled) {
-  return appIsInstalled ? APP_INSTALLATION_STATE.INSTALLED : APP_INSTALLATION_STATE.NOT_INSTALLED;
-}
+const makeContentType = (contentTypeId, contentTypeName) => ({
+  sys: {
+    id: contentTypeId
+  },
+  name: contentTypeName,
+  displayField: 'title',
+  fields: [
+    {
+      id: 'title',
+      name: 'Title',
+      required: true,
+      type: 'Symbol'
+    },
+    {
+      id: 'image',
+      name: 'Image',
+      required: true,
+      type: 'Link',
+      linkType: 'Asset'
+    },
+    {
+      id: 'focalPoint',
+      name: 'Focal point',
+      required: true,
+      type: 'Object'
+    }
+  ]
+});
 
 export class AppView extends Component {
   static propTypes = {
@@ -26,88 +45,63 @@ export class AppView extends Component {
   };
 
   state = {
+    isInstalled: false,
     allContentTypesIds: [],
-    appInstallationState: APP_INSTALLATION_STATE.LOADING,
     contentTypeId: camelCase('Image with Focal Point'),
     contentTypeName: 'Image with Focal Point',
     isContentTypeIdPristine: true
   };
 
   async componentDidMount() {
-    const { sdk } = this.props;
-    const { app } = sdk.platformAlpha;
+    const { space, app } = this.props.sdk;
 
-    const appIsInstalled = await app.isInstalled();
+    const [isInstalled, allContentTypes] = await Promise.all([
+      app.isInstalled(),
+      space.getContentTypes()
+    ]);
 
-    const allContentTypes = await sdk.space.getContentTypes();
     const allContentTypesIds = allContentTypes.items.map(({ sys: { id } }) => id);
 
     // Following eslint error is caused due to using async/await
     // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState(
-      {
-        appInstallationState: convertToAppInstallationState(appIsInstalled),
-        allContentTypesIds
-      },
-      () => {
-        sdk.platformAlpha.app.setReady();
-      }
-    );
+    this.setState({ isInstalled, allContentTypesIds }, () => app.setReady());
 
-    if (!appIsInstalled) {
-      app.onConfigure(this.installApp);
-    }
+    app.onConfigure(this.installApp);
+    app.onConfigurationCompleted(err => {
+      if (!err) {
+        this.setState({ isInstalled: true });
+      }
+    });
   }
 
   installApp = async () => {
-    const { allContentTypesIds, contentTypeId, contentTypeName } = this.state;
+    const { sdk } = this.props;
+    const { isInstalled, allContentTypesIds, contentTypeId, contentTypeName } = this.state;
+
+    if (isInstalled) {
+      sdk.notifier.success('The app is already fully configured.');
+      return false;
+    }
 
     if (!contentTypeName) {
-      this.props.sdk.notifier.error('Provide a name for the content type.');
+      sdk.notifier.error('Provide a name for the content type.');
       return false;
     }
 
     const isContentTypeIdTaken = allContentTypesIds.includes(contentTypeId);
     if (isContentTypeIdTaken) {
-      this.props.sdk.notifier.error(
+      sdk.notifier.error(
         `ID "${contentTypeId}" is taken. Try a different name for the content type`
       );
       return false;
     }
 
-    const { sdk } = this.props;
     let contentType = null;
     try {
-      contentType = await sdk.space.createContentType({
-        sys: {
-          id: contentTypeId
-        },
-        name: contentTypeName,
-        displayField: 'title',
-        fields: [
-          {
-            id: 'title',
-            name: 'Title',
-            required: true,
-            type: 'Symbol'
-          },
-          {
-            id: 'image',
-            name: 'Image',
-            required: true,
-            type: 'Link',
-            linkType: 'Asset'
-          },
-          {
-            id: 'focalPoint',
-            name: 'Focal point',
-            required: true,
-            type: 'Object'
-          }
-        ]
-      });
+      const data = makeContentType(contentTypeId, contentTypeName);
+      contentType = await sdk.space.createContentType(data);
     } catch (error) {
-      this.props.sdk.notifier.error(`Failed to create content type "${contentTypeName}"`);
+      sdk.notifier.error(`Failed to create content type "${contentTypeName}"`);
       return false;
     }
 
@@ -115,23 +109,9 @@ export class AppView extends Component {
     try {
       await sdk.space.updateContentType(contentType);
     } catch (error) {
-      this.props.sdk.notifier.error(`Failed to publish content type "${contentTypeName}"`);
+      sdk.notifier.error(`Failed to publish content type "${contentTypeName}"`);
       return false;
     }
-
-    // TODO: hack that determines when the app has been successfully installed.
-    // To be done away with once the post installation hook is implemented.
-    const appIsInstalledInterval = setInterval(async () => {
-      const appIsInstalled = await sdk.platformAlpha.app.isInstalled();
-
-      if (
-        appIsInstalled &&
-        this.state.appInstallationState === APP_INSTALLATION_STATE.NOT_INSTALLED
-      ) {
-        this.setState({ appInstallationState: convertToAppInstallationState(appIsInstalled) });
-        clearInterval(appIsInstalledInterval);
-      }
-    }, 100);
 
     return {
       targetState: {
@@ -164,7 +144,7 @@ export class AppView extends Component {
     });
 
   render() {
-    const { appInstallationState, allContentTypesIds, contentTypeId, contentTypeName } = this.state;
+    const { isInstalled, allContentTypesIds, contentTypeId, contentTypeName } = this.state;
 
     return (
       <>
@@ -177,8 +157,8 @@ export class AppView extends Component {
               assets, to achieve better cropping amongst different devices and screen sizes.
             </Paragraph>
             <Divider />
-            {appInstallationState === APP_INSTALLATION_STATE.INSTALLED && <ConfigurationContent />}
-            {appInstallationState === APP_INSTALLATION_STATE.NOT_INSTALLED && (
+            {isInstalled && <ConfigurationContent />}
+            {!isInstalled && (
               <InstallationContent
                 allContentTypesIds={allContentTypesIds}
                 contentTypeId={contentTypeId}

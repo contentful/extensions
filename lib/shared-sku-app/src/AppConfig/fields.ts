@@ -17,9 +17,19 @@ export interface ContentType {
   fields?: Field[];
 }
 
+interface Control {
+  fieldId: string;
+  widgetNamespace: string;
+  widgetId: string;
+}
+
+export interface EditorInterface {
+  sys: { contentType: { sys: { id: string } } };
+  controls?: Control[];
+}
+
 export type CompatibleFields = Record<string, Field[]>;
 export type SelectedFields = Record<string, string[] | undefined>;
-type EditorInterfaceState = { controls?: { fieldId: string }[] };
 
 function isCompatibleField(field: Field) {
   const isArray = field.type === 'Array';
@@ -35,17 +45,19 @@ export function getCompatibleFields(contentTypes: ContentType[]): CompatibleFiel
   }, {});
 }
 
-export function currentStateToSelectedFields(currentState: Record<string, any>): SelectedFields {
-  const eiState = get(currentState, ['EditorInterface'], {}) as Record<
-    string,
-    EditorInterfaceState
-  >;
+export function editorInterfacesToSelectedFields(
+  eis: EditorInterface[],
+  appId?: string
+): SelectedFields {
+  return eis.reduce((acc, ei) => {
+    const ctId = get(ei, ['sys', 'contentType', 'sys', 'id']);
+    const fieldIds = get(ei, ['controls'], [])
+      .filter(control => control.widgetNamespace === 'app' && control.widgetId === appId)
+      .map(control => control.fieldId)
+      .filter(fieldId => typeof fieldId === 'string' && fieldId.length > 0);
 
-  return Object.keys(eiState).reduce((acc, ctId) => {
-    const { controls } = eiState[ctId];
-
-    if (controls && controls.length > 0) {
-      return { ...acc, [ctId]: controls.map(c => c.fieldId) };
+    if (ctId && fieldIds.length > 0) {
+      return { ...acc, [ctId]: fieldIds };
     } else {
       return acc;
     }

@@ -1,31 +1,55 @@
 import {
-  currentStateToEnabledContentTypes,
+  editorInterfacesToEnabledContentTypes,
   enabledContentTypesToTargetState
 } from '../../src/app/target-state';
 
 describe('target-state', () => {
-  describe('currentStateToEnabledContentTypes', () => {
-    it('returns an empty array if there are no editor interfaces in target state', () => {
-      const enabledContentTypes = currentStateToEnabledContentTypes({});
+  describe('editorInterfacesToEnabledContentTypes', () => {
+    it('returns an empty array if there are no editor interfaces in a space', () => {
+      const enabledContentTypes = editorInterfacesToEnabledContentTypes([], 'some-app');
 
       expect(enabledContentTypes).toEqual([]);
     });
 
-    it('returns an array of content types with sidebar defined', () => {
-      const enabledContentTypes = currentStateToEnabledContentTypes({
-        EditorInterface: {
-          ct1: {
-            sidebar: { position: 2 }
+    it('returns an array of content types with sidebar using app', () => {
+      const enabledContentTypes = editorInterfacesToEnabledContentTypes(
+        [
+          {
+            sys: { contentType: { sys: { id: 'ct1' } } },
+            // "some-app" app in the sidebar - enabled.
+            sidebar: [{ widgetNamespace: 'app', widgetId: 'some-app' }]
           },
-          ct2: {
-            editor: true
+          {
+            sys: {
+              contentType: { sys: { id: 'ct1' } },
+              // "some-app" app in controls and editor but not in sidebar - not enabled.
+              controls: [{ fieldId: 'title', widgetNamespace: 'app', widgetId: 'some-app' }],
+              editor: {
+                widgetNamespace: 'app',
+                widgetId: 'some-app'
+              }
+            }
           },
-          ct3: {
-            sidebar: { position: 8 },
-            editor: true
+          {
+            sys: { contentType: { sys: { id: 'ct3' } } },
+            sidebar: [
+              { widgetNamespace: 'extension', widgetId: 'some-ext' },
+              { widgetNamespace: 'builtin-sidebar', widgetId: 'publish-button' },
+              // "some-app" app deep in the sidebar - still enabled.
+              { widgetNamespace: 'app', widgetId: 'some-app' }
+            ]
+          },
+          {
+            sys: { contentType: { sys: { id: 'ct4' } } },
+            sidebar: [
+              { widgetNamespace: 'app', widgetId: 'some-diff-app' },
+              // "some-app" ID is used for an extension, not an app - not enabled.
+              { widgetNamespace: 'extension', widgetId: 'some-app' }
+            ]
           }
-        }
-      });
+        ],
+        'some-app'
+      );
 
       expect(enabledContentTypes).toEqual(['ct1', 'ct3']);
     });

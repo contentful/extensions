@@ -15,7 +15,7 @@ init(sdk => {
 
   if (sdk.location.is(locations.LOCATION_ENTRY_SIDEBAR)) {
     render(<Sidebar sdk={sdk} />, root);
-  } else if (sdk.location.is(locations.LOCATION_APP)) {
+  } else if (sdk.location.is(locations.LOCATION_APP_CONFIG)) {
     render(<AppConfig sdk={sdk} />, root);
   }
 });

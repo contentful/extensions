@@ -14,12 +14,11 @@ const props = {
         items: []
       }))
     },
-    platformAlpha: {
-      app: {
-        onConfigure: jest.fn(),
-        isInstalled: jest.fn(),
-        setReady: jest.fn()
-      }
+    app: {
+      setReady: jest.fn(),
+      isInstalled: jest.fn(),
+      onConfigure: jest.fn(),
+      onConfigurationCompleted: jest.fn()
     }
   }
 };
@@ -27,15 +26,8 @@ const props = {
 describe('AppView', () => {
   afterEach(() => cleanup());
 
-  it('should render the loading app view', () => {
-    const { container } = render(<AppView {...props} />);
-    expect(container).toMatchSnapshot();
-  });
-
   describe('when the app is not installed', () => {
-    beforeEach(() =>
-      props.sdk.platformAlpha.app.isInstalled.mockImplementation(() => Promise.resolve(false))
-    );
+    beforeEach(() => props.sdk.app.isInstalled.mockImplementation(() => Promise.resolve(false)));
 
     it('should render the app view with installation screen', async () => {
       const appView = render(<AppView {...props} />);
@@ -71,7 +63,7 @@ describe('AppView', () => {
 
   describe('when the app is installed', () => {
     it('should render the app view with configuration screen', async () => {
-      props.sdk.platformAlpha.app.isInstalled.mockImplementation(() => true);
+      props.sdk.app.isInstalled.mockImplementation(() => true);
       const appView = render(<AppView {...props} />);
       await wait();
       expect(appView.container).toMatchSnapshot();

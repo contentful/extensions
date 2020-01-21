@@ -12,15 +12,8 @@ global.window.localStorage = {
   setItem: () => {}
 };
 
-const LOCATIONS = {
-  LOCATION_ENTRY_FIELD: 'entry-field',
-  LOCATION_ENTRY_FIELD_SIDEBAR: 'entry-field-sidebar',
-  LOCATION_ENTRY_SIDEBAR: 'entry-sidebar',
-  LOCATION_DIALOG: 'dialog',
-  LOCATION_ENTRY_EDITOR: 'entry-editor',
-  LOCATION_PAGE: 'page',
-  LOCATION_APP: 'app'
-};
+const LOCATION_ENTRY_SIDEBAR = 'entry-sidebar';
+const LOCATION_ENTRY_EDITOR = 'entry-editor';
 
 let LOCATION = '';
 let PROJECT_ID = '';
@@ -162,7 +155,7 @@ describe('Optimizely App', () => {
   });
 
   it('should render the missing project on the sidebar', () => {
-    LOCATION = LOCATIONS.LOCATION_ENTRY_SIDEBAR;
+    LOCATION = LOCATION_ENTRY_SIDEBAR;
     const sdk = mockSdk();
     const { getByTestId } = render(<App sdk={sdk} />);
 
@@ -170,7 +163,7 @@ describe('Optimizely App', () => {
   });
 
   it('should render the sidebar', () => {
-    LOCATION = LOCATIONS.LOCATION_ENTRY_SIDEBAR;
+    LOCATION = LOCATION_ENTRY_SIDEBAR;
     PROJECT_ID = '123';
     const sdk = mockSdk();
     const { getByTestId } = render(<App sdk={sdk} />);
@@ -179,7 +172,7 @@ describe('Optimizely App', () => {
   });
 
   it('should render the incorrect type message', () => {
-    LOCATION = LOCATIONS.LOCATION_ENTRY_EDITOR;
+    LOCATION = LOCATION_ENTRY_EDITOR;
     PROJECT_ID = '123';
     const sdk = mockSdk();
 
@@ -188,7 +181,7 @@ describe('Optimizely App', () => {
   });
 
   it('should render the editor page', () => {
-    LOCATION = LOCATIONS.LOCATION_ENTRY_EDITOR;
+    LOCATION = LOCATION_ENTRY_EDITOR;
     PROJECT_ID = '123';
     VALID_FIELDS = true;
     const sdk = mockSdk();

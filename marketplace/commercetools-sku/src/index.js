@@ -132,7 +132,7 @@ async function renderDialog(sdk) {
 }
 
 async function openDialog(sdk, currentValue, config) {
-  const skus = await sdk.dialogs.openExtension({
+  const skus = await sdk.dialogs.openCurrentApp({
     position: 'center',
     title: makeCTA(sdk.field.type),
     shouldCloseOnOverlayClick: true,

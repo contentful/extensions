@@ -36,16 +36,17 @@ const contentTypes = [
 ];
 
 const makeSdkMock = () => ({
-  space: {
-    getContentTypes: jest.fn().mockResolvedValue({ items: contentTypes })
+  ids: {
+    app: 'some-app'
   },
-  platformAlpha: {
-    app: {
-      getParameters: jest.fn().mockResolvedValue(null),
-      getCurrentState: jest.fn().mockResolvedValue(null),
-      onConfigure: jest.fn().mockReturnValue(undefined),
-      setReady: jest.fn()
-    }
+  space: {
+    getContentTypes: jest.fn().mockResolvedValue({ items: contentTypes }),
+    getEditorInterfaces: jest.fn().mockResolvedValue({ items: [] })
+  },
+  app: {
+    setReady: jest.fn(),
+    getParameters: jest.fn().mockResolvedValue(null),
+    onConfigure: jest.fn().mockReturnValue(undefined)
   }
 });
 
@@ -93,7 +94,7 @@ describe('AppConfig', () => {
 
   it('renders app after installation', async () => {
     const sdk = makeSdkMock();
-    sdk.platformAlpha.app.getParameters.mockResolvedValueOnce({
+    sdk.app.getParameters.mockResolvedValueOnce({
       projectKey: 'some-key',
       clientId: '12345',
       clientSecret: 'some-secret',
@@ -101,12 +102,17 @@ describe('AppConfig', () => {
       authApiEndpoint: 'some-auth-endpoint',
       locale: 'en'
     });
-    sdk.platformAlpha.app.getCurrentState.mockResolvedValueOnce({
-      EditorInterface: {
-        ct3: {
-          controls: [{ fieldId: 'product_a' }, { fieldId: 'product_d' }]
+    sdk.space.getEditorInterfaces.mockResolvedValueOnce({
+      items: [
+        {
+          sys: { contentType: { sys: { id: 'ct3' } } },
+          controls: [
+            { fieldId: 'product_a', widgetNamespace: 'app', widgetId: 'some-app' },
+            { fieldId: 'bar', widgetNamespace: 'app', widgetId: 'some-diff-app' },
+            { fieldId: 'product_d', widgetNamespace: 'app', widgetId: 'some-app' }
+          ]
         }
-      }
+      ]
     });
 
     const { getByLabelText } = renderComponent(sdk);
@@ -149,7 +155,7 @@ describe('AppConfig', () => {
     const fieldCheckbox = getByLabelText(/Product D$/) as HTMLInputElement;
     fireEvent.click(fieldCheckbox);
 
-    const onConfigure = sdk.platformAlpha.app.onConfigure.mock.calls[0][0];
+    const onConfigure = sdk.app.onConfigure.mock.calls[0][0];
     const configurationResult = onConfigure();
 
     expect(configurationResult).toEqual({
