@@ -34,9 +34,10 @@
   },
   "dependencies": {
     "@contentful/forma-36-fcss": "^0.0.20",
-    "@contentful/forma-36-react-components": "^3.11.3",
+    "@contentful/forma-36-react-components": "^3.28.9",
     "@contentful/forma-36-tokens": "^0.3.0",
-    "contentful-ui-extensions-sdk": "3.9.0",
+    "contentful-ui-extensions-sdk": "3.10.6",
+    "emotion": "^10.0.27",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"

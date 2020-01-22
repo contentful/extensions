@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render, fireEvent, cleanup, configure } from '@testing-library/react';
-import { DialogExtension, SidebarExtension } from './index';
+import { AppConfig, SidebarExtension } from './index';
 
 configure({
   testIdAttribute: 'data-test-id'
@@ -15,7 +15,7 @@ describe('DialogExtension', () => {
     const sdk: any = {
       close: jest.fn()
     };
-    const { getByTestId } = render(<DialogExtension sdk={sdk} />);
+    const { getByTestId } = render(<AppConfig sdk={sdk} />);
 
     fireEvent.click(getByTestId('close-dialog'));
     expect(sdk.close).toHaveBeenCalledWith('data from modal dialog');

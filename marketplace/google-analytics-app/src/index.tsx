@@ -1,39 +1,59 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { Button } from '@contentful/forma-36-react-components';
+// import PropTypes from 'prop-types';
 import {
   init,
   locations,
-  DialogExtensionSDK,
+  AppExtensionSDK,
   SidebarExtensionSDK
 } from 'contentful-ui-extensions-sdk';
-import tokens from '@contentful/forma-36-tokens';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
+import AppConfig from './AppConfig';
 
-export class DialogExtension extends React.Component<{
-  sdk: DialogExtensionSDK;
-}> {
-  render() {
-    return (
-      <div style={{ margin: tokens.spacingM }}>
-        <Button
-          testId="close-dialog"
-          buttonType="muted"
-          onClick={() => {
-            this.props.sdk.close('data from modal dialog');
-          }}>
-          Close modal
-        </Button>
-      </div>
-    );
+import Analytics from './Analytics';
+
+const CLIENT_ID = '318721834234-s3td95ohvub1bkksn3aicimnltvmtts8.apps.googleusercontent.com';
+
+export class SidebarExtension extends React.Component<
+  {
+    sdk: SidebarExtensionSDK;
+  },
+  {
+    parameters: object;
+    isAuthorized: boolean;
+    hasSlug: boolean;
+    pagePath: boolean;
   }
-}
+> {
+  constructor(props) {
+    super(props);
+    const { sdk } = props;
+    const { parameters, entry } = sdk;
+    const { prefix, slugId } = parameters;
+    const hasSlug = slugId in entry.fields;
 
-export class SidebarExtension extends React.Component<{
-  sdk: SidebarExtensionSDK;
-}> {
+    const pagePath = hasSlug
+      ? `/${prefix ? `${prefix}/` : ''}${entry.fields[slugId].getValue()}/`
+      : '';
+
+    this.state = {
+      isAuthorized: false,
+      hasSlug,
+      pagePath
+    };
+  }
+
   componentDidMount() {
+    const { auth } = window.gapi.analytics;
+
+    auth.on('signIn', () => this.setState({ isAuthorized: true }));
+    auth.on('signOut', () => this.setState({ isAuthorized: false }));
+    auth.authorize({
+      container: 'auth-button',
+      clientid: CLIENT_ID
+    });
+
     this.props.sdk.window.startAutoResizer();
   }
 
@@ -47,21 +67,29 @@ export class SidebarExtension extends React.Component<{
   };
 
   render() {
+    const { isAuthorized, pagePath, hasSlug } = this.state;
+    const { sdk } = this.props;
+    const { parameters } = sdk;
+
+    if (!isAuthorized) {
+      return null;
+    }
+
+    if (!hasSlug) {
+      return <p>Slug field is not correctly defined.</p>;
+    }
+
     return (
-      <Button
-        testId="open-dialog"
-        buttonType="positive"
-        isFullWidth={true}
-        onClick={this.onButtonClick}>
-        Click on me to open dialog extension
-      </Button>
+      <section>
+        <Analytics pagePath={pagePath} viewId={parameters.viewId} />
+      </section>
     );
   }
 }
 
 init(sdk => {
-  if (sdk.location.is(locations.LOCATION_DIALOG)) {
-    render(<DialogExtension sdk={sdk as DialogExtensionSDK} />, document.getElementById('root'));
+  if (sdk.location.is(locations.LOCATION_APP_CONFIG)) {
+    render(<AppConfig sdk={sdk as AppExtensionSDK} />, document.getElementById('root'));
   } else {
     render(<SidebarExtension sdk={sdk as SidebarExtensionSDK} />, document.getElementById('root'));
   }
