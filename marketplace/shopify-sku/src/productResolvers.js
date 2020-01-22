@@ -2,7 +2,7 @@ import Client from 'shopify-buy';
 import makePagination from './Pagination';
 
 import { validateParameters } from '.';
-import { dataTransformer, productPreviewsToVariantsTransformer } from './dataTransformer';
+import { previewsToVariants } from './dataTransformer';
 
 export async function makeShopifyClient({ parameters: { installation } }) {
   const validationError = validateParameters(installation);
@@ -29,15 +29,43 @@ export const fetchProductPreviews = async (skus, config) => {
   if (!skus.length) {
     return [];
   }
-  const client = await makeShopifyClient({ parameters: { installation: config } });
-  const query = {
-    first: 250,
-    query: `variants:['sku:${skus.join(' OR ')}']`
-  };
-  const products = await client.product.fetchQuery(query);
-  const variants = productPreviewsToVariantsTransformer(products, skus);
 
-  return variants.map(dataTransformer(config));
+  const ids = skus.map(sku => `"${sku}"`).join(',');
+
+  const query = `
+  {
+    nodes (ids: [${ids}]) {
+      id,
+      ...on ProductVariant {
+        sku,
+        image {
+          src: originalSrc
+        },
+        title,
+        product {
+          id,
+          title
+        }
+      }
+    }
+  }
+  `;
+
+  const { apiEndpoint, storefrontAccessToken } = config;
+
+  const res = await window.fetch(`https://${apiEndpoint}/api/2019-10/graphql`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'x-shopify-storefront-access-token': storefrontAccessToken
+    },
+    body: JSON.stringify({ query })
+  });
+
+  const { data } = await res.json();
+
+  return data.nodes.map(previewsToVariants(config));
 };
 
 /**

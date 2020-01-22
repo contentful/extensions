@@ -13,8 +13,7 @@
     "cssnano": "4.1.10"
   },
   "dependencies": {
-    "@commercelayer/js-auth": "^1.0.1",
-    "@commercelayer/js-sdk": "^1.0.0",
+    "@commercelayer/js-auth": "2.0.1",
     "core-js": "3.4.1",
     "shared-sku-app": "^1.0.0"
   },

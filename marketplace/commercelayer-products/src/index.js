@@ -1,5 +1,4 @@
 import CLayerAuth from '@commercelayer/js-auth';
-import CLayer from '@commercelayer/js-sdk';
 import chunk from 'lodash/chunk';
 import flatMap from 'lodash/flatMap';
 
@@ -12,6 +11,8 @@ import { dataTransformer } from './dataTransformer';
 const DIALOG_ID = 'root';
 const PER_PAGE = 20;
 
+let accessToken = null;
+
 function makeCTA(fieldType) {
   return fieldType === 'Array' ? 'Select products' : 'Select a product';
 }
@@ -21,10 +22,6 @@ function validateParameters(parameters) {
     return 'Provide your Commerce Layer client ID.';
   }
 
-  if (parameters.clientSecret.length < 1) {
-    return 'Provide your Commerce Layer client secret.';
-  }
-
   if (parameters.apiEndpoint.length < 1) {
     return 'Provide the Commerce Layer API endpoint.';
   }
@@ -32,32 +29,20 @@ function validateParameters(parameters) {
   return null;
 }
 
-/**
- * The Commerce Layer client is currently used to fetch only the previews
- * for the selected products.
- *
- * To fetch all SKUs and to search through them we perform directly an HTTP
- * request to the corresponding endpoint.
- *
- * @see fetchSKUs for a more detailed explanation.
- */
-async function makeCommerceLayerClient({ parameters: { installation } }) {
-  const validationError = validateParameters(installation);
-  if (validationError) {
-    throw new Error(validationError);
+async function getAccessToken(clientId, endpoint) {
+  if (!accessToken) {
+    /* eslint-disable-next-line require-atomic-updates */
+    accessToken = (await CLayerAuth.getIntegrationToken({
+      clientId,
+      endpoint,
+      // The empty client secret is needed for legacy reasons, as the
+      // CLayerAuth SDK will throw if not present. By setting to empty
+      // string we prevent the SDK exception and the value is ignored
+      // by the Commerce Layer Auth API.
+      clientSecret: ''
+    })).accessToken;
   }
-
-  const { clientId, apiEndpoint, clientSecret } = installation;
-  const auth = await CLayerAuth.integration({
-    clientId,
-    clientSecret,
-    endpoint: apiEndpoint
-  });
-
-  CLayer.init({
-    accessToken: auth.accessToken,
-    host: apiEndpoint.replace(/(https?:\/\/)/g, '')
-  });
+  return accessToken;
 }
 
 /**
@@ -74,12 +59,8 @@ async function fetchSKUs(installationParams, search, pagination) {
     throw new Error(validationError);
   }
 
-  const { clientId, apiEndpoint, clientSecret } = installationParams;
-  const auth = await CLayerAuth.integration({
-    clientId,
-    clientSecret,
-    endpoint: apiEndpoint
-  });
+  const { clientId, apiEndpoint } = installationParams;
+  const accessToken = await getAccessToken(clientId, apiEndpoint);
 
   const URL = `${apiEndpoint}/api/skus?page[size]=${PER_PAGE}&page[number]=${pagination.offset /
     PER_PAGE +
@@ -88,7 +69,7 @@ async function fetchSKUs(installationParams, search, pagination) {
   const res = await fetch(URL, {
     headers: {
       Accept: 'application/vnd.api+json',
-      Authorization: `Bearer ${auth.accessToken}`
+      Authorization: `Bearer ${accessToken}`
     },
     method: 'GET'
   });
@@ -103,23 +84,31 @@ const fetchProductPreviews = async function fetchProductPreviews(skus, config) {
   if (!skus.length) {
     return [];
   }
-  await makeCommerceLayerClient({ parameters: { installation: config } });
+
+  const PREVIEWS_PER_PAGE = 25;
+
+  const { clientId, apiEndpoint } = config;
+  const accessToken = await getAccessToken(clientId, apiEndpoint);
 
   // Commerce Layer's API automatically paginated results for collection endpoints.
   // Here we account for the edge case where the user has picked more than 25
   // products, which is the max amount of pagination results. We need to fetch
   // and compile the complete selection result doing 1 request per 25 items.
-  const PREVIEW_PER_PAGE = 25;
-  const resultPromises = chunk(skus, PREVIEW_PER_PAGE).map((_, index) =>
-    CLayer.Sku.where({ code_in: skus.join(',') })
-      .perPage(PREVIEW_PER_PAGE)
-      .page(index + 1)
-      .all()
-  );
-  const results = await Promise.all(resultPromises);
-  const products = flatMap(results, res => res.toArray()).map(dataTransformer(config.apiEndpoint));
+  const resultPromises = chunk(skus, PREVIEWS_PER_PAGE).map(async skusSubset => {
+    const URL = `${apiEndpoint}/api/skus?page[size]=${PREVIEWS_PER_PAGE}&filter[q][code_in]=${skusSubset}`;
+    const res = await fetch(URL, {
+      headers: {
+        Accept: 'application/vnd.api+json',
+        Authorization: `Bearer ${accessToken}`
+      },
+      method: 'GET'
+    });
+    return await res.json();
+  });
 
-  return products;
+  const results = await Promise.all(resultPromises);
+
+  return flatMap(results, ({ data }) => data.map(dataTransformer(config.apiEndpoint)));
 };
 
 async function renderDialog(sdk) {

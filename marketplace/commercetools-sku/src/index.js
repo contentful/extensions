@@ -108,11 +108,12 @@ async function renderDialog(sdk) {
     }
   });
 
-  sdk.window.updateHeight(window.outerHeight);
+  sdk.window.startAutoResizer();
 }
 
 async function openDialog(sdk, currentValue, config) {
   const skus = await sdk.dialogs.openCurrentApp({
+    allowHeightOverflow: true,
     position: 'center',
     title: makeCTA(sdk.field.type),
     shouldCloseOnOverlayClick: true,

@@ -13,13 +13,6 @@
         "required": true
       },
       {
-        "id": "clientSecret",
-        "name": "Client Secret",
-        "description": "The client secret",
-        "type": "Symbol",
-        "required": true
-      },
-      {
         "id": "apiEndpoint",
         "name": "API Endpoint",
         "description": "The Commerce Layer API endpoint",
