@@ -111,7 +111,7 @@ exports[`SkuPicker should render successfully with no products selected 1`] = `
             Dress Twin-Set rose
           </p>
           <p
-            class="css-1kn9x3e"
+            class="css-1tx1iym"
           >
             M0E20130820E90Z
           </p>
@@ -149,7 +149,7 @@ exports[`SkuPicker should render successfully with no products selected 1`] = `
             Michael Kors – Shopper “Jet Set Travel”
           </p>
           <p
-            class="css-1kn9x3e"
+            class="css-1tx1iym"
           >
             A0E2300FX102203
           </p>
@@ -187,7 +187,7 @@ exports[`SkuPicker should render successfully with no products selected 1`] = `
             Shirt “Jenny“ Polo Ralph Lauren white
           </p>
           <p
-            class="css-1kn9x3e"
+            class="css-1tx1iym"
           >
             M0E21300900DZN7
           </p>

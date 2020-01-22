@@ -34,7 +34,7 @@ exports[`ProductListItem should render successfully 1`] = `
         Dress Twin-Set rose
       </p>
       <p
-        class="css-1kn9x3e"
+        class="css-1tx1iym"
       >
         M0E20130820E90Z
       </p>
@@ -86,7 +86,7 @@ exports[`ProductListItem should render successfully the error variation 1`] = `
         Dress Twin-Set rose
       </p>
       <p
-        class="css-1kn9x3e"
+        class="css-1tx1iym"
       >
         M0E20130820E90Z
       </p>
@@ -129,7 +129,7 @@ exports[`ProductListItem should render successfully the isSelected variation 1`]
         Dress Twin-Set rose
       </p>
       <p
-        class="css-1kn9x3e"
+        class="css-1tx1iym"
       >
         M0E20130820E90Z
       </p>
@@ -248,7 +248,7 @@ exports[`ProductListItem should render successfully the loading variation 1`] = 
         Dress Twin-Set rose
       </p>
       <p
-        class="css-1kn9x3e"
+        class="css-1tx1iym"
       >
         M0E20130820E90Z
       </p>
