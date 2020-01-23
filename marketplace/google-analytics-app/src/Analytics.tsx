@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from '@contentful/forma-36-react-components';
 
-import { Timeline } from './Timeline';
+import Timeline from './Timeline';
 import { formatDate } from './utils';
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24;

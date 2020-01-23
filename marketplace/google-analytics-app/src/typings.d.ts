@@ -20,3 +20,15 @@ export interface AppConfigState {
     };
   };
 }
+
+export interface SidebarExtensionProps {
+  sdk: AppExtensionSDK;
+}
+
+export interface SidebarExtensionState {
+  parameters: object;
+  isAuthorized: boolean;
+  hasSlug: boolean;
+  pagePath: boolean;
+  contentTypeId: string;
+}

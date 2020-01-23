@@ -12,76 +12,71 @@ import './index.css';
 import AppConfig from './AppConfig';
 
 import Analytics from './Analytics';
-
-const CLIENT_ID = '318721834234-s3td95ohvub1bkksn3aicimnltvmtts8.apps.googleusercontent.com';
+import { SidebarExtensionState } from './typings';
 
 export class SidebarExtension extends React.Component<
-  {
-    sdk: SidebarExtensionSDK;
-  },
-  {
-    parameters: object;
-    isAuthorized: boolean;
-    hasSlug: boolean;
-    pagePath: boolean;
-  }
+  SidebarExtensionProps,
+  SidebarExtensionState
 > {
-  constructor(props) {
+  constructor(props: SidebarExtensionProps) {
     super(props);
-    const { sdk } = props;
-    const { parameters, entry } = sdk;
-    const { prefix, slugId } = parameters;
-    const hasSlug = slugId in entry.fields;
+    const { entry, parameters } = props.sdk;
+    const contentTypeId = entry.getSys().contentType.sys.id;
+    const { prefix, slugField } = parameters.installation.contentTypes[contentTypeId];
+    const hasSlug = slugField in entry.fields;
 
     const pagePath = hasSlug
-      ? `/${prefix ? `${prefix}/` : ''}${entry.fields[slugId].getValue()}/`
+      ? `/${prefix ? `${prefix}/` : ''}${entry.fields[slugField].getValue()}/`
       : '';
 
     this.state = {
       isAuthorized: false,
       hasSlug,
-      pagePath
+      pagePath,
+      contentTypeId
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { auth } = window.gapi.analytics;
 
     auth.on('signIn', () => this.setState({ isAuthorized: true }));
     auth.on('signOut', () => this.setState({ isAuthorized: false }));
     auth.authorize({
       container: 'auth-button',
-      clientid: CLIENT_ID
+      clientid: this.props.sdk.parameters.installation.clientId
     });
 
     this.props.sdk.window.startAutoResizer();
   }
 
-  onButtonClick = async () => {
-    const result = await this.props.sdk.dialogs.openExtension({
+  onButtonClick = () => {
+    return this.props.sdk.dialogs.openExtension({
       width: 800,
       title: 'The same extension rendered in modal window'
     });
-    // eslint-disable-next-line no-console
-    console.log(result);
   };
 
   render() {
     const { isAuthorized, pagePath, hasSlug } = this.state;
-    const { sdk } = this.props;
-    const { parameters } = sdk;
+    const { contentTypeId } = this.state;
+    const { parameters, entry } = this.props.sdk;
 
     if (!isAuthorized) {
-      return null;
+      return <p>This {contentTypeId} entry doesn&apos;t have a valid slug field.</p>;
     }
 
     if (!hasSlug) {
-      return <p>Slug field is not correctly defined.</p>;
+      return <p>This {contentTypeId} entry doesn&apos;t have a valid slug field.</p>;
+    }
+
+    if (!entry.getSys().publishedAt) {
+      return <p>This {contentTypeId} entry hasn&apos;t been published.</p>;
     }
 
     return (
       <section>
-        <Analytics pagePath={pagePath} viewId={parameters.viewId} />
+        <Analytics pagePath={pagePath} viewId={parameters.installation.viewId} />
       </section>
     );
   }

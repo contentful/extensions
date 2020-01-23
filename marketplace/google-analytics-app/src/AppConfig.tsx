@@ -94,9 +94,7 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
     };
   }
 
-  handleChange(event) {
-    const { name, value } = event.target;
-
+  handleChange(name, value) {
     this.setState({ [name]: value });
   }
 
