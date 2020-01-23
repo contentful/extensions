@@ -71,7 +71,11 @@ const styles = {
     color: tokens.colorTextLight,
     fontSize: tokens.fontSizeS,
     marginTop: 0,
-    marginBottom: 0
+    marginBottom: 0,
+    maxWidth: '289px',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap'
   }),
   skeletonImage: css({
     width: '100%',

@@ -22,6 +22,8 @@ export const productsToVariantsTransformer = products =>
     products.map(product => {
       const variants = product.variants.map(variant => ({
         ...variant,
+        variantSKU: variant.sku,
+        sku: variant.id,
         productId: product.id,
         title: product.title,
         hasNextPage: false
@@ -31,7 +33,14 @@ export const productsToVariantsTransformer = products =>
     })
   );
 
-export const productPreviewsToVariantsTransformer = (productPreviews, selectedSKUs) =>
-  productsToVariantsTransformer(productPreviews).filter(variant =>
-    selectedSKUs.includes(variant.sku)
-  );
+export const previewsToVariants = ({ apiEndpoint }) => ({ sku, id, image, product }) => ({
+  id,
+  image: image.src,
+  // TODO: Remove sku:id when shared-sku-app supports internal IDs
+  // as an alternative piece of info to persist instead of the SKU.
+  // For now this is a temporary hack.
+  sku: id,
+  productId: product.id,
+  name: product.title,
+  ...(apiEndpoint && { externalLink: `https://${apiEndpoint}/admin/products?query=${sku}` })
+});
