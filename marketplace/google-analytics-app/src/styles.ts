@@ -30,9 +30,6 @@ export default {
     height: '300px',
     backgroundColor: '#f8ab00'
   }),
-  input: css({
-    marginTop: tokens.spacingM
-  }),
   icon: css({
     display: 'flex',
     justifyContent: 'center',
@@ -43,5 +40,16 @@ export default {
   }),
   pills: css({
     margin: `0 ${tokens.spacingXs}`
+  }),
+  contentTypeGrid: css({
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr) max-content',
+    gridGap: tokens.spacingXs
+  }),
+  contentTypeGridInputs: css({
+    marginBottom: tokens.spacingM
+  }),
+  invisible: css({
+    visibility: 'hidden'
   })
 };
