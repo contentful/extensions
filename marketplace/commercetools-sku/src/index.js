@@ -6,6 +6,7 @@ import { createQueueMiddleware } from '@commercetools/sdk-middleware-queue';
 
 import { setup } from 'shared-sku-app';
 
+import get from 'lodash/get';
 import logo from './logo.svg';
 import descriptor from '../extension.json';
 import { dataTransformer } from './dataTransformer';
@@ -99,6 +100,8 @@ async function renderDialog(sdk) {
   container.style.flexDirection = 'column';
   document.body.appendChild(container);
 
+  const fieldTypeIsArray = get(sdk, ['parameters', 'invocation', 'fieldType']) === 'Array';
+
   const pickerOptions = {
     project: {
       projectKey,
@@ -109,7 +112,7 @@ async function renderDialog(sdk) {
     },
     mode: 'embedded',
     searchLanguage: locale,
-    selectionMode: sdk.parameters.invocation.fieldType === 'Array' ? 'multiple' : 'single',
+    selectionMode: fieldTypeIsArray ? 'multiple' : 'single',
     uiLocale: 'en-US',
     displayOptions: {
       showHeader: false,
@@ -121,8 +124,17 @@ async function renderDialog(sdk) {
   const ctPicker = new window.CTPicker(pickerOptions, container);
   try {
     sdk.window.updateHeight(660);
-    const skus = await ctPicker.show();
-    sdk.close(skus.map(({ masterVariant: { sku } }) => sku));
+
+    const result = await ctPicker.show();
+    const skus = result.map(({ masterVariant: { sku } }) => sku);
+
+    const persistedSkus = get(sdk, ['parameters', 'invocation', 'fieldValue'], []);
+
+    // For single selection we want to replace the persisted SKU for the new one
+    // For multi selection, we want to append the new results to the previous, keeping
+    // only unique values.
+    const finalSkus = fieldTypeIsArray ? [...new Set([...persistedSkus, ...skus])] : skus;
+    sdk.close(finalSkus);
   } catch (error) {
     if (error !== 'cancel') {
       // Widget is going to throw if the user closes the product picking dialog
