@@ -41,8 +41,6 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
       contentTypes[''] = { slugField: '', urlPrefix: '' };
     }
 
-    console.log(spaceContentTypes[0].fields);
-
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState(
       {
@@ -71,7 +69,7 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
 
     // TODO: store this in app settings of content type
     const EditorInterface = Object.keys(contentTypes).reduce((acc, id) => {
-      acc[id] = { sidebar: { position: 3 } };
+      acc[id] = { sidebar: { position: 0 } };
       return acc;
     }, {});
 

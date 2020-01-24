@@ -30,21 +30,20 @@ export default class Timeline extends React.Component {
   }
   render() {
     const { range, dimension, pagePath, viewId } = this.props;
+    const query = {
+      ...{
+        // id may or may not be prefixed with 'ga:'
+        ids: viewId.replace(/^ga:|^/, 'ga:'),
+        dimensions: `ga:${dimension}`,
+        metrics: 'ga:sessions',
+        filters: `ga:pagePath==${pagePath}`
+      },
+      'start-date': formatDate(range.start),
+      'end-date': formatDate(range.end)
+    };
+
     if (this.state.timeline) {
-      this.state.timeline
-        .set({
-          query: {
-            ...{
-              ids: viewId,
-              dimensions: `ga:${dimension}`,
-              metrics: 'ga:sessions',
-              filters: `ga:pagePath==${pagePath}`
-            },
-            'start-date': formatDate(range.start),
-            'end-date': formatDate(range.end)
-          }
-        })
-        .execute();
+      this.state.timeline.set({ query }).execute();
     }
 
     return <div ref={c => (this.timeline = c)} />;
@@ -53,7 +52,7 @@ export default class Timeline extends React.Component {
 
 Timeline.propTypes = {
   viewId: PropTypes.string.isRequired,
-  dimension: PropTypes.oneOf(['date', 'week', 'month']).isRequired,
+  dimension: PropTypes.oneOf(['hour', 'date', 'week', 'month']).isRequired,
   pagePath: PropTypes.string.isRequired,
   range: PropTypes.shape({
     start: PropTypes.instanceOf(Date).isRequired,

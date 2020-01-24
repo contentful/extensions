@@ -49,6 +49,13 @@ export default {
   contentTypeGridInputs: css({
     marginBottom: tokens.spacingM
   }),
+  range: css({
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gridColumnGap: tokens.spacing2Xs,
+    width: '100%',
+    alignItems: 'center'
+  }),
   invisible: css({
     visibility: 'hidden'
   })
