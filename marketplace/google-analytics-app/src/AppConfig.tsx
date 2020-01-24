@@ -14,6 +14,7 @@ import {
 import styles from './styles';
 import PropTypes from 'prop-types';
 import { AppConfigParams, AppConfigState } from './typings';
+import { getSidebarLocations } from './utils';
 
 export default class AppConfig extends React.Component<AppConfigParams, AppConfigState> {
   static propTypes = {
@@ -34,7 +35,17 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
       app.getParameters()
     ]);
 
-    const contentTypes = savedParams.contentTypes || {};
+    const sidebarLocations = await getSidebarLocations(sdk);
+    // remove content types for which the app has been removed from the sidebar
+    const contentTypes = sidebarLocations.reduce((acc, key) => {
+      const saved = savedParams.contentTypes[key];
+
+      if (key && saved) {
+        acc[key] = saved;
+      }
+
+      return acc;
+    }, {});
 
     // add an incomplete contentType entry if there are none saved
     if (!Object.keys(contentTypes).length) {
@@ -72,13 +83,6 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
       acc[id] = { sidebar: { position: 0 } };
       return acc;
     }, {});
-
-    /*
-    if (!valid) {
-      this.props.sdk.notifier.error('Please review the errors in the form.');
-      return false;
-    }
-    */
 
     return {
       parameters: {
