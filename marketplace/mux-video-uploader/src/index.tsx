@@ -11,6 +11,7 @@ import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
 
 import Player from './player';
+import DeleteButton from './deleteButton';
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -35,6 +36,7 @@ interface AppState {
   value?: MuxContentfulObject;
   uploadProgress?: number;
   error: string | false;
+  isDeleting: boolean | false;
 }
 
 export class App extends React.Component<AppProps, AppState> {
@@ -56,6 +58,7 @@ export class App extends React.Component<AppProps, AppState> {
 
     this.state = {
       value: props.sdk.field.getValue(),
+      isDeleting: false,
       error:
         (!muxAccessTokenId || !muxAccessTokenSecret) &&
         "It doesn't look like you've specified your Mux Access Token ID or Secret in the extension configuration.",
@@ -99,6 +102,42 @@ export class App extends React.Component<AppProps, AppState> {
     headers.set('Content-Type', 'application/json');
 
     return headers;
+  };
+
+  requestDeleteAsset = async (assetId: string) => {
+    const result = await this.props.sdk.dialogs.openConfirm({
+      title: "Are you sure you want to delete this asset?",
+      message: "This will delete the asset in Mux and in Contentful. There is no way to recover your video, make sure you have a backup if you think you may want to use it again.",
+      intent: "negative",
+      confirmLabel: "Yes, delete this asset",
+      cancelLabel: "Nevermind",
+    });
+
+    if (!result) {
+      this.setState({ isDeleting: false });
+      return;
+    }
+    this.setState({ isDeleting: true });
+
+    const res = await fetch(`https://api.mux.com/video/v1/assets/${assetId}`, {
+      ...this.muxBaseReqOptions,
+      method: 'DELETE',
+    });
+
+    if (res.status === 401) {
+      throw Error(
+        'Looks like something is wrong with the Mux Access Token specified in the config. Are you sure the token ID and secret in the extension settings match the access token you created?'
+      );
+    }
+
+    await this.props.sdk.field.setValue({
+      uploadId: undefined,
+      assetId: undefined,
+      playbackId: undefined,
+      ready: undefined,
+      ratio: undefined,
+    });
+    this.setState({ isDeleting: false });
   };
 
   getUploadUrl = async () => {
@@ -190,6 +229,7 @@ export class App extends React.Component<AppProps, AppState> {
         uploadId: muxUpload.id,
         assetId: muxUpload['asset_id'],
       });
+      this.setState({ uploadProgress: undefined });
       await this.pollForAssetDetails();
     } else {
       await delay(350);
@@ -234,6 +274,14 @@ export class App extends React.Component<AppProps, AppState> {
       return <Note noteType="negative">{this.state.error}</Note>;
     }
 
+    if (this.state.isDeleting) {
+      return (
+        <Paragraph>
+          <Spinner size="small" /> Deleting this asset.
+        </Paragraph>
+      );
+    }
+
     if (this.state.value) {
       if (this.state.value.assetId && !this.state.value.ready) {
         return (
@@ -245,11 +293,14 @@ export class App extends React.Component<AppProps, AppState> {
 
       if (this.state.value.ready) {
         return (
-          <Player
-            playbackId={this.state.value.playbackId}
-            ratio={this.state.value.ratio}
-            onReady={this.onPlayerReady}
-          />
+          <div>
+            <Player
+              playbackId={this.state.value.playbackId}
+              ratio={this.state.value.ratio}
+              onReady={this.onPlayerReady}
+            />
+            { this.state.value.assetId ? <DeleteButton assetId={this.state.value.assetId} requestDeleteAsset={this.requestDeleteAsset} /> : null }
+          </div>
         );
       }
     }
