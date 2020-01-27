@@ -125,7 +125,7 @@ export class App extends React.Component<AppProps, AppState> {
       message: "This will remove the asset in Mux and in Contentful. There is no way to recover your video, make sure you have a backup if you think you may want to use it again.",
       intent: "negative",
       confirmLabel: "Yes, delete this asset",
-      cancelLabel: "Nevermind",
+      cancelLabel: "Cancel",
     });
 
     if (!result) {
