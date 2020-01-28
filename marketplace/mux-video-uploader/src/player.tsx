@@ -57,9 +57,6 @@ class Player extends React.Component<PlayerProps, {}> {
 
   getHeight = () => {
     if (!this.playerRef.current) return;
-
-    console.log(this.playerRef.current.offsetWidth);
-
     return this.playerRef.current.offsetWidth * this.convertRatio();
   };
 
