@@ -84,7 +84,10 @@ export class App extends React.Component<AppProps, AppState> {
       if (this.state.value.ready) {
         const asset = await this.getAsset();
         if (!asset) {
-          this.setState({ error: 'Error: it appears that this asset has been deleted', errorShowResetAction: true });
+          this.setState({
+            error: 'Error: it appears that this asset has been deleted',
+            errorShowResetAction: true,
+          });
         }
         return;
       }
@@ -121,11 +124,12 @@ export class App extends React.Component<AppProps, AppState> {
     }
 
     const result = await this.props.sdk.dialogs.openConfirm({
-      title: "Are you sure you want to delete this asset?",
-      message: "This will remove the asset in Mux and in Contentful. There is no way to recover your video, make sure you have a backup if you think you may want to use it again.",
-      intent: "negative",
-      confirmLabel: "Yes, delete this asset",
-      cancelLabel: "Cancel",
+      title: 'Are you sure you want to delete this asset?',
+      message:
+        'This will remove the asset in Mux and in Contentful. There is no way to recover your video, make sure you have a backup if you think you may want to use it again.',
+      intent: 'negative',
+      confirmLabel: 'Yes, delete this asset',
+      cancelLabel: 'Cancel',
     });
 
     if (!result) {
@@ -134,10 +138,13 @@ export class App extends React.Component<AppProps, AppState> {
     }
     this.setState({ isDeleting: true });
 
-    const res = await fetch(`https://api.mux.com/video/v1/assets/${this.state.value.assetId}`, {
-      ...this.muxBaseReqOptions,
-      method: 'DELETE',
-    });
+    const res = await fetch(
+      `https://api.mux.com/video/v1/assets/${this.state.value.assetId}`,
+      {
+        ...this.muxBaseReqOptions,
+        method: 'DELETE',
+      }
+    );
 
     if (res.status === 401) {
       throw Error(
@@ -158,7 +165,7 @@ export class App extends React.Component<AppProps, AppState> {
       ratio: undefined,
     });
     this.setState({ error: false, errorShowResetAction: false });
-  }
+  };
 
   getUploadUrl = async () => {
     const passthroughId = (this.props.sdk.entry.getSys() as { id: string }).id;
@@ -272,7 +279,7 @@ export class App extends React.Component<AppProps, AppState> {
     );
     const { data: asset } = await res.json();
 
-    return asset
+    return asset;
   };
 
   pollForAssetDetails = async () => {
@@ -285,9 +292,7 @@ export class App extends React.Component<AppProps, AppState> {
     const asset = await this.getAsset();
 
     if (!asset) {
-      throw Error(
-        'Something went wrong, we were not able to get the asset.'
-      );
+      throw Error('Something went wrong, we were not able to get the asset.');
     }
 
     await this.props.sdk.field.setValue({
@@ -312,11 +317,16 @@ export class App extends React.Component<AppProps, AppState> {
         <Note noteType="negative">
           <span>{this.state.error}</span>
           <span>
-            {
-              this.state.errorShowResetAction
-              ?  <Button buttonType='negative' size='small' onClick={this.resetField} className='reset-field-button'>Reset this field</Button>
-              : null
-            }
+            {this.state.errorShowResetAction ? (
+              <Button
+                buttonType="negative"
+                size="small"
+                onClick={this.resetField}
+                className="reset-field-button"
+              >
+                Reset this field
+              </Button>
+            ) : null}
           </span>
         </Note>
       );
@@ -347,7 +357,9 @@ export class App extends React.Component<AppProps, AppState> {
               ratio={this.state.value.ratio}
               onReady={this.onPlayerReady}
             />
-            { this.state.value.assetId ? <DeleteButton requestDeleteAsset={this.requestDeleteAsset} /> : null }
+            {this.state.value.assetId ? (
+              <DeleteButton requestDeleteAsset={this.requestDeleteAsset} />
+            ) : null}
           </div>
         );
       }

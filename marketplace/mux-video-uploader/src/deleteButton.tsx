@@ -4,14 +4,20 @@ import { Button } from '@contentful/forma-36-react-components';
 import './deleteButton.css';
 
 interface DeleteActionProps {
-  requestDeleteAsset: (() => void);
+  requestDeleteAsset: () => void;
 }
 
 class DeleteButton extends React.Component<DeleteActionProps, {}> {
   render() {
     return (
-      <div className='button-container'>
-        <Button buttonType='negative' size='small' onClick={this.props.requestDeleteAsset}>Delete this asset</Button>
+      <div className="button-container">
+        <Button
+          buttonType="negative"
+          size="small"
+          onClick={this.props.requestDeleteAsset}
+        >
+          Delete this asset
+        </Button>
       </div>
     );
   }
