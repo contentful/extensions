@@ -4,49 +4,119 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import { formatDate } from './utils';
+import styles from './styles';
+import {
+  SkeletonImage,
+  TextLink,
+  SkeletonContainer,
+  Paragraph
+} from '@contentful/forma-36-react-components';
+
+const CHART_HEIGHT = 200;
 
 export default class Timeline extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      timeline: null
+      timeline: null,
+      viewUrl: null
     };
+
+    this.onSuccess = ({ data }) => this.props.onData(data);
   }
-  componentDidMount() {
+
+  shouldComponentUpdate(nextProps) {
+    const { start, end } = this.props.range;
+    const nextRange = nextProps.range;
+
+    return !this.state.timeline || nextRange.start !== start || nextRange.end !== end;
+  }
+
+  async componentDidMount() {
+    let viewUrl = '';
+
+    try {
+      const accounts = (await gapi.client.analytics.management.accountSummaries.list()) || [];
+      viewUrl = this.getExternalUrl(accounts);
+      // console.log(accounts)
+    } catch (error) {
+      console.log(error);
+    }
+
+    const timeline = new gapi.analytics.googleCharts.DataChart({
+      reportType: 'ga',
+      chart: {
+        type: 'LINE',
+        container: this.timeline,
+        options: {
+          width: '100%',
+          height: CHART_HEIGHT,
+          backgroundColor: 'transparent',
+          legend: false
+        }
+      }
+    });
+
+    timeline.on('success', this.onSuccess);
+
     // eslint-disable-next-line
-    this.setState({
-      timeline: new gapi.analytics.googleCharts.DataChart({
-        reportType: 'ga',
-        chart: {
-          type: 'LINE',
-          container: this.timeline,
-          options: {
-            width: '100%',
-            backgroundColor: '#f7f9fa'
+    this.setState({ timeline, viewUrl });
+  }
+
+  getExternalUrl(accounts) {
+    for (const account of accounts.result.items) {
+      for (const prop of account.webProperties) {
+        for (const view of prop.profiles) {
+          if (view.id === this.props.viewId) {
+            return `https://analytics.google.com/analytics/web/#/report/content-pages/a${account.id}w${prop.internalWebPropertyId}p${view.id}`;
           }
         }
-      })
-    });
+      }
+    }
+
+    return '';
   }
+
   render() {
     const { range, dimension, pagePath, viewId } = this.props;
+    const { timeline, viewUrl } = this.state;
     const query = {
-      ...{
-        // id may or may not be prefixed with 'ga:'
-        ids: viewId.replace(/^ga:|^/, 'ga:'),
-        dimensions: `ga:${dimension}`,
-        metrics: 'ga:sessions',
-        filters: `ga:pagePath==${pagePath}`
-      },
+      ids: `ga:${viewId}`,
+      dimensions: `ga:${dimension}`,
+      metrics: 'ga:pageViews',
+      filters: `ga:pagePath==${pagePath}`,
       'start-date': formatDate(range.start),
       'end-date': formatDate(range.end)
     };
 
-    if (this.state.timeline) {
-      this.state.timeline.set({ query }).execute();
+    if (timeline) {
+      timeline.set({ query }).execute();
     }
 
-    return <div ref={c => (this.timeline = c)} />;
+    return (
+      <div>
+        <div
+          ref={c => {
+            this.timeline = c;
+          }}
+          className={styles.timeline}
+        />
+        {timeline ? (
+          <>
+            <Paragraph className={styles.slug}>{pagePath}</Paragraph>
+            {viewUrl ? (
+              <TextLink href={viewUrl} target="blank" icon="ExternalLink">
+                Open in Google Analytics
+              </TextLink>
+            ) : null}
+          </>
+        ) : (
+          <SkeletonContainer>
+            <SkeletonImage width={window.innerWidth} height={CHART_HEIGHT} />
+          </SkeletonContainer>
+        )}
+      </div>
+    );
   }
 }
 
@@ -57,5 +127,6 @@ Timeline.propTypes = {
   range: PropTypes.shape({
     start: PropTypes.instanceOf(Date).isRequired,
     end: PropTypes.instanceOf(Date).isRequired
-  }).isRequired
+  }).isRequired,
+  onData: PropTypes.func
 };

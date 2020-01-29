@@ -13,6 +13,7 @@ import AppConfig from './AppConfig';
 
 import Analytics from './Analytics';
 import { SidebarExtensionState } from './typings';
+import styles from './styles';
 
 export class SidebarExtension extends React.Component<
   SidebarExtensionProps,
@@ -30,24 +31,19 @@ export class SidebarExtension extends React.Component<
       : '';
 
     this.state = {
-      isAuthorized: false,
+      isAuthorized: window.gapi.analytics.auth.isAuthorized(),
       hasSlug,
       pagePath,
       contentTypeId
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.props.sdk.window.startAutoResizer();
     const { auth } = window.gapi.analytics;
 
     auth.on('signIn', () => this.setState({ isAuthorized: true }));
     auth.on('signOut', () => this.setState({ isAuthorized: false }));
-    auth.authorize({
-      container: 'auth-button',
-      clientid: this.props.sdk.parameters.installation.clientId
-    });
-
-    this.props.sdk.window.startAutoResizer();
   }
 
   onButtonClick = () => {
@@ -58,12 +54,20 @@ export class SidebarExtension extends React.Component<
   };
 
   render() {
-    const { isAuthorized, pagePath, hasSlug } = this.state;
-    const { contentTypeId } = this.state;
+    const { isAuthorized, pagePath, hasSlug, contentTypeId } = this.state;
     const { parameters, entry } = this.props.sdk;
 
     if (!isAuthorized) {
-      return <p>This {contentTypeId} entry doesn&apos;t have a valid slug field.</p>;
+      const renderAuthButton = authButton => {
+        window.gapi.analytics.auth.authorize({
+          container: authButton,
+          clientid: this.props.sdk.parameters.installation.clientId
+        });
+      };
+
+      return (
+        <div ref={renderAuthButton} clsas={isAuthorized ? styles.hidden : styles.signInButton} />
+      );
     }
 
     if (!hasSlug) {

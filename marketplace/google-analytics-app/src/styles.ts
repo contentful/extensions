@@ -14,6 +14,12 @@ export default {
     boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
     borderRadius: '2px'
   }),
+  signInButton: css({
+    textAlign: 'center',
+    dispay: 'none',
+    margin: 'auto',
+    cursor: 'pointer'
+  }),
   splitter: css({
     marginTop: tokens.spacingL,
     marginBottom: tokens.spacingL,
@@ -30,17 +36,6 @@ export default {
     height: '300px',
     backgroundColor: '#f8ab00'
   }),
-  icon: css({
-    display: 'flex',
-    justifyContent: 'center',
-    margin: `${tokens.spacingXl} 0`
-  }),
-  checks: css({
-    marginTop: tokens.spacingM
-  }),
-  pills: css({
-    margin: `0 ${tokens.spacingXs}`
-  }),
   contentTypeGrid: css({
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr) max-content',
@@ -49,14 +44,25 @@ export default {
   contentTypeGridInputs: css({
     marginBottom: tokens.spacingM
   }),
-  range: css({
+  header: css({
     display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
+    gridTemplateColumns: '1.5fr 1.25fr',
     gridColumnGap: tokens.spacing2Xs,
     width: '100%',
-    alignItems: 'center'
+    alignItems: 'self-end'
   }),
   invisible: css({
     visibility: 'hidden'
+  }),
+  hidden: css({
+    display: 'none'
+  }),
+  slug: css({
+    color: tokens.colorTextLight,
+    fontSize: tokens.fontSizeS,
+    marginBottom: tokens.spacingM
+  }),
+  spaced: css({
+    marginBottom: tokens.spacingL
   })
 };

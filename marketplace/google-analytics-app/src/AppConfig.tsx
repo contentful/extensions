@@ -78,7 +78,6 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
   async configureApp() {
     const { contentTypes, clientId, viewId } = this.state;
 
-    // TODO: store this in app settings of content type
     const EditorInterface = Object.keys(contentTypes).reduce((acc, id) => {
       acc[id] = { sidebar: { position: 0 } };
       return acc;
@@ -162,7 +161,7 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
         <div className={styles.body}>
           <div className={styles.section}>
             <Typography>
-              <Heading>About Google Analytics</Heading>
+              <Heading className={styles.spaced}>About Google Analytics</Heading>
 
               <Paragraph>
                 This app allows you to view pageview analytics of a Contentful entry in the editor
@@ -175,7 +174,7 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
           <hr className={styles.splitter} />
 
           <Typography>
-            <Heading>Configuration</Heading>
+            <Heading className={styles.spaced}>Configuration</Heading>
 
             <TextField
               labelText="Client ID"
@@ -185,6 +184,7 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
               value={this.state.clientId}
               onChange={event => this.handleChange('clientId', event.target.value)}
               helpText="Client ID of the Google Cloud OAuth application."
+              className={styles.spaced}
               textInputProps={{
                 type: 'text'
               }}
@@ -206,8 +206,8 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
           <hr className={styles.splitter} />
 
           <Typography>
-            <Heading>Assign to content types</Heading>
-            <Paragraph>
+            <Heading className={styles.spaced}>Assign to content types</Heading>
+            <Paragraph className={styles.spaced}>
               Select which content types will show the Google Analytics functionality in the
               sidebar. Specify the slug field that is used for URL generation in your application.
               Optionally, specify a prefix for the slug.
@@ -289,7 +289,6 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
             <Button
               type="button"
               buttonType="muted"
-              className="button"
               disabled={Object.values(contentTypes).some(ct => !ct.slugField)}
               onClick={() => this.addContentType()}>
               {' '}
