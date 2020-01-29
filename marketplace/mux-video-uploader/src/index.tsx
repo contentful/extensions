@@ -84,6 +84,7 @@ export class App extends React.Component<AppProps, AppState> {
       if (this.state.value.ready) {
         const asset = await this.getAsset();
         if (!asset) {
+          // eslint-disable-next-line react/no-did-mount-set-state
           this.setState({
             error: 'Error: it appears that this asset has been deleted',
             errorShowResetAction: true,
