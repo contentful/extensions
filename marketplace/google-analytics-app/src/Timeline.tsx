@@ -42,7 +42,7 @@ export default class Timeline extends React.Component {
       viewUrl = this.getExternalUrl(accounts);
       // console.log(accounts)
     } catch (error) {
-      console.log(error);
+  this.props.sdk.notifier.error('Failed to load your Google Analytics data');
     }
 
     const timeline = new gapi.analytics.googleCharts.DataChart({
