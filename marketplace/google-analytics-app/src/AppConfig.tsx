@@ -1,4 +1,5 @@
 import * as React from 'react';
+import sortBy from 'lodash.sortby';
 import {
   Typography,
   Heading,
@@ -13,33 +14,25 @@ import {
 } from '@contentful/forma-36-react-components';
 import styles from './styles';
 import { AppConfigParams, AppConfigState } from './typings';
-import { getSidebarLocations } from './utils';
+import { getAndUpdateSavedParams } from './utils';
 
 export default class AppConfig extends React.Component<AppConfigParams, AppConfigState> {
   state: AppConfigState = {
     allContentTypes: {},
-    contentTypes: {}
+    contentTypes: {},
+    clientId: '',
+    viewId: ''
   };
 
   async componentDidMount() {
     const { sdk } = this.props;
 
-    const [{ items: spaceContentTypes }, savedParams, sidebarLocations] = await Promise.all([
+    const [{ items: spaceContentTypes }, savedParams] = await Promise.all([
       sdk.space.getContentTypes(),
-      sdk.app.getParameters(),
-      getSidebarLocations(sdk)
+      getAndUpdateSavedParams(sdk)
     ]);
 
-    // remove content types for which the app has been removed from the sidebar
-    const contentTypes = sidebarLocations.reduce((acc, key) => {
-      const saved = savedParams.contentTypes[key];
-
-      if (key && saved) {
-        acc[key] = saved;
-      }
-
-      return acc;
-    }, {});
+    const { contentTypes } = savedParams;
 
     // add an incomplete contentType entry if there are none saved
     if (!Object.keys(contentTypes).length) {
@@ -49,14 +42,16 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState(
       {
-        allContentTypes: spaceContentTypes.reduce((acc, contentType) => {
+        // sort contentTypes by display name
+        allContentTypes: sortBy(spaceContentTypes, 'name').reduce((acc, contentType) => {
           acc[contentType.sys.id] = {
             ...contentType,
-            fields: contentType.fields
+            fields: sortBy(
               // use only short text fields of content type
-              .filter(f => f.type === 'Symbol')
+              contentType.fields.filter(f => f.type === 'Symbol'),
               // sort by field name
-              .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
+              'name'
+            )
           };
 
           return acc;
@@ -73,6 +68,29 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
 
   async configureApp() {
     const { contentTypes, clientId, viewId } = this.state;
+    const { notifier } = this.props.sdk;
+
+    if (!clientId || !viewId) {
+      notifier.error('You must provide both a valid client ID and view ID!');
+
+      return false;
+    }
+
+    if (!/^[-a-z0-9]+.apps.googleusercontent.com$/i.test(clientId)) {
+      notifier.error("The value given for the client ID doesn't look valid!");
+      return false;
+    }
+
+    const ctKeys = Object.keys(contentTypes);
+
+    if (!ctKeys.length || !ctKeys[0]) {
+      notifier.error('You need to select at least one content type with a slug field!');
+    }
+
+    if (ctKeys.some(key => key && !contentTypes[key].slugField)) {
+      notifier.error('Please complete or remove the incomplete content type rows!');
+      return false;
+    }
 
     const EditorInterface = Object.keys(contentTypes).reduce((acc, id) => {
       acc[id] = { sidebar: { position: 1 } };
@@ -91,18 +109,21 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
     };
   }
 
-  handleChange(name, value) {
-    this.setState({ [name]: value });
-  }
-
-  handleContentTypeChange(prevKey, key) {
+  handleContentTypeChange(prevKey, newKey) {
     this.setState(prevState => {
       const contentTypes = {};
 
       // remove contentType[prevKey] field and replace with the new contentType
       // key while preserving key order
       for (const [prop, value] of Object.entries(prevState.contentTypes)) {
-        contentTypes[prop === prevKey ? key : prop] = value;
+        if (prop === prevKey) {
+          contentTypes[newKey] = {
+            slugId: '',
+            urlPrefix: value.urlPrefix
+          };
+        } else {
+          contentTypes[prop] = value;
+        }
       }
 
       return {
@@ -130,7 +151,6 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
 
   addContentType() {
     this.setState(prevState => ({
-      ...prevState,
       contentTypes: {
         ...prevState.contentTypes,
         '': { slugField: '', urlPrefix: '' }
@@ -162,7 +182,10 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
               <Paragraph>
                 This app allows you to view pageview analytics of a Contentful entry in the editor
                 sidebar. For installation instructions, please refer to the app&apos;s
-                <a href>documentation</a>.
+                <a href="https://www.contentful.com/developers/docs/extensibility/apps/google-analytics/">
+                  documentation
+                </a>
+                .
               </Paragraph>
             </Typography>
           </div>
@@ -178,11 +201,12 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
               id="clientId"
               required
               value={this.state.clientId}
-              onChange={event => this.handleChange('clientId', event.target.value)}
+              onChange={event => this.setState({ clientId: event.target.value.trim() })}
               helpText="Client ID of the Google Cloud OAuth application."
               className={styles.spaced}
               textInputProps={{
-                type: 'text'
+                type: 'text',
+                placeholder: 'XXXXXXXX-XXXXXXXX.apps.googleusercontent.com'
               }}
             />
             <TextField
@@ -191,7 +215,7 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
               name="viewId"
               id="viewId"
               value={this.state.viewId}
-              onChange={event => this.handleChange('viewId', event.target.value)}
+              onChange={event => this.setState({ viewId: event.target.value.trim() })}
               helpText="The ID of the Google Analytics view you want to query."
               textInputProps={{
                 type: 'text'

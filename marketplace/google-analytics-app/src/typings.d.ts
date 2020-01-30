@@ -13,12 +13,15 @@ export interface AppConfigState {
       }[];
     };
   };
+  allContentTypeKeys: string[];
   contentTypes: {
     [id: string]: {
       urlPrefix: string;
       slugField: string;
     };
   };
+  clientId: string;
+  viewId: string;
 }
 
 export interface SidebarExtensionProps {
@@ -37,18 +40,12 @@ export interface AnalyticsProps {
   pagePath: string;
   viewId: string;
   sdk: AppExtensionSDK;
-}
-
-export interface RangeOption {
-  label: string;
-  startDaysAgo: number;
-  endDaysAgo: number;
+  gapi: typeof window['gapi'];
 }
 
 export interface AnalyticsState {
   rangeOptionIndex: number;
   totalPageViews: number;
-  range: RangeOption;
   today: Date;
   startEnd: {
     start: Date;
@@ -66,9 +63,16 @@ export interface TimelineProps {
   };
   onData: (event: { data: object }) => void;
   sdk: AppExtensionSDK;
+  gapi: typeof window['gapi'];
 }
 
 export interface TimelineState {
   timeline: object;
   viewUrl: string;
+}
+
+export interface RangeOption {
+  label: string;
+  startDaysAgo: number;
+  endDaysAgo: number;
 }

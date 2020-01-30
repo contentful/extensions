@@ -1,5 +1,3 @@
-/* global gapi */
-
 import * as React from 'react';
 
 import { formatDate } from './utils';
@@ -36,7 +34,7 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
 
   async componentDidMount() {
     let viewUrl = '';
-    const { sdk } = this.props;
+    const { sdk, gapi } = this.props;
 
     try {
       const accounts = (await gapi.client.analytics.management.accountSummaries.list()) || [];

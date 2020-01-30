@@ -5,20 +5,43 @@ export function formatDate(date: Date) {
   return date.toISOString().slice(0, 10);
 }
 
-export async function getSidebarLocations(sdk: AppExtensionSDK) {
+export async function getAndUpdateSavedParams(sdk: AppExtensionSDK) {
   const { space, ids } = sdk;
-  const eisResponse = (await space.getEditorInterfaces()) as CollectionResponse<EditorInterface>;
-  const selectedContentTypes = eisResponse.items
+  const [savedParams, eisResponse] = await Promise.all([
+    sdk.app.getParameters(),
+    space.getEditorInterfaces() as Promise<CollectionResponse<EditorInterface>>
+  ]);
+  const selectedContentTypes = (
+    (eisResponse && (eisResponse as { items: { [id: string]: object }[] }).items) ||
+    []
+  )
     .filter(
       ei =>
-        !!get(ei, ['sidebar'], []).find(item => {
+        !!get(ei, ['sidebar'], []).find((item: { widgetNamespace: string; widgetId: string }) => {
           return item.widgetNamespace === 'app' && item.widgetId === ids.app;
         })
     )
     .map(ei => get(ei, ['sys', 'contentType', 'sys', 'id']))
     .filter(ctId => typeof ctId === 'string' && ctId.length > 0);
 
-  return selectedContentTypes;
+  const savedContentTypes: {
+    [key: string]: object;
+  } = (savedParams && (savedParams as { contentTypes: {} }).contentTypes) || {};
+  // remove content types for which the app has been removed from the sidebar
+  const contentTypes = selectedContentTypes.reduce((acc, key: string) => {
+    const saved = savedContentTypes[key];
+
+    if (key && saved) {
+      acc[key] = saved;
+    }
+
+    return acc;
+  }, {});
+
+  return {
+    ...savedParams,
+    contentTypes
+  };
 }
 
 const largeNumberBreakpoints = [
@@ -39,16 +62,16 @@ export function formatLargeNumbers(n: number) {
 export const DAY_IN_MS = 1000 * 60 * 60 * 24;
 
 const daysBreakpoints = [
-  { lowerLimit: 29, interval: 'week' },
+  { lowerLimit: 29, interval: 'nthWeek' },
   { lowerLimit: 5, interval: 'date' },
-  { lowerLimit: -Infinity, interval: 'hour' }
+  { lowerLimit: -Infinity, interval: 'nthhour' }
 ];
 
 export function getDateRangeInterval(start: Date, end: Date) {
-  const days = (end.valueOf() - start.valueOf()) / DAY_IN_MS;
+  const nDays = (end.valueOf() - start.valueOf()) / DAY_IN_MS;
 
   for (const breakpoint of daysBreakpoints) {
-    if (days >= breakpoint.lowerLimit) {
+    if (nDays >= breakpoint.lowerLimit) {
       return breakpoint.interval;
     }
   }

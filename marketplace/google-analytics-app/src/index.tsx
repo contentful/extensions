@@ -45,14 +45,18 @@ export class SidebarExtension extends React.Component<
 
   render() {
     const { isAuthorized, pagePath, hasSlug, contentTypeId } = this.state;
-    const { parameters, entry } = this.props.sdk;
+    const { parameters, entry, notifier } = this.props.sdk;
 
     if (!isAuthorized) {
-      const renderAuthButton = authButton => {
-        window.gapi.analytics.auth.authorize({
-          container: authButton,
-          clientid: parameters.installation.clientId
-        });
+      const renderAuthButton = async authButton => {
+        try {
+          window.gapi.analytics.auth.authorize({
+            container: authButton,
+            clientid: parameters.installation.clientId
+          });
+        } catch (error) {
+          notifier.error("The client ID set in this app's config is invalid");
+        }
       };
 
       return (
@@ -75,6 +79,7 @@ export class SidebarExtension extends React.Component<
       <section>
         <Analytics
           sdk={this.props.sdk}
+          gapi={window.gapi}
           pagePath={pagePath}
           viewId={parameters.installation.viewId}
         />

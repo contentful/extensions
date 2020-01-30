@@ -3,7 +3,7 @@ import { Option, Select, DisplayText, Paragraph } from '@contentful/forma-36-rea
 
 import Timeline from './Timeline';
 import styles from './styles';
-import { formatLargeNumbers, DAY_IN_MS } from './utils';
+import { formatLargeNumbers, DAY_IN_MS, getDateRangeInterval } from './utils';
 import { RangeOption, AnalyticsProps, AnalyticsState } from './typings';
 
 const RANGE_OPTIONS: RangeOption[] = [
@@ -21,7 +21,6 @@ function getRangeDates(rangeOptionIndex) {
   const today = new Date();
 
   return {
-    range,
     today,
     startEnd: {
       start: new Date(today - DAY_IN_MS * range.startDaysAgo),
@@ -56,11 +55,9 @@ export default class Analytics extends React.Component<AnalyticsProps, Analytics
   }
 
   render() {
-    const { rangeOptionIndex, totalPageViews, range, startEnd } = this.state;
-    const { pagePath, viewId, sdk } = this.props;
-    const nDays = range.startDaysAgo - range.endDaysAgo;
-    const dimension = nDays > 28 ? 'week' : nDays > 4 ? 'date' : 'hour';
-
+    const { rangeOptionIndex, totalPageViews, startEnd } = this.state;
+    const { pagePath, viewId, sdk, gapi } = this.props;
+    const dimension = getDateRangeInterval(startEnd.start, startEnd.end);
     const formattedPageViews = formatLargeNumbers(totalPageViews);
 
     return (
@@ -87,6 +84,7 @@ export default class Analytics extends React.Component<AnalyticsProps, Analytics
           range={startEnd}
           dimension={dimension}
           sdk={sdk}
+          gapi={gapi}
           // remove 'ga:' prefix from view id
           viewId={viewId.replace(/^ga:/, '')}
         />
