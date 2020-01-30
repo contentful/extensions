@@ -13,6 +13,8 @@ import {
 } from '@contentful/forma-36-react-components';
 
 const CHART_HEIGHT = 200;
+const externalUrlBase = 'https://analytics.google.com/analytics/web/#/report/content-pages';
+const externalUrlPageQuery = '_r.drilldown=analytics.pagePath:';
 
 export default class Timeline extends React.Component {
   constructor(props) {
@@ -68,7 +70,8 @@ export default class Timeline extends React.Component {
       for (const prop of account.webProperties) {
         for (const view of prop.profiles) {
           if (view.id === this.props.viewId) {
-            return `https://analytics.google.com/analytics/web/#/report/content-pages/a${account.id}w${prop.internalWebPropertyId}p${view.id}`;
+            const encodedPagePath = encodeURIComponent(this.props.pagePath).replace(/%/g, '~');
+            return `${externalUrlBase}/a${account.id}w${prop.internalWebPropertyId}p${view.id}/${externalUrlPageQuery}${encodedPagePath}/`;
           }
         }
       }
