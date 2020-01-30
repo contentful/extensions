@@ -117,14 +117,7 @@ export class AppView extends Component {
       targetState: {
         EditorInterface: {
           [contentType.sys.id]: {
-            controls: [
-              {
-                fieldId: 'focalPoint',
-                settings: {
-                  imageFieldId: 'image'
-                }
-              }
-            ]
+            controls: [{ fieldId: 'focalPoint' }]
           }
         }
       }
