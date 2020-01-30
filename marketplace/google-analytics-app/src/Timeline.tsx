@@ -1,7 +1,6 @@
 /* global gapi */
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
 
 import { formatDate } from './utils';
 import styles from './styles';
@@ -11,12 +10,13 @@ import {
   SkeletonContainer,
   Paragraph
 } from '@contentful/forma-36-react-components';
+import { TimelineProps, TimelineState } from './typings';
 
 const CHART_HEIGHT = 200;
 const externalUrlBase = 'https://analytics.google.com/analytics/web/#/report/content-pages';
 const externalUrlPageQuery = '_r.drilldown=analytics.pagePath:';
 
-export default class Timeline extends React.Component {
+export default class Timeline extends React.Component<TimelineProps, TimelineState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,13 +36,16 @@ export default class Timeline extends React.Component {
 
   async componentDidMount() {
     let viewUrl = '';
+    const { sdk } = this.props;
 
     try {
       const accounts = (await gapi.client.analytics.management.accountSummaries.list()) || [];
       viewUrl = this.getExternalUrl(accounts);
-      // console.log(accounts)
-    } catch (error) {
-  this.props.sdk.notifier.error('Failed to load your Google Analytics data');
+    } catch (e) {
+      const error = e.result ? e.result.error : e;
+      sdk.notifier.error(
+        `Google Analytics App couldn't get a link to your dashboard (${error.message})`
+      );
     }
 
     const timeline = new gapi.analytics.googleCharts.DataChart({
@@ -60,6 +63,11 @@ export default class Timeline extends React.Component {
     });
 
     timeline.on('success', this.onSuccess);
+    timeline.on('error', ({ error }: { error: Error }) => {
+      sdk.notifier.error(
+        `Google Analytics App couldn't get load your page view data (${error.message})`
+      );
+    });
 
     // eslint-disable-next-line
     this.setState({ timeline, viewUrl });
@@ -122,14 +130,3 @@ export default class Timeline extends React.Component {
     );
   }
 }
-
-Timeline.propTypes = {
-  viewId: PropTypes.string.isRequired,
-  dimension: PropTypes.oneOf(['hour', 'date', 'week', 'month']).isRequired,
-  pagePath: PropTypes.string.isRequired,
-  range: PropTypes.shape({
-    start: PropTypes.instanceOf(Date).isRequired,
-    end: PropTypes.instanceOf(Date).isRequired
-  }).isRequired,
-  onData: PropTypes.func
-};

@@ -12,15 +12,10 @@ import {
   TextInput
 } from '@contentful/forma-36-react-components';
 import styles from './styles';
-import PropTypes from 'prop-types';
 import { AppConfigParams, AppConfigState } from './typings';
 import { getSidebarLocations } from './utils';
 
 export default class AppConfig extends React.Component<AppConfigParams, AppConfigState> {
-  static propTypes = {
-    sdk: PropTypes.object.isRequired
-  };
-
   state: AppConfigState = {
     allContentTypes: {},
     contentTypes: {}
@@ -28,14 +23,13 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
 
   async componentDidMount() {
     const { sdk } = this.props;
-    const { app } = sdk.platformAlpha;
 
-    const [{ items: spaceContentTypes }, savedParams] = await Promise.all([
-      sdk.space.getContentTypes().then(),
-      app.getParameters()
+    const [{ items: spaceContentTypes }, savedParams, sidebarLocations] = await Promise.all([
+      sdk.space.getContentTypes(),
+      sdk.app.getParameters(),
+      getSidebarLocations(sdk)
     ]);
 
-    const sidebarLocations = await getSidebarLocations(sdk);
     // remove content types for which the app has been removed from the sidebar
     const contentTypes = sidebarLocations.reduce((acc, key) => {
       const saved = savedParams.contentTypes[key];
@@ -56,12 +50,14 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
     this.setState(
       {
         allContentTypes: spaceContentTypes.reduce((acc, contentType) => {
-          contentType.fields = contentType.fields
-            // use only short text fields of content type
-            .filter(f => f.type === 'Symbol')
-            // sort by field name
-            .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
-          acc[contentType.sys.id] = contentType;
+          acc[contentType.sys.id] = {
+            ...contentType,
+            fields: contentType.fields
+              // use only short text fields of content type
+              .filter(f => f.type === 'Symbol')
+              // sort by field name
+              .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
+          };
 
           return acc;
         }, {}),
@@ -72,14 +68,14 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
       () => sdk.app.setReady()
     );
 
-    app.onConfigure(() => this.configureApp());
+    sdk.app.onConfigure(() => this.configureApp());
   }
 
   async configureApp() {
     const { contentTypes, clientId, viewId } = this.state;
 
     const EditorInterface = Object.keys(contentTypes).reduce((acc, id) => {
-      acc[id] = { sidebar: { position: 0 } };
+      acc[id] = { sidebar: { position: 1 } };
       return acc;
     }, {});
 

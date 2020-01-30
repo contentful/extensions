@@ -1,17 +1,11 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { Option, Select, DisplayText, Paragraph } from '@contentful/forma-36-react-components';
 
 import Timeline from './Timeline';
 import styles from './styles';
+import { formatLargeNumbers, DAY_IN_MS } from './utils';
+import { RangeOption, AnalyticsProps, AnalyticsState } from './typings';
 
-interface RangeOption {
-  label: string;
-  startDaysAgo: number;
-  endDaysAgo: number;
-}
-
-const DAY_IN_MS = 1000 * 60 * 60 * 24;
 const RANGE_OPTIONS: RangeOption[] = [
   { label: 'Today', startDaysAgo: 1, endDaysAgo: 0 },
   { label: 'Yesterday', startDaysAgo: 2, endDaysAgo: 1 },
@@ -36,19 +30,11 @@ function getRangeDates(rangeOptionIndex) {
   };
 }
 
-export default class Analytics extends React.Component<
-  {
-    pagePath: string;
-    viewId: string;
-  },
-  {
-    rangeOptionIndex: number;
-  }
-> {
+export default class Analytics extends React.Component<AnalyticsProps, AnalyticsState> {
   constructor(props) {
     super(props);
     this.state = {
-      totalPageViews: '',
+      totalPageViews: 0,
       rangeOptionIndex: INITIAL_RANGE_INDEX,
       ...getRangeDates(INITIAL_RANGE_INDEX)
     };
@@ -63,7 +49,7 @@ export default class Analytics extends React.Component<
     });
   }
 
-  updateTotal(data) {
+  updateTotalPageViews(data) {
     const totalPageViews = data.rows.reduce((acc, { c }) => acc + c[1].v, 0);
 
     this.setState({ totalPageViews });
@@ -71,19 +57,14 @@ export default class Analytics extends React.Component<
 
   render() {
     const { rangeOptionIndex, totalPageViews, range, startEnd } = this.state;
-    const { pagePath, viewId } = this.props;
+    const { pagePath, viewId, sdk } = this.props;
     const nDays = range.startDaysAgo - range.endDaysAgo;
     const dimension = nDays > 28 ? 'week' : nDays > 4 ? 'date' : 'hour';
 
-    const formattedPageViews =
-      totalPageViews >= 1_000_000
-        ? Math.round(totalPageViews / 100_000) / 10 + 'm'
-        : totalPageViews >= 1_000
-        ? Math.round(totalPageViews / 100) / 10 + 'k'
-        : totalPageViews;
+    const formattedPageViews = formatLargeNumbers(totalPageViews);
 
     return (
-      <React.Fragment>
+      <>
         <div className={styles.header}>
           <div>
             <DisplayText size="large">{formattedPageViews}</DisplayText>
@@ -101,19 +82,15 @@ export default class Analytics extends React.Component<
           </Select>
         </div>
         <Timeline
-          onData={d => this.updateTotal(d)}
+          onData={d => this.updateTotalPageViews(d)}
           pagePath={pagePath}
           range={startEnd}
           dimension={dimension}
+          sdk={sdk}
           // remove 'ga:' prefix from view id
           viewId={viewId.replace(/^ga:/, '')}
         />
-      </React.Fragment>
+      </>
     );
   }
 }
-
-Analytics.propTypes = {
-  pagePath: PropTypes.string.isRequired,
-  viewId: PropTypes.string.isRequired
-};

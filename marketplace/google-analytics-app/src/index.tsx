@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-// import PropTypes from 'prop-types';
 import {
   init,
   locations,
@@ -26,9 +25,7 @@ export class SidebarExtension extends React.Component<
     const { prefix, slugField } = parameters.installation.contentTypes[contentTypeId];
     const hasSlug = slugField in entry.fields;
 
-    const pagePath = hasSlug
-      ? `/${prefix ? `${prefix}/` : ''}${entry.fields[slugField].getValue()}/`
-      : '';
+    const pagePath = hasSlug ? `/${prefix || ''}${entry.fields[slugField].getValue() || ''}` : '';
 
     this.state = {
       isAuthorized: window.gapi.analytics.auth.isAuthorized(),
@@ -46,13 +43,6 @@ export class SidebarExtension extends React.Component<
     auth.on('signOut', () => this.setState({ isAuthorized: false }));
   }
 
-  onButtonClick = () => {
-    return this.props.sdk.dialogs.openExtension({
-      width: 800,
-      title: 'The same extension rendered in modal window'
-    });
-  };
-
   render() {
     const { isAuthorized, pagePath, hasSlug, contentTypeId } = this.state;
     const { parameters, entry } = this.props.sdk;
@@ -61,12 +51,15 @@ export class SidebarExtension extends React.Component<
       const renderAuthButton = authButton => {
         window.gapi.analytics.auth.authorize({
           container: authButton,
-          clientid: this.props.sdk.parameters.installation.clientId
+          clientid: parameters.installation.clientId
         });
       };
 
       return (
-        <div ref={renderAuthButton} className={isAuthorized ? styles.hidden : styles.signInButton} />
+        <div
+          ref={renderAuthButton}
+          className={isAuthorized ? styles.hidden : styles.signInButton}
+        />
       );
     }
 
@@ -80,7 +73,11 @@ export class SidebarExtension extends React.Component<
 
     return (
       <section>
-        <Analytics pagePath={pagePath} viewId={parameters.installation.viewId} />
+        <Analytics
+          sdk={this.props.sdk}
+          pagePath={pagePath}
+          viewId={parameters.installation.viewId}
+        />
       </section>
     );
   }
