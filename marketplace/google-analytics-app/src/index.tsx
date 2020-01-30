@@ -66,7 +66,7 @@ export class SidebarExtension extends React.Component<
       };
 
       return (
-        <div ref={renderAuthButton} clsas={isAuthorized ? styles.hidden : styles.signInButton} />
+        <div ref={renderAuthButton} className={isAuthorized ? styles.hidden : styles.signInButton} />
       );
     }
 
