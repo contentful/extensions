@@ -74,10 +74,11 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
   }
 
   componentDidUpdate(prevProps) {
-    const { dimensions, start, end } = this.props;
-
-    if (prevProps.dimensions !== dimensions || prevProps.start !== start || prevProps.end !== end) {
-      this.updateTimeline();
+    for (const key of ['dimensions', 'start', 'end', 'pagePath']) {
+      if (this.props[key] !== prevProps[key]) {
+        this.updateTimeline();
+        break;
+      }
     }
   }
 

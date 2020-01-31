@@ -11,7 +11,7 @@ import './index.css';
 import AppConfig from './AppConfig';
 
 import Analytics from './Analytics';
-import { SidebarExtensionState } from './typings';
+import { SidebarExtensionState, SidebarExtensionProps } from './typings';
 import styles from './styles';
 
 export class SidebarExtension extends React.Component<
@@ -20,18 +20,10 @@ export class SidebarExtension extends React.Component<
 > {
   constructor(props: SidebarExtensionProps) {
     super(props);
-    const { entry, parameters } = props.sdk;
-    const contentTypeId = entry.getSys().contentType.sys.id;
-    const { prefix, slugField } = parameters.installation.contentTypes[contentTypeId];
-    const hasSlug = slugField in entry.fields;
-
-    const pagePath = hasSlug ? `/${prefix || ''}${entry.fields[slugField].getValue() || ''}` : '';
 
     this.state = {
       isAuthorized: window.gapi.analytics.auth.isAuthorized(),
-      hasSlug,
-      pagePath,
-      contentTypeId
+      ...this.getEntryStateFields()
     };
   }
 
@@ -41,6 +33,25 @@ export class SidebarExtension extends React.Component<
 
     auth.on('signIn', () => this.setState({ isAuthorized: true }));
     auth.on('signOut', () => this.setState({ isAuthorized: false }));
+
+    this.props.sdk.entry.onSysChanged(() => {
+      this.setState(this.getEntryStateFields);
+    });
+  }
+
+  getEntryStateFields() {
+    const { entry, parameters } = this.props.sdk;
+    const contentTypeId = entry.getSys().contentType.sys.id;
+    const { prefix, slugField } = parameters.installation.contentTypes[contentTypeId];
+    const hasSlug = slugField in entry.fields;
+
+    const pagePath = hasSlug ? `/${prefix || ''}${entry.fields[slugField].getValue() || ''}` : '';
+
+    return {
+      hasSlug,
+      pagePath,
+      contentTypeId
+    };
   }
 
   render() {
