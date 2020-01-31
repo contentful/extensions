@@ -1,3 +1,4 @@
+import pick from 'lodash/pick';
 import { Cloudinary as cloudinaryCore } from 'cloudinary-core';
 
 import { setup } from 'shared-dam-app';
@@ -8,6 +9,23 @@ import descriptor from '../extension.json';
 const VALID_IMAGE_FORMATS = ['svg', 'jpg', 'png', 'gif', 'jpeg'];
 const MAX_FILES_UPPER_LIMIT = 25;
 const CTA = 'Select or upload a file on Cloudinary';
+
+const FIELDS_TO_PERSIST = [
+  'url',
+  'tags',
+  'type',
+  'bytes',
+  'width',
+  'format',
+  'height',
+  'version',
+  'duration',
+  'metadata',
+  'public_id',
+  'created_at',
+  'secure_url',
+  'resource_type'
+];
 
 function makeThumbnail(resource, config) {
   const cloudinary = new cloudinaryCore({
@@ -73,7 +91,7 @@ async function openDialog(sdk, currentValue, config) {
   });
 
   if (result && Array.isArray(result.assets)) {
-    return result.assets;
+    return result.assets.map(asset => pick(asset, FIELDS_TO_PERSIST));
   } else {
     return [];
   }
