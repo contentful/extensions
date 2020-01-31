@@ -92,7 +92,6 @@ async function openDialog(sdk) {
     height: item.height,
     width: item.width,
     created: item.created,
-    creator_name: item.creator_name,
     generic_url: item.generic_url,
     preview_url: item.preview_url,
     src: item.preview_url
