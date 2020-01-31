@@ -113,7 +113,7 @@ export default class NetlifyConfigEditor extends React.Component {
         )}
         {siteConfigs.map((siteConfig, configIndex) => {
           const selectId = `site-select-${configIndex}`;
-          const inputId = `site-input-${configIndex}`;
+          const displayNameInputId = `site-input-${configIndex}`;
           const branchInputId = `site-branch-input-${configIndex}`;
           return (
             <div key={configIndex} className={styles.row}>
@@ -136,8 +136,8 @@ export default class NetlifyConfigEditor extends React.Component {
               </SelectField>
               <TextField
                 className={styles.item}
-                id={inputId}
-                name={inputId}
+                id={displayNameInputId}
+                name={displayNameInputId}
                 labelText="Display name:"
                 textInputProps={{ disabled, width: 'medium', maxLength: 50 }}
                 value={siteConfig.name || ''}
