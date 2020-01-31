@@ -120,9 +120,10 @@ export async function listSites(accessToken) {
   };
 }
 
-export function createBuildHook(siteId, accessToken) {
+export function createBuildHook(siteId, accessToken, branch = null) {
   return post(`/sites/${siteId}/build_hooks`, accessToken, {
-    title: 'Contentful integration'
+    title: 'Contentful integration' + branch ? ` (${branch})` : '',
+    branch
   });
 }
 
