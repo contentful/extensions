@@ -252,8 +252,7 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
                   onChange={event => this.handleContentTypeChange(key, event.target.value)}>
                   {key ? null : (
                     <Option disabled value="">
-                      {' '}
-                      Select a Content Type{' '}
+                      Select a Content Type
                     </Option>
                   )}
 
@@ -277,7 +276,7 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
                   onChange={event =>
                     this.handleContentTypeFieldChange(key, 'slugField', event.target.value)
                   }>
-                  <Option disabled value="">
+                  <Option disabled selected value="">
                     Select slug field
                   </Option>
                   {key
@@ -316,6 +315,7 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
             </Button>
           </Typography>
         </div>
+        <pre>{JSON.stringify(contentTypes, null, 2)}</pre>
       </>
     );
   }
