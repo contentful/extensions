@@ -1,5 +1,4 @@
-// eslint-disable-next-line you-dont-need-lodash-underscore/omit
-import omit from 'lodash/omit';
+import pick from 'lodash/pick';
 import { setup } from 'shared-dam-app';
 
 import logo from './logo.svg';
@@ -10,7 +9,28 @@ const BYNDER_SDK_URL =
 
 const CTA = 'Select or upload a file on Bynder';
 
-const FIELDS_TO_OMIT = ['userCreated'];
+const FIELDS_TO_PERSIST = [
+  'archive',
+  'brandId',
+  'copyright',
+  'dateCreated',
+  'dateModified',
+  'datePublished',
+  'description',
+  'extension',
+  'fileSize',
+  'height',
+  'id',
+  'isPublic',
+  'limited',
+  'name',
+  'orientation',
+  'original',
+  'thumbnails',
+  'type',
+  'watermarked',
+  'width'
+];
 
 function makeThumbnail(resource) {
   const thumbnail = (resource.thumbnails && resource.thumbnails.webimage) || resource.src;
@@ -75,7 +95,7 @@ async function openDialog(sdk, _currentValue, config) {
   }
 
   return result.map(item => ({
-    ...omit(item, FIELDS_TO_OMIT),
+    ...pick(item, FIELDS_TO_PERSIST),
     src: item.thumbnails && item.thumbnails.webimage
   }));
 }
