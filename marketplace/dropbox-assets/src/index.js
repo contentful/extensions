@@ -1,6 +1,18 @@
+import pick from 'lodash/pick';
 import { setup } from 'shared-dam-app';
 
 import logo from './logo.svg';
+
+const FIELDS_TO_PERSIST = [
+  'isDir',
+  'linkType',
+  'name',
+  'thumbnailLink',
+  'bytes',
+  'link',
+  'id',
+  'icon'
+];
 
 function makeThumbnail(file) {
   const url = file.thumbnailLink.split('?')[0] + '?bounding_box=256&mode=fit';
@@ -12,7 +24,8 @@ function makeThumbnail(file) {
 async function openDialog() {
   return new Promise(resolve => {
     window.Dropbox.choose({
-      success: files => resolve(Array.isArray(files) ? files : []),
+      success: files =>
+        resolve(Array.isArray(files) ? files.map(file => pick(file, FIELDS_TO_PERSIST)) : []),
       linkType: 'preview',
       multiselect: true,
       folderselect: false,
