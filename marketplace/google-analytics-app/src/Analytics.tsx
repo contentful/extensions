@@ -35,7 +35,8 @@ export default class Analytics extends React.Component<AnalyticsProps, Analytics
     this.state = {
       totalPageViews: 0,
       rangeOptionIndex: INITIAL_RANGE_INDEX,
-      ...getRangeDates(INITIAL_RANGE_INDEX)
+      ...getRangeDates(INITIAL_RANGE_INDEX),
+      loading: true
     };
   }
 
@@ -55,15 +56,20 @@ export default class Analytics extends React.Component<AnalyticsProps, Analytics
   }
 
   render() {
-    const { rangeOptionIndex, totalPageViews, startEnd } = this.state;
+    const {
+      rangeOptionIndex,
+      totalPageViews,
+      startEnd: { start, end },
+      loading
+    } = this.state;
     const { pagePath, viewId, sdk, gapi } = this.props;
-    const dimension = getDateRangeInterval(startEnd.start, startEnd.end);
+    const dimensions = getDateRangeInterval(start, end);
     const formattedPageViews = formatLargeNumbers(totalPageViews);
 
     return (
       <>
         <div className={styles.header}>
-          <div>
+          <div className={loading ? styles.pageViewsLoading : styles.pageViews}>
             <DisplayText size="large">{formattedPageViews}</DisplayText>
             <Paragraph>Pageviews</Paragraph>
           </div>
@@ -79,10 +85,16 @@ export default class Analytics extends React.Component<AnalyticsProps, Analytics
           </Select>
         </div>
         <Timeline
-          onData={d => this.updateTotalPageViews(d)}
+          onData={d => {
+            this.updateTotalPageViews(d);
+            this.setState({ loading: false });
+          }}
+          onQuery={() => this.setState({ loading: true })}
+          onError={() => this.setState({ loading: false })}
           pagePath={pagePath}
-          range={startEnd}
-          dimension={dimension}
+          start={start}
+          end={end}
+          dimensions={dimensions}
           sdk={sdk}
           gapi={gapi}
           // remove 'ga:' prefix from view id

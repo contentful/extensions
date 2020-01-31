@@ -55,20 +55,21 @@ export interface AnalyticsState {
 
 export interface TimelineProps {
   viewId: string;
-  dimension: string;
+  dimensions: string;
   pagePath: string;
-  range: {
-    start: Date;
-    end: Date;
-  };
-  onData: (event: { data: object }) => void;
+  start: Date;
+  end: Date;
   sdk: AppExtensionSDK;
   gapi: typeof window['gapi'];
+  onData: (event: { data: object }) => void;
+  onQuery: () => void;
+  onError: () => void;
 }
 
 export interface TimelineState {
   timeline: object;
   viewUrl: string;
+  loading: boolean;
 }
 
 export interface RangeOption {

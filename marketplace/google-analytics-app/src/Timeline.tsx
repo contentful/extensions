@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { formatDate } from './utils';
 import styles from './styles';
 import {
@@ -19,17 +18,22 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
     super(props);
     this.state = {
       timeline: null,
-      viewUrl: null
+      viewUrl: null,
+      loading: true
     };
 
-    this.onSuccess = ({ data }) => this.props.onData(data);
-  }
+    this.onSuccess = ({ data }) => {
+      this.setState({ loading: false });
+      this.props.onData(data);
+    };
 
-  shouldComponentUpdate(nextProps) {
-    const { start, end } = this.props.range;
-    const nextRange = nextProps.range;
-
-    return !this.state.timeline || nextRange.start !== start || nextRange.end !== end;
+    this.onError = ({ error }: { error: Error }) => {
+      this.setState({ loading: false });
+      this.props.sdk.notifier.error(
+        `Google Analytics App couldn't get load your page view data (${error.message})`
+      );
+      this.props.onError();
+    };
   }
 
   async componentDidMount() {
@@ -52,23 +56,50 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
         type: 'LINE',
         container: this.timeline,
         options: {
-          width: '100%',
+          width: window.innerWidth,
           height: CHART_HEIGHT,
           backgroundColor: 'transparent',
-          legend: false
+          legend: 'none',
+          margin: 0
         }
       }
     });
 
     timeline.on('success', this.onSuccess);
-    timeline.on('error', ({ error }: { error: Error }) => {
-      sdk.notifier.error(
-        `Google Analytics App couldn't get load your page view data (${error.message})`
-      );
-    });
+    timeline.on('error', this.onError);
 
     // eslint-disable-next-line
     this.setState({ timeline, viewUrl });
+    this.updateTimeline();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { dimensions, start, end } = this.props;
+
+    if (prevProps.dimensions !== dimensions || prevProps.start !== start || prevProps.end !== end) {
+      this.updateTimeline();
+    }
+  }
+
+  updateTimeline() {
+    if (!this.state.timeline) {
+      return;
+    }
+
+    const { dimensions, start, end, pagePath, viewId } = this.props;
+
+    const query = {
+      ids: `ga:${viewId}`,
+      dimensions: `ga:${dimensions}`,
+      metrics: 'ga:pageViews',
+      filters: `ga:pagePath==${pagePath}`,
+      'start-date': formatDate(start),
+      'end-date': formatDate(end)
+    };
+
+    this.state.timeline.set({ query }).execute();
+    this.setState({ loading: true });
+    this.props.onQuery();
   }
 
   getExternalUrl(accounts) {
@@ -87,29 +118,19 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
   }
 
   render() {
-    const { range, dimension, pagePath, viewId } = this.props;
+    const { pagePath } = this.props;
     const { timeline, viewUrl } = this.state;
-    const query = {
-      ids: `ga:${viewId}`,
-      dimensions: `ga:${dimension}`,
-      metrics: 'ga:pageViews',
-      filters: `ga:pagePath==${pagePath}`,
-      'start-date': formatDate(range.start),
-      'end-date': formatDate(range.end)
-    };
-
-    if (timeline) {
-      timeline.set({ query }).execute();
-    }
+    let { loading } = this.state;
 
     return (
-      <div>
+      <div className={styles.timeline}>
         <div
-          ref={c => {
-            this.timeline = c;
-          }}
-          className={styles.timeline}
+          ref={c => (this.timeline = c)}
+          className={`${loading ? styles.invisible : ''} ${styles.timelineChart}`}
         />
+        <SkeletonContainer className={loading ? styles.timelineSkeleton : styles.hidden}>
+          <SkeletonImage width={window.innerWidth} height={CHART_HEIGHT} />
+        </SkeletonContainer>
         {timeline ? (
           <>
             <Paragraph className={styles.slug}>{pagePath}</Paragraph>
@@ -119,11 +140,7 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
               </TextLink>
             ) : null}
           </>
-        ) : (
-          <SkeletonContainer>
-            <SkeletonImage width={window.innerWidth} height={CHART_HEIGHT} />
-          </SkeletonContainer>
-        )}
+        ) : null}
       </div>
     );
   }

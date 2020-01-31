@@ -64,5 +64,24 @@ export default {
   }),
   spaced: css({
     marginBottom: tokens.spacingL
+  }),
+  timeline: css({
+    position: 'relative'
+  }),
+  timelineChart: css({
+    minHeight: '200px'
+  }),
+  timelineSkeleton: css({
+    position: 'absolute',
+    top: 0,
+    left: 0
+  }),
+  pageViews: css({
+    opacity: 1,
+    transition: `opacity ${tokens.transitionDurationShort}`
+  }),
+  pageViewsLoading: css({
+    opacity: 0,
+    transition: `opacity ${tokens.transitionDurationShort}`
   })
 };
