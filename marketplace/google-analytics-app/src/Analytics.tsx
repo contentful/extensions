@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Option, Select, DisplayText, Paragraph } from '@contentful/forma-36-react-components';
+import { Select, DisplayText, Paragraph } from '@contentful/forma-36-react-components';
 
 import Timeline from './Timeline';
 import styles from './styles';
@@ -75,9 +75,9 @@ export default class Analytics extends React.Component<AnalyticsProps, Analytics
             value={`${rangeOptionIndex}`}
             onChange={event => this.handleRangeChange((event.target as HTMLSelectElement).value)}>
             {RANGE_OPTIONS.map((r, index) => (
-              <Option key={index} value={`${index}`}>
+              <option key={index} value={`${index}`}>
                 {r.label}
-              </Option>
+              </option>
             ))}
           </Select>
         </div>

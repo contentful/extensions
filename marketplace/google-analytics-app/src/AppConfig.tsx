@@ -5,7 +5,6 @@ import {
   Heading,
   Paragraph,
   TextField,
-  Option,
   TextLink,
   Button,
   Select,
@@ -187,8 +186,6 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
   render() {
     const { contentTypes, allContentTypes } = this.state;
 
-    const optionPlaceholderAttrs: { [key: string]: boolean } = { disabled: true, selected: true };
-
     return (
       <>
         <div className={styles.background} />
@@ -275,9 +272,9 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
                     this.handleContentTypeChange(key, event.target.value)
                   }>
                   {key ? null : (
-                    <Option {...optionPlaceholderAttrs} value="">
+                    <option disabled value="">
                       Select a Content Type
-                    </Option>
+                    </option>
                   )}
 
                   {Object.entries(allContentTypes)
@@ -285,9 +282,9 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
                     // and all types that are not selected
                     .filter(([type]) => type === key || !contentTypes[type])
                     .map(([type, { name: typeName }]) => (
-                      <Option key={`${key}->${type}`} value={type}>
+                      <option key={`${key}->${type}`} value={type}>
                         {typeName}
-                      </Option>
+                      </option>
                     ))}
                 </Select>
 
@@ -300,14 +297,14 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     this.handleContentTypeFieldChange(key, 'slugField', event.target.value)
                   }>
-                  <Option {...optionPlaceholderAttrs} value="">
+                  <option disabled value="">
                     Select slug field
-                  </Option>
+                  </option>
                   {key
                     ? allContentTypes[key].fields.map(f => (
-                        <Option key={`${key}.${f.id}`} value={f.id}>
+                        <option key={`${key}.${f.id}`} value={f.id}>
                           {f.name}
-                        </Option>
+                        </option>
                       ))
                     : null}
                 </Select>
