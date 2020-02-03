@@ -10,7 +10,7 @@ This app can be installed for fields of type `Short text` or `List of short text
 
 To install this app you have to:
 
-- Sign up with Commercetools and [create an API client](https://docs.commercetools.com/getting-started) to acquire the necessary credentials.
+- Sign up with Commercetools and [create a read-only API client](https://docs.commercetools.com/getting-started) to acquire the necessary credentials.
 - Fill in all data pertaining to your Commercetools account in the installation screen.
 - Select all fields for which you'd like to install the Commercetools app from the list of available fields.
 - Click on `Install`
