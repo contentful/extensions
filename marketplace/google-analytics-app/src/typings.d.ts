@@ -1,19 +1,13 @@
-import { AppExtensionSDK } from 'contentful-ui-extensions-sdk';
+import { AppExtensionSDK, SidebarExtensionSDK } from 'contentful-ui-extensions-sdk';
+
+// eslint-disable-next-line no-undef, @typescript-eslint/no-use-before-define
+export type Gapi = typeof globalThis.gapi & { analytics: typeof gapi.analytics };
 
 export interface AppConfigParams {
   sdk: AppExtensionSDK;
 }
 
-export interface AppConfigState {
-  allContentTypes: {
-    [id: string]: {
-      fields: {
-        [id: string]: string;
-        name: string;
-      }[];
-    };
-  };
-  allContentTypeKeys: string[];
+export interface SavedParams {
   contentTypes: {
     [id: string]: {
       urlPrefix: string;
@@ -24,33 +18,45 @@ export interface AppConfigState {
   viewId: string;
 }
 
+export interface AppConfigState extends SavedParams {
+  allContentTypes: {
+    [id: string]: {
+      name: string;
+      fields: {
+        id: string;
+        name: string;
+      }[];
+    };
+  };
+}
+
 export interface SidebarExtensionProps {
-  sdk: AppExtensionSDK;
+  sdk: SidebarExtensionSDK;
+  gapi: Gapi;
 }
 
 export interface SidebarExtensionState {
-  parameters: object;
   isAuthorized: boolean;
   hasSlug: boolean;
-  pagePath: boolean;
+  pagePath: string;
   contentTypeId: string;
 }
 
 export interface AnalyticsProps {
   pagePath: string;
   viewId: string;
-  sdk: AppExtensionSDK;
-  gapi: typeof window['gapi'];
+  sdk: SidebarExtensionSDK;
+  gapi: Gapi;
 }
 
 export interface AnalyticsState {
   rangeOptionIndex: number;
   totalPageViews: number;
-  today: Date;
   startEnd: {
     start: Date;
     end: Date;
   };
+  loading: boolean;
 }
 
 export interface TimelineProps {
@@ -59,15 +65,15 @@ export interface TimelineProps {
   pagePath: string;
   start: Date;
   end: Date;
-  sdk: AppExtensionSDK;
-  gapi: typeof window['gapi'];
-  onData: (event: { data: object }) => void;
+  sdk: SidebarExtensionSDK;
+  gapi: Gapi;
+  onData: (data: ChartData) => void;
   onQuery: () => void;
   onError: () => void;
 }
 
 export interface TimelineState {
-  timeline: object;
+  timeline?: DataChart;
   viewUrl: string;
   loading: boolean;
 }
@@ -76,4 +82,31 @@ export interface RangeOption {
   label: string;
   startDaysAgo: number;
   endDaysAgo: number;
+}
+
+export interface ChartData {
+  rows: {
+    c: {
+      v: number;
+    }[];
+  }[];
+}
+
+export class DataChart {
+  constructor(options: object);
+  query(options: object): void;
+  on<T extends object>(type: string, listener: (event: T) => void): void;
+  set(options: { [key: string]: object }): DataChart;
+  execute(): void;
+}
+
+declare namespace gapi.analytics {
+  export const googleCharts: {
+    DataChart: typeof DataChart;
+  };
+  export const auth: {
+    isAuthorized: () => boolean;
+    authorize: (options: { container: HTMLElement | string; clientid: string }) => void;
+    on(type: string, listener: () => void): void;
+  };
 }

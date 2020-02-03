@@ -7,32 +7,34 @@ import {
   SkeletonContainer,
   Paragraph
 } from '@contentful/forma-36-react-components';
-import { TimelineProps, TimelineState } from './typings';
+import { TimelineProps, TimelineState, ChartData } from './typings';
 
 const CHART_HEIGHT = 200;
 const externalUrlBase = 'https://analytics.google.com/analytics/web/#/report/content-pages';
 const externalUrlPageQuery = '_r.drilldown=analytics.pagePath:';
 
 export default class Timeline extends React.Component<TimelineProps, TimelineState> {
-  constructor(props) {
+  timeline!: HTMLElement;
+
+  onSuccess = ({ data }: { data: ChartData }) => {
+    this.setState({ loading: false });
+    this.props.onData(data);
+  };
+
+  onError = ({ error }: { error: Error }) => {
+    this.setState({ loading: false });
+    this.props.sdk.notifier.error(
+      `Google Analytics App couldn't get load your page view data (${error.message})`
+    );
+    this.props.onError();
+  };
+
+  constructor(props: TimelineProps) {
     super(props);
     this.state = {
-      timeline: null,
-      viewUrl: null,
+      timeline: undefined,
+      viewUrl: '',
       loading: true
-    };
-
-    this.onSuccess = ({ data }) => {
-      this.setState({ loading: false });
-      this.props.onData(data);
-    };
-
-    this.onError = ({ error }: { error: Error }) => {
-      this.setState({ loading: false });
-      this.props.sdk.notifier.error(
-        `Google Analytics App couldn't get load your page view data (${error.message})`
-      );
-      this.props.onError();
     };
   }
 
@@ -73,8 +75,8 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
     this.updateTimeline();
   }
 
-  componentDidUpdate(prevProps) {
-    for (const key of ['dimensions', 'start', 'end', 'pagePath']) {
+  componentDidUpdate(prevProps: TimelineProps) {
+    for (const key of ['dimensions', 'start', 'end', 'pagePath'] as const) {
       if (this.props[key] !== prevProps[key]) {
         this.updateTimeline();
         break;
@@ -103,7 +105,19 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
     this.props.onQuery();
   }
 
-  getExternalUrl(accounts) {
+  getExternalUrl(accounts: {
+    result: {
+      items: {
+        id: string;
+        webProperties: {
+          internalWebPropertyId: string;
+          profiles: {
+            id: string;
+          }[];
+        }[];
+      }[];
+    };
+  }) {
     for (const account of accounts.result.items) {
       for (const prop of account.webProperties) {
         for (const view of prop.profiles) {
@@ -126,7 +140,9 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
     return (
       <div className={styles.timeline}>
         <div
-          ref={c => (this.timeline = c)}
+          ref={(c: HTMLDivElement) => {
+            this.timeline = c;
+          }}
           className={`${loading ? styles.invisible : ''} ${styles.timelineChart}`}
         />
         <SkeletonContainer className={loading ? styles.timelineSkeleton : styles.hidden}>

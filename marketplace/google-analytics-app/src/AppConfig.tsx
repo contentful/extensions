@@ -1,5 +1,5 @@
 import * as React from 'react';
-import sortBy from 'lodash.sortby';
+import sortBy from 'lodash/sortBy';
 import {
   Typography,
   Heading,
@@ -15,6 +15,12 @@ import {
 import styles from './styles';
 import { AppConfigParams, AppConfigState } from './typings';
 import { getAndUpdateSavedParams } from './utils';
+import {
+  ContentType,
+  EditorInterface,
+  ContentTypeField,
+  CollectionResponse
+} from 'contentful-ui-extensions-sdk';
 
 export default class AppConfig extends React.Component<AppConfigParams, AppConfigState> {
   state: AppConfigState = {
@@ -28,7 +34,9 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
     const { sdk } = this.props;
 
     const [{ items: spaceContentTypes }, savedParams] = await Promise.all([
-      sdk.space.getContentTypes(),
+      sdk.space.getContentTypes() as Promise<
+        CollectionResponse<ContentType & { fields: ContentTypeField[] }>
+      >,
       getAndUpdateSavedParams(sdk)
     ]);
 
@@ -43,19 +51,22 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
     this.setState(
       {
         // sort contentTypes by display name
-        allContentTypes: sortBy(spaceContentTypes, 'name').reduce((acc, contentType) => {
-          acc[contentType.sys.id] = {
-            ...contentType,
-            fields: sortBy(
-              // use only short text fields of content type
-              contentType.fields.filter(f => f.type === 'Symbol'),
-              // sort by field name
-              'name'
-            )
-          };
+        allContentTypes: sortBy(spaceContentTypes, 'name').reduce(
+          (acc: AppConfigState['allContentTypes'], contentType) => {
+            acc[contentType.sys.id] = {
+              ...contentType,
+              fields: sortBy(
+                // use only short text fields of content type
+                contentType.fields.filter(f => f.type === 'Symbol'),
+                // sort by field name
+                'name'
+              )
+            };
 
-          return acc;
-        }, {}),
+            return acc;
+          },
+          {}
+        ),
         contentTypes,
         clientId: savedParams.clientId || '',
         viewId: savedParams.viewId || ''
@@ -92,10 +103,15 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
       return false;
     }
 
-    const EditorInterface = Object.keys(contentTypes).reduce((acc, id) => {
-      acc[id] = { sidebar: { position: 1 } };
-      return acc;
-    }, {});
+    const editorInterface = ctKeys.reduce(
+      (acc: { [key: string]: Partial<EditorInterface> }, id) => {
+        const sidebarPosition: { [key: string]: object } = { sidebar: { position: 1 } };
+
+        acc[id] = sidebarPosition;
+        return acc;
+      },
+      {}
+    );
 
     return {
       parameters: {
@@ -104,21 +120,21 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
         viewId
       },
       targetState: {
-        EditorInterface
+        EditorInterface: editorInterface
       }
     };
   }
 
-  handleContentTypeChange(prevKey, newKey) {
+  handleContentTypeChange(prevKey: string, newKey: string) {
     this.setState(prevState => {
-      const contentTypes = {};
+      const contentTypes: AppConfigState['contentTypes'] = {};
 
       // remove contentType[prevKey] field and replace with the new contentType
       // key while preserving key order
       for (const [prop, value] of Object.entries(prevState.contentTypes)) {
         if (prop === prevKey) {
-          contentTypes[newKey] = {
-            slugId: '',
+          contentTypes[newKey as keyof typeof contentTypes] = {
+            slugField: '',
             urlPrefix: value.urlPrefix
           };
         } else {
@@ -132,7 +148,7 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
     });
   }
 
-  handleContentTypeFieldChange(key, field, value) {
+  handleContentTypeFieldChange(key: string, field: string, value: string) {
     this.setState(prevState => {
       const prevContentTypes = prevState.contentTypes;
       const curContentTypeProps = prevContentTypes[key];
@@ -158,7 +174,7 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
     }));
   }
 
-  removeContentType(key) {
+  removeContentType(key: string) {
     this.setState(prevState => {
       const contentTypes = { ...prevState.contentTypes };
 
@@ -171,11 +187,13 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
   render() {
     const { contentTypes, allContentTypes } = this.state;
 
+    const optionPlaceholderAttrs: { [key: string]: boolean } = { disabled: true, selected: true };
+
     return (
       <>
         <div className={styles.background} />
         <div className={styles.body}>
-          <div className={styles.section}>
+          <div>
             <Typography>
               <Heading className={styles.spaced}>About Google Analytics</Heading>
 
@@ -201,7 +219,9 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
               id="clientId"
               required
               value={this.state.clientId}
-              onChange={event => this.setState({ clientId: event.target.value.trim() })}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                this.setState({ clientId: event.target.value.trim() })
+              }
               helpText="Client ID of the Google Cloud OAuth application."
               className={styles.spaced}
               textInputProps={{
@@ -215,7 +235,9 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
               name="viewId"
               id="viewId"
               value={this.state.viewId}
-              onChange={event => this.setState({ viewId: event.target.value.trim() })}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                this.setState({ viewId: event.target.value.trim() })
+              }
               helpText="The ID of the Google Analytics view you want to query."
               textInputProps={{
                 type: 'text'
@@ -234,9 +256,9 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
             </Paragraph>
 
             <div className={styles.contentTypeGrid}>
-              <FormLabel>Content type</FormLabel>
-              <FormLabel>Slug field</FormLabel>
-              <FormLabel>URL prefix</FormLabel>
+              <FormLabel htmlFor="">Content type</FormLabel>
+              <FormLabel htmlFor="">Slug field</FormLabel>
+              <FormLabel htmlFor="">URL prefix</FormLabel>
               <div className={styles.invisible}>Remover</div>
             </div>
 
@@ -249,9 +271,11 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
                   id={'contentType-' + index}
                   value={key}
                   hasError={!key}
-                  onChange={event => this.handleContentTypeChange(key, event.target.value)}>
+                  onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+                    this.handleContentTypeChange(key, event.target.value)
+                  }>
                   {key ? null : (
-                    <Option disabled value="">
+                    <Option {...optionPlaceholderAttrs} value="">
                       Select a Content Type
                     </Option>
                   )}
@@ -271,12 +295,12 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
                   name={'slugField-' + index}
                   id={'slugField-' + index}
                   isDisabled={!key}
-                  hasError={key && !slugField}
+                  hasError={key ? !slugField : false}
                   value={slugField}
-                  onChange={event =>
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     this.handleContentTypeFieldChange(key, 'slugField', event.target.value)
                   }>
-                  <Option disabled selected value="">
+                  <Option {...optionPlaceholderAttrs} value="">
                     Select slug field
                   </Option>
                   {key
@@ -296,9 +320,6 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
                   onChange={event =>
                     this.handleContentTypeFieldChange(key, 'urlPrefix', event.target.value)
                   }
-                  textInputProps={{
-                    type: 'text'
-                  }}
                 />
 
                 <TextLink onClick={() => this.removeContentType(key)}>Remove</TextLink>
@@ -315,7 +336,6 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
             </Button>
           </Typography>
         </div>
-        <pre>{JSON.stringify(contentTypes, null, 2)}</pre>
       </>
     );
   }

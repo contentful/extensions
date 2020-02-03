@@ -1,5 +1,6 @@
-import get from 'lodash.get';
+import get from 'lodash/get';
 import { CollectionResponse, EditorInterface, AppExtensionSDK } from 'contentful-ui-extensions-sdk';
+import { SavedParams } from './typings';
 
 export function formatDate(date: Date) {
   return date.toISOString().slice(0, 10);
@@ -8,16 +9,18 @@ export function formatDate(date: Date) {
 export async function getAndUpdateSavedParams(sdk: AppExtensionSDK) {
   const { space, ids } = sdk;
   const [savedParams, eisResponse] = await Promise.all([
-    sdk.app.getParameters(),
+    sdk.app.getParameters() as Promise<SavedParams>,
     space.getEditorInterfaces() as Promise<CollectionResponse<EditorInterface>>
   ]);
   const selectedContentTypes = (
-    (eisResponse && (eisResponse as { items: { [id: string]: object }[] }).items) ||
+    (eisResponse &&
+      (eisResponse as { items: { sidebar: { widgetNamespace: string; widgetId: string }[] }[] })
+        .items) ||
     []
   )
     .filter(
       ei =>
-        !!get(ei, ['sidebar'], []).find((item: { widgetNamespace: string; widgetId: string }) => {
+        !!get(ei, ['sidebar'], []).find(item => {
           return item.widgetNamespace === 'app' && item.widgetId === ids.app;
         })
     )
@@ -26,7 +29,7 @@ export async function getAndUpdateSavedParams(sdk: AppExtensionSDK) {
 
   const savedContentTypes: {
     [key: string]: object;
-  } = (savedParams && (savedParams as { contentTypes: {} }).contentTypes) || {};
+  } = (savedParams && savedParams.contentTypes) || {};
   // remove content types for which the app has been removed from the sidebar
   const contentTypes = selectedContentTypes.reduce((acc, key: string) => {
     const saved = savedContentTypes[key];
@@ -75,4 +78,6 @@ export function getDateRangeInterval(start: Date, end: Date) {
       return breakpoint.interval;
     }
   }
+
+  return '';
 }

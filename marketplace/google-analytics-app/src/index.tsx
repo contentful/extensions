@@ -1,4 +1,5 @@
 import * as React from 'react';
+import debounce from 'lodash/debounce';
 import { render } from 'react-dom';
 import {
   init,
@@ -11,41 +12,52 @@ import './index.css';
 import AppConfig from './AppConfig';
 
 import Analytics from './Analytics';
-import { SidebarExtensionState, SidebarExtensionProps } from './typings';
+import { SidebarExtensionState, SidebarExtensionProps, Gapi, SavedParams } from './typings';
 import styles from './styles';
 
 export class SidebarExtension extends React.Component<
   SidebarExtensionProps,
   SidebarExtensionState
 > {
+  state: SidebarExtensionState;
+
   constructor(props: SidebarExtensionProps) {
     super(props);
 
     this.state = {
-      isAuthorized: window.gapi.analytics.auth.isAuthorized(),
+      isAuthorized: props.gapi.analytics.auth.isAuthorized(),
       ...this.getEntryStateFields()
     };
   }
 
   componentDidMount() {
-    this.props.sdk.window.startAutoResizer();
-    const { auth } = window.gapi.analytics;
+    const { sdk, gapi } = this.props;
+    const { auth } = gapi.analytics;
+
+    sdk.window.startAutoResizer();
 
     auth.on('signIn', () => this.setState({ isAuthorized: true }));
     auth.on('signOut', () => this.setState({ isAuthorized: false }));
 
-    this.props.sdk.entry.onSysChanged(() => {
-      this.setState(this.getEntryStateFields);
-    });
+    this.props.sdk.entry.onSysChanged(
+      debounce(() => {
+        this.setState(this.getEntryStateFields());
+      }, 500)
+    );
   }
 
   getEntryStateFields() {
     const { entry, parameters } = this.props.sdk;
-    const contentTypeId = entry.getSys().contentType.sys.id;
-    const { prefix, slugField } = parameters.installation.contentTypes[contentTypeId];
+    const contentTypeId = (entry.getSys() as { contentType: { sys: { id: string } } }).contentType
+      .sys.id;
+    const { urlPrefix, slugField } = (parameters.installation as SavedParams).contentTypes[
+      contentTypeId
+    ];
     const hasSlug = slugField in entry.fields;
 
-    const pagePath = hasSlug ? `/${prefix || ''}${entry.fields[slugField].getValue() || ''}` : '';
+    const pagePath = hasSlug
+      ? `/${urlPrefix || ''}${entry.fields[slugField].getValue() || ''}`
+      : '';
 
     return {
       hasSlug,
@@ -57,13 +69,14 @@ export class SidebarExtension extends React.Component<
   render() {
     const { isAuthorized, pagePath, hasSlug, contentTypeId } = this.state;
     const { parameters, entry, notifier } = this.props.sdk;
+    const { clientId, viewId } = parameters.installation as SavedParams;
 
     if (!isAuthorized) {
-      const renderAuthButton = async authButton => {
+      const renderAuthButton = async (authButton: HTMLDivElement) => {
         try {
-          window.gapi.analytics.auth.authorize({
+          this.props.gapi.analytics.auth.authorize({
             container: authButton,
-            clientid: parameters.installation.clientId
+            clientid: clientId
           });
         } catch (error) {
           notifier.error("The client ID set in this app's config is invalid");
@@ -82,7 +95,7 @@ export class SidebarExtension extends React.Component<
       return <p>This {contentTypeId} entry doesn&apos;t have a valid slug field.</p>;
     }
 
-    if (!entry.getSys().publishedAt) {
+    if (!(entry.getSys() as { publishedAt?: Date }).publishedAt) {
       return <p>This {contentTypeId} entry hasn&apos;t been published.</p>;
     }
 
@@ -90,9 +103,9 @@ export class SidebarExtension extends React.Component<
       <section>
         <Analytics
           sdk={this.props.sdk}
-          gapi={window.gapi}
+          gapi={this.props.gapi}
           pagePath={pagePath}
-          viewId={parameters.installation.viewId}
+          viewId={viewId}
         />
       </section>
     );
@@ -103,7 +116,13 @@ init(sdk => {
   if (sdk.location.is(locations.LOCATION_APP_CONFIG)) {
     render(<AppConfig sdk={sdk as AppExtensionSDK} />, document.getElementById('root'));
   } else {
-    render(<SidebarExtension sdk={sdk as SidebarExtensionSDK} />, document.getElementById('root'));
+    render(
+      <SidebarExtension
+        sdk={sdk as SidebarExtensionSDK}
+        gapi={((window as unknown) as { gapi: Gapi }).gapi}
+      />,
+      document.getElementById('root')
+    );
   }
 });
 

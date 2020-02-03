@@ -4,24 +4,21 @@ import { Option, Select, DisplayText, Paragraph } from '@contentful/forma-36-rea
 import Timeline from './Timeline';
 import styles from './styles';
 import { formatLargeNumbers, DAY_IN_MS, getDateRangeInterval } from './utils';
-import { RangeOption, AnalyticsProps, AnalyticsState } from './typings';
+import { RangeOption, AnalyticsProps, AnalyticsState, ChartData } from './typings';
 
 const RANGE_OPTIONS: RangeOption[] = [
-  { label: 'Today', startDaysAgo: 1, endDaysAgo: 0 },
-  { label: 'Yesterday', startDaysAgo: 2, endDaysAgo: 1 },
   { label: 'Last 7 days', startDaysAgo: 7, endDaysAgo: 0 },
   { label: 'Last 28 days', startDaysAgo: 28, endDaysAgo: 0 },
   { label: 'Last 90 days', startDaysAgo: 90, endDaysAgo: 0 }
 ];
 
-const INITIAL_RANGE_INDEX = 2;
+const INITIAL_RANGE_INDEX = 0;
 
-function getRangeDates(rangeOptionIndex) {
+function getRangeDates(rangeOptionIndex: number) {
   const range = RANGE_OPTIONS[rangeOptionIndex];
-  const today = new Date();
+  const today = new Date().valueOf();
 
   return {
-    today,
     startEnd: {
       start: new Date(today - DAY_IN_MS * range.startDaysAgo),
       end: new Date(today - DAY_IN_MS * range.endDaysAgo)
@@ -30,7 +27,7 @@ function getRangeDates(rangeOptionIndex) {
 }
 
 export default class Analytics extends React.Component<AnalyticsProps, AnalyticsState> {
-  constructor(props) {
+  constructor(props: AnalyticsProps) {
     super(props);
     this.state = {
       totalPageViews: 0,
@@ -40,8 +37,8 @@ export default class Analytics extends React.Component<AnalyticsProps, Analytics
     };
   }
 
-  handleRangeChange(rangeOptionIndex: string) {
-    rangeOptionIndex = parseInt(rangeOptionIndex, 10);
+  handleRangeChange(value: string) {
+    const rangeOptionIndex = parseInt(value, 10);
 
     this.setState({
       rangeOptionIndex,
@@ -49,7 +46,7 @@ export default class Analytics extends React.Component<AnalyticsProps, Analytics
     });
   }
 
-  updateTotalPageViews(data) {
+  updateTotalPageViews(data: ChartData) {
     const totalPageViews = data.rows.reduce((acc, { c }) => acc + c[1].v, 0);
 
     this.setState({ totalPageViews });
@@ -76,7 +73,7 @@ export default class Analytics extends React.Component<AnalyticsProps, Analytics
           <Select
             name="range"
             value={`${rangeOptionIndex}`}
-            onChange={event => this.handleRangeChange(event.target.value)}>
+            onChange={event => this.handleRangeChange((event.target as HTMLSelectElement).value)}>
             {RANGE_OPTIONS.map((r, index) => (
               <Option key={index} value={`${index}`}>
                 {r.label}
@@ -85,7 +82,7 @@ export default class Analytics extends React.Component<AnalyticsProps, Analytics
           </Select>
         </div>
         <Timeline
-          onData={d => {
+          onData={(d: ChartData) => {
             this.updateTotalPageViews(d);
             this.setState({ loading: false });
           }}
