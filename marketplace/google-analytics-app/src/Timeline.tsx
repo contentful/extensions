@@ -7,7 +7,7 @@ import {
   SkeletonContainer,
   Paragraph
 } from '@contentful/forma-36-react-components';
-import { TimelineProps, TimelineState, ChartData } from './typings';
+import { TimelineProps, TimelineState, ChartData, AccountsSummary, DataChart } from './typings';
 
 const CHART_HEIGHT = 200;
 const externalUrlBase = 'https://analytics.google.com/analytics/web/#/report/content-pages';
@@ -15,6 +15,7 @@ const externalUrlPageQuery = '_r.drilldown=analytics.pagePath:';
 
 export default class Timeline extends React.Component<TimelineProps, TimelineState> {
   timeline!: HTMLElement;
+  dataChart!: DataChart;
 
   onSuccess = ({ data }: { data: ChartData }) => {
     this.setState({ loading: false });
@@ -32,7 +33,6 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
   constructor(props: TimelineProps) {
     super(props);
     this.state = {
-      timeline: undefined,
       viewUrl: '',
       loading: true
     };
@@ -52,7 +52,7 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
       );
     }
 
-    const timeline = new gapi.analytics.googleCharts.DataChart({
+    const dataChart = new gapi.analytics.googleCharts.DataChart({
       reportType: 'ga',
       chart: {
         type: 'LINE',
@@ -67,16 +67,19 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
       }
     });
 
-    timeline.on('success', this.onSuccess);
-    timeline.on('error', this.onError);
+    dataChart.on('success', this.onSuccess);
+    dataChart.on('error', this.onError);
 
     // eslint-disable-next-line
-    this.setState({ timeline, viewUrl });
+    this.setState({ viewUrl });
+    this.dataChart = dataChart;
     this.updateTimeline();
   }
 
   componentDidUpdate(prevProps: TimelineProps) {
-    for (const key of ['dimensions', 'start', 'end', 'pagePath'] as const) {
+    const chartQueryKeys = ['dimensions', 'start', 'end', 'pagePath'] as const;
+
+    for (const key of chartQueryKeys) {
       if (this.props[key] !== prevProps[key]) {
         this.updateTimeline();
         break;
@@ -85,7 +88,7 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
   }
 
   updateTimeline() {
-    if (!this.state.timeline) {
+    if (!this.dataChart) {
       return;
     }
 
@@ -100,24 +103,12 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
       'end-date': formatDate(end)
     };
 
-    this.state.timeline.set({ query }).execute();
+    this.dataChart.set({ query }).execute();
     this.setState({ loading: true });
     this.props.onQuery();
   }
 
-  getExternalUrl(accounts: {
-    result: {
-      items: {
-        id: string;
-        webProperties: {
-          internalWebPropertyId: string;
-          profiles: {
-            id: string;
-          }[];
-        }[];
-      }[];
-    };
-  }) {
+  getExternalUrl(accounts: AccountsSummary) {
     for (const account of accounts.result.items) {
       for (const prop of account.webProperties) {
         for (const view of prop.profiles) {
@@ -134,8 +125,7 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
 
   render() {
     const { pagePath } = this.props;
-    const { timeline, viewUrl } = this.state;
-    let { loading } = this.state;
+    const { loading, viewUrl } = this.state;
 
     return (
       <div className={styles.timeline}>
@@ -148,7 +138,7 @@ export default class Timeline extends React.Component<TimelineProps, TimelineSta
         <SkeletonContainer className={loading ? styles.timelineSkeleton : styles.hidden}>
           <SkeletonImage width={window.innerWidth} height={CHART_HEIGHT} />
         </SkeletonContainer>
-        {timeline ? (
+        {this.dataChart ? (
           <>
             <Paragraph className={styles.slug}>{pagePath}</Paragraph>
             {viewUrl ? (

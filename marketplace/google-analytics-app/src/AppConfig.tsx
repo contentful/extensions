@@ -12,7 +12,7 @@ import {
   TextInput
 } from '@contentful/forma-36-react-components';
 import styles from './styles';
-import { AppConfigParams, AppConfigState } from './typings';
+import { AppConfigParams, AppConfigState, AllContentTypes, ContentTypes } from './typings';
 import { getAndUpdateSavedParams } from './utils';
 import {
   ContentType,
@@ -51,7 +51,7 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
       {
         // sort contentTypes by display name
         allContentTypes: sortBy(spaceContentTypes, 'name').reduce(
-          (acc: AppConfigState['allContentTypes'], contentType) => {
+          (acc: AllContentTypes, contentType) => {
             acc[contentType.sys.id] = {
               ...contentType,
               fields: sortBy(
@@ -126,7 +126,7 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
 
   handleContentTypeChange(prevKey: string, newKey: string) {
     this.setState(prevState => {
-      const contentTypes: AppConfigState['contentTypes'] = {};
+      const contentTypes: ContentTypes = {};
 
       // remove contentType[prevKey] field and replace with the new contentType
       // key while preserving key order
@@ -300,13 +300,12 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
                   <option disabled value="">
                     Select slug field
                   </option>
-                  {key
-                    ? allContentTypes[key].fields.map(f => (
-                        <option key={`${key}.${f.id}`} value={f.id}>
-                          {f.name}
-                        </option>
-                      ))
-                    : null}
+                  {key &&
+                    allContentTypes[key].fields.map(f => (
+                      <option key={`${key}.${f.id}`} value={f.id}>
+                        {f.name}
+                      </option>
+                    ))}
                 </Select>
 
                 <TextInput

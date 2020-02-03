@@ -8,26 +8,30 @@ export interface AppConfigParams {
 }
 
 export interface SavedParams {
-  contentTypes: {
-    [id: string]: {
-      urlPrefix: string;
-      slugField: string;
-    };
-  };
+  contentTypes: ContentTypes;
   clientId: string;
   viewId: string;
 }
 
-export interface AppConfigState extends SavedParams {
-  allContentTypes: {
-    [id: string]: {
+export interface AllContentTypes {
+  [id: string]: {
+    name: string;
+    fields: {
+      id: string;
       name: string;
-      fields: {
-        id: string;
-        name: string;
-      }[];
-    };
+    }[];
   };
+}
+
+export interface ContentTypes {
+  [id: string]: {
+    urlPrefix: string;
+    slugField: string;
+  };
+}
+
+export interface AppConfigState extends SavedParams {
+  allContentTypes: AllContentTypes;
 }
 
 export interface SidebarExtensionProps {
@@ -73,7 +77,6 @@ export interface TimelineProps {
 }
 
 export interface TimelineState {
-  timeline?: DataChart;
   viewUrl: string;
   loading: boolean;
 }
@@ -108,5 +111,19 @@ declare namespace gapi.analytics {
     isAuthorized: () => boolean;
     authorize: (options: { container: HTMLElement | string; clientid: string }) => void;
     on(type: string, listener: () => void): void;
+  };
+}
+
+export interface AccountsSummary {
+  result: {
+    items: {
+      id: string;
+      webProperties: {
+        internalWebPropertyId: string;
+        profiles: {
+          id: string;
+        }[];
+      }[];
+    }[];
   };
 }
