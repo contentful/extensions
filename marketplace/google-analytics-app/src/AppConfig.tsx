@@ -196,10 +196,12 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
 
               <Paragraph>
                 This app allows you to view pageview analytics of a Contentful entry in the editor
-                sidebar. For installation instructions, please refer to the app&apos;s
-                <a href="https://www.contentful.com/developers/docs/extensibility/apps/google-analytics/">
+                sidebar. For installation instructions, please refer to the app&apos;s{' '}
+                <TextLink
+                  target="blank"
+                  href="https://www.contentful.com/developers/docs/extensibility/apps/google-analytics/">
                   documentation
-                </a>
+                </TextLink>
                 .
               </Paragraph>
             </Typography>
@@ -327,10 +329,13 @@ export default class AppConfig extends React.Component<AppConfigParams, AppConfi
               buttonType="muted"
               disabled={Object.values(contentTypes).some(ct => !ct.slugField)}
               onClick={() => this.addContentType()}>
-              {' '}
               Add another content type
             </Button>
           </Typography>
+        </div>
+
+        <div className={styles.logo}>
+          <img src={require('./ga-logo.svg')} alt="Google Analytics Logo" />
         </div>
       </>
     );

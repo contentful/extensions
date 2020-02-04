@@ -10,7 +10,7 @@ export default {
     padding: `${tokens.spacingXl} ${tokens.spacing2Xl}`,
     maxWidth: tokens.contentWidthText,
     backgroundColor: tokens.colorWhite,
-    'z-index': '2',
+    zIndex: 2,
     boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
     borderRadius: '2px'
   }),
@@ -30,7 +30,7 @@ export default {
   background: css({
     display: 'block',
     position: 'absolute',
-    'z-index': '-1',
+    zIndex: -1,
     top: '0',
     width: '100%',
     height: '300px',
@@ -49,7 +49,8 @@ export default {
     gridTemplateColumns: '1.5fr 1.25fr',
     gridColumnGap: tokens.spacing2Xs,
     width: '100%',
-    alignItems: 'self-end'
+    alignItems: 'self-end',
+    marginBottom: tokens.spacingXs
   }),
   invisible: css({
     visibility: 'hidden'
@@ -83,5 +84,10 @@ export default {
   pageViewsLoading: css({
     opacity: 0,
     transition: `opacity ${tokens.transitionDurationShort}`
+  }),
+  logo: css({
+    display: 'flex',
+    justifyContent: 'center',
+    margin: `${tokens.spacing2Xl} 0 ${tokens.spacing4Xl}`
   })
 };
