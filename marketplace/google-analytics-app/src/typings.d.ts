@@ -109,6 +109,7 @@ declare namespace gapi.analytics {
   };
   export const auth: {
     isAuthorized: () => boolean;
+    signOut: () => void;
     authorize: (options: { container: HTMLElement | string; clientid: string }) => void;
     on(type: string, listener: () => void): void;
   };

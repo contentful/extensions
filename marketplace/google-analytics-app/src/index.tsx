@@ -37,7 +37,7 @@ export class SidebarExtension extends React.Component<
     sdk.window.startAutoResizer();
 
     auth.on('signIn', () => this.setState({ isAuthorized: true }));
-    auth.on('signOut', () => this.setState({ isAuthorized: false }));
+    auth.on('signOut', () => window.location.reload());
 
     this.props.sdk.entry.onSysChanged(
       debounce(() => {
