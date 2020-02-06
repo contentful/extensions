@@ -17,4 +17,9 @@ export interface Product {
   externalLink?: string;
 }
 
+export type ProductPreviewsFn = (
+  skus: string[],
+  config: ConfigurationParameters
+) => Promise<Product[]>;
+
 export type DeleteFn = (index: number) => void;

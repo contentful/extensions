@@ -11,9 +11,10 @@
       "dom",
       "es2015"
     ],
-    "files": [
-      "custom.d.ts"
-    ],
-    "resolveJsonModule": true
-  }
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
+  "files": [
+    "custom.d.ts"
+  ],
 }

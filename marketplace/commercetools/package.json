@@ -1,5 +1,5 @@
 {
-  "name": "shared-sku-app",
+  "name": "commercetools",
   "version": "1.0.0",
   "private": true,
   "main": "src/",
@@ -9,7 +9,8 @@
     "@babel/plugin-transform-runtime": "7.4.4",
     "@babel/preset-env": "7.4.5",
     "@babel/preset-react": "7.0.0",
-    "@contentful/contentful-extension-scripts": "^0.14.0",
+    "@contentful/contentful-extension-scripts": "^0.14.1",
+    "contentful-cli": "^1.1.5",
     "@testing-library/react": "8.0.4",
     "@types/array-move": "2.0.0",
     "@types/jest": "24.0.15",
@@ -18,7 +19,6 @@
     "@types/react-dom": "^16.8.5",
     "@types/react-sortable-hoc": "0.6.5",
     "@types/webpack-env": "1.13.9",
-    "contentful-cli": "^0.34.2",
     "cssnano": "4.1.10",
     "typescript": "^3.5.3"
   },
@@ -43,6 +43,13 @@
     "react-sortable-hoc": "1.9.1"
   },
   "scripts": {
+    "start": "contentful-extension-scripts start --serve-only",
+    "build": "contentful-extension-scripts build",
+    "deploy": "npm run build && contentful extension update --force",
+    "configure": "contentful space use && contentful space environment use",
+    "login": "contentful login",
+    "logout": "contentful logout",
+    "help": "contentful-extension-scripts help",
     "tsc": "tsc -p ./ --noEmit",
     "test": "contentful-extension-scripts test --env=jsdom --watch",
     "test:coverage": "contentful-extension-scripts test --env=jsdom --coverage --passWithNoTests"
