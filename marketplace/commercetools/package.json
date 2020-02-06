@@ -50,7 +50,6 @@
     "login": "contentful login",
     "logout": "contentful logout",
     "help": "contentful-extension-scripts help",
-    "tsc-build": "tsc -p ./",
     "tsc": "tsc -p ./ --noEmit",
     "test": "contentful-extension-scripts test --env=jsdom --watch",
     "test:coverage": "contentful-extension-scripts test --env=jsdom --coverage --passWithNoTests"
