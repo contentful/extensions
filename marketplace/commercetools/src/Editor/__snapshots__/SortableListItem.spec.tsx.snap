@@ -1,0 +1,649 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SortableListItem should render successfully 1`] = `
+<div>
+  <div
+    class="Card__Card___xXJsT css-pivbrd Card__Card--padding-default___b6Brl"
+    data-test-id="cf-ui-card"
+  >
+    <div
+      class="css-14jukvq"
+    >
+      <img
+        alt="Dress Twin-Set rose"
+        data-test-id="image"
+        src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-1.jpg"
+        style="display: block;"
+      />
+    </div>
+    <section
+      class="css-1phcpb1"
+    >
+      <div
+        class="Typography__Typography___1ZUfE"
+        data-test-id="cf-ui-text-container"
+      >
+        <h1
+          class="Heading__Heading___83D3K css-1xd3m0r f36-margin-bottom--m"
+          data-test-id="cf-ui-heading"
+        >
+          Dress Twin-Set rose
+        </h1>
+        <h2
+          class="Subheading__Subheading___2mA9j css-1b5bj2l f36-margin-bottom--m"
+          data-test-id="cf-ui-subheading"
+        >
+          M0E20130820E90Z
+        </h2>
+      </div>
+    </section>
+    <div
+      class="css-zdzpuy"
+    >
+      <a
+        href="https://mc.commercetools.com/example-project/products/28a7442d/general"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <svg
+          class="Icon__Icon___38Epv Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+          data-test-id="cf-ui-icon"
+          height="18"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+      </a>
+      <button
+        class="IconButton__IconButton___1_XeU a11y__focus-outline--default___2hwb1 IconButton__IconButton--muted___22_IZ"
+        data-test-id="cf-ui-icon-button"
+        type="button"
+      >
+        <span
+          class="TabFocusTrap__TabFocusTrap___39Vty IconButton__IconButton__inner___3fnmT"
+          tabindex="-1"
+        >
+          <svg
+            class="Icon__Icon___38Epv IconButton__IconButton__icon___3yZQN Icon__Icon--small___1yGZK undefined"
+            data-test-id="cf-ui-icon"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+          <span
+            class="IconButton__IconButton__label___1kp5y helpers__sr-only___3Kv3z"
+          >
+            Delete
+          </span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SortableListItem should render successfully the error variation for missing image 1`] = `
+<div>
+  <div
+    class="Card__Card___xXJsT css-pivbrd Card__Card--padding-default___b6Brl"
+    data-test-id="cf-ui-card"
+  >
+    <div
+      class="CardDragHandle__CardDragHandle___2rqnO css-x97jm9"
+      data-test-id="cf-ui-card-drag-handle"
+    >
+      <svg
+        class="Icon__Icon___38Epv Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+        data-test-id="cf-ui-icon"
+        height="24"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 0h24v24H0V0z"
+          fill="none"
+        />
+        <path
+          d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+        />
+      </svg>
+      <span
+        class="CardDragHandle__CardDragHandle__sr-label___3CueY helpers__sr-only___3Kv3z"
+      >
+        Reorder product
+      </span>
+    </div>
+    <div
+      class="css-1rmpyga"
+    >
+      <svg
+        class="Icon__Icon___38Epv Icon__Icon--small___1yGZK undefined"
+        data-test-id="cf-ui-icon"
+        height="24"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 0h24v24H0V0z"
+          fill="none"
+        />
+        <g>
+          <path
+            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+          />
+          <path
+            d="M14.14 11.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"
+          />
+        </g>
+      </svg>
+    </div>
+    <section
+      class="css-1phcpb1"
+    >
+      <div
+        class="Typography__Typography___1ZUfE"
+        data-test-id="cf-ui-text-container"
+      >
+        <h1
+          class="Heading__Heading___83D3K css-1xd3m0r f36-margin-bottom--m"
+          data-test-id="cf-ui-heading"
+        >
+          Dress Twin-Set rose
+        </h1>
+        <h2
+          class="Subheading__Subheading___2mA9j css-1b5bj2l f36-margin-bottom--m"
+          data-test-id="cf-ui-subheading"
+        >
+          M0E20130820E90Z
+        </h2>
+      </div>
+    </section>
+    <div
+      class="css-zdzpuy"
+    >
+      <a
+        href="https://mc.commercetools.com/example-project/products/28a7442d/general"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <svg
+          class="Icon__Icon___38Epv Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+          data-test-id="cf-ui-icon"
+          height="18"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+      </a>
+      <button
+        class="IconButton__IconButton___1_XeU a11y__focus-outline--default___2hwb1 IconButton__IconButton--muted___22_IZ"
+        data-test-id="cf-ui-icon-button"
+        type="button"
+      >
+        <span
+          class="TabFocusTrap__TabFocusTrap___39Vty IconButton__IconButton__inner___3fnmT"
+          tabindex="-1"
+        >
+          <svg
+            class="Icon__Icon___38Epv IconButton__IconButton__icon___3yZQN Icon__Icon--small___1yGZK undefined"
+            data-test-id="cf-ui-icon"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+          <span
+            class="IconButton__IconButton__label___1kp5y helpers__sr-only___3Kv3z"
+          >
+            Delete
+          </span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SortableListItem should render successfully the error variation for missing product 1`] = `
+<div>
+  <div
+    class="Card__Card___xXJsT css-pivbrd Card__Card--padding-default___b6Brl"
+    data-test-id="cf-ui-card"
+  >
+    <div
+      class="css-1rmpyga"
+    >
+      <svg
+        class="Icon__Icon___38Epv Icon__Icon--small___1yGZK undefined"
+        data-test-id="cf-ui-icon"
+        height="18"
+        viewBox="0 0 24 24"
+        width="18"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 0h24v24H0z"
+          fill="none"
+        />
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+        />
+      </svg>
+    </div>
+    <section
+      class="css-1phcpb1"
+    >
+      <div
+        class="Typography__Typography___1ZUfE"
+        data-test-id="cf-ui-text-container"
+      >
+        <h1
+          class="Heading__Heading___83D3K css-by3awh f36-margin-bottom--m"
+          data-test-id="cf-ui-heading"
+        >
+          M0E20130820E90Z
+        </h1>
+        <div
+          class="Tag__Tag___Y-myd Tag__Tag--negative___12luW"
+          data-test-id="cf-ui-tag"
+        >
+          Product missing
+        </div>
+      </div>
+    </section>
+    <div
+      class="css-zdzpuy"
+    >
+      <a
+        href="https://mc.commercetools.com/example-project/products/28a7442d/general"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <svg
+          class="Icon__Icon___38Epv Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+          data-test-id="cf-ui-icon"
+          height="18"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+      </a>
+      <button
+        class="IconButton__IconButton___1_XeU a11y__focus-outline--default___2hwb1 IconButton__IconButton--muted___22_IZ"
+        data-test-id="cf-ui-icon-button"
+        type="button"
+      >
+        <span
+          class="TabFocusTrap__TabFocusTrap___39Vty IconButton__IconButton__inner___3fnmT"
+          tabindex="-1"
+        >
+          <svg
+            class="Icon__Icon___38Epv IconButton__IconButton__icon___3yZQN Icon__Icon--small___1yGZK undefined"
+            data-test-id="cf-ui-icon"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+          <span
+            class="IconButton__IconButton__label___1kp5y helpers__sr-only___3Kv3z"
+          >
+            Delete
+          </span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SortableListItem should render successfully the loading variation 1`] = `
+<div>
+  <div
+    class="Card__Card___xXJsT css-pivbrd Card__Card--padding-default___b6Brl"
+    data-test-id="cf-ui-card"
+  >
+    <svg
+      aria-label="Loading component..."
+      class="SkeletonContainer__SkeletonContainer___23jiu css-eiov7n"
+      data-test-id="cf-ui-skeleton-form"
+      height="100%"
+      preserveAspectRatio="xMidYMid meet"
+      role="img"
+      width="100%"
+    >
+      <title>
+        Loading component...
+      </title>
+      <rect
+        clip-path="url(#cf-ui-skeleton-clip-id)"
+        height="100%"
+        style="fill: url(#cf-ui-skeleton-clip-gradient);"
+        width="100%"
+        x="0"
+        y="0"
+      />
+      <defs>
+        <clippath
+          id="cf-ui-skeleton-clip-id"
+        >
+          <rect
+            height="48"
+            rx="0"
+            ry="0"
+            width="48"
+          />
+        </clippath>
+        <lineargradient
+          id="cf-ui-skeleton-clip-gradient"
+        >
+          <stop
+            offset="0%"
+            stop-color="#e5ebed"
+            stop-opacity="1"
+          >
+            <animate
+              attributeName="stop-color"
+              dur="2s"
+              id="animation1"
+              repeatCount="indefinite"
+              values="#e5ebed; #f7f9fa; #e5ebed"
+            />
+          </stop>
+          <stop
+            offset="50%"
+            stop-color="#f7f9fa"
+            stop-opacity="1"
+          >
+            <animate
+              attributeName="stop-color"
+              begin="animation1.begin+0.25s"
+              dur="2s"
+              repeatCount="indefinite"
+              values="#e5ebed; #f7f9fa; #e5ebed"
+            />
+          </stop>
+          <stop
+            offset="100%"
+            stop-color="#e5ebed"
+            stop-opacity="1"
+          >
+            <animate
+              attributeName="stop-color"
+              begin="animation1.begin+0.5s"
+              dur="2s"
+              repeatCount="indefinite"
+              values="#e5ebed; #f7f9fa; #e5ebed"
+            />
+          </stop>
+        </lineargradient>
+      </defs>
+    </svg>
+    <div
+      class="css-kx63wx"
+    >
+      <img
+        alt="Dress Twin-Set rose"
+        data-test-id="image"
+        src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-1.jpg"
+        style="display: none;"
+      />
+    </div>
+    <section
+      class="css-1phcpb1"
+    >
+      <div
+        class="Typography__Typography___1ZUfE"
+        data-test-id="cf-ui-text-container"
+      >
+        <h1
+          class="Heading__Heading___83D3K css-1xd3m0r f36-margin-bottom--m"
+          data-test-id="cf-ui-heading"
+        >
+          Dress Twin-Set rose
+        </h1>
+        <h2
+          class="Subheading__Subheading___2mA9j css-1b5bj2l f36-margin-bottom--m"
+          data-test-id="cf-ui-subheading"
+        >
+          M0E20130820E90Z
+        </h2>
+      </div>
+    </section>
+    <div
+      class="css-zdzpuy"
+    >
+      <a
+        href="https://mc.commercetools.com/example-project/products/28a7442d/general"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <svg
+          class="Icon__Icon___38Epv Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+          data-test-id="cf-ui-icon"
+          height="18"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+      </a>
+      <button
+        class="IconButton__IconButton___1_XeU a11y__focus-outline--default___2hwb1 IconButton__IconButton--muted___22_IZ"
+        data-test-id="cf-ui-icon-button"
+        type="button"
+      >
+        <span
+          class="TabFocusTrap__TabFocusTrap___39Vty IconButton__IconButton__inner___3fnmT"
+          tabindex="-1"
+        >
+          <svg
+            class="Icon__Icon___38Epv IconButton__IconButton__icon___3yZQN Icon__Icon--small___1yGZK undefined"
+            data-test-id="cf-ui-icon"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+          <span
+            class="IconButton__IconButton__label___1kp5y helpers__sr-only___3Kv3z"
+          >
+            Delete
+          </span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SortableListItem should render successfully the sortable variation 1`] = `
+<div>
+  <div
+    class="Card__Card___xXJsT css-pivbrd Card__Card--padding-default___b6Brl"
+    data-test-id="cf-ui-card"
+  >
+    <div
+      class="CardDragHandle__CardDragHandle___2rqnO css-x97jm9"
+      data-test-id="cf-ui-card-drag-handle"
+    >
+      <svg
+        class="Icon__Icon___38Epv Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+        data-test-id="cf-ui-icon"
+        height="24"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 0h24v24H0V0z"
+          fill="none"
+        />
+        <path
+          d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+        />
+      </svg>
+      <span
+        class="CardDragHandle__CardDragHandle__sr-label___3CueY helpers__sr-only___3Kv3z"
+      >
+        Reorder product
+      </span>
+    </div>
+    <div
+      class="css-14jukvq"
+    >
+      <img
+        alt="Dress Twin-Set rose"
+        data-test-id="image"
+        src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-1.jpg"
+        style="display: block;"
+      />
+    </div>
+    <section
+      class="css-1phcpb1"
+    >
+      <div
+        class="Typography__Typography___1ZUfE"
+        data-test-id="cf-ui-text-container"
+      >
+        <h1
+          class="Heading__Heading___83D3K css-1xd3m0r f36-margin-bottom--m"
+          data-test-id="cf-ui-heading"
+        >
+          Dress Twin-Set rose
+        </h1>
+        <h2
+          class="Subheading__Subheading___2mA9j css-1b5bj2l f36-margin-bottom--m"
+          data-test-id="cf-ui-subheading"
+        >
+          M0E20130820E90Z
+        </h2>
+      </div>
+    </section>
+    <div
+      class="css-zdzpuy"
+    >
+      <a
+        href="https://mc.commercetools.com/example-project/products/28a7442d/general"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <svg
+          class="Icon__Icon___38Epv Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+          data-test-id="cf-ui-icon"
+          height="18"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+      </a>
+      <button
+        class="IconButton__IconButton___1_XeU a11y__focus-outline--default___2hwb1 IconButton__IconButton--muted___22_IZ"
+        data-test-id="cf-ui-icon-button"
+        type="button"
+      >
+        <span
+          class="TabFocusTrap__TabFocusTrap___39Vty IconButton__IconButton__inner___3fnmT"
+          tabindex="-1"
+        >
+          <svg
+            class="Icon__Icon___38Epv IconButton__IconButton__icon___3yZQN Icon__Icon--small___1yGZK undefined"
+            data-test-id="cf-ui-icon"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+          <span
+            class="IconButton__IconButton__label___1kp5y helpers__sr-only___3Kv3z"
+          >
+            Delete
+          </span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,55 @@
+{
+  "name": "shared-sku-app",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/",
+  "devDependencies": {
+    "@babel/core": "7.4.5",
+    "@babel/plugin-proposal-class-properties": "7.4.4",
+    "@babel/plugin-transform-runtime": "7.4.4",
+    "@babel/preset-env": "7.4.5",
+    "@babel/preset-react": "7.0.0",
+    "@contentful/contentful-extension-scripts": "^0.14.0",
+    "@testing-library/react": "8.0.4",
+    "@types/array-move": "2.0.0",
+    "@types/jest": "24.0.15",
+    "@types/lodash.get": "^4.4.6",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.5",
+    "@types/react-sortable-hoc": "0.6.5",
+    "@types/webpack-env": "1.13.9",
+    "contentful-cli": "^0.34.2",
+    "cssnano": "4.1.10",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "@contentful/forma-36-fcss": "^0.0.31",
+    "@contentful/forma-36-react-components": "^3.15.14",
+    "@contentful/forma-36-tokens": "^0.4.5",
+    "@commercetools/api-request-builder": "^5.4.0",
+    "@commercetools/sdk-client": "^2.1.1",
+    "@commercetools/sdk-middleware-auth": "^6.0.1",
+    "@commercetools/sdk-middleware-http": "^6.0.1",
+    "@commercetools/sdk-middleware-queue": "^2.1.1",
+    "array-move": "2.1.0",
+    "contentful-ui-extensions-sdk": "^3.10.6",
+    "core-js": "3.1.4",
+    "emotion": "^10.0.14",
+    "es6-promise": "^4.2.8",
+    "lodash.get": "^4.4.2",
+    "prop-types": "15.7.2",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-sortable-hoc": "1.9.1"
+  },
+  "scripts": {
+    "tsc": "tsc -p ./ --noEmit",
+    "test": "contentful-extension-scripts test --env=jsdom --watch",
+    "test:coverage": "contentful-extension-scripts test --env=jsdom --coverage --passWithNoTests"
+  },
+  "browserslist": [
+    "last 5 Chrome version",
+    "> 1%",
+    "not ie <= 11"
+  ]
+}
