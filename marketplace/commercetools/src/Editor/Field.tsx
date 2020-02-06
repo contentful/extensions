@@ -6,7 +6,7 @@ import { css } from 'emotion';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { SortableComponent } from './SortableComponent';
 import { fetchProductPreviews } from '../api/fetchProductPreviews';
-import * as logo from '../logo.svg';
+import logo from '../logo.svg';
 
 interface Props {
   sdk: FieldExtensionSDK;
@@ -42,6 +42,7 @@ function fieldValueToState(value?: string | string[]): string[] {
 function makeCTAText(fieldType: string) {
   return fieldType === 'Array' ? 'Select products' : 'Select a product';
 }
+console.log('LOGO', logo);
 
 export default class Field extends React.Component<Props, State> {
   state = {

@@ -28,7 +28,7 @@ import {
 import { validateParameters } from './validateParameters';
 
 import { Hash } from '../interfaces';
-import * as logo from '../logo.svg';
+import logo from '../logo.svg';
 import descriptor from '../../extension.json';
 
 interface Props {
