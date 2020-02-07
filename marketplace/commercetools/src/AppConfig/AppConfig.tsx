@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import get from 'lodash/get';
 import { AppExtensionSDK } from 'contentful-ui-extensions-sdk';
 import {
   Heading,
@@ -22,7 +23,7 @@ import {
   EditorInterface,
   ContentType,
   CompatibleFields,
-  SelectedFields
+  FieldsConfig
 } from './fields';
 
 import { validateParameters } from './validateParameters';
@@ -38,7 +39,7 @@ interface Props {
 interface State {
   contentTypes: ContentType[];
   compatibleFields: CompatibleFields;
-  selectedFields: SelectedFields;
+  selectedFields: FieldsConfig;
   parameters: Hash;
 }
 
@@ -93,11 +94,7 @@ export default class AppConfig extends React.Component<Props, State> {
     parameters: toInputParameters(descriptor.parameters.installation, null)
   };
 
-  componentDidMount() {
-    this.init();
-  }
-
-  init = async () => {
+  async componentDidMount() {
     const { space, app, ids } = this.props.sdk;
 
     app.onConfigure(this.onAppConfigure);
@@ -108,8 +105,10 @@ export default class AppConfig extends React.Component<Props, State> {
       app.getParameters()
     ]);
 
-    const contentTypes = contentTypesResponse.items as ContentType[];
-    const editorInterfaces = eisResponse.items as EditorInterface[];
+    const fieldsConfig = get(parameters, ['fieldsConfig'], {});
+
+    const contentTypes = (contentTypesResponse as Hash).items as ContentType[];
+    const editorInterfaces = (eisResponse as Hash).items as EditorInterface[];
 
     const compatibleFields = getCompatibleFields(contentTypes);
     const filteredContentTypes = contentTypes.filter(ct => {
@@ -117,19 +116,25 @@ export default class AppConfig extends React.Component<Props, State> {
       return fields && fields.length > 0;
     });
 
+    // eslint-disable-next-line react/no-did-mount-set-state
     this.setState(
       {
         contentTypes: filteredContentTypes,
         compatibleFields,
-        selectedFields: editorInterfacesToSelectedFields(editorInterfaces, ids.app),
+        selectedFields: editorInterfacesToSelectedFields(editorInterfaces, fieldsConfig, ids.app),
         parameters: toInputParameters(descriptor.parameters.installation, parameters)
       },
       () => app.setReady()
     );
-  };
+  }
 
   onAppConfigure = () => {
-    const { parameters, contentTypes, selectedFields } = this.state;
+    const { contentTypes, selectedFields } = this.state;
+    const parameters = {
+      ...toAppParameters(descriptor.parameters.installation, this.state.parameters),
+      fieldsConfig: selectedFields
+    };
+
     const error = validateParameters(parameters);
 
     if (error) {
@@ -138,32 +143,10 @@ export default class AppConfig extends React.Component<Props, State> {
     }
 
     return {
-      parameters: toAppParameters(descriptor.parameters.installation, parameters),
+      parameters,
       targetState: selectedFieldsToTargetState(contentTypes, selectedFields)
     };
   };
-
-  render() {
-    return (
-      <>
-        <div className={styles.background} />
-        <div className={styles.body}>
-          <Typography>
-            <Heading>About Commercetools</Heading>
-            <Paragraph>
-              The Commercetools app allows editors to select products from their Commercetools
-              account and reference them inside of Contentful entries.
-            </Paragraph>
-            <hr className={styles.splitter} />
-          </Typography>
-          {this.renderApp()}
-        </div>
-        <div className={styles.icon}>
-          <img src={(logo as unknown) as string} alt="App logo" />
-        </div>
-      </>
-    );
-  }
 
   onParameterChange = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
@@ -173,7 +156,7 @@ export default class AppConfig extends React.Component<Props, State> {
     }));
   };
 
-  onSelectedFieldsChange = (selectedFields: SelectedFields) => {
+  onSelectedFieldsChange = (selectedFields: FieldsConfig) => {
     this.setState({ selectedFields });
   };
 
@@ -240,6 +223,28 @@ export default class AppConfig extends React.Component<Props, State> {
             onSelectedFieldsChange={this.onSelectedFieldsChange}
           />
         </Typography>
+      </>
+    );
+  }
+
+  render() {
+    return (
+      <>
+        <div className={styles.background} />
+        <div className={styles.body}>
+          <Typography>
+            <Heading>About Commercetools</Heading>
+            <Paragraph>
+              The Commercetools app allows editors to select products from their Commercetools
+              account and reference them inside of Contentful entries.
+            </Paragraph>
+            <hr className={styles.splitter} />
+          </Typography>
+          {this.renderApp()}
+        </div>
+        <div className={styles.icon}>
+          <img src={(logo as unknown) as string} alt="App logo" />
+        </div>
       </>
     );
   }

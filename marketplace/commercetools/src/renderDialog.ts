@@ -20,6 +20,8 @@ export async function renderDialog(sdk: DialogExtensionSDK) {
 
   const fieldTypeIsArray = get(sdk, ['parameters', 'invocation', 'fieldType']) === 'Array';
 
+  const pickerModeIsCategory = get(sdk, ['parameters', 'invocation', 'pickerMode']) === 'category';
+
   const pickerOptions = {
     project: {
       projectKey,
@@ -31,6 +33,7 @@ export async function renderDialog(sdk: DialogExtensionSDK) {
     mode: 'embedded',
     searchLanguage: locale,
     selectionMode: fieldTypeIsArray ? 'multiple' : 'single',
+    pickerMode: pickerModeIsCategory ? 'category' : 'product',
     uiLocale: 'en-US',
     displayOptions: {
       showHeader: false,
@@ -44,15 +47,19 @@ export async function renderDialog(sdk: DialogExtensionSDK) {
     sdk.window.updateHeight(660);
 
     const result = await ctPicker.show();
-    const skus = result.map(({ masterVariant: { sku } }: Hash): string => sku);
+    const data = result.map((entry: Hash): string => {
+      // If the user is picking a category we save the internal ID of the category.
+      // For products we save the SKU.
+      return pickerModeIsCategory ? entry.id : entry.masterVariant.sku;
+    });
 
-    const persistedSkus = get(sdk, ['parameters', 'invocation', 'fieldValue'], []);
+    const persistedData = get(sdk, ['parameters', 'invocation', 'fieldValue'], []);
 
     // For single selection we want to replace the persisted SKU for the new one
     // For multi selection, we want to append the new results to the previous, keeping
     // only unique values.
-    const finalSkus = fieldTypeIsArray ? uniq([...persistedSkus, ...skus]) : skus;
-    sdk.close(finalSkus);
+    const finalData = fieldTypeIsArray ? uniq([...persistedData, ...data]) : data;
+    sdk.close(finalData);
   } catch (error) {
     if (error !== 'cancel') {
       // Widget is going to throw if the user closes the product picking dialog

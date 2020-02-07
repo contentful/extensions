@@ -1,3 +1,5 @@
+import { FieldsConfig } from './AppConfig/fields';
+
 export interface ConfigurationParameters {
   projectKey?: string;
   clientId?: string;
@@ -5,6 +7,7 @@ export interface ConfigurationParameters {
   apiEndpoint?: string;
   authApiEndpoint?: string;
   locale?: string;
+  fieldsConfig?: FieldsConfig;
 }
 
 export type Hash = Record<string, any>;

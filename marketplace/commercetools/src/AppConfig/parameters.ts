@@ -1,4 +1,4 @@
-import get from 'lodash.get';
+import get from 'lodash/get';
 
 import { Hash } from '../interfaces';
 
@@ -7,11 +7,14 @@ export function toInputParameters(
   parameterValues: Hash | null
 ): Record<string, string> {
   return parameterDefinitions.reduce((acc, def) => {
+    const isFieldsConfig = !def.id || typeof def.id === 'object';
     const defaultValue = typeof def.default === 'undefined' ? '' : `${def.default}`;
-    return {
-      ...acc,
-      [def.id]: `${get(parameterValues, [def.id], defaultValue)}`
-    };
+    return isFieldsConfig
+      ? acc
+      : {
+          ...acc,
+          [def.id]: `${get(parameterValues, [def.id], defaultValue)}`
+        };
   }, {});
 }
 

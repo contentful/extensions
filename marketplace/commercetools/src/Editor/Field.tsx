@@ -63,6 +63,23 @@ export default class Field extends React.Component<Props, State> {
     });
   }
 
+  getPickerMode = () => {
+    const { sdk } = this.props;
+    const contentTypeId = sdk.contentType.sys.id;
+    const fieldId = sdk.field.id;
+    const pickerMode = get(sdk, [
+      'parameters',
+      'installation',
+      'fieldsConfig',
+      contentTypeId,
+      fieldId
+    ]);
+
+    // Product is the value expected by the CommerceTools picker widget
+    // in order to do SKU picking.
+    return pickerMode === 'category' ? 'category' : 'product';
+  };
+
   updateStateValue = (skus: string[]) => {
     this.setState({ value: skus });
 
@@ -86,7 +103,9 @@ export default class Field extends React.Component<Props, State> {
       parameters: {
         ...sdk.parameters.installation,
         fieldValue: fieldValueToState(sdk.field.getValue()),
-        fieldType: sdk.field.type
+        fieldType: sdk.field.type,
+        fieldId: sdk.field.id,
+        pickerMode: this.getPickerMode()
       },
       width: 1400
     });

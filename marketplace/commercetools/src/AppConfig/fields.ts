@@ -1,4 +1,4 @@
-import get from 'lodash.get';
+import get from 'lodash/get';
 
 interface FieldItems {
   type: string;
@@ -29,7 +29,7 @@ export interface EditorInterface {
 }
 
 export type CompatibleFields = Record<string, Field[]>;
-export type SelectedFields = Record<string, string[] | undefined>;
+export type FieldsConfig = Record<string, Record<string, string | undefined> | undefined>;
 
 function isCompatibleField(field: Field) {
   const isArray = field.type === 'Array';
@@ -47,8 +47,9 @@ export function getCompatibleFields(contentTypes: ContentType[]): CompatibleFiel
 
 export function editorInterfacesToSelectedFields(
   eis: EditorInterface[],
+  fieldsConfig: FieldsConfig,
   appId?: string
-): SelectedFields {
+): FieldsConfig {
   return eis.reduce((acc, ei) => {
     const ctId = get(ei, ['sys', 'contentType', 'sys', 'id']);
     const fieldIds = get(ei, ['controls'], [])
@@ -57,7 +58,12 @@ export function editorInterfacesToSelectedFields(
       .filter(fieldId => typeof fieldId === 'string' && fieldId.length > 0);
 
     if (ctId && fieldIds.length > 0) {
-      return { ...acc, [ctId]: fieldIds };
+      const fields = fieldIds.reduce((acc, fieldId) => {
+        const type = get(fieldsConfig, [ctId, fieldId], 'sku');
+        acc[fieldId] = type;
+        return acc;
+      }, {});
+      return { ...acc, [ctId]: fields };
     } else {
       return acc;
     }
@@ -66,12 +72,12 @@ export function editorInterfacesToSelectedFields(
 
 export function selectedFieldsToTargetState(
   contentTypes: ContentType[],
-  selectedFields: SelectedFields
+  selectedFields: FieldsConfig
 ) {
   return {
     EditorInterface: contentTypes.reduce((acc, ct) => {
       const { id } = ct.sys;
-      const fields = selectedFields[id] || [];
+      const fields = Object.keys(selectedFields[id] || {});
       const targetState =
         fields.length > 0 ? { controls: fields.map(fieldId => ({ fieldId })) } : {};
 
