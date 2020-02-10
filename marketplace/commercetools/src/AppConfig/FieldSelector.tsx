@@ -5,15 +5,9 @@ import set from 'lodash/set';
 import omit from 'lodash/omit';
 import tokens from '@contentful/forma-36-tokens';
 import { css } from 'emotion';
-import {
-  Form,
-  Subheading,
-  CheckboxField,
-  Typography,
-  SelectField,
-  Option
-} from '@contentful/forma-36-react-components';
+import { Form, Subheading, CheckboxField, Typography } from '@contentful/forma-36-react-components';
 
+import { ToggleGroup } from './ToggleGroup';
 import { ContentType, CompatibleFields, FieldsConfig } from './fields';
 
 const styles = {
@@ -81,22 +75,12 @@ export default class FieldSelector extends React.Component<Props> {
                         onChange={this.onSelectedFieldChange.bind(this, ct.sys.id, field.id, 'sku')}
                       />
                       {isChecked && (
-                        <SelectField
-                          id={`${field.id}-type`}
-                          className={styles.select}
-                          labelText=""
-                          name="type"
-                          value={type}
-                          onChange={event =>
-                            this.onSelectedFieldTypeChange(
-                              ct.sys.id,
-                              field.id,
-                              (event.target as HTMLSelectElement).value
-                            )
-                          }>
-                          <Option value="sku">SKU</Option>
-                          <Option value="category">Category</Option>
-                        </SelectField>
+                        <ToggleGroup
+                          activePickerMode={type}
+                          onChange={type =>
+                            this.onSelectedFieldTypeChange(ct.sys.id, field.id, type)
+                          }
+                        />
                       )}
                     </div>
                   );
