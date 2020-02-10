@@ -12,6 +12,13 @@ export interface ConfigurationParameters {
 
 export type Hash = Record<string, any>;
 
+export interface Category {
+  slug: string;
+  id: string;
+  name: string;
+  externalLink?: string;
+}
+
 export interface Product {
   sku: string;
   image: string;

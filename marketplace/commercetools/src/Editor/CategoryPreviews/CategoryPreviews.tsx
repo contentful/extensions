@@ -40,9 +40,9 @@ export class CategoryPreviews extends React.Component<Props, State> {
 
   updateCategoryPreviews = async (shouldRefetch: boolean = true) => {
     try {
-      const { fetchCategoryPreviews, categories, config } = this.props;
+      const { fetchCategoryPreviews, categories } = this.props;
       const categoryPreviewsUnsorted = shouldRefetch
-        ? await fetchCategoryPreviews(categories, config)
+        ? await fetchCategoryPreviews(categories)
         : this.state.categoryPreviews;
       const categoryPreviews = mapSort(categoryPreviewsUnsorted, categories, 'sku');
       this.setState({ categoryPreviews });
