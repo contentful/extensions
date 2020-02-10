@@ -19,6 +19,8 @@ import '@contentful/forma-36-fcss/dist/styles.css';
 import Field from './Editor/Field';
 import AppConfig from './AppConfig/AppConfig';
 
+import './index.css';
+
 init(sdk => {
   const root = document.getElementById('root');
 
