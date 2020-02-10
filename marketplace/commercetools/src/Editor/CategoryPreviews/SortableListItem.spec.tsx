@@ -2,7 +2,7 @@ import React from 'react';
 import identity from 'lodash/identity';
 import { fireEvent, configure, render, cleanup } from '@testing-library/react';
 import { Props, SortableListItem } from './SortableListItem';
-import productPreviews from '../__mocks__/productPreviews';
+import productPreviews from '../../__mocks__/productPreviews';
 
 configure({
   testIdAttribute: 'data-test-id'

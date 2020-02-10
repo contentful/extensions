@@ -14,7 +14,7 @@ import {
   Typography
 } from '@contentful/forma-36-react-components';
 import tokens from '@contentful/forma-36-tokens';
-import { Product } from '../interfaces';
+import { Product } from '../../interfaces';
 
 export interface Props {
   product: Product;

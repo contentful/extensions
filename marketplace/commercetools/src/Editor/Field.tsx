@@ -4,8 +4,10 @@ import tokens from '@contentful/forma-36-tokens';
 import get from 'lodash/get';
 import { css } from 'emotion';
 import { FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
-import { SortableComponent } from './SortableComponent';
+import { ProductPreviews } from './ProductPreviews/ProductPreviews';
+import { CategoryPreviews } from './CategoryPreviews/CategoryPreviews';
 import { fetchProductPreviews } from '../api/fetchProductPreviews';
+import { fetchCategoryPreviews } from '../api/fetchCategoryPreviews';
 import logo from '../logo.svg';
 
 interface Props {
@@ -39,8 +41,17 @@ function fieldValueToState(value?: string | string[]): string[] {
   return Array.isArray(value) ? value : [value];
 }
 
-function makeCTAText(fieldType: string) {
-  return fieldType === 'Array' ? 'Select products' : 'Select a product';
+function makeCTAText(fieldType: string, pickerMode: 'category' | 'product') {
+  const isArray = fieldType === 'Array';
+  const beingSelected =
+    pickerMode === 'category'
+      ? isArray
+        ? 'categories'
+        : 'category'
+      : isArray
+      ? 'products'
+      : 'product';
+  return fieldType === 'Array' ? `Select ${beingSelected}` : `Select a ${beingSelected}`;
 }
 
 export default class Field extends React.Component<Props, State> {
@@ -97,7 +108,7 @@ export default class Field extends React.Component<Props, State> {
     const skus = await sdk.dialogs.openCurrentApp({
       allowHeightOverflow: true,
       position: 'center',
-      title: makeCTAText(sdk.field.type),
+      title: makeCTAText(sdk.field.type, this.getPickerMode()),
       shouldCloseOnOverlayClick: true,
       shouldCloseOnEscapePress: true,
       parameters: {
@@ -117,9 +128,10 @@ export default class Field extends React.Component<Props, State> {
   };
 
   render = () => {
-    const { value: selectedSKUs, editingDisabled } = this.state;
+    const { value: data, editingDisabled } = this.state;
 
-    const hasItems = selectedSKUs.length > 0;
+    const isPickerTypeSetToCategory = this.getPickerMode() === 'category';
+    const hasItems = data.length > 0;
     const config = this.props.sdk.parameters.installation;
     const fieldType = get(this.props, ['sdk', 'field', 'type'], '');
 
@@ -127,14 +139,24 @@ export default class Field extends React.Component<Props, State> {
       <>
         {hasItems && (
           <div className={styles.sortable}>
-            <SortableComponent
-              sdk={this.props.sdk}
-              disabled={editingDisabled}
-              skus={selectedSKUs}
-              onChange={this.updateStateValue}
-              config={config}
-              fetchProductPreviews={fetchProductPreviews}
-            />
+            {isPickerTypeSetToCategory ? (
+              <CategoryPreviews
+                sdk={this.props.sdk}
+                disabled={editingDisabled}
+                categories={data}
+                onChange={this.updateStateValue}
+                config={config}
+                fetchCategoryPreviews={categories => fetchCategoryPreviews(categories, config)}
+              />
+            ) : (
+              <ProductPreviews
+                sdk={this.props.sdk}
+                disabled={editingDisabled}
+                skus={data}
+                onChange={this.updateStateValue}
+                fetchProductPreviews={skus => fetchProductPreviews(skus, config)}
+              />
+            )}
           </div>
         )}
         <div className={styles.container}>
@@ -145,7 +167,7 @@ export default class Field extends React.Component<Props, State> {
             size="small"
             onClick={this.onDialogOpen}
             disabled={editingDisabled}>
-            {makeCTAText(fieldType)}
+            {makeCTAText(fieldType, this.getPickerMode())}
           </Button>
         </div>
       </>
