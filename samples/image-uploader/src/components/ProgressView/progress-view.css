@@ -3,7 +3,7 @@
 }
 
 .progress-view {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
@@ -11,6 +11,23 @@
   z-index: 1;
   background: no-repeat center center;
   background-size: cover;
+  overflow-y: hidden;
+}
+
+.progress-view .uploaded-image {
+  position: absolute;
+  width: 100%;
+  min-height: auto;
+  z-index: 2;
+}
+
+.progress-view svg.uploaded-image {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 78px;
+  width: 78px;
 }
 
 .progress-view .overlay {
@@ -18,16 +35,17 @@
   top: 0;
   right: 0;
   width: calc(100% - var(--uploadProgress));
-  height: calc(100% - var(--progress-view-bar-height));
-  z-index: 2;
+  height: 100%;
+  z-index: 3;
   background: rgba(255, 255, 255, 0.75);
-  transition: width .3s;
+  transition: width 0.3s;
 }
 
 .progress-view .bar {
   position: absolute;
   left: 0;
   bottom: 0;
+  z-index: 4;
   height: var(--progress-view-bar-height);
   width: var(--uploadProgress);
   background: #007fff;
@@ -35,7 +53,7 @@
 }
 
 .progress-view .bar-placeholder {
-  content: "";
+  content: '';
   position: absolute;
   bottom: 0;
   right: 0;

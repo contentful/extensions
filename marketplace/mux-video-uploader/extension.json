@@ -1,7 +1,7 @@
 {
   "id": "mux-video-uploader",
   "name": "Mux Video Uploader",
-  "src": "mux-video-uploader-1.contentfulexts.com",
+  "src": "https://mux-video-uploader-1.contentfulexts.com/extension.html",
   "fieldTypes": ["Object"],
   "parameters": {
     "installation": [

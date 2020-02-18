@@ -12,12 +12,13 @@ import { VARIATION_CONTAINER_ID } from './constants';
 
 const styles = {
   body: css({
+    height: 'auto',
+    minHeight: '65vh',
     margin: '0 auto',
-    padding: '20px 40px',
-    maxWidth: '786px',
-    minHeight: '700px',
     marginTop: tokens.spacingXl,
-    backgroundColor: '#fff',
+    padding: `${tokens.spacingXl} ${tokens.spacing2Xl}`,
+    maxWidth: tokens.contentWidthText,
+    backgroundColor: tokens.colorWhite,
     zIndex: '2',
     boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
     borderRadius: '2px'
@@ -31,15 +32,12 @@ const styles = {
     height: '300px',
     backgroundColor: '#bcc3ca'
   }),
-  section: css({
-    margin: `${tokens.spacingXl} 0`
-  }),
   featuresListItem: css({
     listStyleType: 'disc',
     marginLeft: tokens.spacingM
   }),
   light: css({
-    opacity: '0.6',
+    color: tokens.colorTextLight,
     marginTop: tokens.spacingM
   }),
   logo: css({
@@ -72,25 +70,28 @@ export default class AppPage extends React.Component {
   }
 
   async componentDidMount() {
-    const { app } = this.props.sdk.platformAlpha;
+    const { space, app } = this.props.sdk;
 
     const [currentParameters, { items: allContentTypes = [] }] = await Promise.all([
       app.getParameters(),
-      this.props.sdk.space.getContentTypes()
+      space.getContentTypes({ order: 'name', limit: 1000 })
     ]);
 
     const enabledContentTypes = this.findEnabledContentTypes(allContentTypes);
 
     // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState(prevState => ({
-      allContentTypes,
-      config: {
-        contentTypes: enabledContentTypes,
-        optimizelyProjectId: currentParameters
-          ? currentParameters.optimizelyProjectId
-          : prevState.optimizelyProjectId
-      }
-    }));
+    this.setState(
+      prevState => ({
+        allContentTypes,
+        config: {
+          contentTypes: enabledContentTypes,
+          optimizelyProjectId: currentParameters
+            ? currentParameters.optimizelyProjectId
+            : prevState.optimizelyProjectId
+        }
+      }),
+      () => app.setReady()
+    );
 
     app.onConfigure(this.configureApp);
   }
@@ -289,25 +290,24 @@ export default class AppPage extends React.Component {
       <>
         <div className={styles.background} />
         <div className={styles.body}>
-          <div className={styles.section}>
+          <div>
             <Typography>
               <Heading>Connect Optimizely</Heading>
               {!this.props.client ? (
-                <div className={styles.section}>
-                  <Connect openAuth={this.props.openAuth} />
-                </div>
+                <Connect openAuth={this.props.openAuth} />
               ) : (
                 <>
                   <Paragraph>You&rsquo;re currently connected to Optimizely.</Paragraph>
                   <Paragraph className={styles.light}>
-                    An access token is valid for 2 hours then you must reauthorize.
+                    This access token is valid for 2 hours – after this you must reauthorize with
+                    Optimizely.
                   </Paragraph>
                 </>
               )}
             </Typography>
           </div>
           {!!this.props.client && (
-            <div className={styles.section}>
+            <>
               <SectionSplitter />
               <Config
                 client={this.props.client}
@@ -316,7 +316,7 @@ export default class AppPage extends React.Component {
                 allContentTypes={this.state.allContentTypes}
                 sdk={this.props.sdk}
               />
-            </div>
+            </>
           )}
         </div>
         <div className={styles.logo}>

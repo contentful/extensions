@@ -71,7 +71,7 @@ function useEntryCard(id) {
       .catch(() => {
         setError(true);
       });
-  }, [id, sdk]);
+  }, [actions, allContentTypes, id, sdk.locales.default, sdk.space]);
 
   useEffect(() => {
     fetchEntry();

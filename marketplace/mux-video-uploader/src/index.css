@@ -43,3 +43,7 @@ div {
   border-bottom-left-radius: 20px;
   overflow: hidden;
 }
+
+.reset-field-button {
+  margin-left: 10px;
+}

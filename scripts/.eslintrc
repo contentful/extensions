@@ -2,7 +2,10 @@
   "env": {
     "node": true
   },
-  "extends": ["plugin:node/recommended"],
+  "extends": [
+    "../.eslintrc.js",
+    "plugin:node/recommended"
+  ],
   "plugins": ["node"],
   "rules": {
     "no-console": "off",

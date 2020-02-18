@@ -15,20 +15,18 @@ import {
   SelectField,
   Option,
   Modal,
-  Typography
+  Typography,
+  SectionHeading
 } from '@contentful/forma-36-react-components';
 import ReferenceField, { hasFieldLinkValidations } from './ReferenceField';
 import RefToolTip from './RefToolTip';
 
 const styles = {
   table: css({
-    marginTop: tokens.spacingS
+    marginTop: tokens.spacingL
   }),
   link: css({
     marginRight: tokens.spacingS
-  }),
-  description: css({
-    margin: '1rem 0'
   }),
   contentTypeRow: css({
     gridTemplateColumns: 'auto 6rem'
@@ -37,8 +35,9 @@ const styles = {
     display: 'flex',
     flexDirection: 'row'
   }),
-  spacingMedium: css({
-    marginTop: tokens.spacingM
+  sectionHeading: css({
+    marginTop: tokens.spacingL,
+    marginBottom: tokens.spacingM
   })
 };
 
@@ -137,59 +136,82 @@ export default function ContentTypes({
   };
 
   return (
-    <Typography>
-      <Heading>Content Types</Heading>
-      <Paragraph>Select the content types for which you want to enable A/B testing.</Paragraph>
-      <Button
-        buttonType="muted"
-        className={styles.spacingMedium}
-        onClick={() => toggleModal(true)}
-        disabled={!addableContentTypes.length}
-        testId="add-content">
-        Add content type
-      </Button>
+    <>
+      <Typography>
+        <Heading>Content types</Heading>
+        <Paragraph>Select the content types for which you want to enable A/B testing</Paragraph>
+        <Button
+          buttonType="muted"
+          onClick={() => toggleModal(true)}
+          disabled={!addableContentTypes.length}
+          testId="add-content">
+          Add content type
+        </Button>
+        {addedContentTypes.length > 0 ? (
+          <Table className={styles.table}>
+            <tbody>
+              {addedContentTypes.map(id => (
+                <ContentTypeRow
+                  key={id}
+                  contentTypeId={id}
+                  allContentTypes={allContentTypes}
+                  allReferenceFields={allReferenceFields}
+                  onClickDelete={onDeleteContentType}
+                  onEdit={onEdit}
+                />
+              ))}
+            </tbody>
+          </Table>
+        ) : null}
+      </Typography>
       <Modal title="Add content type" isShown={modalOpen} onClose={closeModal}>
         {({ title, onClose }) => (
           <React.Fragment>
             <Modal.Header title={title} onClose={onClose} />
             <Modal.Content>
-              <Paragraph className={styles.description}>
-                Select the content type and the reference fields you want to enable for
-                experimentation. You&rsquo;ll be able to change this later.
-              </Paragraph>
-              <SelectField
-                id="content-types"
-                name="content-types"
-                labelText="Content Type"
-                selectProps={{ width: 'medium', isDisabled: isEditMode }}
-                onChange={e => onSelectContentType(e.target.value)}
-                value={selectedContentType || ''}
-                testId="content-type-selector"
-                required>
-                <Option value="" disabled>
-                  Select content type
-                </Option>
-                {addableContentTypes.map(ct => (
-                  <Option key={ct.sys.id} value={ct.sys.id}>
-                    {ct.name}
+              <Typography>
+                <Paragraph>
+                  Select the content type and the reference fields you want to enable for
+                  experimentation. You&rsquo;ll be able to change this later.
+                </Paragraph>
+                <SelectField
+                  id="content-types"
+                  name="content-types"
+                  labelText="Content Type"
+                  selectProps={{ width: 'medium', isDisabled: isEditMode }}
+                  onChange={e => onSelectContentType(e.target.value)}
+                  value={selectedContentType || ''}
+                  testId="content-type-selector"
+                  required>
+                  <Option value="" disabled>
+                    Select content type
                   </Option>
-                ))}
-              </SelectField>
-              {!!referenceFields.length && (
-                <Paragraph className={styles.description}>Reference Fields</Paragraph>
-              )}
-              <div className={styles.refList}>
-                {referenceFields.map(field => (
-                  <ReferenceField
-                    key={field}
-                    contentType={contentType}
-                    id={field}
-                    checked={checkedFields[field] || selectedReferenceFields[field]}
-                    onSelect={checked => onSelectReferenceField({ [field]: checked })}
-                    testId="reference-field"
-                  />
-                ))}
-              </div>
+                  {addableContentTypes.map(ct => (
+                    <Option key={ct.sys.id} value={ct.sys.id}>
+                      {ct.name}
+                    </Option>
+                  ))}
+                </SelectField>
+                {referenceFields.length > 0 && (
+                  <>
+                    <SectionHeading className={styles.sectionHeading}>
+                      Reference Fields
+                    </SectionHeading>
+                    <div className={styles.refList}>
+                      {referenceFields.map(field => (
+                        <ReferenceField
+                          key={field}
+                          contentType={contentType}
+                          id={field}
+                          checked={checkedFields[field] || selectedReferenceFields[field]}
+                          onSelect={checked => onSelectReferenceField({ [field]: checked })}
+                          testId="reference-field"
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </Typography>
             </Modal.Content>
             <Modal.Controls>
               <Button
@@ -205,23 +227,7 @@ export default function ContentTypes({
           </React.Fragment>
         )}
       </Modal>
-      {addedContentTypes.length > 0 ? (
-        <Table className={styles.table}>
-          <tbody>
-            {addedContentTypes.map(id => (
-              <ContentTypeRow
-                key={id}
-                contentTypeId={id}
-                allContentTypes={allContentTypes}
-                allReferenceFields={allReferenceFields}
-                onClickDelete={onDeleteContentType}
-                onEdit={onEdit}
-              />
-            ))}
-          </tbody>
-        </Table>
-      ) : null}
-    </Typography>
+    </>
   );
 }
 

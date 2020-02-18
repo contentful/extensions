@@ -95,10 +95,14 @@ export default class NetlifyConfigEditor extends React.Component {
     return (
       <Typography className={styles.container}>
         <Heading>Build Netlify sites</Heading>
-        <Paragraph>
-          Pick the Netlify site(s) you want to enable a build for.
-          {disabled && ' Requires a Netlify account.'}
-        </Paragraph>
+        {disabled ? (
+          <Paragraph>Requires a Netlify account.</Paragraph>
+        ) : (
+          <Paragraph>
+            Pick the Netlify site(s) you want to enable a build for. Only sites with continuous
+            deployment configured are accepted.
+          </Paragraph>
+        )}
         {siteConfigs.map((siteConfig, configIndex) => {
           const selectId = `site-select-${configIndex}`;
           const inputId = `site-input-${configIndex}`;

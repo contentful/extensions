@@ -251,11 +251,16 @@
              disable_properties: true,
              show_errors: 'always'
          });
-         editor.on('change', inputChanged);
-
-         function inputChanged () {
+         
+         var watcherCallback = function(path) {
              cfApi.window.updateHeight();
              validateAndSave();
+         };
+  
+         for (var key in editor.editors) {
+             if (editor.editors.hasOwnProperty(key) && key !== 'root') {
+                 editor.watch(key, watcherCallback.bind(editor, key));
+             }
          }
 
          var validateAndSave = debounce(function () {

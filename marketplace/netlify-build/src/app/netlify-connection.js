@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { css } from 'emotion';
 
 import tokens from '@contentful/forma-36-tokens';
-import { Typography, Heading, Paragraph } from '@contentful/forma-36-react-components';
+import { Typography, Heading, Paragraph, Icon } from '@contentful/forma-36-react-components';
 
 const styles = {
   auth: css({
@@ -29,12 +29,23 @@ const styles = {
     border: 0,
     height: '1px',
     backgroundColor: tokens.colorElementMid
+  }),
+  connectAgain: css({
+    marginTop: tokens.spacingXs,
+    textAlign: 'center',
+    color: tokens.colorTextLight
+  }),
+  connectAgainIcon: css({
+    fill: tokens.colorTextLight,
+    marginRight: tokens.spacingXs,
+    verticalAlign: 'middle'
   })
 };
 
 export default class NetlifyConnection extends React.Component {
   static propTypes = {
     connected: PropTypes.bool.isRequired,
+    hasConfig: PropTypes.bool.isRequired,
     email: PropTypes.string,
     netlifyCounts: PropTypes.shape({
       buildable: PropTypes.number.isRequired,
@@ -48,7 +59,17 @@ export default class NetlifyConnection extends React.Component {
       <Typography>
         <Heading>Connect Netlify</Heading>
         {this.props.connected ? this.renderConnectionInfo() : this.renderConnectButton()}
+        {!this.props.connected && this.props.hasConfig ? this.renderConnectAgainInfo() : null}
       </Typography>
+    );
+  }
+
+  renderConnectAgainInfo() {
+    return (
+      <Paragraph className={styles.connectAgain}>
+        <Icon icon="Lock" className={styles.connectAgainIcon} />
+        Connect account to make changes
+      </Paragraph>
     );
   }
 
@@ -59,16 +80,11 @@ export default class NetlifyConnection extends React.Component {
           Connect your Netlify account so you can trigger builds and view statuses in the Contentful
           Web App.
         </Paragraph>
-        <Paragraph>
-          <div className={styles.auth}>
-            <button
-              buttonType="primary"
-              onClick={this.props.onConnectClick}
-              className={styles.button}>
-              Connect account
-            </button>
-          </div>
-        </Paragraph>
+        <div className={styles.auth}>
+          <button onClick={this.props.onConnectClick} className={styles.button}>
+            Connect account
+          </button>
+        </div>
       </>
     );
   }
@@ -83,7 +99,7 @@ export default class NetlifyConnection extends React.Component {
     return (
       <>
         <Paragraph>
-          Netlify account: <code>{this.props.email}</code>.
+          Netlify account: <strong>{this.props.email}</strong>
         </Paragraph>
         {unavailable > 0 && (
           <Paragraph>
@@ -93,11 +109,6 @@ export default class NetlifyConnection extends React.Component {
               View more on Netlify
             </a>
             .
-          </Paragraph>
-        )}
-        {buildable > 0 && (
-          <Paragraph>
-            {buildable} {this.getSitePlural(buildable)} can be built.
           </Paragraph>
         )}
         {buildable < 1 && (

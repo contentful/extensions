@@ -4,6 +4,7 @@ import {
   Note,
   Paragraph,
   Spinner,
+  Button,
 } from '@contentful/forma-36-react-components';
 import { init, FieldExtensionSDK } from 'contentful-ui-extensions-sdk';
 import { createUpload } from '@mux/upchunk';
@@ -11,6 +12,7 @@ import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
 
 import Player from './player';
+import DeleteButton from './deleteButton';
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -35,6 +37,8 @@ interface AppState {
   value?: MuxContentfulObject;
   uploadProgress?: number;
   error: string | false;
+  errorShowResetAction: boolean | false;
+  isDeleting: boolean | false;
 }
 
 export class App extends React.Component<AppProps, AppState> {
@@ -56,9 +60,11 @@ export class App extends React.Component<AppProps, AppState> {
 
     this.state = {
       value: props.sdk.field.getValue(),
+      isDeleting: false,
       error:
         (!muxAccessTokenId || !muxAccessTokenSecret) &&
         "It doesn't look like you've specified your Mux Access Token ID or Secret in the extension configuration.",
+      errorShowResetAction: false,
     };
   }
 
@@ -75,7 +81,17 @@ export class App extends React.Component<AppProps, AppState> {
     // Just in case someone left an asset in a bad place, we'll do some additional checks first just to see if
     // we can clean up.
     if (this.state.value) {
-      if (this.state.value.ready) return;
+      if (this.state.value.ready) {
+        const asset = await this.getAsset();
+        if (!asset) {
+          // eslint-disable-next-line react/no-did-mount-set-state
+          this.setState({
+            error: 'Error: it appears that this asset has been deleted',
+            errorShowResetAction: true,
+          });
+        }
+        return;
+      }
 
       if (this.state.value.uploadId && !this.state.value.ready) {
         await this.pollForUploadDetails();
@@ -99,6 +115,57 @@ export class App extends React.Component<AppProps, AppState> {
     headers.set('Content-Type', 'application/json');
 
     return headers;
+  };
+
+  requestDeleteAsset = async () => {
+    if (!this.state.value || !this.state.value.assetId) {
+      throw Error(
+        'Something went wrong, we cannot delete an asset without an assetId.'
+      );
+    }
+
+    const result = await this.props.sdk.dialogs.openConfirm({
+      title: 'Are you sure you want to delete this asset?',
+      message:
+        'This will remove the asset in Mux and in Contentful. There is no way to recover your video, make sure you have a backup if you think you may want to use it again.',
+      intent: 'negative',
+      confirmLabel: 'Yes, delete this asset',
+      cancelLabel: 'Cancel',
+    });
+
+    if (!result) {
+      this.setState({ isDeleting: false });
+      return;
+    }
+    this.setState({ isDeleting: true });
+
+    const res = await fetch(
+      `https://api.mux.com/video/v1/assets/${this.state.value.assetId}`,
+      {
+        ...this.muxBaseReqOptions,
+        method: 'DELETE',
+      }
+    );
+
+    if (res.status === 401) {
+      throw Error(
+        'Looks like something is wrong with the Mux Access Token specified in the config. Are you sure the token ID and secret in the extension settings match the access token you created?'
+      );
+    }
+
+    await this.resetField();
+    this.setState({ isDeleting: false });
+  };
+
+  resetField = async () => {
+    await this.props.sdk.field.setValue({
+      uploadId: undefined,
+      assetId: undefined,
+      playbackId: undefined,
+      ready: undefined,
+      ratio: undefined,
+    });
+    this.setState({ error: false, errorShowResetAction: false });
   };
 
   getUploadUrl = async () => {
@@ -190,6 +257,7 @@ export class App extends React.Component<AppProps, AppState> {
         uploadId: muxUpload.id,
         assetId: muxUpload['asset_id'],
       });
+      this.setState({ uploadProgress: undefined });
       await this.pollForAssetDetails();
     } else {
       await delay(350);
@@ -197,10 +265,10 @@ export class App extends React.Component<AppProps, AppState> {
     }
   };
 
-  pollForAssetDetails = async () => {
+  getAsset = async () => {
     if (!this.state.value || !this.state.value.assetId) {
       throw Error(
-        'Something went wrong, because by this point we require an upload ID.'
+        'Something went wrong, we cannot getAsset without an assetId.'
       );
     }
 
@@ -210,8 +278,23 @@ export class App extends React.Component<AppProps, AppState> {
         ...this.muxBaseReqOptions,
       }
     );
-
     const { data: asset } = await res.json();
+
+    return asset;
+  };
+
+  pollForAssetDetails = async () => {
+    if (!this.state.value || !this.state.value.assetId) {
+      throw Error(
+        'Something went wrong, because by this point we require an assetId.'
+      );
+    }
+
+    const asset = await this.getAsset();
+
+    if (!asset) {
+      throw Error('Something went wrong, we were not able to get the asset.');
+    }
 
     await this.props.sdk.field.setValue({
       uploadId: this.state.value.uploadId,
@@ -231,7 +314,31 @@ export class App extends React.Component<AppProps, AppState> {
 
   render = () => {
     if (this.state.error) {
-      return <Note noteType="negative">{this.state.error}</Note>;
+      return (
+        <Note noteType="negative">
+          <span>{this.state.error}</span>
+          <span>
+            {this.state.errorShowResetAction ? (
+              <Button
+                buttonType="negative"
+                size="small"
+                onClick={this.resetField}
+                className="reset-field-button"
+              >
+                Reset this field
+              </Button>
+            ) : null}
+          </span>
+        </Note>
+      );
+    }
+
+    if (this.state.isDeleting) {
+      return (
+        <Paragraph>
+          <Spinner size="small" /> Deleting this asset.
+        </Paragraph>
+      );
     }
 
     if (this.state.value) {
@@ -245,11 +352,16 @@ export class App extends React.Component<AppProps, AppState> {
 
       if (this.state.value.ready) {
         return (
-          <Player
-            playbackId={this.state.value.playbackId}
-            ratio={this.state.value.ratio}
-            onReady={this.onPlayerReady}
-          />
+          <div>
+            <Player
+              playbackId={this.state.value.playbackId}
+              ratio={this.state.value.ratio}
+              onReady={this.onPlayerReady}
+            />
+            {this.state.value.assetId ? (
+              <DeleteButton requestDeleteAsset={this.requestDeleteAsset} />
+            ) : null}
+          </div>
         );
       }
     }

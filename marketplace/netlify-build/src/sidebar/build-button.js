@@ -13,12 +13,10 @@ import { EVENT_TRIGGERED, EVENT_TRIGGER_FAILED } from '../constants';
 const styles = {
   info: css({
     color: tokens.colorTextLight,
+    marginTop: tokens.spacingS,
     marginBottom: tokens.spacingM,
     fontSize: tokens.fontSizeS,
     fontWeight: tokens.fontWeightNormal
-  }),
-  button: css({
-    marginBottom: tokens.spacingS
   }),
   header: css({
     display: 'flex',
@@ -113,13 +111,8 @@ export default class NeflifySidebarBuildButton extends React.Component {
 
     return (
       <div className={styles.body}>
-        <Button
-          disabled={!ready || busy}
-          loading={busy}
-          isFullWidth
-          onClick={this.build}
-          className={styles.button}>
-          {busy && status ? status : 'Build'}
+        <Button disabled={!ready || busy} loading={busy} isFullWidth onClick={this.build}>
+          {busy && status ? status : 'Build website'}
         </Button>
         {misconfigured && (
           <div className={styles.info}>

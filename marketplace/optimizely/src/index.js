@@ -9,6 +9,7 @@ import { IncorrectContentType, isValidContentType, MissingProjectId } from './er
 import OptimizelyClient from './optimizely-client';
 import AppPage from './AppPage';
 import '@contentful/forma-36-react-components/dist/styles.css';
+import '@contentful/forma-36-fcss/dist/styles.css';
 import 'whatwg-fetch';
 
 function parseHash(hash) {
@@ -32,7 +33,7 @@ if (window.location.hash) {
   const { access_token = null, expires_in = null } = parseHash(window.location.hash);
   const expireTime = getTokenExpirationTime(expires_in);
 
-  window.opener.postMessage({ token: access_token, expires: expireTime });
+  window.opener.postMessage({ token: access_token, expires: expireTime }, '*');
   window.close();
 }
 
@@ -114,7 +115,7 @@ export default class App extends React.Component {
     const { client } = state;
     const { location, parameters } = sdk;
 
-    if (location.is(locations.LOCATION_APP)) {
+    if (location.is(locations.LOCATION_APP_CONFIG)) {
       return (
         <AppPage
           openAuth={this.openAuth}

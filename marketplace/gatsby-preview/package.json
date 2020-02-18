@@ -16,12 +16,12 @@
     "@contentful/forma-36-fcss": "^0.0.27",
     "@contentful/forma-36-react-components": "^3.15.14",
     "@contentful/forma-36-tokens": "^0.4.1",
-    "@gatsby-cloud-pkg/gatsby-cms-extension-base": "^0.0.16",
-    "contentful-ui-extensions-sdk": "^3.9.1",
+    "@gatsby-cloud-pkg/gatsby-cms-extension-base": "0.0.16",
+    "contentful-ui-extensions-sdk": "^3.10.6",
+    "emotion": "10.0.14",
     "prop-types": "15.7.2",
     "react": "16.8.6",
-    "react-dom": "16.8.6",
-    "emotion": "10.0.14"
+    "react-dom": "16.8.6"
   },
   "scripts": {
     "start": "contentful-extension-scripts start --serve-only",

@@ -8,7 +8,7 @@
       {
         "id": "cloudName",
         "name": "Cloud name",
-        "description": "The cloud_name of the account to access.",
+        "description": "The cloud name of the account to access.",
         "type": "Symbol",
         "required": true
       },
@@ -22,7 +22,7 @@
       {
         "id": "maxFiles",
         "name": "Max number of files",
-        "description": "Max number of files that can be added to a single field.",
+        "description": "The max number of files that can be added to a single field. Must be between 1 and 25",
         "type": "Number",
         "required": false,
         "default": 10

@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import uniqBy from 'lodash.uniqby';
-
 import {
-  currentStateToEnabledContentTypes,
+  editorInterfacesToEnabledContentTypes,
   enabledContentTypesToTargetState
 } from './target-state';
 
@@ -22,7 +21,14 @@ export default class NetlifyAppConfig extends React.Component {
     sdk: PropTypes.object.isRequired
   };
 
-  state = { ready: false };
+  state = {
+    config: {
+      sites: []
+    },
+    netlifySites: [],
+    contentTypes: [],
+    enabledContentTypes: []
+  };
 
   componentDidMount() {
     this.init();
@@ -33,19 +39,18 @@ export default class NetlifyAppConfig extends React.Component {
   }
 
   init = async () => {
-    const { sdk } = this.props;
-    const { app } = sdk.platformAlpha;
+    const { space, app, ids } = this.props.sdk;
 
     app.onConfigure(this.onAppConfigure);
 
-    const [parameters, currentState, contentTypesResponse] = await Promise.all([
+    const [parameters, eisResponse, contentTypesResponse] = await Promise.all([
       app.getParameters(),
-      app.getCurrentState(),
-      sdk.space.getContentTypes()
+      space.getEditorInterfaces(),
+      space.getContentTypes()
     ]);
 
     const config = parametersToConfig(parameters);
-    const enabledContentTypes = currentStateToEnabledContentTypes(currentState);
+    const enabledContentTypes = editorInterfacesToEnabledContentTypes(eisResponse.items, ids.app);
 
     // First empty site (so no UI click is needed).
     if (!Array.isArray(config.sites) || config.sites.length < 1) {
@@ -62,14 +67,16 @@ export default class NetlifyAppConfig extends React.Component {
 
     const ticketId = await NetlifyClient.createTicket();
 
-    this.setState({
-      ready: true,
-      config,
-      enabledContentTypes,
-      contentTypes: contentTypesResponse.items.map(ct => [ct.sys.id, ct.name]),
-      netlifySites: uniqBy(netlifySites, s => s.id),
-      ticketId
-    });
+    this.setState(
+      {
+        config,
+        enabledContentTypes,
+        contentTypes: contentTypesResponse.items.map(ct => [ct.sys.id, ct.name]),
+        netlifySites: uniqBy(netlifySites, s => s.id),
+        ticketId
+      },
+      () => app.setReady()
+    );
   };
 
   onAppConfigure = async () => {
@@ -78,8 +85,18 @@ export default class NetlifyAppConfig extends React.Component {
       return false;
     }
 
+    const configuredNetlifySiteIds = this.state.config.sites.map(site => site.netlifySiteId);
+    const availableNetlifySiteIds = this.state.netlifySites.map(site => site.id);
+
+    if (!configuredNetlifySiteIds.every(id => availableNetlifySiteIds.includes(id))) {
+      this.notifyError(
+        'Looks like some sites were deleted in Netlify. Pick a new site or remove outdated configuration.'
+      );
+      return false;
+    }
+
     try {
-      const isInstalled = await this.props.sdk.platformAlpha.app.isInstalled();
+      const isInstalled = await this.props.sdk.app.isInstalled();
       const method = isInstalled ? 'update' : 'install';
       const config = await NetlifyIntegration[method]({
         config: this.state.config, // eslint-disable-line react/no-access-state-in-setstate
@@ -159,34 +176,32 @@ export default class NetlifyAppConfig extends React.Component {
 
   render() {
     const disabled = !this.state.token;
-    const buildableCount = this.state.netlifyCounts ? this.state.netlifyCounts.buildable : 0;
-
     return (
       <>
         <div className={styles.background} />
         <div className={styles.body}>
           <NetlifyConnection
             connected={!disabled}
+            hasConfig={!!this.state.config}
             email={this.state.email}
             netlifyCounts={this.state.netlifyCounts}
             onConnectClick={this.onConnectClick}
           />
-          {!disabled && buildableCount > 0 && (
-            <>
-              <NetlifyConfigEditor
-                disabled={disabled}
-                siteConfigs={this.state.config.sites}
-                netlifySites={this.state.netlifySites}
-                onSiteConfigsChange={this.onSiteConfigsChange}
-              />
-              <NetlifyContentTypes
-                disabled={disabled}
-                contentTypes={this.state.contentTypes}
-                enabledContentTypes={this.state.enabledContentTypes}
-                onEnabledContentTypesChange={this.onEnabledContentTypesChange}
-              />
-            </>
-          )}
+          <div className={styles.relative}>
+            {disabled && <div className={styles.configurationProtector} />}
+            <NetlifyConfigEditor
+              disabled={disabled}
+              siteConfigs={this.state.config.sites}
+              netlifySites={this.state.netlifySites}
+              onSiteConfigsChange={this.onSiteConfigsChange}
+            />
+            <NetlifyContentTypes
+              disabled={disabled}
+              contentTypes={this.state.contentTypes}
+              enabledContentTypes={this.state.enabledContentTypes}
+              onEnabledContentTypesChange={this.onEnabledContentTypesChange}
+            />
+          </div>
         </div>
         <div className={styles.icon}>
           <NetlifyIcon />

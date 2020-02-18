@@ -1,0 +1,317 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SkuPicker should render successfully with no products selected 1`] = `
+<div>
+  <header
+    class="css-ss1rwp"
+  >
+    <div
+      class="css-kpva4h"
+    >
+      <div
+        class="TextInput__TextInput___36-K- TextInput__TextInput--medium___1bR2D"
+      >
+        <input
+          aria-label="sku-search"
+          class="TextInput__TextInput__input___27vDB a11y__focus-border--default___60AXp"
+          data-test-id="sku-search"
+          id="sku-search"
+          name="sku-search"
+          placeholder="Search for a product..."
+          type="search"
+          value=""
+        />
+      </div>
+      <svg
+        class="Icon__Icon___38Epv Icon__Icon--small___1yGZK Icon__Icon--muted___3egnD"
+        data-test-id="cf-ui-icon"
+        height="18"
+        viewBox="0 0 24 24"
+        width="18"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+        />
+        <path
+          d="M0 0h24v24H0z"
+          fill="none"
+        />
+      </svg>
+      <span
+        class="css-1nagyg6"
+      >
+        Total results: 
+        3
+      </span>
+    </div>
+    <div
+      class="css-kb3y9n"
+    >
+      <div
+        class="css-k008qs"
+      />
+      <button
+        class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-1kr4fmq Button__Button--primary___JImeO Button__Button--disabled___1E20M"
+        data-test-id="cf-ui-button"
+        disabled=""
+        type="button"
+      >
+        <span
+          class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+          tabindex="-1"
+        >
+          <span
+            class="Button__Button__label___3tcOj"
+          >
+            Save products
+          </span>
+        </span>
+      </button>
+    </div>
+  </header>
+  <hr
+    class="css-6wso32"
+  />
+  <section
+    class="css-nf44ad"
+  >
+    <div
+      class="css-almiqb"
+    >
+      <div
+        class="css-zkv16y"
+      >
+        <div
+          aria-checked="false"
+          class="css-1qso258 "
+          data-test-id="product-preview-M0E20130820E90Z"
+          role="switch"
+          tabindex="-1"
+        >
+          <div
+            class="css-1dtkwc5"
+          >
+            <img
+              alt="product preview"
+              class="css-1ddetr"
+              data-test-id="image"
+              src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-1.jpg"
+              style="display: block;"
+            />
+            <img
+              alt="check"
+              class="css-1imdisq"
+              src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iIzMwNzJCRSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGZpbGwtb3BhY2l0eT0iLjEiIGN4PSIyMiIgY3k9IjIyIiByPSIyMiIvPjxwYXRoIGQ9Ik0zMS42ODkgMTYuNjE0TDI5LjU1NSAxNC41IDE5LjAyNCAyNS4yNzVsLTQuNjItNC40MDYtMi4wOTIgMi4xNTMgNi43NSA2LjQ3OCAxMi42MjctMTIuODg2eiIgZmlsbC1ydWxlPSJub256ZXJvIi8+PC9nPjwvc3ZnPg=="
+            />
+          </div>
+          <p
+            class="css-182natc"
+          >
+            Dress Twin-Set rose
+          </p>
+          <p
+            class="css-1tx1iym"
+          >
+            M0E20130820E90Z
+          </p>
+        </div>
+      </div>
+      <div
+        class="css-zkv16y"
+      >
+        <div
+          aria-checked="false"
+          class="css-1qso258 "
+          data-test-id="product-preview-A0E2300FX102203"
+          role="switch"
+          tabindex="-1"
+        >
+          <div
+            class="css-1dtkwc5"
+          >
+            <img
+              alt="product preview"
+              class="css-1ddetr"
+              data-test-id="image"
+              src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-2.jpg"
+              style="display: block;"
+            />
+            <img
+              alt="check"
+              class="css-1imdisq"
+              src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iIzMwNzJCRSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGZpbGwtb3BhY2l0eT0iLjEiIGN4PSIyMiIgY3k9IjIyIiByPSIyMiIvPjxwYXRoIGQ9Ik0zMS42ODkgMTYuNjE0TDI5LjU1NSAxNC41IDE5LjAyNCAyNS4yNzVsLTQuNjItNC40MDYtMi4wOTIgMi4xNTMgNi43NSA2LjQ3OCAxMi42MjctMTIuODg2eiIgZmlsbC1ydWxlPSJub256ZXJvIi8+PC9nPjwvc3ZnPg=="
+            />
+          </div>
+          <p
+            class="css-182natc"
+          >
+            Michael Kors – Shopper “Jet Set Travel”
+          </p>
+          <p
+            class="css-1tx1iym"
+          >
+            A0E2300FX102203
+          </p>
+        </div>
+      </div>
+      <div
+        class="css-zkv16y"
+      >
+        <div
+          aria-checked="false"
+          class="css-1qso258 "
+          data-test-id="product-preview-M0E21300900DZN7"
+          role="switch"
+          tabindex="-1"
+        >
+          <div
+            class="css-1dtkwc5"
+          >
+            <img
+              alt="product preview"
+              class="css-1ddetr"
+              data-test-id="image"
+              src="https://s3-eu-west-1.amazonaws.com/commercetools-example/products/picture-3.jpg"
+              style="display: block;"
+            />
+            <img
+              alt="check"
+              class="css-1imdisq"
+              src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iIzMwNzJCRSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGZpbGwtb3BhY2l0eT0iLjEiIGN4PSIyMiIgY3k9IjIyIiByPSIyMiIvPjxwYXRoIGQ9Ik0zMS42ODkgMTYuNjE0TDI5LjU1NSAxNC41IDE5LjAyNCAyNS4yNzVsLTQuNjItNC40MDYtMi4wOTIgMi4xNTMgNi43NSA2LjQ3OCAxMi42MjctMTIuODg2eiIgZmlsbC1ydWxlPSJub256ZXJvIi8+PC9nPjwvc3ZnPg=="
+            />
+          </div>
+          <p
+            class="css-182natc"
+          >
+            Shirt “Jenny“ Polo Ralph Lauren white
+          </p>
+          <p
+            class="css-1tx1iym"
+          >
+            M0E21300900DZN7
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="css-1twx1i5"
+    >
+      <button
+        class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-fedt8m Button__Button--muted___2Wair Button__Button--disabled___1E20M"
+        data-test-id="cf-ui-button"
+        disabled=""
+        type="button"
+      >
+        <span
+          class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+          tabindex="-1"
+        >
+          <span
+            class="Button__Button__label___3tcOj"
+          >
+            <img
+              alt="right"
+              class="css-1t0k538"
+              src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMCAwaDE4djE4SDB6Ii8+PHBhdGggZD0iTTEzLjIyMSA0LjVMOC43MjEgOWw0LjUgNC41IDEuMDU4LTEuMDU3TDEwLjg0NCA5bDMuNDM1LTMuNDQyTDEzLjIyIDQuNXptLTUgMEwzLjcyMSA5bDQuNSA0LjUgMS4wNTgtMS4wNTdMNS44NDQgOWwzLjQzNS0zLjQ0Mkw4LjIyIDQuNXoiIGZpbGw9IiMwMDAiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48L3N2Zz4="
+            />
+          </span>
+        </span>
+      </button>
+      <button
+        class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-fedt8m Button__Button--muted___2Wair Button__Button--disabled___1E20M"
+        data-test-id="cf-ui-button"
+        disabled=""
+        type="button"
+      >
+        <span
+          class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+          tabindex="-1"
+        >
+          <svg
+            class="Icon__Icon___38Epv Button__Button__icon___2YX5- Icon__Icon--small___1yGZK Icon__Icon--secondary___1ztcw"
+            data-test-id="cf-ui-icon"
+            height="18"
+            viewBox="0 0 24 24"
+            width="18"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+        </span>
+      </button>
+      <button
+        class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-fedt8m Button__Button--primary___JImeO"
+        data-test-id="active"
+        type="button"
+      >
+        <span
+          class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+          tabindex="-1"
+        >
+          <span
+            class="Button__Button__label___3tcOj"
+          >
+            1
+          </span>
+        </span>
+      </button>
+      <button
+        class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-fedt8m Button__Button--muted___2Wair Button__Button--disabled___1E20M"
+        data-test-id="cf-ui-button"
+        disabled=""
+        type="button"
+      >
+        <span
+          class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+          tabindex="-1"
+        >
+          <svg
+            class="Icon__Icon___38Epv Button__Button__icon___2YX5- Icon__Icon--small___1yGZK Icon__Icon--secondary___1ztcw"
+            data-test-id="cf-ui-icon"
+            height="18"
+            viewBox="0 0 24 24"
+            width="18"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+        </span>
+      </button>
+      <button
+        class="Button__Button___1ZfFj a11y__focus-border--default___60AXp css-fedt8m Button__Button--muted___2Wair Button__Button--disabled___1E20M"
+        data-test-id="cf-ui-button"
+        disabled=""
+        type="button"
+      >
+        <span
+          class="TabFocusTrap__TabFocusTrap___39Vty Button__Button__inner-wrapper___3qrNC"
+          tabindex="-1"
+        >
+          <span
+            class="Button__Button__label___3tcOj"
+          >
+            <img
+              alt="right"
+              class="css-11hf54p"
+              src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMCAwaDE4djE4SDB6Ii8+PHBhdGggZD0iTTEzLjIyMSA0LjVMOC43MjEgOWw0LjUgNC41IDEuMDU4LTEuMDU3TDEwLjg0NCA5bDMuNDM1LTMuNDQyTDEzLjIyIDQuNXptLTUgMEwzLjcyMSA5bDQuNSA0LjUgMS4wNTgtMS4wNTdMNS44NDQgOWwzLjQzNS0zLjQ0Mkw4LjIyIDQuNXoiIGZpbGw9IiMwMDAiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48L3N2Zz4="
+            />
+          </span>
+        </span>
+      </button>
+    </div>
+  </section>
+</div>
+`;

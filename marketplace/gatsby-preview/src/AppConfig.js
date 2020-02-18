@@ -1,3 +1,4 @@
+import get from 'lodash.get';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -8,10 +9,31 @@ import {
   CheckboxField,
   FieldGroup,
   SkeletonContainer,
-  SkeletonBodyText
+  SkeletonBodyText,
+  TextLink
 } from '@contentful/forma-36-react-components';
 import GatsbyIcon from './GatsbyIcon';
 import styles from './styles';
+
+function editorInterfacesToEnabledContentTypes(eis, appId) {
+  const findAppWidget = item => item.widgetNamespace === 'app' && item.widgetId === appId;
+
+  return eis
+    .filter(ei => !!get(ei, ['sidebar'], []).find(findAppWidget))
+    .map(ei => get(ei, ['sys', 'contentType', 'sys', 'id']))
+    .filter(ctId => typeof ctId === 'string' && ctId.length > 0);
+}
+
+function enabledContentTypesToTargetState(contentTypes, enabledContentTypes) {
+  return {
+    EditorInterface: contentTypes.reduce((acc, ct) => {
+      return {
+        ...acc,
+        [ct.sys.id]: enabledContentTypes.includes(ct.sys.id) ? { sidebar: { position: 3 } } : {}
+      };
+    }, {})
+  };
+}
 
 export default class AppConfig extends React.Component {
   static propTypes = {
@@ -19,49 +41,44 @@ export default class AppConfig extends React.Component {
   };
 
   state = {
+    contentTypes: [],
+    enabledContentTypes: {},
     previewUrl: '',
     webhookUrl: '',
     authToken: '',
-    checkedContentTypes: {},
     validPreview: true,
     validWebhook: true
   };
 
   async componentDidMount() {
-    const { app } = this.props.sdk.platformAlpha;
-    app.onConfigure(this.configureApp);
+    const { space, app, ids } = this.props.sdk;
 
-    const [installationParams, currentState, { items }] = await Promise.all([
+    const [installationParams, eisRes, contentTypesRes] = await Promise.all([
       app.getParameters(),
-      app.getCurrentState(),
-      this.props.sdk.space.getContentTypes()
+      space.getEditorInterfaces(),
+      space.getContentTypes()
     ]);
-
-    const { EditorInterface = {} } = currentState || {};
-
-    const previouslyCheckedTypes = Object.keys(EditorInterface).filter(
-      ct => EditorInterface[ct].sidebar
-    );
 
     const params = installationParams || {};
 
     // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState(prevState => {
-      return {
-        checkedContentTypes: items.reduce((acc, ct) => {
-          acc[ct.sys.id] = { name: ct.name, checked: previouslyCheckedTypes.includes(ct.sys.id) };
-          return acc;
-        }, prevState.checkedContentTypes),
+    this.setState(
+      {
+        contentTypes: contentTypesRes.items,
+        enabledContentTypes: editorInterfacesToEnabledContentTypes(eisRes.items, ids.app),
         previewUrl: params.previewUrl || '',
         webhookUrl: params.webhookUrl || '',
         authToken: params.authToken || ''
-      };
-    });
+      },
+      () => app.setReady()
+    );
+
+    app.onConfigure(this.configureApp);
   }
 
   configureApp = async () => {
-    const { app } = this.props.sdk.platformAlpha;
-    const { previewUrl, webhookUrl, authToken, checkedContentTypes } = this.state;
+    const { contentTypes, enabledContentTypes, previewUrl, webhookUrl, authToken } = this.state;
+
     this.setState({ validPreview: true, validWebhook: true });
 
     let valid = true;
@@ -87,26 +104,13 @@ export default class AppConfig extends React.Component {
       return false;
     }
 
-    const { EditorInterface = {} } = (await app.getCurrentState()) || {};
-    const sidebarContentTypes = Object.keys(checkedContentTypes).reduce((acc, key) => {
-      if (checkedContentTypes[key].checked) {
-        acc[key] = { sidebar: { position: 3 } };
-      } else {
-        delete (acc[key] || {}).sidebar;
-      }
-
-      return acc;
-    }, EditorInterface);
-
     return {
       parameters: {
         previewUrl,
         webhookUrl,
         authToken
       },
-      targetState: {
-        EditorInterface: sidebarContentTypes
-      }
+      targetState: enabledContentTypesToTargetState(contentTypes, enabledContentTypes)
     };
   };
 
@@ -134,20 +138,23 @@ export default class AppConfig extends React.Component {
     }
   };
 
-  onContentTypeSelect = key => {
+  toggleContentType = (enabledContentTypes, ctId) => {
+    if (enabledContentTypes.includes(ctId)) {
+      return enabledContentTypes.filter(cur => cur !== ctId);
+    } else {
+      return enabledContentTypes.concat([ctId]);
+    }
+  };
+
+  onContentTypeToggle = ctId => {
     this.setState(prevState => ({
-      checkedContentTypes: {
-        ...prevState.checkedContentTypes,
-        [key]: {
-          ...prevState.checkedContentTypes[key],
-          checked: !prevState.checkedContentTypes[key].checked
-        }
-      }
+      ...prevState,
+      enabledContentTypes: this.toggleContentType(prevState.enabledContentTypes, ctId)
     }));
   };
 
   render() {
-    const checkedTypes = Object.keys(this.state.checkedContentTypes);
+    const { contentTypes, enabledContentTypes } = this.state;
 
     return (
       <>
@@ -155,113 +162,108 @@ export default class AppConfig extends React.Component {
         <div className={styles.body}>
           <div className={styles.section}>
             <Typography>
-              <Heading>Gatsby Cloud</Heading>
+              <Heading>About Gatsby Cloud</Heading>
               <Paragraph>
-                Gatsby is an open-source, modern website framework based on React to create and
-                deploy websites or web apps with ease. This UI Extension connects to Gatsby Cloud
-                which lets you see updates to your Gatsby site as soon as you change content in
-                Contentful. This makes it easy for content creators to see changes they make to the
-                website before going live.
+                This app connects to Gatsby Cloud which lets you see updates to your Gatsby site as
+                soon as you change content in Contentful. This makes it easy for content creators to
+                see changes they make to the website before going live.
               </Paragraph>
             </Typography>
           </div>
           <hr className={styles.splitter} />
-          <div className={styles.section}>
-            <Typography>
-              <Heading>Account Details</Heading>
-              <Paragraph>Gatsby Cloud needs a project ID in order to preview projects.</Paragraph>
-              <TextField
-                name="previewUrl"
-                id="previewUrl"
-                labelText="Site URL"
-                required
-                value={this.state.previewUrl}
-                onChange={this.updatePreviewUrl}
-                onBlur={this.validatePreviewUrl}
-                className={styles.input}
-                helpText={
-                  <span>
-                    To get your Site URL, see your{' '}
-                    <a
-                      href="https://www.gatsbyjs.com/dashboard/sites"
-                      target="_blank"
-                      rel="noopener noreferrer">
-                      Gatsby dashboard
-                    </a>
-                  </span>
-                }
-                validationMessage={
-                  !this.state.validPreview
-                    ? 'Please provide a valid URL (It should start with http)'
-                    : ''
-                }
-                textInputProps={{
-                  type: 'text'
-                }}
-              />
-              <TextField
-                name="webhookUrl"
-                id="webhookUrl"
-                labelText="Webhook URL"
-                value={this.state.webhookUrl}
-                onChange={this.updateWebhookUrl}
-                onBlur={this.validateWebhookUrl}
-                className={styles.input}
-                helpText="Optional Webhook URL for manually building sites"
-                validationMessage={
-                  !this.state.validWebhook
-                    ? 'Please provide a valid URL (It should start with http)'
-                    : ''
-                }
-                textInputProps={{
-                  type: 'text'
-                }}
-              />
-              <TextField
-                name="authToken"
-                id="authToken"
-                labelText="Authentication Token"
-                value={this.state.authToken}
-                onChange={this.updateAuthToken}
-                className={styles.input}
-                helpText="Optional Authentication token for private Gatsby Cloud sites"
-                textInputProps={{
-                  type: 'password'
-                }}
-              />
-            </Typography>
-          </div>
+          <Typography>
+            <Heading>Account Details</Heading>
+            <Paragraph>Gatsby Cloud needs a Site URL in order to preview projects.</Paragraph>
+            <TextField
+              name="previewUrl"
+              id="previewUrl"
+              labelText="Site URL"
+              required
+              value={this.state.previewUrl}
+              onChange={this.updatePreviewUrl}
+              onBlur={this.validatePreviewUrl}
+              className={styles.input}
+              helpText={
+                <span>
+                  To get your Site URL, see your{' '}
+                  <TextLink
+                    href="https://www.gatsbyjs.com/dashboard/sites"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    Gatsby dashboard
+                  </TextLink>
+                  .
+                </span>
+              }
+              validationMessage={
+                !this.state.validPreview
+                  ? 'Please provide a valid URL (It should start with http)'
+                  : ''
+              }
+              textInputProps={{
+                type: 'text'
+              }}
+            />
+            <TextField
+              name="webhookUrl"
+              id="webhookUrl"
+              labelText="Webhook URL"
+              value={this.state.webhookUrl}
+              onChange={this.updateWebhookUrl}
+              onBlur={this.validateWebhookUrl}
+              className={styles.input}
+              helpText="Optional Webhook URL for manually building sites."
+              validationMessage={
+                !this.state.validWebhook
+                  ? 'Please provide a valid URL (It should start with http)'
+                  : ''
+              }
+              textInputProps={{
+                type: 'text'
+              }}
+            />
+            <TextField
+              name="authToken"
+              id="authToken"
+              labelText="Authentication Token"
+              value={this.state.authToken}
+              onChange={this.updateAuthToken}
+              className={styles.input}
+              helpText="Optional Authentication token for private Gatsby Cloud sites."
+              textInputProps={{
+                type: 'password'
+              }}
+            />
+          </Typography>
           <hr className={styles.splitter} />
-          <div className={styles.section}>
-            <Typography>
-              <Heading>Preview locations</Heading>
-              <Paragraph>
-                Here you can choose which content type(s) will show the Gatsby Cloud preview
-                functionality in the sidebar.
-              </Paragraph>
-              <div className={styles.checks}>
-                <FieldGroup>
-                  {checkedTypes.length ? (
-                    checkedTypes.map(key => (
-                      <CheckboxField
-                        key={key}
-                        labelText={this.state.checkedContentTypes[key].name}
-                        name={this.state.checkedContentTypes[key].name}
-                        checked={this.state.checkedContentTypes[key].checked}
-                        value={key}
-                        onChange={() => this.onContentTypeSelect(key)}
-                        id={key}
-                      />
-                    ))
-                  ) : (
-                    <SkeletonContainer width="100%">
-                      <SkeletonBodyText numberOfLines={3} />
-                    </SkeletonContainer>
-                  )}
-                </FieldGroup>
-              </div>
-            </Typography>
-          </div>
+          <Typography>
+            <Heading>Content Types</Heading>
+            <Paragraph>
+              Select which content types will show the Gatsby Cloud functionality in the sidebar.
+            </Paragraph>
+            <div className={styles.checks}>
+              <FieldGroup>
+                {contentTypes.length > 0 ? (
+                  contentTypes.map(ct => (
+                    <CheckboxField
+                      key={ct.sys.id}
+                      labelIsLight
+                      labelText={ct.name}
+                      name={ct.name}
+                      checked={enabledContentTypes.includes(ct.sys.id)}
+                      value={ct.sys.id}
+                      onChange={() => this.onContentTypeToggle(ct.sys.id)}
+                      id={ct.sys.id}
+                    />
+                  ))
+                ) : (
+                  <SkeletonContainer width="100%">
+                    <SkeletonBodyText numberOfLines={3} />
+                  </SkeletonContainer>
+                )}
+              </FieldGroup>
+            </div>
+          </Typography>
         </div>
         <div className={styles.icon}>
           <GatsbyIcon />
