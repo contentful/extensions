@@ -1,6 +1,6 @@
-# Gatsby Preview
+# Gatsby Cloud
 
-Gatsby is an open-source, modern website framework based on React to create and deploy websites or web apps with ease. This UI Extension connects to [Gatsby Preview](https://www.gatsbyjs.com/cloud/) which lets you see updates to your Gatsby site as soon as you change content in Contentful. This makes it easy for content creators to see changes they make to the website before going live.
+Gatsby is an open-source, modern website framework based on React to create and deploy websites or web apps with ease. This UI Extension connects to [Gatsby Cloud](https://www.gatsbyjs.com/cloud/) which lets you see updates to your Gatsby site as soon as you change content in Contentful. This makes it easy for content creators to see changes they make to the website before going live.
 
 ![Demo of the extension](./assets/demo.gif)
 
