@@ -77,6 +77,14 @@ export default class NetlifyConfigEditor extends React.Component {
     onSiteConfigsChange(updated);
   };
 
+  onBranchChange = (configIndex, branch) => {
+    const { siteConfigs, onSiteConfigsChange } = this.props;
+    const updated = siteConfigs.map((siteConfig, i) => {
+      return configIndex === i ? { ...siteConfig, branch } : siteConfig;
+    });
+    onSiteConfigsChange(updated);
+  };
+
   onAdd = () => {
     const { siteConfigs, onSiteConfigsChange } = this.props;
     const updated = siteConfigs.concat([{}]);
@@ -105,7 +113,8 @@ export default class NetlifyConfigEditor extends React.Component {
         )}
         {siteConfigs.map((siteConfig, configIndex) => {
           const selectId = `site-select-${configIndex}`;
-          const inputId = `site-input-${configIndex}`;
+          const displayNameInputId = `site-input-${configIndex}`;
+          const branchInputId = `site-branch-input-${configIndex}`;
           return (
             <div key={configIndex} className={styles.row}>
               <SelectField
@@ -127,13 +136,22 @@ export default class NetlifyConfigEditor extends React.Component {
               </SelectField>
               <TextField
                 className={styles.item}
-                id={inputId}
-                name={inputId}
+                id={displayNameInputId}
+                name={displayNameInputId}
                 labelText="Display name:"
                 textInputProps={{ disabled, width: 'medium', maxLength: 50 }}
                 value={siteConfig.name || ''}
                 onChange={e => this.onNameChange(configIndex, e.target.value)}
               />
+              <TextField
+                className={styles.item}
+                id={branchInputId}
+                name={branchInputId}
+                labelText="Branch (optional):"
+                textInputProps={{ disabled, width: 'small', maxLength: 50 }}
+                value={siteConfig.branch || ''}
+                onChange={e => this.onBranchChange(configIndex, e.target.value)}
+                />
               <TextLink
                 className={styles.removeBtn}
                 disabled={disabled}

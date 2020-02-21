@@ -15,7 +15,7 @@ export async function install({ config, accessToken }) {
 
   // Create build hooks for all sites.
   const buildHookPromises = config.sites.map(siteConfig => {
-    return NetlifyClient.createBuildHook(siteConfig.netlifySiteId, accessToken);
+    return NetlifyClient.createBuildHook(siteConfig.netlifySiteId, accessToken, siteConfig.branch);
   });
 
   const buildHooks = await Promise.all(buildHookPromises);
