@@ -1,1 +1,0 @@
-export { FocalPoint } from './FocalPoint';

@@ -1,6 +1,0 @@
-{
-  "id": "dropbox-assets",
-  "name": "Dropbox Assets",
-  "srcdoc": "./build/index.html",
-  "fieldTypes": ["Object"]
-}
