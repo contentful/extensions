@@ -1,7 +1,4 @@
 {
-  "packages": [
-    "marketplace/*",
-    "lib/*"
-  ],
+  "packages": ["marketplace/*"],
   "version": "0.0.0"
 }
