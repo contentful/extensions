@@ -1,5 +1,11 @@
 ![Contentful + Mux](https://banner.mux.dev/Contentful.svg)
 
+# DEPRECATED: Update May 2020
+
+This plugin is deprecated. Please use the [Contentful app](https://www.contentful.com/marketplace/app/mux/). The core functionatliy is the same, but it's a little easier to use.
+
+If you were already using this extension, migrating to the app should be as simple as uninstalling the uploader and installing the app. See more [in the full Mux Guide](https://docs.mux.com/docs/headless-cms-contentful).
+
 # Contentful Video Streaming Plugin
 
 A Contentful UI extension that makes it simple to add beautiful streaming via [Mux](https://https://mux.com) to your [Contentful](https://contentful.com) project. Just install the extension, add the component to your content model, and you're good to go! 🙌🏾
