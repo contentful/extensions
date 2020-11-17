@@ -103,10 +103,13 @@ class App extends React.Component {
   }
 
   getEntryDisplayFieldValue = entry => {
-    return entry.fields[
-      this.state.displayFieldsMap[entry.sys.contentType.sys.id]
-    ][this.props.extension.locales.default]
-  }
+    // It's possible for an Entry not to have a display field defined
+    const displayField = this.state.displayFieldsMap[entry.sys.contentType.sys.id];
+
+    return displayField
+      ? entry.fields[displayField][this.props.extension.locales.default]
+      : entry.sys.id;
+  };
 
   onClickUnpublish = async () => {
     this.setState({ working: true })
