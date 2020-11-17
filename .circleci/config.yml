@@ -65,8 +65,12 @@ workflows:
   version: 2
   build-deploy:
     jobs:
-      - build
+      - build:
+          context:
+            - docker-hub-auth
       - deploy:
+          context:
+            - docker-hub-auth
           requires:
             - build
           filters:
