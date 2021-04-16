@@ -32,8 +32,8 @@
     "login": "contentful login",
     "logout": "contentful logout",
     "help": "contentful-extension-scripts help",
-    "test": "contentful-extension-scripts test --env=jsdom --watch",
-    "test:coverage": "contentful-extension-scripts test --env=jsdom --coverage"
+    "test:watch": "contentful-extension-scripts test --env=jsdom --watch",
+    "test": "contentful-extension-scripts test --env=jsdom"
   },
   "browserslist": [
     "last 2 versions",

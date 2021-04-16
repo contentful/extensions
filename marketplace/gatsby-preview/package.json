@@ -31,8 +31,8 @@
     "configure": "contentful space use && contentful space environment use",
     "logout": "contentful logout",
     "help": "contentful-extension-scripts help",
-    "test": "TZ=UTC contentful-extension-scripts test --env=jsdom --watch",
-    "test:coverage": "TZ=UTC contentful-extension-scripts test --env=jsdom --coverage"
+    "test:watch": "TZ=UTC contentful-extension-scripts test --env=jsdom --watch",
+    "test": "TZ=UTC contentful-extension-scripts test --env=jsdom"
   },
   "browserslist": [
     "last 5 Chrome version",

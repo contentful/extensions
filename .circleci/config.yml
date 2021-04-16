@@ -6,9 +6,6 @@ docker: &docker
 cache-key: &cache-key
   key: dependency-cache-primary-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
 
-orbs:
-  codecov: codecov/codecov@1.0.4
-
 jobs:
   build:
     docker: *docker
@@ -36,7 +33,7 @@ jobs:
           command: npm run tsc
       - run:
           name: Running unit tests
-          command: npm run test:coverage
+          command: npm run test
       - run:
           name: Building extension code
           command: npm run build
@@ -44,9 +41,6 @@ jobs:
           root: .
           paths:
             - ./dist
-      - codecov/upload:
-          file: marketplace/*/.coverage/*.json
-          flags: extensions
   deploy:
     docker: *docker
     steps:

@@ -33,7 +33,7 @@
     "deploy": "node ./scripts/deploy.js",
     "lint": "eslint marketplace scripts --ext .js,.ts,.tsx --ignore-path .gitignore",
     "tsc": "lerna run tsc --stream",
-    "test:coverage": "lerna run test:coverage --concurrency 2",
+    "test": "lerna run test --concurrency 2",
     "test:integration": "jest --rootDir ./test './test/.*.js$'"
   },
   "engines": {
