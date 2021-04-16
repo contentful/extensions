@@ -41,29 +41,9 @@ jobs:
           root: .
           paths:
             - ./dist
-  deploy:
-    docker: *docker
-    steps:
-      - checkout
-      - restore_cache: *cache-key
-      - attach_workspace:
-          at: .
-      - run:
-          name: Installing dependencies
-          command: npm install
-      - run:
-          name: Deploying extensions
-          command: npm run deploy
 
 workflows:
   version: 2
-  build-deploy:
+  all:
     jobs:
       - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - master

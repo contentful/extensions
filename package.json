@@ -17,10 +17,7 @@
     "jest-matcher-utils": "^24.8.0",
     "lerna": "^3.15.0",
     "lint-staged": "^9.0.1",
-    "log-symbols": "^2.2.0",
     "make-dir": "^2.1.0",
-    "netlify": "^2.4.6",
-    "ora": "^3.4.0",
     "prettier": "^1.18.2",
     "rimraf": "^2.6.3"
   },
@@ -30,7 +27,6 @@
     "prettier": "prettier marketplace/**/*.{js,jsx,ts,tsx} scripts/**/*.js --write --ignore-path .gitignore",
     "prettier-check": "prettier marketplace/**/*.{js,jsx,ts,tsx} scripts/**/*.js --check --ignore-path .gitignore",
     "build": "lerna run build --stream --concurrency 2 -- -- --no-inline && node ./scripts/build.js",
-    "deploy": "node ./scripts/deploy.js",
     "lint": "eslint marketplace scripts --ext .js,.ts,.tsx --ignore-path .gitignore",
     "tsc": "lerna run tsc --stream",
     "test": "lerna run test --concurrency 2",
