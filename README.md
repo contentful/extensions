@@ -1,7 +1,6 @@
 # Contentful extensions repository (unmaintained)
 
 This repo is unmaintained in favor of [apps](https://github.com/contentful/apps). We strongly recommend investing into Apps instead of UI Extensions going forward. Learn how to [build your first app](https://www.contentful.com/developers/docs/extensibility/app-framework/tutorial/).
-If you’ve run into any issue, please let us know and we’ll resolve it as soon as possible.
 
 ---
 
